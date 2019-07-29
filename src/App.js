@@ -15,8 +15,10 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        {/* eslint-disable-next-line */}
-        <h1>{tabs.length} tabs</h1>
+        <h1>
+          {tabs.length}
+          tabs
+        </h1>
       </div>
     );
   }
