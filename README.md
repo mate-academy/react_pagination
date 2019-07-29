@@ -1,8 +1,6 @@
 # React Tabs
 
 ## Task 
-
-![tabs](./description/tabs.gif)
     
 1. Implement `Pagination` component
     ```jsx harmony
