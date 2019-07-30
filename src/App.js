@@ -1,25 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
+import Pagination from './Pagination';
 
-class App extends React.Component {
-  state = {
-    tabs: [
-      { title: 'Tab 1', content: 'Some text 1' },
-      { title: 'Tab 2', content: 'Some text 2' },
-      { title: 'Tab 3', content: 'Some text 3' },
-    ],
+const App = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [total] = useState(56);
+  const [perPage] = useState(10);
+
+  const changePage = (selectedPage) => {
+    setCurrentPage(selectedPage);
   };
 
-  render() {
-    const { tabs } = this.state;
+  return (
+    <div className="App">
+      <p>{`Current Page ${currentPage}`}</p>
 
-    return (
-      <div className="App">
-        {/* eslint-disable-next-line */}
-        <h1>{tabs.length} tabs</h1>
-      </div>
-    );
-  }
-}
+      <Pagination
+        total={total}
+        page={currentPage}
+        perPage={perPage}
+        changePage={changePage}
+      />
+    </div>
+  );
+};
 
 export default App;
