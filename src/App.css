@@ -35,6 +35,6 @@ body {
   color: #ffbba8;
 }
 
-.page-number--selected {
+.page-number--selected a {
   color: #ff8079;
 }
