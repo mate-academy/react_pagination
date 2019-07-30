@@ -25,7 +25,7 @@ const Pagination = ({
       });
 
       pages.push(
-        <li className={classes}>
+        <li key={i} className={classes}>
           <a
             href="/"
             onClick={event => ValidatePage(event, i)}
