@@ -1,1 +1,23 @@
+.main-table {
+  max-width: 960px;
+  margin: 10px auto;
+}
 
+.pagination-panel {
+  display: flex;
+  list-style-type: none;
+}
+
+.active {
+  font-size: bold;
+  color: black;
+  background-color: lightblue;
+}
+
+.total-range {
+  padding-left: 40px;
+}
+
+input {
+  width: 280px;
+}
