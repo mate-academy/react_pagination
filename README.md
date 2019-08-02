@@ -1,4 +1,4 @@
-# React Tabs
+# React Pagination
 
 ## Task 
     
