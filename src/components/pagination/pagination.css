@@ -1,0 +1,41 @@
+.pagination {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.pagination__info {
+  width: 100%;
+  text-align: center;
+}
+
+.pagination__per-page {
+  height: 30px;
+}
+
+.pagination__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pagination__list--item {
+  display: inline-block;
+  margin: 5px;
+  text-align: center;
+  border: 1px solid #e7e7e7;
+}
+
+.pagination__list--link {
+  display: inherit;
+  min-width: 20px;
+  padding: 5px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.pagination__list--link.active {
+  background-color: cornflowerblue;
+}
+
+/*# sourceMappingURL=pagination.css.map */
