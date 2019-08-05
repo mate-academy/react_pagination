@@ -21,6 +21,7 @@ class App extends React.Component {
   handleHitsChange =({target: {value}}) => {
     this.setState({
       perPage: +value,
+      page: 0,
     })
   };
 
