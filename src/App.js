@@ -32,7 +32,9 @@ class App extends React.Component {
         .join(', '),
     }));
 
-    const indexOfLastPeople = page * perPage;
+    const indexOfLastPeople = page * perPage > peoples.length
+      ? peoples.length
+      : page * perPage;
     const indexOfFirstPeople = indexOfLastPeople - perPage;
     const currentTodos = peoples.slice(indexOfFirstPeople, indexOfLastPeople);
 
@@ -119,7 +121,7 @@ class App extends React.Component {
           />
         </div>
         <div className="with-info-content">
-          {indexOfFirstPeople}-{indexOfLastPeople} of {peoples.length}
+          {indexOfFirstPeople + 1}-{indexOfLastPeople} of {peoples.length}
         </div>
       </div>
     );
