@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 
 const classNames = require('classnames');
 
-const Pagination = ({
-  handleFlipButton, handlePageButtons, page, pageNumber,
-  buttonsNumbers,
-}) => {
+const Pagination = ({ page, buttonsNumbers }) => {
   const paginationBtnClass = (buttonNumber, pageNum) => (
     classNames({
       button: true,
@@ -24,24 +22,33 @@ const Pagination = ({
     hide: page > buttonsNumbers.length - 3,
   });
 
+  const backClass = classNames({
+    button: true,
+    'button--flip': true,
+    isDisabled: page <= 1,
+  });
+
+  const nextClass = classNames({
+    button: true,
+    'button--flip': true,
+    isDisabled: page >= buttonsNumbers.length,
+  });
+
   return (
     <div className="Pagination">
-      <button
+      <NavLink
+        to={page > 1 ? `/${page - 1}` : `/${page}`}
         name="back"
-        onClick={handleFlipButton}
-        className="button button--flip"
-        type="submit"
-        disabled={page === 1}
+        className={backClass}
       >
         {'<'}
-      </button>
+      </NavLink>
 
       <ul className="pagination__list">
-        <li key={buttonsNumbers[0]}>
-          <button
+        <li>
+          <NavLink
+            to={`/${buttonsNumbers[0]}`}
             name={buttonsNumbers[0]}
-            onClick={handlePageButtons}
-            type="button"
             className={paginationBtnClass(
               buttonsNumbers[0],
               page,
@@ -49,7 +56,7 @@ const Pagination = ({
             )}
           >
             {buttonsNumbers[0]}
-          </button>
+          </NavLink>
         </li>
 
         <li className={firstDotsClass}>...</li>
@@ -63,26 +70,24 @@ const Pagination = ({
             || index + 1 === page - 1)))
           .map((buttonNumber, i, buttons) => (
             <li key={buttonNumber}>
-              <button
+              <NavLink
+                to={`/${buttonNumber}`}
                 name={buttonNumber}
-                onClick={handlePageButtons}
-                type="button"
                 className={paginationBtnClass(
                   buttonNumber, page, buttons.length
                 )}
               >
                 {buttonNumber}
-              </button>
+              </NavLink>
             </li>
           ))}
 
         <li className={lastDotsClass}>...</li>
 
-        <li key={buttonsNumbers[buttonsNumbers.length - 1]}>
-          <button
+        <li>
+          <NavLink
+            to={`/${buttonsNumbers[buttonsNumbers.length - 1]}`}
             name={buttonsNumbers[buttonsNumbers.length - 1]}
-            onClick={handlePageButtons}
-            type="button"
             className={paginationBtnClass(
               buttonsNumbers[buttonsNumbers.length - 1],
               page,
@@ -90,28 +95,23 @@ const Pagination = ({
             )}
           >
             {buttonsNumbers[buttonsNumbers.length - 1]}
-          </button>
+          </NavLink>
         </li>
       </ul>
 
-      <button
+      <NavLink
+        to={page <= buttonsNumbers.length - 1 ? `/${page + 1}` : `/${page}`}
         name="next"
-        onClick={handleFlipButton}
-        className="button button--flip"
-        type="submit"
-        disabled={page === pageNumber}
+        className={nextClass}
       >
         {'>'}
-      </button>
+      </NavLink>
     </div>
   );
 };
 
 Pagination.propTypes = {
-  handleFlipButton: PropTypes.func.isRequired,
-  handlePageButtons: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
-  pageNumber: PropTypes.number.isRequired,
   buttonsNumbers: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 

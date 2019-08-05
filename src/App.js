@@ -1,5 +1,7 @@
 import React from 'react';
 import './App.css';
+import { Route, withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import getPlanes from './API_Data';
 import ItemsPerPage from './components/ItemsPerPage';
 import Pagination from './components/Pagination';
@@ -11,31 +13,27 @@ const getPageNumber = (elementsPerPage, elementsNumber) => {
 };
 
 const getFilteredPerPage = (flights, page, perPage) => {
+  const fromIndex = (page - 1) * perPage;
+  const toIndex = page * perPage;
+
   const filteredFlights = flights.filter((flight, index) => (
-    (index >= ((page - 1) * perPage)) && (index < (page * perPage))
-  ));
+    index >= fromIndex && index < toIndex));
 
   return filteredFlights;
 };
 
-const getButtonsNumbers = (pageNumber) => {
-  let buttons = [];
-  let count = 1;
+const getButtonsNumbers = pageNumber => (
+  Array.from(Array(pageNumber), (btn, i) => i + 1));
 
-  while (count <= pageNumber) {
-    buttons = [...buttons, count];
-
-    count += 1;
-  }
-
-  return buttons;
-};
+const getNumbersShownPages = (page, perPage, filteredPages) => `
+  ${(page * perPage) - perPage + 1}
+  - ${(page * perPage) - perPage + filteredPages.length}
+`;
 
 class App extends React.Component {
   state = {
     arrivals: [],
     perPage: 20,
-    page: 1,
   };
 
   async componentDidMount() {
@@ -46,89 +44,90 @@ class App extends React.Component {
     });
   }
 
-  handlePageButtons = (event) => {
-    const { name } = event.target;
-
-    this.setState({ page: +name });
-  }
-
-  handleFlipButton = (event) => {
-    const { name } = event.target;
-    const { page, perPage, arrivals } = this.state;
-    const pageNumber = getPageNumber(perPage, arrivals.length);
-
-    if (name === 'next' && page < pageNumber) {
-      this.setState(prevState => ({
-        page: prevState.page + 1,
-      }));
-    }
-
-    if (name === 'back' && page > 1) {
-      this.setState(prevState => ({
-        page: prevState.page - 1,
-      }));
-    }
-  }
-
   onPerPageChange = (event) => {
     const { name, value } = event.target;
 
+    this.props.history.push(`/${1}`);
+
     this.setState({
       [name]: +value,
-      page: 1,
     });
   }
 
   render() {
-    const { page, perPage, arrivals } = this.state;
+    const { perPage, arrivals } = this.state;
 
-    const filteredPages = getFilteredPerPage(arrivals, page, perPage);
     const pageNumber = getPageNumber(perPage, arrivals.length);
     const buttonsNumbers = getButtonsNumbers(pageNumber);
-    const getNumbersShownPages = `
-      ${(page * perPage) - perPage + 1}
-      - ${(page * perPage) - perPage + filteredPages.length}
-    `;
 
     return (
       <div className="App">
         {/* eslint-disable-next-line */}
         <h1>{arrivals.length} Flights</h1>
 
-        <h3>
-          number Of Pages
-          {pageNumber}
-        </h3>
+        <Route
+          path="/:pageId?"
+          component={({ match }) => {
+            const { pageId = 1 } = match.params;
+            const filteredPages = getFilteredPerPage(arrivals, pageId, perPage);
 
-        <ItemsPerPage
-          perPage={perPage}
-          onPerPageChange={this.onPerPageChange}
+            return (
+              <div>
+                <h3>
+                  number Of Pages:
+                  {pageNumber}
+                </h3>
+
+                <ItemsPerPage
+                  perPage={perPage}
+                  onPerPageChange={this.onPerPageChange}
+                />
+
+                <p>
+                  Shown
+                  {getNumbersShownPages(pageId, perPage, filteredPages)}
+                  {' '}
+                  from
+                  {arrivals.length}
+                </p>
+
+                <ul>
+                  {filteredPages.map(arrival => (
+                    <li key={arrival.ID}>
+                      {arrival.airline.en.name}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          }}
         />
 
-        <p>
-          Shown
-          {getNumbersShownPages}
-          {' '}
-          from
-          {arrivals.length}
-        </p>
+        <Route
+          path="/:pageId?"
+          component={({ match }) => {
+            const { pageId = 1 } = match.params;
 
-        <ul>
-          {filteredPages.map(arrival => (
-            <li key={arrival.ID}>{arrival.airline.en.name}</li>
-          ))}
-        </ul>
-
-        <Pagination
-          handleFlipButton={this.handleFlipButton}
-          handlePageButtons={this.handlePageButtons}
-          page={page}
-          pageNumber={pageNumber}
-          buttonsNumbers={buttonsNumbers}
+            return (
+              <Pagination
+                pageNumber={pageNumber}
+                buttonsNumbers={buttonsNumbers}
+                page={+pageId}
+              />
+            );
+          }}
         />
       </div>
     );
   }
 }
 
-export default App;
+App.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
+
+const AppWithRouter = withRouter(App);
+
+export default AppWithRouter;

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const ItemsPerPage = ({ perPage, onPerPageChange }) => (
   <div>
     <h3>
-      items per Pages
+      items per Page:
       {perPage}
     </h3>
 
