@@ -1,22 +1,47 @@
 import React from 'react';
 import './App.css';
 
+import Pagination from './Paginator';
+
+const getContent = async() => {
+  const response = await fetch('https://picsum.photos/v2/list?page=2&limit=42');
+  const currentContent = await response.json();
+
+  return currentContent;
+};
+
 class App extends React.Component {
   state = {
-    tabs: [
-      { title: 'Tab 1', content: 'Some text 1' },
-      { title: 'Tab 2', content: 'Some text 2' },
-      { title: 'Tab 3', content: 'Some text 3' },
-    ],
-  };
+    images: [],
+    selected: null,
+  }
+
+  async componentDidMount() {
+    const images = await getContent();
+
+    this.setState({
+      images,
+    });
+  }
+
+  handleSelect = (id) => {
+    this.setState({
+      selected: id,
+    });
+  }
 
   render() {
-    const { tabs } = this.state;
+    const { images, selected } = this.state;
 
     return (
       <div className="App">
-        {/* eslint-disable-next-line */}
-        <h1>{tabs.length} tabs</h1>
+
+        <Pagination
+          key={images.id}
+          images={images}
+          selected={selected}
+          handleSelect={this.handleSelect}
+        />
       </div>
     );
   }
