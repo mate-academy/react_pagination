@@ -42,12 +42,13 @@ class App extends React.Component {
   changeItemsPerPage = (pageCount) => {
     this.setState({
       itemsPerPage: pageCount,
+      page: 1,
     });
   };
 
   render() {
     const { tabs, itemsPerPage, page, total } = this.state;
-
+    const totalPages = this.totalPages(itemsPerPage, total);
     this.filterTabs(tabs, itemsPerPage, page);
     return (
       <div className="App">
@@ -58,7 +59,7 @@ class App extends React.Component {
           itemsPerPage={itemsPerPage}
           page={page}
           total={total}
-          totalPages={this.totalPages(itemsPerPage, total)}
+          totalPages={totalPages}
           changePage={this.changePage}
           changeItemsPerPage={this.changeItemsPerPage}
         />
