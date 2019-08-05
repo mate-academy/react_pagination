@@ -36,7 +36,6 @@ const Pagination = ({
 
       pages.push(
         <li
-          key={pageNum}
           className={classes}
         >
           <a href="/" onClick={event => ValidatePage(event, pageNum)}>
