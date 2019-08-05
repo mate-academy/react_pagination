@@ -119,11 +119,7 @@ class App extends React.Component {
           />
         </div>
         <div className="with-info-content">
-          {indexOfFirstPeople}
-           -
-          {indexOfLastPeople}
-          of
-          {peoples.length}
+          {indexOfFirstPeople}-{indexOfLastPeople} of {peoples.length}
         </div>
       </div>
     );
