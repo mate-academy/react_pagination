@@ -67,9 +67,9 @@ const Pagination = ({
       </ul>
       <div className="pagination__info">
         {firstPostOnPage}
-        -
+        &nbsp;-&nbsp;
         {lastPostOnPage}
-        of
+        &nbsp;of&nbsp;
         {total}
       </div>
     </div>

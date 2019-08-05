@@ -1,23 +1,6 @@
 * {
   box-sizing: border-box;
   padding: 0;
-  text-decoration: none;
-  color: black;
-}
-
-.nav__list {
-  display: flex;
-  list-style-type: none;
-}
-
-.nav__item {
-  margin: 10px 20px;
-  font-size: 25px;
-}
-
-.active {
-  text-decoration: underline;
-  color: #ff7575;
 }
 
 .pagination {
