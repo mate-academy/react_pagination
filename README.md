@@ -1,5 +1,5 @@
 # React Tabs
-
+[DEMO](https://irakalmykova.github.io/react_pagination)
 ## Task 
     
 1. Implement `Pagination` component
