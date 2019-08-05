@@ -1,7 +1,10 @@
 import React from 'react';
 import './App.css';
+
+import queryString from 'query-string';
 import { Route, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
 import getPlanes from './API_Data';
 import ItemsPerPage from './components/ItemsPerPage';
 import Pagination from './components/Pagination';
@@ -33,7 +36,6 @@ const getNumbersShownPages = (page, perPage, filteredPages) => `
 class App extends React.Component {
   state = {
     arrivals: [],
-    perPage: 20,
   };
 
   async componentDidMount() {
@@ -45,20 +47,13 @@ class App extends React.Component {
   }
 
   onPerPageChange = (event) => {
-    const { name, value } = event.target;
+    const { value } = event.target;
 
-    this.props.history.push(`/${1}`);
-
-    this.setState({
-      [name]: +value,
-    });
+    this.props.history.push(`/${1}?perpage=${value}`);
   }
 
   render() {
-    const { perPage, arrivals } = this.state;
-
-    const pageNumber = getPageNumber(perPage, arrivals.length);
-    const buttonsNumbers = getButtonsNumbers(pageNumber);
+    const { arrivals } = this.state;
 
     return (
       <div className="App">
@@ -66,10 +61,24 @@ class App extends React.Component {
         <h1>{arrivals.length} Flights</h1>
 
         <Route
-          path="/:pageId?"
-          component={({ match }) => {
+          path="/:pageId"
+          exact
+          component={({ match, location }) => {
             const { pageId = 1 } = match.params;
+            const { perpage = 20 } = queryString.parse(location.search);
+            const perPage = +perpage;
+
+            if (perPage < 3 || perPage > 20) {
+              this.props.history.push(`/${1}?perpage=20`);
+            }
+
+            const pageNumber = getPageNumber(perPage, arrivals.length);
+            const buttonsNumbers = getButtonsNumbers(pageNumber);
             const filteredPages = getFilteredPerPage(arrivals, pageId, perPage);
+
+            if (pageId > pageNumber && pageNumber > 0) {
+              this.props.history.push(`/${1}`);
+            }
 
             return (
               <div>
@@ -81,6 +90,7 @@ class App extends React.Component {
                 <ItemsPerPage
                   perPage={perPage}
                   onPerPageChange={this.onPerPageChange}
+                  location={location}
                 />
 
                 <p>
@@ -98,22 +108,13 @@ class App extends React.Component {
                     </li>
                   ))}
                 </ul>
+
+                <Pagination
+                  buttonsNumbers={buttonsNumbers}
+                  page={+pageId}
+                  perPage={perPage}
+                />
               </div>
-            );
-          }}
-        />
-
-        <Route
-          path="/:pageId?"
-          component={({ match }) => {
-            const { pageId = 1 } = match.params;
-
-            return (
-              <Pagination
-                pageNumber={pageNumber}
-                buttonsNumbers={buttonsNumbers}
-                page={+pageId}
-              />
             );
           }}
         />

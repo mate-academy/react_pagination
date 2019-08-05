@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 const classNames = require('classnames');
 
-const Pagination = ({ page, buttonsNumbers }) => {
+const Pagination = ({ page, buttonsNumbers, perPage }) => {
   const paginationBtnClass = (buttonNumber, pageNum) => (
     classNames({
       button: true,
@@ -37,7 +37,11 @@ const Pagination = ({ page, buttonsNumbers }) => {
   return (
     <div className="Pagination">
       <NavLink
-        to={page > 1 ? `/${page - 1}` : `/${page}`}
+        to={
+          page > 1
+            ? `/${page - 1}?perpage=${perPage}`
+            : `/${page}?perpage=${perPage}`
+        }
         name="back"
         className={backClass}
       >
@@ -47,13 +51,9 @@ const Pagination = ({ page, buttonsNumbers }) => {
       <ul className="pagination__list">
         <li>
           <NavLink
-            to={`/${buttonsNumbers[0]}`}
+            to={`/${buttonsNumbers[0]}?perpage=${perPage}`}
             name={buttonsNumbers[0]}
-            className={paginationBtnClass(
-              buttonsNumbers[0],
-              page,
-              buttonsNumbers.length
-            )}
+            className={paginationBtnClass(buttonsNumbers[0], page)}
           >
             {buttonsNumbers[0]}
           </NavLink>
@@ -71,11 +71,9 @@ const Pagination = ({ page, buttonsNumbers }) => {
           .map((buttonNumber, i, buttons) => (
             <li key={buttonNumber}>
               <NavLink
-                to={`/${buttonNumber}`}
+                to={`/${buttonNumber}?perpage=${perPage}`}
                 name={buttonNumber}
-                className={paginationBtnClass(
-                  buttonNumber, page, buttons.length
-                )}
+                className={paginationBtnClass(buttonNumber, page)}
               >
                 {buttonNumber}
               </NavLink>
@@ -86,7 +84,9 @@ const Pagination = ({ page, buttonsNumbers }) => {
 
         <li>
           <NavLink
-            to={`/${buttonsNumbers[buttonsNumbers.length - 1]}`}
+            to={
+              `/${buttonsNumbers[buttonsNumbers.length - 1]}?perpage=${perPage}`
+            }
             name={buttonsNumbers[buttonsNumbers.length - 1]}
             className={paginationBtnClass(
               buttonsNumbers[buttonsNumbers.length - 1],
@@ -100,7 +100,11 @@ const Pagination = ({ page, buttonsNumbers }) => {
       </ul>
 
       <NavLink
-        to={page <= buttonsNumbers.length - 1 ? `/${page + 1}` : `/${page}`}
+        to={
+          page <= buttonsNumbers.length - 1
+            ? `/${page + 1}?perpage=${perPage}`
+            : `/${page}?perpage=${perPage}`
+        }
         name="next"
         className={nextClass}
       >
@@ -112,6 +116,7 @@ const Pagination = ({ page, buttonsNumbers }) => {
 
 Pagination.propTypes = {
   page: PropTypes.number.isRequired,
+  perPage: PropTypes.number.isRequired,
   buttonsNumbers: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 
