@@ -1,22 +1,67 @@
+/* eslint-disable */
 import React from 'react';
 import './App.css';
+import GetData from './components/GetData';
+import Pagination from './components/Pagination';
+import Content from './components/Content';
 
 class App extends React.Component {
   state = {
-    tabs: [
-      { title: 'Tab 1', content: 'Some text 1' },
-      { title: 'Tab 2', content: 'Some text 2' },
-      { title: 'Tab 3', content: 'Some text 3' },
-    ],
+    tabs: [],
+    itemsPerPage: 5,
+    page: 1,
+    total: null,
+  };
+
+  async componentDidMount() {
+    const data = await GetData('https://jsonplaceholder.typicode.com/posts');
+
+    this.setState({
+      tabs: data,
+      total: data.length,
+    });
+  }
+
+  filterTabs = (items, itemsPerPage, page) => {
+    const maxValue = page * itemsPerPage;
+    const filteredItems = items.slice(maxValue - itemsPerPage, maxValue);
+
+    return filteredItems;
+  };
+
+  totalPages = (itemsPerPage, totalItems) => (
+    totalItems / itemsPerPage
+  );
+
+  changePage = (pageId) => {
+    this.setState({
+      page: pageId,
+    });
+  };
+
+  changeItemsPerPage = (pageCount) => {
+    this.setState({
+      itemsPerPage: pageCount,
+    });
   };
 
   render() {
-    const { tabs } = this.state;
+    const { tabs, itemsPerPage, page, total } = this.state;
 
+    this.filterTabs(tabs, itemsPerPage, page);
     return (
       <div className="App">
-        {/* eslint-disable-next-line */}
-        <h1>{tabs.length} tabs</h1>
+        <Content
+          tabs={this.filterTabs(tabs, itemsPerPage, page)}
+        />
+        <Pagination
+          itemsPerPage={itemsPerPage}
+          page={page}
+          total={total}
+          totalPages={this.totalPages(itemsPerPage, total)}
+          changePage={this.changePage}
+          changeItemsPerPage={this.changeItemsPerPage}
+        />
       </div>
     );
   }

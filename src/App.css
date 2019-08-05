@@ -1,1 +1,79 @@
+/* stylelint-disable */
+* {
+  margin: 0;
+  padding: 0;
+}
 
+.App {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.App-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.App-body__tab {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #3e3e3e;
+  border-radius: 5px;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+}
+
+.Pagination {
+  display: flex;
+  margin-top: 10px;
+}
+
+.Pagination__button {
+  min-width: 30px;
+  height: 30px;
+  background: none;
+  border: 2px solid dimgrey;
+  color: #3e3e3e;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 12px;
+  margin-right: 10px;
+  padding: 5px;
+}
+
+.Pagination__button:hover {
+  background: dimgrey;
+  color: white;
+  cursor: pointer;
+}
+
+.Pagination__button:focus {
+  outline: none;
+}
+
+.Pagination__button--active {
+  background: dimgrey;
+  color: white;
+}
+
+.Pagination__button:disabled {
+  opacity: 0.3;
+  cursor: auto;
+  background: white;
+  color: #3e3e3e;
+}
+
+.Pagination__select {
+  height: 30px;
+  border: 2px solid dimgrey;
+  color: #3e3e3e;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 12px;
+  padding: 5px;
+}
+
+.Pagination__select:focus {
+  outline: none;
+}
