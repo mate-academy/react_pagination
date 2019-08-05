@@ -6,22 +6,16 @@ class App extends React.Component {
   state = {
     total: 42,
     perPage: 5,
-    activePage: 1,
-    firstPostOnPage: 1,
-    lastPostOnPage: 5,
+    activePage: 0,
   };
 
-  onPageChange = (index) => {
+  onPageChange = (nexPage) => {
     const { total, perPage } = this.state;
     const countPages = Math.ceil(total / perPage);
 
-    if (index >= 0 && index < countPages) {
+    if (nexPage >= 0 && nexPage < countPages) {
       this.setState({
-        activePage: index,
-        firstPostOnPage: index * perPage + 1,
-        lastPostOnPage: (index === countPages - 1)
-          ? total
-          : (index + 1) * perPage,
+        activePage: nexPage,
       });
     }
   }
@@ -29,8 +23,6 @@ class App extends React.Component {
   handlePerPage = (event) => {
     this.setState({
       perPage: event.target.value,
-      firstPostOnPage: 1,
-      lastPostOnPage: event.target.value,
       activePage: 0,
     });
   }
@@ -40,8 +32,6 @@ class App extends React.Component {
       total,
       perPage,
       activePage,
-      firstPostOnPage,
-      lastPostOnPage,
     } = this.state;
 
     return (
@@ -50,8 +40,6 @@ class App extends React.Component {
           total={total}
           perPage={perPage}
           activePage={activePage}
-          firstPostOnPage={firstPostOnPage}
-          lastPostOnPage={lastPostOnPage}
           onPageChange={this.onPageChange}
           handlePerPage={this.handlePerPage}
         />

@@ -2,17 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './App.css';
 
+const classNames = require('classnames');
+
 const Pagination = ({
   total,
   perPage,
   activePage,
-  firstPostOnPage,
-  lastPostOnPage,
   onPageChange,
   handlePerPage,
 }) => {
   const countPages = Math.ceil(total / perPage);
   const paginationList = Array.from(Array(countPages), (elem, i) => i + 1);
+  const firstPostOnPage = activePage * perPage + 1;
+  const lastPostOnPage = (activePage === countPages - 1)
+    ? total
+    : (activePage + 1) * perPage;
 
   return (
     <div className="pagination">
@@ -30,10 +34,11 @@ const Pagination = ({
         {/* eslint-disable-next-line max-len */}
         {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
         <li
-          className={activePage === 0
-            ? 'pagination__item pagination__item--prev '
-            + 'pagination__item--disabled'
-            : 'pagination__item pagination__item--prev'}
+          className={classNames({
+            pagination__item: true,
+            'pagination__item--prev': true,
+            'pagination__item--disabled': activePage === 0,
+          })}
           onClick={() => onPageChange(activePage - 1)}
         >
           Prev
@@ -44,10 +49,10 @@ const Pagination = ({
           // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
           <li
             key={paginationItem}
-            className={activePage === i
-              ? 'pagination__item pagination__item--active'
-              : 'pagination__item'
-            }
+            className={classNames({
+              pagination__item: true,
+              'pagination__item--active': activePage === i,
+            })}
             onClick={() => onPageChange(i)}
           >
             {paginationItem}
@@ -56,10 +61,12 @@ const Pagination = ({
         {/* eslint-disable-next-line max-len */}
         {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
         <li
-          className={activePage === paginationList.length - 1
-            ? 'pagination__item pagination__item--next '
-            + 'pagination__item--disabled'
-            : 'pagination__item pagination__item--next'}
+          className={classNames({
+            pagination__item: true,
+            'pagination__item--next': true,
+            'pagination__item--disabled':
+              activePage === paginationList.length - 1,
+          })}
           onClick={() => onPageChange(activePage + 1)}
         >
           Next
@@ -80,8 +87,6 @@ Pagination.propTypes = {
   total: PropTypes.number.isRequired,
   perPage: PropTypes.number.isRequired,
   activePage: PropTypes.number.isRequired,
-  firstPostOnPage: PropTypes.number.isRequired,
-  lastPostOnPage: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,
   handlePerPage: PropTypes.func.isRequired,
 };
