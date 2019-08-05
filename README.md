@@ -15,16 +15,16 @@
     - current page should be highlighted 
 2. Implement `onPageChange` callback getting selected page as a param
     - should be triggered if only page was changed
-    - it should work like a controlled `input` all the params are set from outside.
+    - `Pagination` should work like a controlled `input` all the params are set from outside.
       So the `App` should listen to a callback and sets a changed `page` to the `Pagination` 
 3. Implement `prev` and `next` buttons
-    - (*) disable buttons if a move is not possible now
+    - disable buttons if a move is not possible now
 4. Add an optional param `withInfo` to show extra info before the buttons (`6 - 10 of 20`)
-5. (*) Change view to show buttons only for the `first`, `last`, `current`, one `precurrent` and `postcurrent` pages
+5. (*) Implement `<select>` (`3, 5, 10, 20`) field to change `perPage` and `onPerPageChange` callback
+    - should be triggered if only `perPage` was changed
+6. (*) Change view to show buttons only for the `first`, `last`, `current`, one `precurrent` and `postcurrent` pages
     - `< 1 ... 4 [5] 6 ... 12 >`
     - `< [1] 2 ... 12 >`)
-6. (*) Implement select (`3, 5, 10, 20`) field to change `perPage` and `onPerPageChange` callback
-    - should be triggered if only `perPage` was changed
 
 
 ## Workflow
