@@ -9,6 +9,19 @@ class Pagination extends React.Component {
     }
   };
 
+  handleClickPrevNext = (direction) => {
+    const { page } = this.props;
+
+    switch (direction) {
+      case 'prev':
+        this.props.setActivePage(Number(page) - 1);
+        return;
+        
+      case 'next':
+        this.props.setActivePage(Number(page) + 1);
+    }
+  };
+
   paginationButtons = (pagesCount) => {
     const buttons = [];
 
@@ -46,7 +59,7 @@ class Pagination extends React.Component {
           <div className="pagination">
             <div className="pagination_select select-count">
               Rows per page:
-                <select
+              <select
                 className="pagination_select-select"
                 onChange={this.handleSelect}
               >
@@ -62,6 +75,7 @@ class Pagination extends React.Component {
             </div>
             <div className="button-count">
               <button
+                onClick={() => this.handleClickPrevNext('prev')}
                 type="button"
                 className="pagination_button-direction"
                 disabled={Number(page) === 1}
@@ -70,6 +84,7 @@ class Pagination extends React.Component {
         </button>
               {this.paginationButtons(total)}
               <button
+                onClick={() => this.handleClickPrevNext('next')}
                 type="button"
                 className="pagination_button-direction"
                 disabled={Number(page) === Number(total)}
