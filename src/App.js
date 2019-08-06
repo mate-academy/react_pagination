@@ -80,8 +80,6 @@ class App extends React.Component {
     const indexOfFirstPeople = indexOfLastPeople - perPage;
     const currentTodos = peoples.slice(indexOfFirstPeople, indexOfLastPeople);
 
-    console.log(pageNumbers);
-
     return (
       <div className="App">
         <h1 className="main-title">Pagination - React + Bootstrap</h1>
