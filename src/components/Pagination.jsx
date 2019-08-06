@@ -36,10 +36,9 @@ const Pagination = ({
       {pagindationButtons.map((value, index) =>
         advancedButtons(index) ? (
           <li
-            style={
-              currentPage === index ? { border: 'lightcoral solid 1px' } : null
-            }
-            className="pagination__button"
+            className={`pagination__button ${
+              currentPage === index ? 'pagination__button--active' : null
+            }`}
             key={randomstring.generate(5)}
             onClick={() => changePage(index)}
           >

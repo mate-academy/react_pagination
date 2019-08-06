@@ -78,7 +78,7 @@ h1 {
 .pagination {
   display: flex;
   justify-content: center;
-    padding: 1em;
+  padding: 1em;
   &__button {
     margin: 2px;
     padding: 15px;
@@ -88,8 +88,12 @@ h1 {
 
     &:hover {
       cursor: pointer;
-      color: white;
       transform: scale(1.03);
+      border-color: lightcoral;
+    }
+
+    &--active {
+      color: white;
       background-color: lightcoral;
     }
   }
