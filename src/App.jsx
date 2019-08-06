@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.scss';
+import LoadIcon from './components/LoadIcon';
 import Pagination from './components/Pagination';
 import { getPosts } from './api/requests';
 
@@ -15,20 +16,23 @@ class App extends React.Component {
     pagesCount: ''
   };
 
-  async componentDidMount() {
-    const postsList = await getPosts();
+  componentDidMount() {
+    // 3ms response simulation
+    setTimeout(async () => {
+      const postsList = await getPosts();
 
-    try {
-      this.setState(prevState => ({
-        posts: postsList,
-        pagesCount: postsList.length / prevState.postsPerPage,
-        isLoaded: true
-      }));
-    } catch (err) {
-      this.setState({
-        error: err
-      });
-    }
+      try {
+        this.setState(prevState => ({
+          posts: postsList,
+          pagesCount: postsList.length / prevState.postsPerPage,
+          isLoaded: true
+        }));
+      } catch (err) {
+        this.setState({
+          error: err
+        });
+      }
+    }, 3000);
   }
 
   changePage = pageNum => {
@@ -104,14 +108,16 @@ class App extends React.Component {
             </select>
           </label>
           <ul className="list">
-            {isLoaded
-              ? postsForRender.map(post => (
-                  <li className="list__item" key={randomstring.generate(5)}>
-                    {`${post.id}.`}
-                    <span className="list__item--title">{post.title}</span>
-                  </li>
-                ))
-              : error}
+            {isLoaded ? (
+              postsForRender.map(post => (
+                <li className="list__item" key={randomstring.generate(5)}>
+                  {`${post.id}.`}
+                  <span className="list__item--title">{post.title}</span>
+                </li>
+              ))
+            ) : (
+              <LoadIcon />
+            )}
           </ul>
           <Pagination
             currentPage={currentPage}
