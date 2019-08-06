@@ -1,0 +1,144 @@
+body {
+  margin: 0;
+}
+
+.App h1 {
+  color: white;
+  text-align: center;
+  text-shadow: 2px 2px 4px #000000;
+  font-size: 2.5em;
+  text-transform: uppercase;
+}
+
+.load-btn {
+  position: fixed;
+  top: calc(50% - 50px);
+  left: calc(50% - 100px);
+
+  width: 200px;
+  height: 100px;
+
+  border-radius: 10px;
+  border: 3px solid #00334d;
+  background: #54a3cb;
+
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+
+  &__posts-ammount {
+    height: 41px;
+    align-self: center;
+
+    border-radius:5px;
+    border:1px solid black;
+    font-family: "Montserrat", sans-serif;
+  }
+
+  &__buttons {
+    display: flex;
+    list-style: none;
+  }
+
+  &__button {
+    font-weight:bold;
+    font-size:20px;
+    color: black;
+    padding: 8px 16px;
+    border-radius:5px;
+    border:1px solid black;
+    background: #54a3cb;
+  }
+
+  &__button:hover,
+  &__active {
+    background: #b3e6ff;
+  }
+}
+
+.with-info {
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  font-size: 20px;
+}
+
+.post-list-wrapper {
+  padding: 10px 50px 40px;
+
+  .post {
+    font-size: 1.3em;
+  }
+
+  .post__title {
+    color: #3494c4;
+    text-align: center;
+    text-shadow: 5px 2px 5px #0a0a169f;
+    text-transform: uppercase;
+  }
+
+  .user-info {
+    font-weight: 600;
+    font-size: 1.1em;
+  }
+}
+
+.comment-btn {
+  height: 30px;
+
+  border-radius: 10px;
+  border: 1px solid #00334d;
+  background: #54a3cb;
+
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.comment-btn:hover {
+  background: #b3e6ff;
+}
+
+.comment-list {
+  height: 200px;
+  margin-bottom: 20px;
+
+  overflow: auto;
+
+  background-color: #b3e6ff;
+  border-radius: 10px;
+}
+
+.comment-list::-webkit-scrollbar {
+  width: 12px;
+}
+
+.comment-list::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 10px;
+}
+
+.comment-list::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+
+.comment {
+  margin: 10px 10px 0 10px;
+  border-bottom: 2px solid #00334d;
+  font-size: 0.65em;
+
+  &__email {
+    font-style: italic;
+  }
+
+  &__name {
+    font-size: 1.1em;
+    text-transform: uppercase;
+  }
+}
