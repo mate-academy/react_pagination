@@ -8,8 +8,6 @@ import PeopleTable from './components/PeopleTable';
 class App extends React.Component {
   state = {
     peoples: [],
-    visiblePeople: [],
-    pageNumbers: [],
     perPage: 5,
     page: 1,
     indexOfFirstPeople: 1,
@@ -18,8 +16,6 @@ class App extends React.Component {
 
   async componentDidMount() {
     const peopleData = await getPeoples();
-    const { perPage, page } = this.state;
-    const pageNumbers = [];
 
     const peoples = peopleData.map((person, index) => ({
       id: index + 1,
@@ -32,27 +28,13 @@ class App extends React.Component {
         .join(', '),
     }));
 
-    const indexOfLastPeople = page * perPage > peoples.length
-      ? peoples.length
-      : page * perPage;
-    const indexOfFirstPeople = indexOfLastPeople - perPage;
-    const currentTodos = peoples.slice(indexOfFirstPeople, indexOfLastPeople);
-
-    for (let i = 1; i <= Math.ceil(peoples.length / perPage); i += 1) {
-      pageNumbers.push(i);
-    }
-
     this.setState({
-      indexOfFirstPeople,
-      indexOfLastPeople,
       peoples,
-      visiblePeople: currentTodos,
-      pageNumbers,
     });
-  }
+  };
 
-  handleClickPagination = (selectedPage) => {
-    const { page, pageNumbers } = this.state;
+  handleClickPagination = (selectedPage, pageNumbers) => {
+    const { page } = this.state;
 
     switch (selectedPage) {
       case 'previous':
@@ -76,48 +58,41 @@ class App extends React.Component {
           page: selectedPage,
         });
     }
-
-    this.componentDidMount();
   }
 
   onPerPageChange = (event) => {
     this.setState({
-      perPage: event.target.value,
+      perPage: event,
       page: 1,
     });
-
-    this.componentDidMount();
   }
 
   render() {
     const {
       peoples,
-      visiblePeople,
       pageNumbers,
       page,
-      indexOfFirstPeople,
-      indexOfLastPeople,
+      perPage,
     } = this.state;
+    const indexOfLastPeople = page * perPage > peoples.length
+      ? peoples.length
+      : page * perPage;
+    const indexOfFirstPeople = indexOfLastPeople - perPage;
+    const currentTodos = peoples.slice(indexOfFirstPeople, indexOfLastPeople);
+
+    console.log(pageNumbers);
 
     return (
       <div className="App">
         <h1 className="main-title">Pagination - React + Bootstrap</h1>
-        <PeopleTable peoples={visiblePeople} />
+        <PeopleTable peoples={currentTodos} />
         <div className="pagination-content">
-          <select
-            onChange={this.onPerPageChange}
-            className="form-control"
-            id="formControlSelect"
-          >
-            <option value="3">3</option>
-            <option value="5" selected>5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-          </select>
           <Pagination
+            peoples={peoples}
+            perPage={perPage}
             handleClickPagination={this.handleClickPagination}
-            pageNumbers={pageNumbers}
             page={page}
+            onPerPageChange={this.onPerPageChange}
           />
         </div>
         <div className="with-info-content">
