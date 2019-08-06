@@ -1,25 +1,79 @@
 import React from 'react';
+import TableCard from './TableCard';
+import Pagination from './Pagination';
 import './App.css';
+import source from './source';
 
-class App extends React.Component {
+const elements = source.map((elem, i) => (
+  { ...elem, id: i + 1 }
+));
+
+class CustomizedTables extends React.Component {
   state = {
-    tabs: [
-      { title: 'Tab 1', content: 'Some text 1' },
-      { title: 'Tab 2', content: 'Some text 2' },
-      { title: 'Tab 3', content: 'Some text 3' },
-    ],
+    total: 0,
+    perPage: 20,
+    page: 1,
+    items: [],
+  }
+
+  componentDidMount() {
+    this.setState({
+      total: elements.length,
+      items: elements,
+    });
+  }
+
+  setAmountRows = (items, itemsPerPage, page) => {
+    const maxValue = page * itemsPerPage;
+    const AmountRows = items.slice(maxValue - itemsPerPage, maxValue);
+
+    return AmountRows;
   };
 
+  setActivePage = (currentPage) => {
+    this.setState({
+      page: currentPage,
+    });
+  }
+
+  changeRowsPerPage = (pageCount) => {
+    this.setState({
+      perPage: pageCount,
+      page: 1,
+    });
+  };
+
+  totalPages = (rowsPerPage, allRows) => (
+    Math.ceil(allRows / rowsPerPage)
+  );
+
   render() {
-    const { tabs } = this.state;
+    const {
+      total,
+      perPage,
+      page,
+      items,
+    } = this.state;
+    const totalPages = this.totalPages(perPage, total);
+    const visibleRows = this.setAmountRows(items, perPage, page);
 
     return (
-      <div className="App">
-        {/* eslint-disable-next-line */}
-        <h1>{tabs.length} tabs</h1>
-      </div>
+      <>
+        <TableCard visibleRows={visibleRows} />
+        <Pagination
+          visibleRows={visibleRows}
+          total={totalPages}
+          totalRows={total}
+          perPage={perPage}
+          page={page}
+          setActivePage={this.setActivePage}
+          changeRowsPerPage={this.changeRowsPerPage}
+        />
+
+      </>
+
     );
   }
 }
 
-export default App;
+export default CustomizedTables;
