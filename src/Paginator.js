@@ -11,17 +11,18 @@ class Pagination extends React.Component {
     array: [],
   }
 
-  // componentDidMount() {
-  //   const { images, perPage } = this.props;
+  componentDidMount() {
+    const { images, perPage } = this.props;
+    const arrays = [];
 
-  //   const arrays = [];
-  //   for (let i = 0;  i < Math.ceil(images / perPage); i++) {
-  //     arrays.push(i);
-  //   };
+    for (let i = 0; i < Math.ceil(images.length / perPage); (i + 1)) {
+      arrays.push(i);
+    }
 
-  //   this.setState({
-  //     array: arrays,
-  //   });
+    this.setState({
+      array: arrays,
+    });
+  }
 
   render() {
     const { array } = this.state;
@@ -98,6 +99,7 @@ Pagination.propTypes = {
     PropTypes.object,
   ).isRequired,
   imgId: PropTypes.string.isRequired,
+  perPage: PropTypes.number.isRequired,
 };
 
 export default Pagination;
