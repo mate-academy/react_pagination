@@ -6,46 +6,46 @@ const Pagination = ({
   nextPage,
   pagesCount,
   changePage,
-  currentPage,
-  postsPerPage
+  currentPage
 }) => {
-  const pagindationButtons = new Array(pagesCount).fill('');
-
-  const advancedButtons = index => {
-    switch (index) {
-      case 0:
-        return true;
-      case currentPage - 1:
-        return true;
-      case currentPage:
-        return true;
-      case currentPage + 1:
-        return true;
-      case postsPerPage - 1:
-        return true;
-      default:
-        return false;
+  const fancyButtons = page => {
+    if (pagesCount < 6) {
+      return [1, 2, 3, 4, 5];
+    } else if (page < 4) {
+      return [1, 2, 3, 4, 5, '...', pagesCount];
+    } else if (page >= 4 && page < pagesCount - 4) {
+      return [1, '...', page, page + 1, page + 2, '...', pagesCount];
+    } else {
+      return [
+        1,
+        '...',
+        pagesCount - 4,
+        pagesCount - 3,
+        pagesCount - 2,
+        pagesCount - 1,
+        pagesCount
+      ];
     }
   };
+
+  const pageButtons = fancyButtons(currentPage);
 
   return (
     <ul className="pagination">
       <li className="pagination__button" onClick={prevPage}>
         &laquo;
       </li>
-      {pagindationButtons.map((value, index) =>
-        advancedButtons(index) ? (
-          <li
-            className={`pagination__button ${
-              currentPage === index ? 'pagination__button--active' : null
-            }`}
-            key={randomstring.generate(5)}
-            onClick={() => changePage(index)}
-          >
-            {index + 1}
-          </li>
-        ) : null
-      )}
+      {pageButtons.map((value, index) => (
+        <li
+          className={`pagination__button ${
+            currentPage + 1 === value ? 'pagination__button--active' : null
+          }`}
+          key={randomstring.generate(5)}
+          onClick={parseInt(value, 10) ? () => changePage(value - 1) : null}
+        >
+          {value}
+        </li>
+      ))}
       <li className="pagination__button" onClick={nextPage}>
         &raquo;
       </li>

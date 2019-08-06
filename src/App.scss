@@ -79,12 +79,14 @@ h1 {
   display: flex;
   justify-content: center;
   padding: 1em;
+  
   &__button {
     margin: 2px;
     padding: 15px;
     line-height: 10px;
-    border: 1px lightgray solid;
+    border: 1px transparent solid;
     border-radius: 3px;
+    box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.185);
 
     &:hover {
       cursor: pointer;

@@ -9,7 +9,6 @@ const randomstring = require('randomstring');
 class App extends React.Component {
   state = {
     posts: [],
-    error: null,
     isLoaded: false,
     currentPage: 0,
     postsPerPage: 10,
@@ -32,7 +31,7 @@ class App extends React.Component {
           error: err
         });
       }
-    }, 3000);
+    }, 1000);
   }
 
   changePage = pageNum => {
@@ -72,14 +71,7 @@ class App extends React.Component {
   };
 
   render() {
-    const {
-      isLoaded,
-      error,
-      pagesCount,
-      currentPage,
-      postsPerPage
-    } = this.state;
-
+    const { isLoaded, pagesCount, currentPage, postsPerPage } = this.state;
     const postsForRender = this.spliceList();
 
     return (
