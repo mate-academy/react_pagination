@@ -1,3 +1,15 @@
 .check--active {
   background: brown;
 }
+
+.page__ul {
+  display: flex;
+}
+
+li {
+  list-style-type: none;
+}
+
+.hello {
+  background: yellow;
+}

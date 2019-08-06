@@ -1,6 +1,8 @@
 import React from 'react';
+import {
+  BrowserRouter, Route,
+} from 'react-router-dom';
 import './App.css';
-
 import Pagination from './Paginator';
 
 const getContent = async() => {
@@ -13,7 +15,8 @@ const getContent = async() => {
 class App extends React.Component {
   state = {
     images: [],
-    selected: null,
+    page: 0,
+    perPage: 3,
   }
 
   async componentDidMount() {
@@ -24,25 +27,32 @@ class App extends React.Component {
     });
   }
 
-  handleSelect = (id) => {
-    this.setState({
-      selected: id,
-    });
-  }
+  onPageChange = (currentPage) => {
+    this.setState({ page: currentPage });
+  };
 
   render() {
-    const { images, selected } = this.state;
+    const { images, page, perPage } = this.state;
 
     return (
-      <div className="App">
+      <BrowserRouter>
+        <div className="App">
+          <Route
+            path="/:imgId?"
+            render={({ match }) => (
+              <Pagination
+                key={images.id}
+                images={images}
+                imgId={match.params.imgId}
+                page={page}
+                onPageChange={this.onPageChange}
+                perPage={perPage}
+              />
+            )}
+          />
+        </div>
+      </BrowserRouter>
 
-        <Pagination
-          key={images.id}
-          images={images}
-          selected={selected}
-          handleSelect={this.handleSelect}
-        />
-      </div>
     );
   }
 }

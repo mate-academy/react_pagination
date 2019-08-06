@@ -1,77 +1,103 @@
 
 import React from 'react';
-import classNames from 'classnames';
+// import classNames from 'classnames';
+import {
+  NavLink, Link,
+} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 class Pagination extends React.Component {
   state = {
-    pages: [],
+    array: [],
   }
 
+  // componentDidMount() {
+  //   const { images, perPage } = this.props;
+
+  //   const arrays = [];
+  //   for (let i = 0;  i < Math.ceil(images / perPage); i++) {
+  //     arrays.push(i);
+  //   };
+
+  //   this.setState({
+  //     array: arrays,
+  //   });
+
   render() {
+    const { array } = this.state;
     const {
-      images, selected, handleSelect,
+      images, imgId,
     } = this.props;
 
     return (
-      <nav
-        aria-label="..."
-      >
-        <ul>
-          <li
-            className="page-item disabled"
-          >
-            <span
-              className="page-link"
-            >
-              <button
-                type="button"
-              >
-                {this.state.pages}
+      <div>
+        <nav aria-label="...">
+          <ul className="page__ul">
+            <li className="page-item disabled">
+              <span className="page-link">
+                <button type="button">
+                  {array}
                 Previous
-              </button>
-            </span>
-          </li>
-          {images.map((img, index) => (
+                </button>
+              </span>
+            </li>
+            {images.map((img, index) => (
+              <li
+                className="page-item"
+                key={img.id}
+              >
+                <Link
+                  className="page-link"
+                  href="/#"
+                >
+                  <button
+                    type="button"
+                  >
+                    <NavLink
+                      to={`/${index + 1}`}
+                      activeClassName="hello"
+                    >
+                      {index + 1}
+                    </NavLink>
+                  </button>
+                </Link>
+              </li>
+            ))}
+
             <li className="page-item">
               <a
                 className="page-link"
                 href="/#"
               >
-                <button
-                  type="button"
-                  className={classNames({ 'check--active': selected === img })}
-                  onClick={() => handleSelect(img)}
-                >
-                  {index + 1}
+                <button type="button">
+                  Next
                 </button>
               </a>
             </li>
+          </ul>
+        </nav>
+        <p>
+          {(imgId && images[imgId - 1]) && (
+            <img
+              alt="images"
+              width={500}
+              src={images[imgId - 1].download_url}
+            />
+          )
+          }
+        </p>
+      </div>
 
-          ))}
-
-          <li className="page-item">
-            <a
-              className="page-link"
-              href="/#"
-            >
-              <button
-                type="button"
-              >
-            Next
-              </button>
-            </a>
-          </li>
-        </ul>
-      </nav>
     );
   }
 }
 
 Pagination.propTypes = {
-  images: PropTypes.shape().isRequired,
-  selected: PropTypes.string.isRequired,
-  handleSelect: PropTypes.func.isRequired,
+  images: PropTypes.shape(
+    PropTypes.array,
+    PropTypes.object,
+  ).isRequired,
+  imgId: PropTypes.string.isRequired,
 };
 
 export default Pagination;
