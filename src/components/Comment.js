@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Comment = ({ comment }) => (
+const Comment = ({ currentComment }) => (
   <div className="comment">
-    <div className="comment__email">{ comment.email }</div>
-    <h2 className="comment__name">{ comment.name }</h2>
-    <p className="comment__text">{ comment.body }</p>
+    <div className="comment__email">{ currentComment.email }</div>
+    <h2 className="comment__name">{ currentComment.name }</h2>
+    <p className="comment__text">{ currentComment.body }</p>
   </div>
 );
 
 Comment.propTypes = {
-  comment: PropTypes.arrayOf(PropTypes.object).isRequired,
+  currentComment: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default Comment;

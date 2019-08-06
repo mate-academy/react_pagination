@@ -1,23 +1,19 @@
-const getPosts = async() => {
-  const url = 'https://jsonplaceholder.typicode.com/posts';
+const url = 'https://jsonplaceholder.typicode.com/';
 
-  return fetch(url)
-    .then(response => response.json());
-};
+const getPosts = async() => (
+  fetch(`${url}posts`)
+    .then(response => response.json())
+);
 
-const getUsers = async() => {
-  const url = 'https://jsonplaceholder.typicode.com/users';
+const getUsers = async() => (
+  fetch(`${url}users`)
+    .then(response => response.json())
+);
 
-  return fetch(url)
-    .then(response => response.json());
-};
-
-const getComments = async() => {
-  const url = 'https://jsonplaceholder.typicode.com/comments';
-
-  return fetch(url)
-    .then(response => response.json());
-};
+const getComments = async() => (
+  fetch(`${url}comments`)
+    .then(response => response.json())
+);
 
 const getData = async() => {
   const posts = await getPosts();

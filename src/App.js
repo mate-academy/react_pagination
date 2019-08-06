@@ -13,7 +13,7 @@ class App extends React.Component {
     postsPerPage: 5,
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.loadData();
   }
 

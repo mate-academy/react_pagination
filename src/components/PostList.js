@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 import Post from './Post';
 
-// import comments from '../api/comments';
-
 const PostList = ({ posts }) => (
   <div className="post-list-wrapper">
     {posts.map(post => (
