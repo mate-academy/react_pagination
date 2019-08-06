@@ -55,7 +55,7 @@ class Pagination extends React.Component {
 
   render() {
     const { page, totalPages } = this.props;
-
+    console.log(totalPages)
     return (
       <div className="Pagination">
         <button
@@ -69,7 +69,7 @@ class Pagination extends React.Component {
         <button
           onClick={() => this.prevNextHandleClick('next')}
           className="Pagination__button"
-          disabled={Number(page) === Number(totalPages)}
+          disabled={Number(page) === Number(Math.ceil(totalPages))}
         >
           Next
         </button>
