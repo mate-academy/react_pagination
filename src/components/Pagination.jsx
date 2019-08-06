@@ -10,7 +10,11 @@ const Pagination = ({
 }) => {
   const fancyButtons = page => {
     if (pagesCount < 6) {
-      return [1, 2, 3, 4, 5];
+      let buttons = new Array(pagesCount)
+        .fill('')
+        .map((value, index) => index + 1);
+
+      return buttons;
     } else if (page < 4) {
       return [1, 2, 3, 4, 5, '...', pagesCount];
     } else if (page >= 4 && page < pagesCount - 4) {
