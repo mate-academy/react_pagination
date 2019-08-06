@@ -14,12 +14,12 @@ const TableCard = ({ visibleRows }) => {
       <Table className={classes.table}>
         <TableHead className="sticky">
           <TableRow>
-            <StyledTableCell>Id</StyledTableCell>
-            <StyledTableCell>Name</StyledTableCell>
-            <StyledTableCell>Sex</StyledTableCell>
-            <StyledTableCell>Born</StyledTableCell>
-            <StyledTableCell>Died</StyledTableCell>
-            <StyledTableCell>Father</StyledTableCell>
+            <StyledTableCell className={classes.id}>Id</StyledTableCell>
+            <StyledTableCell className={classes.name}>Name</StyledTableCell>
+            <StyledTableCell className={classes.sexBornDied}>Sex</StyledTableCell>
+            <StyledTableCell className={classes.sexBornDied}>Born</StyledTableCell>
+            <StyledTableCell className={classes.sexBornDied}>Died</StyledTableCell>
+            <StyledTableCell className={classes.father}>Father</StyledTableCell>
             <StyledTableCell>Mother</StyledTableCell>
           </TableRow>
         </TableHead>

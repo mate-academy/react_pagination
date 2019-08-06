@@ -30,7 +30,16 @@ export const useStyles = makeStyles(theme => ({
   table: {
     minWidth: 700,
   },
-  name: {
+  id: {
     width: '10%',
   },
+  name: {
+    width: '23%',
+  },
+  sexBornDied: {
+    width: '9%',
+  },
+  father: {
+    width: '20%',
+  }
 }));
