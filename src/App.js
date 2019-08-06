@@ -51,7 +51,7 @@ class App extends React.Component {
   onPerPageChange = (event) => {
     const { value } = event.target;
 
-    this.props.history.push(`/${1}?perpage=${value}`);
+    this.props.history.push(`/1?perpage=${value}`);
   }
 
   render() {
@@ -71,7 +71,7 @@ class App extends React.Component {
             const perPage = +perpage;
 
             if (perPage < 3 || perPage > 20) {
-              this.props.history.push(`/${1}?perpage=20`);
+              this.props.history.push(`/1?perpage=20`);
             }
 
             const pageNumber = getPageNumber(perPage, arrivals.length);
@@ -79,7 +79,7 @@ class App extends React.Component {
             const filteredPages = getFilteredPerPage(arrivals, pageId, perPage);
 
             if (pageId > pageNumber && pageNumber > 0) {
-              this.props.history.push(`/${1}`);
+              this.props.history.push(`/1`);
             }
 
             return (
