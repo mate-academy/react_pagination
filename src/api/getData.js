@@ -1,24 +1,14 @@
-const url = 'https://jsonplaceholder.typicode.com/';
+const getData = async(type) => {
+  const url = `https://jsonplaceholder.typicode.com/${type}`;
 
-const getPosts = async() => (
-  fetch(`${url}posts`)
-    .then(response => response.json())
-);
+  return fetch(url)
+    .then(response => response.json());
+};
 
-const getUsers = async() => (
-  fetch(`${url}users`)
-    .then(response => response.json())
-);
-
-const getComments = async() => (
-  fetch(`${url}comments`)
-    .then(response => response.json())
-);
-
-const getData = async() => {
-  const posts = await getPosts();
-  const users = await getUsers();
-  const comments = await getComments();
+const getPreparedData = async() => {
+  const posts = await getData('posts');
+  const users = await getData('users');
+  const comments = await getData('comments');
 
   return posts.map(post => ({
     ...post,
@@ -27,4 +17,4 @@ const getData = async() => {
   }));
 };
 
-export default getData;
+export default getPreparedData;

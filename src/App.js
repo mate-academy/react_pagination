@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 
-import getData from './api/getData';
+import getPreparedData from './api/getData';
 import PostList from './components/PostList';
 import Pagination from './components/Pagination';
 
@@ -18,7 +18,7 @@ class App extends React.Component {
   }
 
   loadData = async() => {
-    const posts = await getData();
+    const posts = await getPreparedData();
 
     this.setState({
       posts,
