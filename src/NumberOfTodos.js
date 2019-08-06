@@ -1,7 +1,12 @@
 import React from 'react';
 import propTypes from 'prop-types';
 
-const NumberOfTodos = ({ todosOfVisiblePage, numberTodos, perPage, changePerPage}) => (
+const NumberOfTodos = ({
+  todosOfVisiblePage,
+  numberTodos,
+  perPage,
+  changePerPage,
+}) => (
   <div className="page-header">
     <h1>List of todos</h1>
     <div className="page-header__info">
@@ -30,7 +35,6 @@ const NumberOfTodos = ({ todosOfVisiblePage, numberTodos, perPage, changePerPage
         </select>
       </label>
     </div>
-
   </div>
 );
 

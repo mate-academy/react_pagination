@@ -35,7 +35,7 @@ const Navigation = ({ todosInPages, activePage, changeActivePage }) => (
         disabled={activePage === todosInPages.length}
         className="navigation-but"
       >
-        ->
+        {`->`}
       </button>
     </li>
   </ul>
