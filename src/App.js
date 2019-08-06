@@ -41,6 +41,8 @@ class App extends React.Component {
   async componentDidMount() {
     const temp = await getPlanes();
 
+    this.props.history.push(`/1?perpage=20`);
+
     this.setState({
       arrivals: temp.body.arrival,
     });
