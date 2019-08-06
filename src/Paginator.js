@@ -1,4 +1,3 @@
-
 import React from 'react';
 // import classNames from 'classnames';
 import {
@@ -49,7 +48,7 @@ class Pagination extends React.Component {
               >
                 <Link
                   className="page-link"
-                  href="/#"
+                  href={() => false}
                 >
                   <button
                     type="button"
@@ -66,14 +65,14 @@ class Pagination extends React.Component {
             ))}
 
             <li className="page-item">
-              <a
+              <Link
                 className="page-link"
-                href="/#"
+                href={() => false}
               >
                 <button type="button">
                   Next
                 </button>
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>

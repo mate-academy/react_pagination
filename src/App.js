@@ -28,7 +28,9 @@ class App extends React.Component {
   }
 
   onPageChange = (currentPage) => {
-    this.setState({ page: currentPage });
+    this.setState({
+      page: currentPage,
+    });
   };
 
   render() {
