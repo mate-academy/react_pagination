@@ -41,9 +41,7 @@ const Pagination = ({ handleClickPagination, page, onPerPageChange, peoples, per
               })}
               onClick={() => handleClickPagination(number)}
             >
-              <a
-                className="page-link"
-              >
+              <a className="page-link">
                 {number}
               </a>
             </li>)
