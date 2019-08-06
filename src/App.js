@@ -76,7 +76,10 @@ class App extends React.Component {
         </div>
 
         <div className="with-info">
-          {`${firstIndex + 1} - ${lastIndex} of ${postsAmmount} posts`}
+          {`${firstIndex + 1} - ${lastIndex <= postsAmmount
+            ? lastIndex
+            : postsAmmount
+          } of ${postsAmmount} posts`}
         </div>
 
         <PostList
