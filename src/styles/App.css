@@ -1,5 +1,6 @@
 body {
   background-image: linear-gradient(#fdffea, #7b8c8d);
+  min-height: 100vh;
 }
 
 h3 {
