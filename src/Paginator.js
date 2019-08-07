@@ -1,96 +1,94 @@
 import React from 'react';
-// import classNames from 'classnames';
 import {
-  NavLink, Link,
+  NavLink,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-class Pagination extends React.Component {
-  state = {
-    array: [],
-  }
+const Pagination = ({
+  images, imgId, totals, page, perPage, onPageChange,
+}) => {
+  const startRange = (page) * perPage + 1;
+  let endRange = ((page + 1) * perPage);
 
-  componentDidMount() {
-    const { images, perPage } = this.props;
-    const arrays = [];
+  endRange = endRange < images.length ? endRange : images.length;
 
-    for (let i = 0; i < Math.ceil(images.length / perPage); (i + 1)) {
-      arrays.push(i);
-    }
+  const imgStart = startRange - 1;
 
-    this.setState({
-      array: arrays,
-    });
-  }
-
-  render() {
-    const { array } = this.state;
-    const {
-      images, imgId,
-    } = this.props;
-
-    return (
-      <div>
-        <nav aria-label="...">
-          <ul className="page__ul">
-            <li className="page-item disabled">
-              <span className="page-link">
-                <button type="button">
-                  {array}
+  return (
+    <div>
+      <h1>
+        {startRange}
+          ...
+        {endRange}
+        {' '}
+          of
+        {' '}
+        {images.length}
+      </h1>
+      <h1>
+          information
+      </h1>
+      <nav aria-label="...">
+        <ul className="page__ul">
+          <li className="page-item disabled">
+            <span className="page-link">
+              <button
+                type="button"
+                onClick={() => onPageChange(page - 1)}
+                disabled={page < 1}
+              >
                 Previous
-                </button>
-              </span>
-            </li>
-            {images.map((img, index) => (
-              <li
-                className="page-item"
-                key={img.id}
-              >
-                <Link
-                  className="page-link"
-                  href={() => false}
-                >
-                  <button
-                    type="button"
-                  >
-                    <NavLink
-                      to={`/${index + 1}`}
-                      activeClassName="hello"
-                    >
-                      {index + 1}
-                    </NavLink>
-                  </button>
-                </Link>
-              </li>
-            ))}
+              </button>
+            </span>
+          </li>
+          <li
+            className="page-item"
 
-            <li className="page-item">
-              <Link
+          >
+            {Array.from(Array(totals)).map((total, i) => (
+              <NavLink
                 className="page-link"
-                href={() => false}
+                to={`/${i + 1}`}
+                onClick={() => onPageChange(i)}
+                activeClassName="hello"
               >
-                <button type="button">
+                {i + 1}
+              </NavLink>
+            ))}
+          </li>
+
+          <li className="page-item">
+            <a
+              className="page-link"
+              href="/#"
+            >
+              <button
+                type="button"
+                onClick={() => onPageChange(page + 1)}
+                disabled={page >= totals - 1}
+              >
                   Next
-                </button>
-              </Link>
-            </li>
-          </ul>
-        </nav>
-        <p>
-          {(imgId && images[imgId - 1]) && (
+              </button>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <p>
+        {(imgId && images.slice(imgStart, endRange)) && (
+          images.slice(imgStart, endRange).map(imag => (
             <img
               alt="images"
               width={500}
-              src={images[imgId - 1].download_url}
+              src={imag.download_url}
             />
-          )
-          }
-        </p>
-      </div>
+          ))
+        )
+        }
+      </p>
+    </div>
 
-    );
-  }
-}
+  );
+};
 
 Pagination.propTypes = {
   images: PropTypes.shape(
@@ -99,6 +97,9 @@ Pagination.propTypes = {
   ).isRequired,
   imgId: PropTypes.string.isRequired,
   perPage: PropTypes.number.isRequired,
+  totals: PropTypes.number.isRequired,
+  page: PropTypes.number.isRequired,
+  onPageChange: PropTypes.func.isRequired,
 };
 
 export default Pagination;

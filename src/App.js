@@ -16,25 +16,27 @@ class App extends React.Component {
   state = {
     images: [],
     page: 0,
-    perPage: 3,
+    perPage: 5,
+    totals: 0,
   }
 
   async componentDidMount() {
     const images = await getContent();
 
-    this.setState({
+    this.setState(prevState => ({
       images,
-    });
+      totals: Math.ceil(images.length / prevState.perPage),
+    }));
   }
 
   onPageChange = (currentPage) => {
-    this.setState({
-      page: currentPage,
-    });
+    this.setState({ page: currentPage });
   };
 
   render() {
-    const { images, page, perPage } = this.state;
+    const {
+      images, page, perPage, totals,
+    } = this.state;
 
     return (
       <BrowserRouter>
@@ -49,6 +51,7 @@ class App extends React.Component {
                 page={page}
                 onPageChange={this.onPageChange}
                 perPage={perPage}
+                totals={totals}
               />
             )}
           />
