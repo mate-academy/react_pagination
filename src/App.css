@@ -13,3 +13,17 @@ li {
 .hello {
   background: yellow;
 }
+
+.adress-delivery__header {
+  margin: 0 20px;
+  grid-template-columns: auto auto 1fr;
+  column-gap: 10px;
+  align-items: center;
+}
+
+.adress-delivery__destination-details {
+  appearance: none;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #e0e0e0;
+}

@@ -33,6 +33,15 @@ class App extends React.Component {
     this.setState({ page: currentPage });
   };
 
+  handleDecide = (event) => {
+    const { value } = event.target;
+
+    this.setState(prevState => ({
+      perPage: value,
+      totals: Math.ceil(prevState.images.length / value),
+    }));
+  }
+
   render() {
     const {
       images, page, perPage, totals,
@@ -41,6 +50,23 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <div className="App">
+          <form action="/" className="adress-delivery adress-delivery__header">
+            <span>images on pageg</span>
+            <div
+              className="destination-details"
+            >
+              <select
+                name=""
+                onClick={this.handleDecide}
+                className="adress-delivery__destination-details"
+              >
+                <option value={5}>5</option>
+                <option value={3}>3</option>
+                <option value={15}>15</option>
+              </select>
+            </div>
+          </form>
+
           <Route
             path="/:imgId?"
             render={({ match }) => (

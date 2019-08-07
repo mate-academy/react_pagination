@@ -25,9 +25,6 @@ const Pagination = ({
         {' '}
         {images.length}
       </h1>
-      <h1>
-          information
-      </h1>
       <nav aria-label="...">
         <ul className="page__ul">
           <li className="page-item disabled">
@@ -41,10 +38,7 @@ const Pagination = ({
               </button>
             </span>
           </li>
-          <li
-            className="page-item"
-
-          >
+          <li className="page-item">
             {Array.from(Array(totals)).map((total, i) => (
               <NavLink
                 className="page-link"
