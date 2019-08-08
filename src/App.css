@@ -27,3 +27,24 @@ li {
   padding: 0 12px;
   border: 1px solid #e0e0e0;
 }
+
+.page-item {
+  list-style: none;
+}
+
+.product {
+  width: 500px;
+}
+
+.product__img {
+  object-fit: cover;
+  width: 100%;
+  display: grid;
+  margin-bottom: 16px;
+}
+
+.main__container {
+  display: grid;
+  background: rgb(46, 71, 182);
+  border: 3px solid black;
+}

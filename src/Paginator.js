@@ -3,9 +3,10 @@ import {
   NavLink,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Header from './Header';
 
 const Pagination = ({
-  images, imgId, totals, page, perPage, onPageChange,
+  images, imgId, totals, page, perPage, onPageChange, handleDecide,
 }) => {
   const startRange = (page) * perPage + 1;
   let endRange = ((page + 1) * perPage);
@@ -16,65 +17,68 @@ const Pagination = ({
 
   return (
     <div>
-      <h1>
-        {startRange}
-          ...
-        {endRange}
-        {' '}
-          of
-        {' '}
-        {images.length}
-      </h1>
-      <nav aria-label="...">
-        <ul className="page__ul">
-          <li className="page-item disabled">
-            <span className="page-link">
-              <button
-                type="button"
-                onClick={() => onPageChange(page - 1)}
-                disabled={page < 1}
-              >
+      <div className="main__container">
+        <Header
+          endRange={endRange}
+          images={images}
+          startRange={startRange}
+          handleDecide={handleDecide}
+        />
+        <nav aria-label="...">
+          <ul className="page__ul">
+            <li className="page-item disabled">
+              <span className="page-link">
+                <button
+                  type="button"
+                  onClick={() => onPageChange(page - 1)}
+                  disabled={page < 1}
+                >
                 Previous
-              </button>
-            </span>
-          </li>
-          <li className="page-item">
-            {Array.from(Array(totals)).map((total, i) => (
-              <NavLink
-                className="page-link"
-                to={`/${i + 1}`}
-                onClick={() => onPageChange(i)}
-                activeClassName="hello"
-              >
-                {i + 1}
-              </NavLink>
-            ))}
-          </li>
+                </button>
+              </span>
+            </li>
+            <li className="page-item">
+              {Array.from(Array(totals)).map((total, i) => (
+                <NavLink
+                  className="page-link"
+                  to={`/${i + 1}`}
+                  onClick={() => onPageChange(i)}
+                  activeClassName="hello"
+                >
+                  {i + 1}
+                </NavLink>
+              ))}
+            </li>
 
-          <li className="page-item">
-            <a
-              className="page-link"
-              href="/#"
-            >
-              <button
-                type="button"
-                onClick={() => onPageChange(page + 1)}
-                disabled={page >= totals - 1}
+            <li className="page-item">
+              <a
+                className="page-link"
+                href="/#"
               >
+                <button
+                  type="button"
+                  onClick={() => onPageChange(page + 1)}
+                  disabled={page >= totals - 1}
+                >
                   Next
-              </button>
-            </a>
-          </li>
-        </ul>
-      </nav>
+                </button>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
       <p>
         {(imgId && images.slice(imgStart, endRange)) && (
           images.slice(imgStart, endRange).map(imag => (
-            <img
-              alt="images"
-              width={500}
-              src={imag.download_url}
-            />
+            <div className="product">
+              <img
+                alt="images"
+                className="product__img"
+                height={300}
+                src={imag.download_url}
+              />
+            </div>
           ))
         )
         }
@@ -94,6 +98,7 @@ Pagination.propTypes = {
   totals: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,
+  handleDecide: PropTypes.func.isRequired,
 };
 
 export default Pagination;

@@ -50,23 +50,6 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <div className="App">
-          <form action="/" className="adress-delivery adress-delivery__header">
-            <span>images on pageg</span>
-            <div
-              className="destination-details"
-            >
-              <select
-                name=""
-                onClick={this.handleDecide}
-                className="adress-delivery__destination-details"
-              >
-                <option value={5}>5</option>
-                <option value={3}>3</option>
-                <option value={15}>15</option>
-              </select>
-            </div>
-          </form>
-
           <Route
             path="/:imgId?"
             render={({ match }) => (
@@ -78,6 +61,7 @@ class App extends React.Component {
                 onPageChange={this.onPageChange}
                 perPage={perPage}
                 totals={totals}
+                handleDecide={this.handleDecide}
               />
             )}
           />
