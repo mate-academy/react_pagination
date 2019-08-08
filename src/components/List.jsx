@@ -67,9 +67,7 @@ class List extends React.Component {
   };
 
   render() {
-    const { isLoaded, error, pageCount, posts, postsPerPage } = this.state;
-    const { prevPage, nextPage, changePostsPerPage } = this;
-
+    const { isLoaded, error } = this.state;
     const postsForRender = this.spliceList();
 
     return (
