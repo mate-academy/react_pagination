@@ -48,7 +48,7 @@ class App extends React.Component {
     } = this.state;
 
     return (
-      <BrowserRouter>
+      <BrowserRouter basename="nastyakpi1995.github.io/react_pagination/">
         <div className="App">
           <Route
             path="/:imgId?"
