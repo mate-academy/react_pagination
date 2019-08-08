@@ -1,7 +1,22 @@
+/* stylelint-disable */
 .pagination {
   justify-content: center;
 }
 
 .list-group {
   text-align: center;
+}
+
+.page-info {
+  display: flex;
+  justify-content: center;
+
+  margin: 20px 0px;
+  border: 1px solid #dee2e6;
+  color: #007bff;
+}
+
+.page-info_all {
+  margin-left: 10px;
+  margin-right: 10px;
 }

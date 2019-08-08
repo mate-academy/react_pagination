@@ -27,6 +27,7 @@ class App extends React.Component {
       <div className="App">
         <PostsComponent posts={currentPosts} />
         <Pagination
+          posts={posts}
           page={page}
           postsPerPage={postsPerPage}
           totalPostsCount={totalPostsCount}
@@ -39,9 +40,3 @@ class App extends React.Component {
 }
 
 export default App;
-
-/*
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
-*/
