@@ -1,22 +1,39 @@
 import React from 'react';
 import './App.css';
+import posts from './components/posts';
+import PostsComponent from './components/PostsComponent';
+import Pagination from './components/Pagination';
 
 class App extends React.Component {
   state = {
-    tabs: [
-      { title: 'Tab 1', content: 'Some text 1' },
-      { title: 'Tab 2', content: 'Some text 2' },
-      { title: 'Tab 3', content: 'Some text 3' },
-    ],
+    page: 0,
+    postsPerPage: 10,
+    totalPostsCount: posts.length,
+  };
+
+  pageChange = (number) => {
+    this.setState({
+      page: number,
+    });
   };
 
   render() {
-    const { tabs } = this.state;
+    const { page, postsPerPage, totalPostsCount } = this.state;
+    const indexOfFirstPost = page * postsPerPage;
+    const indexOfLastPost = indexOfFirstPost + postsPerPage;
+    const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
     return (
       <div className="App">
-        {/* eslint-disable-next-line */}
-        <h1>{tabs.length} tabs</h1>
+        <PostsComponent posts={currentPosts} />
+        <Pagination
+          posts={posts}
+          page={page}
+          postsPerPage={postsPerPage}
+          totalPostsCount={totalPostsCount}
+          handlePageChange={this.pageChange}
+        />
+
       </div>
     );
   }
