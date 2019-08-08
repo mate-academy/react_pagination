@@ -51,7 +51,7 @@ const Pagination = ({
             </li>
 
             <li className="page-item">
-              <a
+              <div
                 className="page-link"
                 href="/#"
               >
@@ -62,7 +62,7 @@ const Pagination = ({
                 >
                   Next
                 </button>
-              </a>
+              </div>
             </li>
           </ul>
         </nav>
