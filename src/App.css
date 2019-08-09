@@ -23,6 +23,7 @@
   padding: 10px;
   border: 1px solid #dee2e6;
   cursor: pointer;
+  background: none;
 }
 
 .pagination__item--prev {
@@ -43,4 +44,8 @@
 .pagination__item--disabled {
   cursor: auto;
   opacity: 0.5;
+}
+
+.pagination__item--disabled:focus {
+  outline: none;
 }

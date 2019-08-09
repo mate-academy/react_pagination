@@ -1,19 +1,19 @@
 import React from 'react';
 import './App.css';
-import Pagination from './Pagination';
+import Pagination from './components/Pagination';
 
 class App extends React.Component {
   state = {
     total: 42,
     perPage: 5,
-    activePage: 0,
+    activePage: 1,
   };
 
   onPageChange = (nexPage) => {
     const { total, perPage } = this.state;
     const countPages = Math.ceil(total / perPage);
 
-    if (nexPage >= 0 && nexPage < countPages) {
+    if (nexPage >= 1 && nexPage <= countPages) {
       this.setState({
         activePage: nexPage,
       });
@@ -23,7 +23,7 @@ class App extends React.Component {
   handlePerPage = (event) => {
     this.setState({
       perPage: event.target.value,
-      activePage: 0,
+      activePage: 1,
     });
   }
 
