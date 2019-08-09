@@ -15,11 +15,14 @@ td {
   display: flex;
 }
 
-.pagination-controls__button:first-child {
-  margin-left: 0;
-}
-.pagination-controls__button:last-child {
-  margin-right: 0;
+.pagination-controls__button {
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
 }
 
 .pagination-controls__button--active {
@@ -27,5 +30,3 @@ td {
   color: white;
   outline: none;
 }
-
-/*# sourceMappingURL=App.css.map */
