@@ -12,10 +12,10 @@ const Pagination = ({
   handlePerPage,
 }) => {
   const countPages = Math.ceil(total / perPage);
-  const firstPostOnPage = activePage * perPage + 1;
-  const lastPostOnPage = (activePage === countPages - 1)
+  const firstPostOnPage = (activePage - 1) * perPage + 1;
+  const lastPostOnPage = (activePage === countPages)
     ? total
-    : (activePage + 1) * perPage;
+    : activePage * perPage;
 
   const setPaginationList = (page, count) => {
     if (count < 5) {
