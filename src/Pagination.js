@@ -64,6 +64,19 @@ class Pagination extends React.Component {
         );
       }
 
+      if (i === 1) {
+        controls.push(
+          <button
+            key="lowerPage"
+            type="button"
+            disabled={i === this.state.page}
+            onClick={() => this.setCurrentPage(this.state.page - 1)}
+          >
+            {`<`}
+          </button>
+        );
+      }
+
       controls.push(
         <button
           key={i}
@@ -75,6 +88,19 @@ class Pagination extends React.Component {
           {i}
         </button>
       );
+
+      if (i === pageCount) {
+        controls.push(
+          <button
+            key="upperPage"
+            type="button"
+            disabled={i === this.state.page}
+            onClick={() => this.setCurrentPage(this.state.page + 1)}
+          >
+            {`>`}
+          </button>
+        );
+      }
 
       if (i === pageCount) {
         controls.push(

@@ -48,20 +48,22 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <table>
-          <thead />
-          <tbody>
-            {
-              this.createPaginatedData().map(child => (
-                <tr>
-                  <td>{child.id}</td>
-                  <td>{child.title}</td>
-                  <td>{child.body}</td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
+        <div className="table_container">
+          <table className="table">
+            <thead />
+            <tbody>
+              {
+                this.createPaginatedData().map(child => (
+                  <tr>
+                    <td>{child.id}</td>
+                    <td>{child.title}</td>
+                    <td>{child.body}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
         <nav className="nav">
           {
             posts.length

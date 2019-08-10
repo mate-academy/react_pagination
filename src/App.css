@@ -1,4 +1,8 @@
-table {
+.table_container {
+  min-height: 500px;
+}
+
+.table {
   border-collapse: collapse;
 }
 
