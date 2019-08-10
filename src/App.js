@@ -20,9 +20,10 @@ class App extends React.Component {
     });
   };
 
-  onSelectChange = (value) => {
+  setPageCountItems = (perPage) => {
     this.setState({
-      perPage: +value.target.value,
+      perPage,
+      current: 1,
     });
   };
 
@@ -43,7 +44,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { posts, current, perPage } = this.state;
+    const { posts, current } = this.state;
 
     return (
       <div className="App">
@@ -62,15 +63,6 @@ class App extends React.Component {
           </tbody>
         </table>
         <nav className="nav">
-          <select
-            onChange={this.onSelectChange}
-            value={this.state.perPage}
-          >
-            <option value={3}>3</option>
-            <option value={5}>5</option>
-            <option value={10}>10</option>
-            <option value={15}>15</option>
-          </select>
           {
             posts.length
               ? (
@@ -79,16 +71,11 @@ class App extends React.Component {
                   page={current}
                   perPage={this.state.perPage}
                   changePage={this.onPageChange}
+                  setPageCountItems={this.setPageCountItems}
                 />
               )
               : []
           }
-          <span>
-            {
-              `${current * perPage - perPage + 1}
-             - ${current * perPage} of ${posts.length}`
-            }
-          </span>
         </nav>
       </div>
     );

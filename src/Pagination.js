@@ -4,14 +4,11 @@ import propTypes from 'prop-types';
 class Pagination extends React.Component {
   state = {
     page: this.props.page,
-    pageCount: this.props.total % this.props.perPage > 0
-      ? this.props.total / this.props.perPage + 1
-      : this.props.total / this.props.perPage,
+    perPage: this.props.perPage,
   };
 
   componentDidMount() {
-    const { total } = this.props;
-    const { perPage } = this.props;
+    const { total, perPage } = this.props;
     let pageCount = total / perPage;
 
     if (total % perPage > 0) { pageCount += 1; }
@@ -20,6 +17,21 @@ class Pagination extends React.Component {
       pageCount,
     });
   }
+
+  onSelectChange = (value) => {
+    const { total, setPageCountItems } = this.props;
+    const perPage = +value.target.value;
+    let pageCount = total / perPage;
+
+    pageCount = Math.ceil(pageCount);
+
+    this.setState({
+      pageCount,
+      page: 1,
+      perPage,
+    });
+    setPageCountItems(+value.target.value);
+  };
 
   setCurrentPage(num) {
     this.props.changePage(num);
@@ -84,9 +96,28 @@ class Pagination extends React.Component {
   render() {
     return (
       <div className="pagination">
+        <select
+          onChange={this.onSelectChange}
+          value={this.state.perPage}
+        >
+          <option value={3}>3</option>
+          <option value={5}>5</option>
+          <option value={10}>10</option>
+          <option value={15}>15</option>
+        </select>
         <div className="pagination-controls">
           {this.createControls()}
         </div>
+        <span>
+          {
+            `${this.state.page * this.props.perPage - this.props.perPage + 1}
+             - ${
+      this.state.page * this.props.perPage <= this.props.total
+        ? this.state.page * this.props.perPage
+        : this.props.total
+      } of ${this.props.total}`
+          }
+        </span>
       </div>
     );
   }
@@ -95,6 +126,7 @@ class Pagination extends React.Component {
 Pagination.propTypes = {
   total: propTypes.number.isRequired,
   changePage: propTypes.func.isRequired,
+  setPageCountItems: propTypes.func.isRequired,
   perPage: propTypes.number.isRequired,
   page: propTypes.number.isRequired,
 };
