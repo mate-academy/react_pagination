@@ -54,19 +54,6 @@ class Pagination extends React.Component {
       if (i === 1) {
         controls.push(
           <button
-            key="first"
-            type="button"
-            disabled={i === this.state.page}
-            onClick={() => this.setCurrentPage(1)}
-          >
-            {`<<`}
-          </button>
-        );
-      }
-
-      if (i === 1) {
-        controls.push(
-          <button
             key="lowerPage"
             type="button"
             disabled={i === this.state.page}
@@ -77,17 +64,60 @@ class Pagination extends React.Component {
         );
       }
 
-      controls.push(
-        <button
-          key={i}
-          type="button"
-          className={`${baseClassName} ${activeClassName}`}
-          disabled={i === this.state.page}
-          onClick={() => this.setCurrentPage(i)}
-        >
-          {i}
-        </button>
-      );
+      if (i === 1 && this.state.page > 2) {
+        controls.push(
+          <button
+            key="first"
+            type="button"
+            disabled={i === this.state.page}
+            onClick={() => this.setCurrentPage(1)}
+          >
+            {i}
+          </button>
+        );
+      }
+
+      if (i === 1 && this.state.page > 2) {
+        controls.push(`...`);
+      }
+
+      if (
+        i === this.state.page
+        || i === this.state.page - 1
+        || i === this.state.page + 1
+      ) {
+        controls.push(
+          <button
+            key={i}
+            type="button"
+            className={`${baseClassName} ${activeClassName}`}
+            disabled={i === this.state.page}
+            onClick={() => this.setCurrentPage(i)}
+          >
+            {i}
+          </button>
+        );
+      }
+
+      if (
+        i === this.state.pageCount
+        && this.state.page < this.state.pageCount - 1
+      ) {
+        controls.push(`...`);
+      }
+
+      if (i === pageCount && this.state.page < this.state.pageCount - 1) {
+        controls.push(
+          <button
+            key="last"
+            type="button"
+            disabled={i === this.state.page}
+            onClick={() => this.setCurrentPage(this.state.pageCount)}
+          >
+            {i}
+          </button>
+        );
+      }
 
       if (i === pageCount) {
         controls.push(
@@ -98,19 +128,6 @@ class Pagination extends React.Component {
             onClick={() => this.setCurrentPage(this.state.page + 1)}
           >
             {`>`}
-          </button>
-        );
-      }
-
-      if (i === pageCount) {
-        controls.push(
-          <button
-            key="last"
-            type="button"
-            disabled={i === this.state.page}
-            onClick={() => this.setCurrentPage(this.state.pageCount)}
-          >
-            {`>>`}
           </button>
         );
       }
