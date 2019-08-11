@@ -8,11 +8,12 @@
   min-height: 75vh;
 }
 
-.active:focus {
-  background-color: #0800ff;
-  color: #fff;
-}
-
-.red {
-  background-color: red;
+.activeApp {
+  position: relative;
+  display: block;
+  padding: 0.5rem 0.75rem;
+  margin-left: -1px;
+  line-height: 1.25;
+  background-color: #007bff;
+  border: 1px solid #dee2e6;
 }

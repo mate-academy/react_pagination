@@ -43,13 +43,12 @@ const Pagination = ({
           </li>
           {pageNumbers.map(number => (
             <li key={number} className="page-item">
-              <NavLink
-                className="page-link"
+              <a
+                className={currentPage === number ? "activeApp" : "page-link"}
                 onClick={() => paginate(number)}
-                to="/"
               >
                 {number}
-              </NavLink>
+              </a>
             </li>
           ))}
           <li>
