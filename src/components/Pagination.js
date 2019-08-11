@@ -36,6 +36,7 @@ const Pagination = ({
             <button
               onClick={() => paginate(prevNext('prev'))}
               className="btn btn-primary mr-5"
+              disabled={currentPage === 1}
             >
                 Prev
             </button>
@@ -44,7 +45,6 @@ const Pagination = ({
             <li key={number} className="page-item">
               <NavLink
                 className="page-link"
-                activeClassName="active"
                 onClick={() => paginate(number)}
                 to="/"
               >
@@ -56,6 +56,7 @@ const Pagination = ({
             <button
               onClick={() => paginate(prevNext('next'))}
               className="btn btn-primary ml-5"
+              disabled={currentPage === pageNumber}
             >
                 Next
             </button>
