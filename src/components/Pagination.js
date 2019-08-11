@@ -1,12 +1,13 @@
 /* eslint-disable */
 import React from 'react';
+import {NavLink} from "react-router-dom";
 
 const Pagination = ({
   postsPerPage, totalPosts, paginate, currentPage,
 }) => {
   const pageNumbers = [];
-
-  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
+  const pageNumber = Math.ceil(totalPosts / postsPerPage);
+  for (let i = 1; i <= pageNumber; i++) {
     pageNumbers.push(i);
   }
 
@@ -15,8 +16,8 @@ const Pagination = ({
       return 1;
     }
 
-    if (direction === 'next' && currentPage === totalPosts / postsPerPage) {
-      return totalPosts / postsPerPage;
+    if (direction === 'next' && currentPage === pageNumber) {
+      return pageNumber;
     }
 
     switch (direction) {
@@ -27,7 +28,6 @@ const Pagination = ({
       default:
     }
   };
-
   return (
     <div>
       <nav>
@@ -39,17 +39,17 @@ const Pagination = ({
             >
                 Prev
             </button>
-
           </li>
           {pageNumbers.map(number => (
             <li key={number} className="page-item">
-              <a
-                onClick={() => paginate(number)}
+              <NavLink
                 className="page-link"
-                href="#"
+                activeClassName="active"
+                onClick={() => paginate(number)}
+                to="/"
               >
                 {number}
-              </a>
+              </NavLink>
             </li>
           ))}
           <li>

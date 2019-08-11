@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import './App.css';
 import Posts from './components/Posts';
 import Pagination from './components/Pagination';
@@ -42,23 +43,25 @@ const App = () => {
 
   return (
     <div className="container">
-      <h1 className="text-primary mb-3">Pagination</h1>
-      <Posts posts={currentPosts} loading={loading} />
-      <Pagination
-        postsPerPage={postsPerPage}
-        totalPosts={posts.length}
-        paginate={paginate}
-        currentPosts={currentPosts}
-        currentPage={currentPage}
-      />
-      <select
-        className="form-control"
-        onChange={handleChange}
-      >
-        <option value={3}>3</option>
-        <option value={5}>5</option>
-        <option value={10}>10</option>
-      </select>
+      <Router>
+        <h1 className="text-primary mb-3">Pagination</h1>
+        <select
+          className="form-control"
+          onChange={handleChange}
+        >
+          <option value={10}>10</option>
+          <option value={5}>5</option>
+          <option value={3}>3</option>
+        </select>
+        <Posts posts={currentPosts} loading={loading} />
+        <Pagination
+          postsPerPage={postsPerPage}
+          totalPosts={posts.length}
+          paginate={paginate}
+          currentPosts={currentPosts}
+          currentPage={currentPage}
+        />
+      </Router>
     </div>
   );
 };
