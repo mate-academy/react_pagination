@@ -23,9 +23,9 @@ const App = () => {
 
     fetchPosts();
   }, []);
-
   const handleChange = (event) => {
     setPostPerPage(+event.target.value);
+    setCurrentPage(1);
   };
 
   const indexOfLastPost = currentPage * postsPerPage;
