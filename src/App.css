@@ -4,6 +4,7 @@
 
 .page__ul {
   display: flex;
+  justify-content: flex-end;
 }
 
 li {
@@ -11,7 +12,8 @@ li {
 }
 
 .hello {
-  background: yellow;
+  background: white;
+  border: 1px solid blanchedalmond;
 }
 
 .adress-delivery__header {
@@ -26,6 +28,7 @@ li {
   height: 40px;
   padding: 0 12px;
   border: 1px solid #e0e0e0;
+  cursor: pointer;
 }
 
 .page-item {
@@ -47,4 +50,25 @@ li {
   display: grid;
   background: rgb(46, 71, 182);
   border: 3px solid black;
+}
+
+.information {
+  display: grid;
+}
+
+.container {
+  justify-content: space-between;
+  display: flex;
+}
+
+button {
+  width: 60px;
+  height: 60px;
+  border-radius: 40%;
+  cursor: pointer;
+}
+
+.page-link {
+  text-decoration: none;
+  font-size: 20px;
 }

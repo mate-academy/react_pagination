@@ -33,7 +33,7 @@ const Pagination = ({
                   onClick={() => onPageChange(page - 1)}
                   disabled={page < 1}
                 >
-                Previous
+                Prev
                 </button>
               </span>
             </li>

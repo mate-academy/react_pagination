@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  BrowserRouter, Route,
+  Route, HashRouter,
 } from 'react-router-dom';
 import './App.css';
 import Pagination from './Paginator';
@@ -48,7 +48,7 @@ class App extends React.Component {
     } = this.state;
 
     return (
-      <BrowserRouter basename="nastyakpi1995.github.io/react_pagination/">
+      <HashRouter>
         <div className="App">
           <Route
             path="/:imgId?"
@@ -66,7 +66,7 @@ class App extends React.Component {
             )}
           />
         </div>
-      </BrowserRouter>
+      </HashRouter>
 
     );
   }
