@@ -3,8 +3,8 @@
 }
 
 .page__ul {
-  display: flex;
   justify-content: flex-end;
+  display: inline-block;
 }
 
 li {
@@ -12,8 +12,8 @@ li {
 }
 
 .hello {
-  background: white;
-  border: 1px solid blanchedalmond;
+  background-color: #4caf50;
+  color: white;
 }
 
 .adress-delivery__header {
@@ -33,6 +33,11 @@ li {
 
 .page-item {
   list-style: none;
+  color: black;
+  float: left;
+  padding: 1px 4px;
+  text-decoration: none;
+  transition: background-color 0.3s;
 }
 
 .product {
@@ -48,12 +53,15 @@ li {
 
 .main__container {
   display: grid;
-  background: rgb(46, 71, 182);
+  background: rgb(178, 218, 209);
   border: 3px solid black;
 }
 
 .information {
   display: grid;
+  opacity: 0.5;
+  margin: 34px;
+  padding: 0;
 }
 
 .container {
@@ -62,10 +70,11 @@ li {
 }
 
 button {
-  width: 60px;
-  height: 60px;
+  width: 38px;
+  height: 22px;
   border-radius: 40%;
   cursor: pointer;
+  box-shadow: 9px 26px 16px rgba(38, 38, 38, 0.16);
 }
 
 .page-link {

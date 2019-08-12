@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 import {
   NavLink,
 } from 'react-router-dom';
@@ -40,10 +41,12 @@ const Pagination = ({
             <li className="page-item">
               {Array.from(Array(totals)).map((total, i) => (
                 <NavLink
-                  className="page-link"
+                  className={classnames({
+                    hello: page === i,
+                    'page-link': true,
+                  })}
                   to={`/${i + 1}`}
                   onClick={() => onPageChange(i)}
-                  activeClassName="hello"
                 >
                   {i + 1}
                 </NavLink>
