@@ -40,6 +40,10 @@ li {
   transition: background-color 0.3s;
 }
 
+.Person__index {
+  padding-right: 20px;
+}
+
 .product {
   width: 500px;
 }

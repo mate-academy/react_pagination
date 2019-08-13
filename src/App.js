@@ -6,7 +6,8 @@ import './App.css';
 import Pagination from './Paginator';
 
 const getContent = async() => {
-  const response = await fetch('https://picsum.photos/v2/list?page=2&limit=42');
+  const Api = 'https://mate-academy.github.io/react_people-table/api/';
+  const response = await fetch(`${Api}/people.json`);
   const currentContent = await response.json();
 
   return currentContent;
@@ -14,23 +15,25 @@ const getContent = async() => {
 
 class App extends React.Component {
   state = {
-    images: [],
+    people: [],
     page: 0,
-    perPage: 5,
+    perPage: 3,
     totals: 0,
   }
 
   async componentDidMount() {
-    const images = await getContent();
+    const people = await getContent();
 
     this.setState(prevState => ({
-      images,
-      totals: Math.ceil(images.length / prevState.perPage),
+      people,
+      totals: Math.ceil(people.length / prevState.perPage),
     }));
   }
 
   onPageChange = (currentPage) => {
-    this.setState({ page: currentPage });
+    this.setState({
+      page: currentPage,
+    });
   };
 
   handleDecide = (event) => {
@@ -38,25 +41,25 @@ class App extends React.Component {
 
     this.setState(prevState => ({
       perPage: value,
-      totals: Math.ceil(prevState.images.length / value),
+      totals: Math.ceil(prevState.people.length / value),
     }));
   }
 
   render() {
     const {
-      images, page, perPage, totals,
+      people, page, perPage, totals,
     } = this.state;
 
     return (
       <HashRouter>
         <div className="App">
           <Route
-            path="/:imgId?"
+            path="/:pageId?"
             render={({ match }) => (
               <Pagination
-                key={images.id}
-                images={images}
-                imgId={match.params.imgId}
+                key={people.id}
+                people={people}
+                pageId={match.params.pageId}
                 page={page}
                 onPageChange={this.onPageChange}
                 perPage={perPage}

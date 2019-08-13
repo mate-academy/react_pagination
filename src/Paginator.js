@@ -5,14 +5,20 @@ import {
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Header from './Header';
+import Person from './Person';
 
 const Pagination = ({
-  images, imgId, totals, page, perPage, onPageChange, handleDecide,
+  people, pageId, totals, page, perPage, onPageChange, handleDecide,
 }) => {
-  const startRange = (page) * perPage + 1;
+  let startRange = (page) * perPage + 1;
+
+  if (startRange > people.length) {
+    startRange = 0;
+  }
+
   let endRange = ((page + 1) * perPage);
 
-  endRange = endRange < images.length ? endRange : images.length;
+  endRange = endRange < people.length ? endRange : people.length;
 
   const imgStart = startRange - 1;
 
@@ -21,7 +27,7 @@ const Pagination = ({
       <div className="main__container">
         <Header
           endRange={endRange}
-          images={images}
+          people={people}
           startRange={startRange}
           handleDecide={handleDecide}
         />
@@ -70,13 +76,19 @@ const Pagination = ({
           </ul>
         </nav>
       </div>
+      {pageId && people.slice(imgStart, endRange).map((person, index) => (
+        <Person
+          person={person}
+          index={index}
+        />
+      ))}
 
-      <p>
-        {(imgId && images.slice(imgStart, endRange)) && (
-          images.slice(imgStart, endRange).map(imag => (
+      {/* <p>
+        {(pageId && people.slice(imgStart, endRange)) && (
+          people.slice(imgStart, endRange).map(imag => (
             <div className="product">
               <img
-                alt="images"
+                alt="people"
                 className="product__img"
                 height={300}
                 src={imag.download_url}
@@ -85,18 +97,18 @@ const Pagination = ({
           ))
         )
         }
-      </p>
+      </p> */}
     </div>
 
   );
 };
 
 Pagination.propTypes = {
-  images: PropTypes.shape(
+  people: PropTypes.shape(
     PropTypes.array,
     PropTypes.object,
   ).isRequired,
-  imgId: PropTypes.string.isRequired,
+  pageId: PropTypes.string.isRequired,
   perPage: PropTypes.number.isRequired,
   totals: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired,

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Pagination = ({
-  images, startRange, endRange, handleDecide,
+  people, startRange, endRange, handleDecide,
 }) => (
   <div className="container">
     <h1 className="information">
@@ -10,10 +10,10 @@ const Pagination = ({
           ...
       {endRange }
           of
-      { images.length}
+      {people.length}
     </h1>
     <form action="/" className="adress-delivery__header">
-      <span>images on pages</span>
+      <span>people on pages</span>
       <div
         className="destination-details"
       >
@@ -33,7 +33,7 @@ const Pagination = ({
 );
 
 Pagination.propTypes = {
-  images: PropTypes.shape(
+  people: PropTypes.shape(
     PropTypes.array,
     PropTypes.object,
   ).isRequired,
