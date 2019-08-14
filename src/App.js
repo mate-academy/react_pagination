@@ -31,7 +31,9 @@ class App extends React.Component {
           onPageChange={this.onPageChange}
           withInfo={this.state.withInfo}
           showFrom={this.state.perPage * (this.state.page - 1) + 1}
-          showTo={(this.state.perPage * this.state.page)}
+          showTo={(this.state.perPage * this.state.page > this.state.totalItems)
+            ? this.state.totalItems
+            : (this.state.perPage * this.state.page)}
         />
       </div>
     );

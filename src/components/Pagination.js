@@ -23,7 +23,9 @@ const Pagination = ({
         </li>
       )}
     </ul>
-    {withInfo ? <div>({showFrom} - {showTo} of {totalItems})</div> : ''}
+    <div>
+    {withInfo ? `${showFrom} - ${showTo} of ${totalItems}` : ''}
+    </div>
     <button
       type="button"
       disabled={page === 1}
