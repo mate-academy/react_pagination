@@ -24,7 +24,7 @@
     - should be triggered if only `perPage` was changed
 6. (*) Change view to show buttons only for the `first`, `last`, `current`, one `precurrent` and `postcurrent` pages
     - `< 1 ... 4 [5] 6 ... 12 >`
-    - `< [1] 2 ... 12 >`)
+    - `< [1] 2 ... 12 >`
 
 
 ## Workflow
