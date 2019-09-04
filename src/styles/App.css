@@ -1,0 +1,61 @@
+body {
+  background-image: linear-gradient(#fdffea, #7b8c8d);
+  min-height: 100vh;
+}
+
+h3 {
+  margin: 0 20px;
+}
+
+a {
+  color: #242424;
+}
+
+.page-header {
+  text-align: center;
+}
+
+.page-header__change-number {
+  margin: 0 12px;
+}
+
+.todos-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1200px;
+  min-height: 400px;
+  margin: 24px auto;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  color: #242424;
+}
+
+.todos-list__item {
+  background-color: #8ccbff;
+  height: 170px;
+}
+
+.todos-item__info {
+  display: flex;
+  padding-top: 10px;
+}
+
+.todos-item__user {
+  list-style: none;
+  padding-bottom: 10px;
+}
+
+.navigation {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+}
+
+.navigation-but {
+  width: 30px;
+  margin: 0 6px;
+  cursor: pointer;
+  background: #cbcbcb;
+  font-weight: bold;
+}
