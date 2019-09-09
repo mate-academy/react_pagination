@@ -12,23 +12,6 @@ const Pagination = ({
           of
       {people.length}
     </h1>
-    <form action="/" className="adress-delivery__header">
-      <span>people on pages</span>
-      <div
-        className="destination-details"
-      >
-        <select
-          name=""
-          onClick={handleDecide}
-          className="adress-delivery__destination-details"
-        >
-          <option value={3}>3</option>
-          <option value={5}>5</option>
-          <option value={10}>10</option>
-          <option value={15}>15</option>
-        </select>
-      </div>
-    </form>
   </div>
 );
 

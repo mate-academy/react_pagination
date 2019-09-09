@@ -16,6 +16,10 @@ li {
   color: white;
 }
 
+.active {
+  border: 1px solid black;
+}
+
 .adress-delivery__header {
   margin: 0 20px;
   grid-template-columns: auto auto 1fr;
@@ -29,6 +33,10 @@ li {
   padding: 0 12px;
   border: 1px solid #e0e0e0;
   cursor: pointer;
+}
+
+.destination-details {
+  padding-bottom: 23px;
 }
 
 .page-item {
@@ -57,8 +65,8 @@ li {
 
 .main__container {
   display: grid;
-  background: rgb(178, 218, 209);
-  border: 3px solid black;
+  grid-template-columns: 161px 708px 154px;
+  align-items: center;
 }
 
 .information {
@@ -84,4 +92,7 @@ button {
 .page-link {
   text-decoration: none;
   font-size: 20px;
+  padding: 10px;
+  border: 1px solid bisque;
+  display: inline;
 }

@@ -11,12 +11,17 @@ const Pagination = ({
   people, pageId, totals, page, perPage, onPageChange, handleDecide,
 }) => {
   let startRange = (page) * perPage + 1;
+  let endRange = ((page + 1) * perPage);
 
   if (startRange > people.length) {
-    startRange = 0;
+    if (perPage === 10) {
+      startRange = 1;
+      endRange = 10;
+    } else {
+      startRange = 1;
+      endRange = 15;
+    }
   }
-
-  let endRange = ((page + 1) * perPage);
 
   endRange = endRange < people.length ? endRange : people.length;
 
@@ -31,6 +36,7 @@ const Pagination = ({
           startRange={startRange}
           handleDecide={handleDecide}
         />
+
         <nav aria-label="...">
           <ul className="page__ul">
             <li className="page-item disabled">
@@ -75,29 +81,31 @@ const Pagination = ({
             </li>
           </ul>
         </nav>
+        <form action="/" className="adress-delivery__header">
+          <span>people on pages</span>
+          <div
+            className="destination-details"
+          >
+            <select
+              name=""
+              onClick={handleDecide}
+              className="adress-delivery__destination-details"
+            >
+              <option value={3}>3</option>
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={15}>15</option>
+            </select>
+          </div>
+        </form>
       </div>
+
       {pageId && people.slice(imgStart, endRange).map((person, index) => (
         <Person
           person={person}
           index={index}
         />
       ))}
-
-      {/* <p>
-        {(pageId && people.slice(imgStart, endRange)) && (
-          people.slice(imgStart, endRange).map(imag => (
-            <div className="product">
-              <img
-                alt="people"
-                className="product__img"
-                height={300}
-                src={imag.download_url}
-              />
-            </div>
-          ))
-        )
-        }
-      </p> */}
     </div>
 
   );
