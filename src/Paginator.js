@@ -10,18 +10,8 @@ import Person from './Person';
 const Pagination = ({
   people, pageId, totals, page, perPage, onPageChange, handleDecide,
 }) => {
-  let startRange = (page) * perPage + 1;
+  const startRange = (page) * perPage + 1;
   let endRange = ((page + 1) * perPage);
-
-  if (startRange > people.length) {
-    if (perPage === 10) {
-      startRange = 1;
-      endRange = 10;
-    } else {
-      startRange = 1;
-      endRange = 15;
-    }
-  }
 
   endRange = endRange < people.length ? endRange : people.length;
 

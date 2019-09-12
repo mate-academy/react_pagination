@@ -16,7 +16,7 @@ const getContent = async() => {
 class App extends React.Component {
   state = {
     people: [],
-    page: 0,
+    page: 1,
     perPage: 3,
     totals: 0,
   }
@@ -26,6 +26,7 @@ class App extends React.Component {
 
     this.setState(prevState => ({
       people,
+      page: 0,
       totals: Math.ceil(people.length / prevState.perPage),
     }));
   }
@@ -38,6 +39,12 @@ class App extends React.Component {
 
   handleDecide = (event) => {
     const { value } = event.target;
+
+    if (value !== this.state.perPage) {
+      this.setState(prevState => ({
+        page: 0,
+      }));
+    }
 
     this.setState(prevState => ({
       perPage: value,
