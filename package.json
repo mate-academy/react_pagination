@@ -1,5 +1,5 @@
 {
-  "homepage": "https://mate-academy.github.io/react_pagination",
+  "homepage": "https://alexandr123454.github.io/react_pagination",
   "name": "react_pagination",
   "version": "0.1.0",
   "private": true,
@@ -7,9 +7,11 @@
   "author": "Mate Academy",
   "license": "GPL-3.0",
   "dependencies": {
+    "axios": "^0.19.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-js-pagination": "^3.0.2",
     "react-scripts": "3.0.1"
   },
   "devDependencies": {
@@ -26,7 +28,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint --ext .jsx,.js ./src/",
+    "lint": "eslint --ext .jsx,.js ./src/ --fix",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
