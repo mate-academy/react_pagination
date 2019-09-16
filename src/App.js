@@ -1,25 +1,43 @@
 import React from 'react';
 import './App.css';
+import Pagination from './components/Pagination';
+import posts from './api/data';
 
 class App extends React.Component {
   state = {
-    tabs: [
-      { title: 'Tab 1', content: 'Some text 1' },
-      { title: 'Tab 2', content: 'Some text 2' },
-      { title: 'Tab 3', content: 'Some text 3' },
-    ],
+    totalItems: posts.length,
+    perPage: 10,
+    page: 1,
+    withInfo: true,
+  };
+
+  onPageChange = (selectedPage) => {
+    this.setState({
+      page: selectedPage,
+    });
   };
 
   render() {
-    const { tabs } = this.state;
-
     return (
       <div className="App">
         {/* eslint-disable-next-line */}
-        <h1>{tabs.length} tabs</h1>
+        <h1>{posts.length} posts</h1>
+        <Pagination
+          total={Math.ceil(this.state.totalItems / this.state.perPage)}
+          totalItems={this.state.totalItems}
+          perPage={this.state.perPage}
+          page={this.state.page}
+          posts={posts}
+          onPageChange={this.onPageChange}
+          withInfo={this.state.withInfo}
+          showFrom={this.state.perPage * (this.state.page - 1) + 1}
+          showTo={(this.state.perPage * this.state.page > this.state.totalItems)
+            ? this.state.totalItems
+            : (this.state.perPage * this.state.page)}
+        />
       </div>
     );
   }
-}
+};
 
 export default App;
