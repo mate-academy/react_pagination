@@ -10,7 +10,7 @@ export default class Pagination extends Component {
 
   render() {
     const {
-      total, perPage, page, withInfo,
+      total, perPage, page, withInfo, changeView,
     } = this.props;
 
     const pagesQuantity = Math.ceil(total / perPage);
@@ -32,34 +32,59 @@ export default class Pagination extends Component {
           >
             <span className="page-link">Previous</span>
           </li>
+          {(changeView) && (page !== 1) && (
+            <span className="page-dots">. . .</span>)}
 
-          {pagesList.map((item, i) => (
-            <li
-              key={item + i}
-              className={classNames('page-item', {
-                active: i === page - 1,
-              })}
-              onClick={i !== page - 1
-                ? () => this.handlerPageClick(i + 1)
-                : undefined}
-              onKeyPress={i !== page - 1
-                ? () => this.handlerPageKeyPress(i + 1)
-                : undefined}
-            >
-              <span className="page-link">
-                {i + 1}
-              </span>
-              {withInfo && (
-                <span className="page-info">
-                  {`${i * perPage + 1} - ${
-                    (i + 1) === pagesQuantity
-                      ? total
-                      : (i + 1) * perPage} of ${total}`}
+          {changeView
+            ? pagesList.map((item, i) => ((i === page - 1) || (i === page - 2) || (i === page)) && (
+              <li
+                key={item + i}
+                className={classNames('page-item', {
+                  active: i === page - 1,
+                })}
+                onClick={i !== page - 1
+                  ? () => this.handlerPageClick(i + 1)
+                  : undefined}
+              >
+                <span className="page-link">
+                  {i + 1}
                 </span>
-              )}
-            </li>
-          ))}
+                {withInfo && (
+                  <span className="page-info">
+                    {`${i * perPage + 1} - ${
+                      (i + 1) === pagesQuantity
+                        ? total
+                        : (i + 1) * perPage} of ${total}`}
+                  </span>
+                )}
+              </li>
+            ))
+            : pagesList.map((item, i) => (
+              <li
+                key={item + i}
+                className={classNames('page-item', {
+                  active: i === page - 1,
+                })}
+                onClick={i !== page - 1
+                  ? () => this.handlerPageClick(i + 1)
+                  : undefined}
+              >
+                <span className="page-link">
+                  {i + 1}
+                </span>
+                {withInfo && (
+                  <span className="page-info">
+                    {`${i * perPage + 1} - ${
+                      (i + 1) === pagesQuantity
+                        ? total
+                        : (i + 1) * perPage} of ${total}`}
+                  </span>
+                )}
+              </li>
+            ))}
 
+          {(changeView) && (page < pagesQuantity) && (
+            <span className="page-dots">. . .</span>)}
           <li
             className={classNames('page-item page-arrow', {
               disabled: page >= pagesQuantity,
@@ -80,11 +105,12 @@ export default class Pagination extends Component {
 }
 
 Pagination.propTypes = {
+  onPageChange: PropTypes.func.isRequired,
   total: PropTypes.number.isRequired,
   perPage: PropTypes.number.isRequired,
   page: PropTypes.number,
   withInfo: PropTypes.bool,
-  onPageChange: PropTypes.func.isRequired,
+  changeView: PropTypes.bool,
 };
 
 Pagination.defaultProps = {

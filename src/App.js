@@ -11,11 +11,16 @@ class App extends React.Component {
   state = {
     currentPage: 1,
     withInfo: false,
+    changeView: false,
     perPageSelect: {
       isShow: false,
       perPage: 5,
     },
   };
+
+  handlerChangeView = () => this.setState(({ changeView }) => ({
+    changeView: !changeView,
+  }));
 
   handlerWithInfoChange = () => this.setState(({ withInfo }) => ({
     withInfo: !withInfo,
@@ -40,7 +45,9 @@ class App extends React.Component {
   };
 
   render() {
-    const { perPageSelect, currentPage, withInfo } = this.state;
+    const {
+      perPageSelect, currentPage, withInfo, changeView,
+    } = this.state;
 
     return (
       <div className="app">
@@ -75,6 +82,8 @@ class App extends React.Component {
               ))}
             </div>
           </div>
+          {/* EOF .dropdown */}
+
           <div className="form-check">
             <label className="form-check-label" htmlFor="exampleCheck1">
               Show extra info
@@ -87,6 +96,21 @@ class App extends React.Component {
               />
             </label>
           </div>
+          {/* EOF withInfo */}
+
+          <div className="form-check">
+            <label className="form-check-label" htmlFor="change-view">
+              Change view
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id="change-view"
+                checked={changeView}
+                onChange={this.handlerChangeView}
+              />
+            </label>
+          </div>
+          {/* EOF change View */}
         </form>
 
         <Pagination
@@ -95,6 +119,7 @@ class App extends React.Component {
           page={currentPage}
           onPageChange={this.onPageChange}
           withInfo={withInfo}
+          changeView={changeView}
         />
       </div>
     );

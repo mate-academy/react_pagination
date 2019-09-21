@@ -27,4 +27,14 @@
   &-arrow {
     height: 100%;
   }
+
+  &-dots {
+    user-select: none;
+    display: flex;
+    align-items: baseline;
+    margin: 0 0.5em;
+    line-height: 2;
+    font-weight: 900;
+    color: #007bff;
+  }
 }
