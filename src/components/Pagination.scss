@@ -1,0 +1,30 @@
+.page {
+  &-item {
+    user-select: none;
+    cursor: pointer;
+
+    &.disabled {
+      cursor: not-allowed;
+    }
+  }
+
+  &-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  &-info {
+    display: block;
+    padding: 0.3em 0.4em;
+    font: {
+      size: 0.6em;
+      style: italic;
+    }
+  }
+
+  &-arrow {
+    height: 100%;
+  }
+}
