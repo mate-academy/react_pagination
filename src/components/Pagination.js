@@ -12,8 +12,9 @@ export default class Pagination extends Component {
     const {
       total, perPage, page, withInfo,
     } = this.props;
+
     const pagesQuantity = Math.ceil(total / perPage);
-    const pagesList = Array(pagesQuantity).fill(0);
+    const pagesList = Array(pagesQuantity).fill('pagination-');
 
     return (
       <nav>
@@ -34,6 +35,7 @@ export default class Pagination extends Component {
 
           {pagesList.map((item, i) => (
             <li
+              key={item + i}
               className={classNames('page-item', {
                 active: i === page - 1,
               })}

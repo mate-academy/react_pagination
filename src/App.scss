@@ -1,0 +1,20 @@
+.form {
+  margin: 2em;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: baseline;
+
+  &-check-input {
+    left: -0.03em;
+    margin-left: 0;
+  }
+}
+
+.dropdown {
+  display: inline-block;
+  margin-bottom: 2em;
+
+  &-menu.show {
+    width: 100%;
+  }
+}
