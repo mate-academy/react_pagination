@@ -15,6 +15,7 @@ export default class Pagination extends Component {
 
     const pagesQuantity = Math.ceil(total / perPage);
     const pagesList = Array(pagesQuantity).fill('pagination-');
+    const ischangeView = changeView && pagesQuantity > 3;
 
     return (
       <nav>
@@ -32,10 +33,11 @@ export default class Pagination extends Component {
           >
             <span className="page-link">Previous</span>
           </li>
-          {changeView && pagesQuantity > 3 && page !== 1 && (
-            <span className="page-dots">. . .</span>)}
+          {ischangeView && page !== 1 && (
+            <span className="page-dots">. . .</span>
+          )}
 
-          {pagesList.map((item, i) => (!(changeView && pagesQuantity > 3)
+          {pagesList.map((item, i) => (!ischangeView
             || ((i === page - 1) || (i === page - 2) || (i === page))) && (
             <li
               key={`${item}-${i}`}
@@ -60,8 +62,9 @@ export default class Pagination extends Component {
             </li>
           ))}
 
-          {changeView && pagesQuantity > 3 && page < pagesQuantity && (
-            <span className="page-dots">. . .</span>)}
+          {ischangeView && page < pagesQuantity && (
+            <span className="page-dots">. . .</span>
+          )}
           <li
             className={classNames('page-item page-arrow', {
               disabled: page >= pagesQuantity,
