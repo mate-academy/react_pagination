@@ -32,11 +32,12 @@ export default class Pagination extends Component {
           >
             <span className="page-link">Previous</span>
           </li>
-          {(changeView) && (page !== 1) && (
+          {changeView && pagesQuantity > 3 && page !== 1 && (
             <span className="page-dots">. . .</span>)}
 
-          {changeView
-            ? pagesList.map((item, i) => ((i === page - 1) || (i === page - 2) || (i === page)) && (
+          {changeView && pagesQuantity > 3
+            ? pagesList.map((item, i) => (
+              (i === page - 1) || (i === page - 2) || (i === page)) && (
               <li
                 key={item + i}
                 className={classNames('page-item', {
@@ -83,7 +84,7 @@ export default class Pagination extends Component {
               </li>
             ))}
 
-          {(changeView) && (page < pagesQuantity) && (
+          {changeView && pagesQuantity > 3 && page < pagesQuantity && (
             <span className="page-dots">. . .</span>)}
           <li
             className={classNames('page-item page-arrow', {
