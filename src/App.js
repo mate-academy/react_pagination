@@ -11,34 +11,40 @@ class App extends React.Component {
   state = {
     currentPage: 1,
     withInfo: false,
-    changeView: false,
+    changedView: false,
     perPageSelect: {
-      isShow: false,
+      isShown: false,
       perPage: 5,
     },
   };
 
-  handlerChangeView = () => this.setState(({ changeView }) => ({
-    changeView: !changeView,
-  }));
+  handleChangedView = () => {
+    this.setState(({ changedView }) => ({
+      changedView: !changedView,
+    }));
+  };
 
-  handlerWithInfoChange = () => this.setState(({ withInfo }) => ({
-    withInfo: !withInfo,
-  }));
+  handleWithInfoChange = () => {
+    this.setState(({ withInfo }) => ({
+      withInfo: !withInfo,
+    }));
+  };
 
   onPageChange = currentPage => this.setState({ currentPage });
 
-  handlerDropdownToggle = () => this.setState(({ perPageSelect }) => ({
-    perPageSelect: {
-      isShow: !perPageSelect.isShow,
-      perPage: perPageSelect.perPage,
-    },
-  }));
+  handleDropdownToggle = () => {
+    this.setState(({ perPageSelect }) => ({
+      perPageSelect: {
+        ...perPageSelect,
+        isShown: !perPageSelect.isShown,
+      },
+    }));
+  };
 
-  handlerDropdownSelect = (e) => {
+  handleDropdownSelect = (e) => {
     this.setState({
       perPageSelect: {
-        isShow: false,
+        isShown: false,
         perPage: +e.target.dataset.value,
       },
     });
@@ -46,7 +52,7 @@ class App extends React.Component {
 
   render() {
     const {
-      perPageSelect, currentPage, withInfo, changeView,
+      perPageSelect, currentPage, withInfo, changedView,
     } = this.state;
 
     return (
@@ -60,13 +66,13 @@ class App extends React.Component {
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
-              onClick={this.handlerDropdownToggle}
+              onClick={this.handleDropdownToggle}
             >
               Pagination per page
             </button>
             <div
               className={classNames('dropdown-menu', {
-                show: perPageSelect.isShow,
+                show: perPageSelect.isShown,
               })}
               aria-labelledby="dropdownMenuButton"
             >
@@ -75,14 +81,13 @@ class App extends React.Component {
                   key={item}
                   className="dropdown-item"
                   data-value={item}
-                  onClick={this.handlerDropdownSelect}
+                  onClick={this.handleDropdownSelect}
                 >
                   {item}
                 </p>
               ))}
             </div>
           </div>
-          {/* EOF .dropdown */}
 
           <div className="form-check">
             <label className="form-check-label" htmlFor="exampleCheck1">
@@ -92,11 +97,10 @@ class App extends React.Component {
                 className="form-check-input"
                 id="exampleCheck1"
                 checked={withInfo}
-                onChange={this.handlerWithInfoChange}
+                onChange={this.handleWithInfoChange}
               />
             </label>
           </div>
-          {/* EOF withInfo */}
 
           <div className="form-check">
             <label className="form-check-label" htmlFor="change-view">
@@ -105,12 +109,11 @@ class App extends React.Component {
                 type="checkbox"
                 className="form-check-input"
                 id="change-view"
-                checked={changeView}
-                onChange={this.handlerChangeView}
+                checked={changedView}
+                onChange={this.handleChangedView}
               />
             </label>
           </div>
-          {/* EOF change View */}
         </form>
 
         <Pagination
@@ -119,7 +122,7 @@ class App extends React.Component {
           page={currentPage}
           onPageChange={this.onPageChange}
           withInfo={withInfo}
-          changeView={changeView}
+          changedView={changedView}
         />
       </div>
     );
