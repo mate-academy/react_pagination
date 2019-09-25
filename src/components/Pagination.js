@@ -48,7 +48,7 @@ export default class Pagination extends Component {
 
     const pagesQuantity = Math.ceil(total / perPage);
     const pagesList = Array(pagesQuantity).fill('pagination-');
-    const ischangedView = changedView && pagesQuantity > 3;
+    const isChangedView = changedView && pagesQuantity > 3;
 
     return (
       <nav>
@@ -68,15 +68,16 @@ export default class Pagination extends Component {
           </li>
 
           {pagesList.map((item, i) => (
-            (!ischangedView
+            (!isChangedView
               || ((i === page - 1)
                 || (i === page - 2)
                 || (i === page)
                 || (i === 0)
                 || (i === pagesList.length - 1)))
               ? this.blockPageItem(i)
-              : ((i === 1) || (i === pagesList.length - 2))
-              && (<span className="page-dots">. . .</span>)
+              : ((i === 1) || (i === pagesList.length - 2)) && (
+                <span className="page-dots">. . .</span>
+              )
           ))}
 
           <li
