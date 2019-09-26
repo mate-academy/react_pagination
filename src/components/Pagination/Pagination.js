@@ -75,7 +75,15 @@ const Pagination = ({
               </span>
             )}
           </li>
-        ))) || '🔵')}
+        )))).map((elem, i, arr) => {
+          if (elem) {
+            return elem;
+          }
+
+          if (!elem && arr[i + 1]) {
+            return '🔵🔵🔵';
+          }
+        })}
         <li
           className={classNames({
             'page-item': true,
