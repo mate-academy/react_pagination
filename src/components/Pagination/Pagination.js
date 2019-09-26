@@ -48,35 +48,34 @@ const Pagination = ({
             )
         ) || !isChangedView)
         && (
-          <>
-            <li
-              className={
-                classNames({
-                  'page-item': true,
-                  active: currentPage === i + 1,
-                })}
+          <li
+            className={
+              classNames({
+                'page-item': true,
+                active: currentPage === i + 1,
+              })}
+            name={i + 1}
+            key={`${elem}-${i}`}
+          >
+            <a
+              className="page-link"
+              href="/"
               name={i + 1}
+              onClick={e => changeCurrentPage(e)}
             >
-              <a
-                className="page-link"
-                href="/"
-                name={i + 1}
-                onClick={e => changeCurrentPage(e)}
-              >
-                {i + 1}
-              </a>
-              {isAdditionalInfo && (
-                <span className="additional-info">
-                  {`${(i + 1) * itemsPerPage - itemsPerPage}-${
-                    numberOfItems > (i + 1) * itemsPerPage
-                      ? (i + 1) * itemsPerPage
-                      : numberOfItems
-                  }`}
-                </span>
-              )}
-            </li>
-          </>
-        ))) || '.')}
+              {i + 1}
+            </a>
+            {isAdditionalInfo && (
+              <span className="additional-info">
+                {`${(i + 1) * itemsPerPage - itemsPerPage}-${
+                  numberOfItems > (i + 1) * itemsPerPage
+                    ? (i + 1) * itemsPerPage
+                    : numberOfItems
+                }`}
+              </span>
+            )}
+          </li>
+        ))) || '🔵')}
         <li
           className={classNames({
             'page-item': true,
