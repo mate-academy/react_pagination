@@ -1,22 +1,41 @@
 import React from 'react';
+
+import Pagination from './Pagination';
+
 import './App.css';
 
 class App extends React.Component {
   state = {
-    tabs: [
-      { title: 'Tab 1', content: 'Some text 1' },
-      { title: 'Tab 2', content: 'Some text 2' },
-      { title: 'Tab 3', content: 'Some text 3' },
-    ],
+    page: 0,
+    perPage: 5,
+    total: 42,
   };
 
+  onPageChange = (changedPage) => {
+    this.setState({
+      page: changedPage,
+    });
+  }
+
+  onPerPageChange = ({ target: { value } }) => {
+    this.setState({
+      perPage: +value,
+    });
+  }
+
   render() {
-    const { tabs } = this.state;
+    const { page, perPage, total } = this.state;
 
     return (
-      <div className="App">
-        {/* eslint-disable-next-line */}
-        <h1>{tabs.length} tabs</h1>
+      <div className="app">
+        <Pagination
+          total={total}
+          perPage={perPage}
+          page={page}
+          preparedArrPages={Array(Math.ceil(total / perPage))}
+          onPageChange={this.onPageChange}
+          onPerPageChange={this.onPerPageChange}
+        />
       </div>
     );
   }
