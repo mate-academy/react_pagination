@@ -8,8 +8,7 @@ const Pagination = ({
   itemsPerPage,
   currentPage,
   changeCurrentPage,
-  changeToNextPage,
-  changeToPrevPage,
+  changeToPrevOrNextPage,
   isAdditionalInfo,
   isChangedView,
 }) => {
@@ -28,9 +27,12 @@ const Pagination = ({
           <a
             className="page-link"
             href="/"
+            name="prev-page"
             onClick={(e) => {
+              const { name } = e.target;
+
               if (currentPage !== 1) {
-                changeToPrevPage(e);
+                changeToPrevOrNextPage(e, name);
               }
             }}
           >
@@ -94,9 +96,12 @@ const Pagination = ({
           <a
             className="page-link"
             href="/"
+            name="next-page"
             onClick={(e) => {
+              const { name } = e.target;
+
               if (currentPage !== navArray.length) {
-                changeToNextPage(e);
+                changeToPrevOrNextPage(e, name);
               }
             }}
           >
@@ -113,8 +118,7 @@ Pagination.propTypes = {
   itemsPerPage: PropTypes.number.isRequired,
   currentPage: PropTypes.number.isRequired,
   changeCurrentPage: PropTypes.func.isRequired,
-  changeToNextPage: PropTypes.func.isRequired,
-  changeToPrevPage: PropTypes.func.isRequired,
+  changeToPrevOrNextPage: PropTypes.func.isRequired,
   isAdditionalInfo: PropTypes.bool.isRequired,
   isChangedView: PropTypes.bool.isRequired,
 };

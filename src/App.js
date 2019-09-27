@@ -19,17 +19,12 @@ class App extends React.Component {
     });
   }
 
-  changeToNextPage = (event) => {
+  changeToPrevOrNextPage = (event, name) => {
     event.preventDefault();
     this.setState(({ currentPage }) => ({
-      currentPage: currentPage + 1,
-    }));
-  }
-
-  changeToPrevPage = (event) => {
-    event.preventDefault();
-    this.setState(({ currentPage }) => ({
-      currentPage: currentPage - 1,
+      currentPage: name === 'prev-page'
+        ? currentPage - 1
+        : currentPage + 1,
     }));
   }
 
@@ -77,8 +72,7 @@ class App extends React.Component {
           itemsPerPage={itemsPerPage}
           currentPage={currentPage}
           changeCurrentPage={this.changeCurrentPage}
-          changeToNextPage={this.changeToNextPage}
-          changeToPrevPage={this.changeToPrevPage}
+          changeToPrevOrNextPage={this.changeToPrevOrNextPage}
           isAdditionalInfo={isAdditionalInfo}
           isChangedView={isChangedView}
         />
