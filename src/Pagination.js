@@ -204,7 +204,10 @@ class Pagination extends React.Component {
                     }
 
                     {
-                      index === page - 2 && <p>...</p>
+                      index === page - 2
+                        && arrPages.length > 3
+                        && index !== 0
+                        && <p>...</p>
                     }
 
                     {
@@ -232,7 +235,10 @@ class Pagination extends React.Component {
                     }
 
                     {
-                      index === page + 2 && <p>...</p>
+                      index === page + 2
+                        && arrPages.length > 3
+                        && index !== arrPages.length - 1
+                        &&  <p>...</p>
                     }
 
                     {
