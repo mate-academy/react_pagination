@@ -19,8 +19,7 @@ class App extends React.Component {
 
   onPerPageChange = ({ target: { value } }) => {
     this.setState({
-      perPage: +value,
-      page: 0,
+      perPage: value,
     });
   }
 

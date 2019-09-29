@@ -2,8 +2,12 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
+import Navigation from './Navigation';
+import Setting from './Setting';
+import PrevButton from './PrevButton';
+import NextButton from './NextButton';
+
 let _ = require('lodash');
-const classNames = require('classnames');
 
 class Pagination extends React.Component {
   state = {
@@ -36,71 +40,71 @@ class Pagination extends React.Component {
     });
   }
 
-  isUnDisable = (page) => {
+  toggleButtonsChangedQuantity = (event) => {
+    const { onPerPageChange, preparedArrPages, page } = this.props;
+
+    onPerPageChange(event);
+
+    if (page !== 0 || page !== preparedArrPages.length) {
+      this.setState({
+        nextDisabled: page === preparedArrPages.length,
+        prevDisable: page === 0,
+      });
+    }
+  }
+
+  togglePages = (page) => {
     const { onPageChange, preparedArrPages } = this.props;
 
     onPageChange(page);
 
-    if (page !== 0 || page !== preparedArrPages.length) {
-      this.setState({
-        nextDisabled: false,
-        prevDisable: false,
-      });
-    }
+    this.setState({
+      nextDisabled: page === preparedArrPages.length - 1,
+      prevDisable: page === 0,
+    });
   }
 
-  nextPage = (page) => {
+  togglePrevNext = ({ target: { name } }, page) => {
     const { onPageChange, preparedArrPages } = this.props;
+    const { prevDisable, nextDisabled } = this.state;
 
-    if (page === preparedArrPages.length - 1) {
+    if (name === 'previous' && (page === 0 || page >= 0)) {
       onPageChange(page);
-      this.setState({
-        nextDisabled: true,
-      });
-    } else if (page !== preparedArrPages.length) {
-      onPageChange(page);
-      this.setState({
-        prevDisable: false,
-      });
-    } else {
-      this.setState({
-        nextDisabled: true,
-        prevDisable: false,
-      });
     }
-  }
 
-  prevPage = (page) => {
-    const { onPageChange } = this.props;
-
-    if (page === 0) {
+    if (name === 'next' && (page === preparedArrPages.length - 1
+      || page !== preparedArrPages.length)) {
       onPageChange(page);
-      this.setState({
-        prevDisable: true,
-      });
-    } else if (page >= 0) {
-      onPageChange(page);
-
-      this.setState({
-        nextDisabled: false,
-      });
-    } else {
-      this.setState({
-        prevDisable: true,
-        nextDisabled: false,
-      });
     }
+
+    const previousPrevButton = page === 0 || !(page >= 0)
+      ? true
+      : prevDisable;
+    const nextPrevButton = page === 0
+      ? nextDisabled
+      : false;
+    const previousNextButton = page === preparedArrPages.length - 1
+      ? prevDisable
+      : false;
+    const nextNextButton = page === preparedArrPages.length - 1
+    || !(page !== preparedArrPages.length)
+      ? true
+      : nextDisabled;
+
+    this.setState({
+      prevDisable: name === 'previous'
+        ? previousPrevButton
+        : previousNextButton,
+      nextDisabled: name === 'previous'
+        ? nextPrevButton
+        : nextNextButton,
+    });
   }
 
-  toggleWithInfo = () => {
-    this.setState(({ withInfo }) => ({
-      withInfo: !withInfo,
-    }));
-  }
-
-  changeView = () => {
-    this.setState(({ changedView }) => ({
-      changedView: !changedView,
+  toggleSetting = ({ target: { name } }) => {
+    this.setState(({ withInfo, changedView }) => ({
+      changedView: name === 'changeView' ? !changedView : changedView,
+      withInfo: name === 'withInfo' ? !withInfo : withInfo,
     }));
   }
 
@@ -109,11 +113,8 @@ class Pagination extends React.Component {
     const {
       nextDisabled,
       prevDisable,
-      withInfo,
-      changedView,
     } = this.state;
     const {
-      onPerPageChange,
       page,
       perPage,
       preparedArrPages,
@@ -141,159 +142,32 @@ class Pagination extends React.Component {
 
     return (
       <>
-        <div className="toggle-setting">
-          <p>Show how many elements on page:</p>
-          <input
-            onChange={this.toggleWithInfo}
-            type="checkbox"
-            className="with-info"
-          />
-          <p>Quantity elements on page:</p>
-          <select
-            onChange={event => onPerPageChange(event)}
-            value={perPage}
-            className="repPage"
-          >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-          </select>
-          <p className="change-view">Change view:</p>
-          <input
-            onChange={this.changeView}
-            type="checkbox"
-            className="with-info"
-          />
-        </div>
+        <Setting
+          toggleSetting={this.toggleSetting}
+          toggleButtonsChangedQuantity={this.toggleButtonsChangedQuantity}
+          perPage={perPage}
+        />
 
         <nav aria-label="page navigation example">
           <ul className="pagination">
-            <li className={classNames('page-item', { disabled: prevDisable })}>
-              <a
-                onClick={() => this.prevPage(page - 1)}
-                className="page-link"
-                href="#"
-              >
-                Previous
-              </a>
-            </li>
-            { arrPages.map((pagen, index) => (
-              changedView
-                ? (
-                  <>
-                    {
-                      index === 0 && (
-                        <li
-                          className={
-                            classNames('page-item', 'item',
-                              { active: index === page })
-                          }
-                          key={_.uniqueId('key_')}
-                        >
-                          <a
-                            onClick={() => this.isUnDisable(index)}
-                            className="page-link"
-                            href="#"
-                          >
-                            {index + 1}
-                          </a>
-                          {withInfo && <div>{pagen.additionalInfo}</div>}
-                        </li>
-                      )
-                    }
 
-                    {
-                      index === page - 2
-                        && arrPages.length > 3
-                        && index !== 0
-                        && <p>...</p>
-                    }
+            <PrevButton
+              togglePrevNext={this.togglePrevNext}
+              page={page}
+              prevDisable={prevDisable}
+            />
+            <Navigation
+              arrPages={arrPages}
+              page={page}
+              state={this.state}
+              togglePages={this.togglePages}
+            />
+            <NextButton
+              togglePrevNext={this.togglePrevNext}
+              page={page}
+              nextDisabled={nextDisabled}
+            />
 
-                    {
-                      (index === page
-                        || index === page - 1
-                        || index === page + 1)
-                          && (index !== 0 && index !== arrPages.length - 1)
-                        && (
-                          <li
-                            className={classNames('page-item', 'item',
-                              { active: index === page })
-                            }
-                            key={_.uniqueId('key_')}
-                          >
-                            <a
-                              onClick={() => this.isUnDisable(index)}
-                              className="page-link"
-                              href="#"
-                            >
-                              {index + 1}
-                            </a>
-                            {withInfo && <div>{pagen.additionalInfo}</div>}
-                          </li>
-                        )
-                    }
-
-                    {
-                      index === page + 2
-                        && arrPages.length > 3
-                        && index !== arrPages.length - 1
-                        &&  <p>...</p>
-                    }
-
-                    {
-                      index === arrPages.length - 1 && (
-                        <li
-                          className={classNames('page-item', 'item',
-                            { active: index === page })
-                          }
-                          key={_.uniqueId('key_')}
-                        >
-                          <a
-                            onClick={() => this.isUnDisable(index)}
-                            className="page-link"
-                            href="#"
-                          >
-                            {index + 1}
-                          </a>
-                          {withInfo && <div>{pagen.additionalInfo}</div>}
-                        </li>
-                      )
-                    }
-                  </>
-                )
-                : (
-                  <li
-                    className={classNames('page-item', 'item',
-                      { active: index === page })
-                    }
-                    key={_.uniqueId('key_')}
-                  >
-                    <a
-                      onClick={() => this.isUnDisable(index)}
-                      className="page-link"
-                      href="#"
-                    >
-                      {index + 1}
-                    </a>
-                    {withInfo && (
-                      <div className="addInfo">
-                        {pagen.additionalInfo}
-                      </div>
-                    )}
-                  </li>
-                )
-            ))
-            }
-            <li className={classNames('page-item', { disabled: nextDisabled })}>
-              <a
-                onClick={() => this.nextPage(page + 1)}
-                className="page-link"
-                href="#"
-              >
-                Next
-              </a>
-            </li>
           </ul>
         </nav>
       </>
