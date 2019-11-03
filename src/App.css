@@ -1,1 +1,14 @@
+body {
+  padding: 50px;
+}
 
+.todosOnPage {
+  width: max-content;
+  margin: 10px auto;
+}
+
+.pageContent {
+  width: max-content;
+  padding: 50px;
+  margin: 0 auto;
+}
