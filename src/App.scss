@@ -1,0 +1,39 @@
+body {
+  margin: 100px 30px;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  padding: 20px;
+  padding-right: 10px;
+  background-color: lightsteelblue;
+  border-radius: 10px;
+  list-style: none;
+
+  &__info {
+    width: 110px;
+    margin: 0;
+  }
+
+  &__item {
+    margin-right: 10px;
+  }
+
+  &__link {
+    padding: 6px 10px;
+    font-family: serif;
+    font-size: 22px;
+    color: darkslateblue;
+    background-color: lightgray;
+    border-radius: 7px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+
+    &--current {
+      background-color: beige;
+    }
+  }
+}
