@@ -1,22 +1,59 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
+import Pagination from './Pagination';
+import Content from './Content';
 
 class App extends React.Component {
   state = {
-    tabs: [
-      { title: 'Tab 1', content: 'Some text 1' },
-      { title: 'Tab 2', content: 'Some text 2' },
-      { title: 'Tab 3', content: 'Some text 3' },
+    goods: [
+      'Dumplings',
+      'Carrot',
+      'Eggs',
+      'Ice cream',
+      'Apple',
+      'Bread',
+      'Fish',
+      'Honey',
+      'Jam',
+      'Garlic',
+      'Butter',
+      'Apples',
+      'Cherries',
+      'Cake',
+      'Sweets',
+      'Chicken',
+      'Oatmeal',
+      'Tomatoes',
+      'Pizza',
+      'Pancakes',
+      'Coffee',
     ],
+
+    activePageIndex: 1,
+    itemsPerPage: 5,
+  };
+
+  onPageChange = (index) => {
+    this.setState({ activePageIndex: index });
   };
 
   render() {
-    const { tabs } = this.state;
+    const { goods, activePageIndex, itemsPerPage } = this.state;
 
     return (
       <div className="App">
-        {/* eslint-disable-next-line */}
-        <h1>{tabs.length} tabs</h1>
+        <h1>Tabs</h1>
+        <Pagination
+          selectedPage={activePageIndex}
+          handlePageChange={this.onPageChange}
+          total={goods.length}
+          perPage={itemsPerPage}
+        />
+        <Content
+          selectedPage={activePageIndex}
+          content={goods}
+          perPage={itemsPerPage}
+        />
       </div>
     );
   }
