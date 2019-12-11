@@ -32,6 +32,11 @@ body {
     outline: none;
     cursor: pointer;
 
+    &--unactive {
+      opacity: 0.6;
+      cursor: auto;
+    }
+
     &--current {
       background-color: beige;
     }

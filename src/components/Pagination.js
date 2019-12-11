@@ -16,7 +16,10 @@ const Pagination = ({ total, perPage, page, handleChange }) => {
         <li className="pagination__item">
           <button
             type="button"
-            className="pagination__link"
+            className={page - 1
+              ? 'pagination__link'
+              : 'pagination__link pagination__link--unactive'
+            }
             onClick={() => {
               (page - 1) && handleChange(page - 1);
             }}
@@ -43,7 +46,10 @@ const Pagination = ({ total, perPage, page, handleChange }) => {
         <li className="pagination__item">
           <button
             type="button"
-            className="pagination__link"
+            className={page + 1 <= pages.length
+              ? 'pagination__link'
+              : 'pagination__link pagination__link--unactive'
+            }
             onClick={() => {
               (page + 1 <= pages.length) && handleChange(page + 1);
             }}
