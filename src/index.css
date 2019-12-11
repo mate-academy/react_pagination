@@ -1,0 +1,19 @@
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.posts {
+  min-height: 75vh;
+}
+
+.activeApp {
+  position: relative;
+  display: block;
+  padding: 0.5rem 0.75rem;
+  margin-left: -1px;
+  line-height: 1.25;
+  background-color: #007bff;
+  border: 1px solid #dee2e6;
+}
