@@ -1,4 +1,5 @@
 import React from 'react';
+import { Header } from 'semantic-ui-react';
 import './App.css';
 
 import Pagination from './components/Pagination';
@@ -92,17 +93,21 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <h1>
-          Page number:
-          {page}
-        </h1>
-        <span>Items per page</span>
+        <Header as="h2">
+          <Header.Content>
+            Page number:
+            {page}
+            <Header.Subheader>
+              Items per page: &nbsp;
 
-        <select onChange={this.onAmountOfItemsPerPageChange}>
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="15">15</option>
-        </select>
+              <select onChange={this.onAmountOfItemsPerPageChange}>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+              </select>
+            </Header.Subheader>
+          </Header.Content>
+        </Header>
 
         <table>
           <tbody>

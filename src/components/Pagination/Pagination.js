@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Button } from 'semantic-ui-react';
 
 const Pagination = ({ page,
   totalAmountOfPages,
@@ -33,25 +34,37 @@ const Pagination = ({ page,
 
   return (
     <>
-      <ul>
+      <ul className="button-list">
         <li className={setPrevButtonToDisabled(page)}>
-          <button type="button" onClick={() => onPageChange(page - 1)}>
-            Previous
-          </button>
+          <Button
+            basic
+            color="blue"
+            size="mini"
+            content="Previous"
+            onClick={() => onPageChange(page - 1)}
+          />
         </li>
 
         {numberOfPages.map(number => (
           <li key={number}>
-            <button type="button" onClick={() => onPageChange(number)}>
-              {number}
-            </button>
+            <Button
+              basic
+              color="yellow"
+              size="mini"
+              content={number}
+              onClick={() => onPageChange(number)}
+            />
           </li>
         ))}
 
         <li className={setNextButtonToDisabled(page)}>
-          <button type="button" onClick={() => onPageChange(page + 1)}>
-            Next
-          </button>
+          <Button
+            basic
+            color="blue"
+            size="mini"
+            content="Next"
+            onClick={() => onPageChange(page + 1)}
+          />
         </li>
       </ul>
     </>
