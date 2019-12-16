@@ -67,7 +67,7 @@ class Pagination extends React.Component {
 
         <ul>
           {tableData.slice(indexOfFirstItem, indexOfLastItem).map(
-            (item, index) => <li key={+new Date() + Math.random()}>{item}</li>
+            item => <li key={+new Date() + Math.random()}>{item}</li>
           )}
         </ul>
 
