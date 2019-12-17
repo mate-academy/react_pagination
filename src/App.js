@@ -1,22 +1,57 @@
 import React from 'react';
 import './App.css';
+import Text from './Text';
+import Pagination from './Pagination';
 
 class App extends React.Component {
   state = {
-    tabs: [
-      { title: 'Tab 1', content: 'Some text 1' },
-      { title: 'Tab 2', content: 'Some text 2' },
-      { title: 'Tab 3', content: 'Some text 3' },
-    ],
+    page: 1,
+    perPage: 10,
+    content: ['A', 'E', 'I', 'O', 'U', 'Y', 'B', 'C',
+      'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P',
+      'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'],
   };
 
+  onPageChange = page => (
+    this.setState({ page })
+  )
+
   render() {
-    const { tabs } = this.state;
+    const { page, perPage, content } = this.state;
+    const itemsNumber = [5, 10, 15, 20];
 
     return (
       <div className="App">
-        {/* eslint-disable-next-line */}
-        <h1>{tabs.length} tabs</h1>
+        <select
+          className="app__select"
+          onChange={event => (
+            this.setState({
+              page: 1,
+              perPage: event.target.value,
+            })
+          )}
+        >
+          {itemsNumber.map(item => (
+            <option
+              value={item}
+              key={item}
+              selected={item === perPage}
+            >
+              {item}
+            </option>
+          ))}
+        </select>
+        <Text
+          content={content}
+          perPage={perPage}
+          page={page}
+        />
+        <Pagination
+          total={content.length}
+          page={page}
+          perPage={perPage}
+          onPageChange={this.onPageChange}
+        />
       </div>
     );
   }
