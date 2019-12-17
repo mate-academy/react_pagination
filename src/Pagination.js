@@ -40,12 +40,15 @@ class Pagination extends React.Component {
 
   render() {
     const { startPage, currentPage, perPage } = this.state;
-    const { tableData } = this.props;
+    const tableDataWithIds = this.props.tableData.map((item, index) => ({
+      id: index,
+      data: item,
+    }));
     const indexOfLastItem = currentPage * perPage;
     const indexOfFirstItem = indexOfLastItem - perPage;
     const pageNumbers = [];
 
-    for (let i = 1; i <= Math.ceil(tableData.length / perPage); i += 1) {
+    for (let i = 1; i <= Math.ceil(tableDataWithIds.length / perPage); i += 1) {
       pageNumbers.push(i);
     }
 
@@ -66,8 +69,8 @@ class Pagination extends React.Component {
         </select>
 
         <ul>
-          {tableData.slice(indexOfFirstItem, indexOfLastItem).map(
-            item => <li key={+new Date() + Math.random()}>{item}</li>
+          {tableDataWithIds.slice(indexOfFirstItem, indexOfLastItem).map(
+            item => <li key={item.id}>{item.data}</li>
           )}
         </ul>
 
@@ -75,9 +78,13 @@ class Pagination extends React.Component {
           <li>
             {this.props.withInfo && (
               <span className="pagination__info">
-                {`${indexOfFirstItem + 1}-${indexOfLastItem > tableData.length
-                  ? tableData.length
-                  : currentPage * perPage}`}
+                {
+                  `${indexOfFirstItem + 1}-${
+                    indexOfLastItem > tableDataWithIds.length
+                      ? tableDataWithIds.length
+                      : currentPage * perPage
+                  }`
+                }
               </span>
             )}
           </li>
