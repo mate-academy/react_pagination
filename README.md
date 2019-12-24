@@ -25,6 +25,8 @@
 6. (*) Change view to show buttons only for the `first`, `last`, `current`, one `precurrent` and `postcurrent` pages
     - `< 1 ... 4 [5] 6 ... 12 >`
     - `< [1] 2 ... 12 >`
+7. (*) Integrate React Router to show selected `?page=2&perPage=7` as `queryParams`
+    - Read the `queryParams` from URL when component appears and apply them
 
 
 ## Workflow
