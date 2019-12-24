@@ -1,0 +1,39 @@
+.pagination {
+  display: flex;
+  border-radius: 0.25rem;
+  padding-left: 0;
+  list-style: none;
+
+  &__info {
+    display: flex;
+    justify-content: center;
+    line-height: 2rem;
+    width: 40px;
+    height: 20px;
+
+  }
+
+  &__page {
+    outline: none;
+    cursor: pointer;
+    padding: 0.5rem 0.75rem;
+    line-height: 1.25;
+    color: #007bff;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+
+    &--disabled {
+      color: #6c757d;
+      pointer-events: none;
+      cursor: auto;
+      background-color: #fff;
+      border-color: #dee2e6;
+    }
+
+    &--active {
+      color: #fff;
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+  }
+}

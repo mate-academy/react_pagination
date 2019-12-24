@@ -1,22 +1,22 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
+import Pagination from './Pagination';
 
 class App extends React.Component {
   state = {
-    tabs: [
-      { title: 'Tab 1', content: 'Some text 1' },
-      { title: 'Tab 2', content: 'Some text 2' },
-      { title: 'Tab 3', content: 'Some text 3' },
-    ],
+    tableData: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k'],
   };
 
   render() {
-    const { tabs } = this.state;
-
     return (
       <div className="App">
-        {/* eslint-disable-next-line */}
-        <h1>{tabs.length} tabs</h1>
+        <h1>Pagination</h1>
+        <Pagination
+          tableData={this.state.tableData} /* required */
+          perPage={5} /* optional with 5 by default */
+          page={1} /* optional with 1 by default */
+          withInfo
+        />
       </div>
     );
   }
