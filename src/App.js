@@ -1,22 +1,90 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
+import TabsList from './components/TabsList';
+import Pagination from './components/Pagination';
+
+const options = [1, 2, 3, 5, 10, 20];
+
+const generateTabs = (amount) => {
+  const result = [];
+
+  for (let i = 1; i <= amount; i += 1) {
+    result.push({
+      title: `Tab ${i}`,
+      content: `Some text ${i}`,
+    });
+  }
+
+  return result;
+};
 
 class App extends React.Component {
   state = {
-    tabs: [
-      { title: 'Tab 1', content: 'Some text 1' },
-      { title: 'Tab 2', content: 'Some text 2' },
-      { title: 'Tab 3', content: 'Some text 3' },
-    ],
+    page: 1,
+    itemsPerPage: 1,
   };
 
+  switchPage = (newPage) => {
+    this.setState({
+      page: newPage,
+    });
+  };
+
+  changeItemsPerPage = (event) => {
+    this.setState({
+      itemsPerPage: +event.target.value,
+      page: 1,
+    });
+  }
+
   render() {
-    const { tabs } = this.state;
+    const { page, itemsPerPage } = this.state;
+    const tabs = generateTabs(95);
+    const firstTab = (page - 1) * itemsPerPage + 1;
+    const lastTab = page * itemsPerPage;
+    const visibleTabs = tabs.filter(
+      (_, index) => index >= firstTab - 1 && index < lastTab
+    );
 
     return (
       <div className="App">
-        {/* eslint-disable-next-line */}
-        <h1>{tabs.length} tabs</h1>
+        <h1 className="main-title">
+          {`${tabs.length} tabs`}
+        </h1>
+
+        <div>
+          Items per page: &nbsp;
+
+          <select
+            onChange={this.changeItemsPerPage}
+            className="select-pages"
+          >
+            {options.map(option => (
+              <option
+                value={option}
+                key={option}
+                className="select-pages__option"
+              >
+                {option}
+              </option>
+            ))}
+          </select>
+
+          <p>{`Current page: ${page}`}</p>
+        </div>
+
+        <Pagination
+          totalItemsAmount={tabs.length}
+          itemsPerPage={itemsPerPage}
+          currentPage={page}
+          onSwitchPage={this.switchPage}
+          firstItem={firstTab}
+          lastItem={lastTab}
+        />
+
+        <TabsList
+          tabs={visibleTabs}
+        />
       </div>
     );
   }

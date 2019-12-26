@@ -1,0 +1,50 @@
+/* eslint-disable-next-line */
+@import url("https://fonts.googleapis.com/css?family=Lobster|Oleo+Script|Original+Surfer&display=swap");
+
+body {
+  background-color: rgb(250, 248, 215);
+  padding-left: 40px;
+}
+
+.main-title {
+  color: #d04764;
+  font-family: Lobster, cursive;
+  margin: 0 0 18px;
+  text-shadow: 1px 0 0 #fff;
+}
+
+.select-pages {
+  cursor: pointer;
+
+  &__option {
+    cursor: pointer;
+  }
+}
+
+.tabs {
+
+  &__title {
+    color: #2ca4b0;
+    font-family: "Oleo Script", cursive;
+    font-size: 18px;
+    line-height: 24px;
+    margin: 0;
+    text-shadow: 1px 0 0 #fff;
+  }
+
+  &__content {
+    color: #333;
+    font-family: "Original Surfer", cursive;
+    font-size: 14px;
+    line-height: 18px;
+    margin: 0 0 24px;
+  }
+}
+
+.paginator {
+  &__button {
+    cursor: pointer;
+    border-color: rgb(236, 236, 184);
+    background-color: none;
+  }
+}
