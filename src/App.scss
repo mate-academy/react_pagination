@@ -1,0 +1,50 @@
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  margin: auto;
+  width: 400px;
+  color: darkblue;
+}
+
+.pagination {
+  display: flex;
+  height: 50px;
+}
+
+.button {
+  line-height: 1.25;
+  font-size: 1.1em;
+  color: #007bff;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  height: 100%;
+  width: 50px;
+  outline: none;
+  border-left: none;
+
+  &_prev {
+    border-left: 1px solid #dee2e6;
+  }
+
+  &:enabled:hover {
+    cursor: pointer;
+    background-color: powderblue;
+  }
+
+  &:disabled {
+    color: lightsteelblue;
+  }
+
+  &_switch {
+    width: 80px;
+  }
+
+  &_active {
+    background-color: #007bff;
+    color: white;
+  }
+}
