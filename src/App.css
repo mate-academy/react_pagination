@@ -1,1 +1,26 @@
+.App {
+  width: 500px;
+  margin: auto;
+  margin-top: 50px;
+}
 
+.app__select {
+  background-color: #00ffea;
+  width: 60px;
+  font-size: 20px;
+  border-radius: 5px;
+}
+
+.pagination__button {
+  font-size: 20px;
+  margin-right: 10px;
+  background-color: transparent;
+  border: 3px solid #00ffea;
+  border-radius: 10px;
+  outline: none;
+  cursor: pointer;
+}
+
+.selectButton {
+  background-color: #00ffea;
+}
