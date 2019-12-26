@@ -1,1 +1,98 @@
+.check--active {
+  background: brown;
+}
 
+.page__ul {
+  justify-content: flex-end;
+  display: inline-block;
+}
+
+li {
+  list-style-type: none;
+}
+
+.hello {
+  background-color: #4caf50;
+  color: white;
+}
+
+.active {
+  border: 1px solid black;
+}
+
+.adress-delivery__header {
+  margin: 0 20px;
+  grid-template-columns: auto auto 1fr;
+  column-gap: 10px;
+  align-items: center;
+}
+
+.adress-delivery__destination-details {
+  appearance: none;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #e0e0e0;
+  cursor: pointer;
+}
+
+.destination-details {
+  padding-bottom: 23px;
+}
+
+.page-item {
+  list-style: none;
+  color: black;
+  float: left;
+  padding: 1px 4px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.Person__index {
+  padding-right: 20px;
+}
+
+.product {
+  width: 500px;
+}
+
+.product__img {
+  object-fit: cover;
+  width: 100%;
+  display: grid;
+  margin-bottom: 16px;
+}
+
+.main__container {
+  display: grid;
+  grid-template-columns: 161px 708px 154px;
+  align-items: center;
+}
+
+.information {
+  display: grid;
+  opacity: 0.5;
+  margin: 34px;
+  padding: 0;
+}
+
+.container {
+  justify-content: space-between;
+  display: flex;
+}
+
+button {
+  width: 38px;
+  height: 22px;
+  border-radius: 40%;
+  cursor: pointer;
+  box-shadow: 9px 26px 16px rgba(38, 38, 38, 0.16);
+}
+
+.page-link {
+  text-decoration: none;
+  font-size: 20px;
+  padding: 10px;
+  border: 1px solid bisque;
+  display: inline;
+}
