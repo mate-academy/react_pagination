@@ -1,1 +1,9 @@
+.disabled {
+  pointer-events: none;
+}
 
+.button-list {
+  list-style: none;
+  display: flex;
+  margin-right: 3px;
+}
