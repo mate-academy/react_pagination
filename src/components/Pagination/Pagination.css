@@ -1,0 +1,8 @@
+.buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.info {
+  text-align: center;
+}
