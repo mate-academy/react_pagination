@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { v4 as uuidv4 } from 'uuid';
 import './Pagination.css';
 
 export const Pagination = (props) => {
@@ -13,12 +14,10 @@ export const Pagination = (props) => {
           ? 'ui red basic button'
           : 'ui green basic button';
 
-        const key = index;
-
         return (
           <button
             type="button"
-            key={key}
+            key={uuidv4()}
             className={buttonClassName}
             onClick={() => onPageChange(index + 1)}
           >
