@@ -8,7 +8,6 @@ export class App extends React.Component {
     page: 1,
     perPage: 5,
     perPageOptions: [3, 5, 10, 20],
-    withInfo: true,
   };
 
   onPageChange = page => this.setState({ page });
@@ -21,7 +20,7 @@ export class App extends React.Component {
   };
 
   render() {
-    const { page, perPage, withInfo, perPageOptions } = this.state;
+    const { page, perPage, perPageOptions } = this.state;
 
     return (
       <>
@@ -35,7 +34,7 @@ export class App extends React.Component {
           page={page}
           perPage={perPage}
           onPageChange={this.onPageChange}
-          withInfo={withInfo}
+          withInfo
         />
       </>
     );

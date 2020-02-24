@@ -5,10 +5,6 @@ import './PerPageSelector.css';
 export const PerPageSelector = (props) => {
   const { perPage, perPageOptions, onPerPageChange } = props;
 
-  const handlePerPageChange = (evt) => {
-    onPerPageChange(evt.target.value);
-  };
-
   return (
     <p className="form-group">
       <label className="label">
@@ -16,7 +12,7 @@ export const PerPageSelector = (props) => {
         {' '}
         <select
           value={perPage}
-          onChange={handlePerPageChange}
+          onChange={event => onPerPageChange(+event.target.value)}
         >
           {perPageOptions.map(option => (
             <option

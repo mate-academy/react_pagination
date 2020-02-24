@@ -5,8 +5,6 @@ import './Pagination.css';
 export const Pagination = (props) => {
   const { total, page, perPage, onPageChange, withInfo } = props;
 
-  const handleButtonClick = pageNumber => onPageChange(pageNumber);
-
   const renderButtons = () => (
     new Array(Math.ceil(total / perPage))
       .fill('')
@@ -15,14 +13,14 @@ export const Pagination = (props) => {
           ? 'ui red basic button'
           : 'ui green basic button';
 
-        const key = index + 1;
+        const key = index;
 
         return (
           <button
             type="button"
             key={key}
             className={buttonClassName}
-            onClick={() => handleButtonClick(index + 1)}
+            onClick={() => onPageChange(index + 1)}
           >
             {index + 1}
           </button>
@@ -41,10 +39,6 @@ export const Pagination = (props) => {
     return `${min} - ${max} of ${total}`;
   };
 
-  const handlePrevButtonClick = () => onPageChange(page - 1);
-
-  const handleNextButtonClick = () => onPageChange(page + 1);
-
   return (
     <div className="ui container">
       <p className="info">
@@ -56,7 +50,7 @@ export const Pagination = (props) => {
           type="button"
           className="ui green basic button"
           disabled={page === 1 ? 'disabled' : ''}
-          onClick={handlePrevButtonClick}
+          onClick={() => onPageChange(page - 1)}
         >
           Prev
         </button>
@@ -67,7 +61,7 @@ export const Pagination = (props) => {
           type="button"
           className="ui green basic button"
           disabled={page === Math.ceil(total / perPage) ? 'disabled' : ''}
-          onClick={handleNextButtonClick}
+          onClick={() => onPageChange(page + 1)}
         >
           Next
         </button>
