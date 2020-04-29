@@ -51,6 +51,7 @@ class App extends React.Component {
             : perPage * page}
           {' '}
           of
+          {' '}
           {total}
         </h1>
         <List currentContent={currentContent} />
