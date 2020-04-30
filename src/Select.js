@@ -1,5 +1,4 @@
 import React from 'react';
-// import PropTypes, { number } from 'prop-types';
 
 const choosePerPage = [5, 10, 15, 20];
 
@@ -16,11 +15,5 @@ const Select = ({ perPage, changePerPage }) => (
     ))}
   </select>
 );
-
-// Select.propTypes = {
-//   perPage: PropTypes.number.isRequired,
-//   changePerPage: PropTypes.func.isRequired,
-//   choosePerPage: PropTypes.arrayOf(number).isRequired,
-// };
 
 export default Select;
