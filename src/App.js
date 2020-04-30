@@ -5,9 +5,12 @@ import Buttons from './Buttons';
 import Select from './Select';
 import List from './List';
 
+const content = new Array(42)
+  .fill(0).map((el, i) => `${i + 1}`);
+
 class App extends React.Component {
   state = {
-    total: 42,
+    total: content.length,
     perPage: 5,
     page: 1,
   }
@@ -26,14 +29,27 @@ class App extends React.Component {
     this.setState(state => ({ page: state.page + direction }));
   }
 
+  drawButtons = (count) => {
+    const { page } = this.state;
+
+    return new Array(count)
+      .fill(0).map((el, i) => {
+        const idx = i + 1;
+
+        if (idx === 1
+          || idx === page - 1
+          || idx === page
+          || idx === page + 1
+          || idx === count) {
+          return i + 1;
+        }
+
+        return 'dot';
+      });
+  }
+
   render() {
     const { total, perPage, page } = this.state;
-    const content = new Array(total)
-      .fill(0).map((el, i) => `${i + 1}`);
-    const choosePerPage = [5, 10, 15, 20];
-    const buttonCount = new Array(Math.ceil(total / perPage))
-      .fill(0).map((el, i) => i + 1);
-    const currentContent = content.splice((page - 1) * perPage, perPage);
 
     return (
       <div className="container">
@@ -54,17 +70,22 @@ class App extends React.Component {
           {' '}
           {total}
         </h1>
-        <List currentContent={currentContent} />
+        <List
+          page={page}
+          perPage={perPage}
+          content={content}
+        />
         <Select
           perPage={perPage}
           changePerPage={this.changePerPage}
-          choosePerPage={choosePerPage}
         />
         <Buttons
-          buttonCount={buttonCount}
           page={page}
           changePage={this.changePage}
           changeCurrentButton={this.changeCurrentButton}
+          perPage={perPage}
+          total={total}
+          drawButtons={this.drawButtons}
         />
 
       </div>

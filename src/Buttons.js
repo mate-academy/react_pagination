@@ -1,47 +1,51 @@
 import React from 'react';
-import PropTypes, { number } from 'prop-types';
+import InternalButtons from './InternalButtons';
 
-const Buttons = ({
-  buttonCount, page, changePage, changeCurrentButton,
-}) => (
-  <>
-    <button
-      type="button"
-      onClick={() => changePage(-1)}
-      disabled={page === 1}
-      className="direction"
-    >
-      Prev
-    </button>
-    {buttonCount.map(button => (
-      <button
-        onClick={() => changeCurrentButton(button)}
-        type="button"
-        key={button}
-        className={button === page
-          ? 'button--active button'
-          : 'button--disabled button'
-        }
-      >
-        {button}
-      </button>
-    ))}
-    <button
-      type="button"
-      onClick={() => changePage(1)}
-      disabled={page === buttonCount[buttonCount.length - 1]}
-      className="direction"
-    >
-      Next
-    </button>
-  </>
-);
+class Buttons extends React.Component {
+  render() {
+    const {
+      changeCurrentButton, page, changePage,
+      total, perPage, drawButtons,
+    } = this.props;
 
-Buttons.propTypes = {
-  buttonCount: PropTypes.arrayOf(number).isRequired,
-  page: PropTypes.number.isRequired,
-  changePage: PropTypes.func.isRequired,
-  changeCurrentButton: PropTypes.func.isRequired,
-};
+    const buttonsCount = Math.ceil(total / +perPage);
+    const buttons = drawButtons(buttonsCount);
+
+    const mySet = new Set(buttons);
+    const button = [...mySet.values()];
+
+    if (page >= 4 && page <= buttonsCount - 3) {
+      const popButton = button.pop();
+
+      button.push('dotLast', popButton);
+    }
+
+    return (
+      <>
+        <button
+          type="button"
+          onClick={() => changePage(-1)}
+          disabled={page === 1}
+          className="direction"
+        >
+          Prev
+        </button>
+        <InternalButtons
+          changeCurrentButton={changeCurrentButton}
+          button={button}
+          page={page}
+        />
+        <button
+          type="button"
+          onClick={() => changePage(1)}
+          disabled={page === buttonsCount.length}
+          className="direction"
+        >
+          Next
+        </button>
+      </>
+    );
+  }
+}
 
 export default Buttons;

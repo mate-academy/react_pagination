@@ -1,18 +1,17 @@
 import React from 'react';
-import PropTypes, { number } from 'prop-types';
 
-const List = ({ currentContent }) => (
-  <ul>
-    {currentContent.map(item => (
-      <li className="item" key={item}>
-        {item}
-      </li>
-    ))}
-  </ul>
-);
+const List = ({ page, perPage, content }) => {
+  const currentContent = content.slice((page - 1) * perPage, perPage * page);
 
-List.propTypes = {
-  currentContent: PropTypes.arrayOf(number).isRequired,
+  return (
+    <ul>
+      {currentContent.map(item => (
+        <li className="item" key={item}>
+          {item}
+        </li>
+      ))}
+    </ul>
+  );
 };
 
 export default List;
