@@ -11,13 +11,10 @@ class Buttons extends React.Component {
     const buttonsCount = Math.ceil(total / +perPage);
     const buttons = drawButtons(buttonsCount);
 
-    const mySet = new Set(buttons);
-    const button = [...mySet.values()];
+    const button = [...new Set(buttons).values()];
 
     if (page >= 4 && page <= buttonsCount - 3) {
-      const popButton = button.pop();
-
-      button.push('dotLast', popButton);
+      button.splice(-1, 0, 'lastDot')
     }
 
     return (
@@ -38,7 +35,7 @@ class Buttons extends React.Component {
         <button
           type="button"
           onClick={() => changePage(1)}
-          disabled={page === buttonsCount.length}
+          disabled={page === buttonsCount}
           className="direction"
         >
           Next
