@@ -1,1 +1,41 @@
+.button {
+  width: 40px;
+  height: 40px;
+  margin-right: 5px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  cursor: pointer;
+}
 
+.select {
+  margin-right: 10px;
+}
+
+.button--active {
+  background-color: #c9826d;
+}
+
+.button--disabled {
+  background-color: #fa744f;
+}
+
+.direction {
+  height: 30px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background-color: #24bbb1;
+  cursor: pointer;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.dot {
+  position: relative;
+  font-size: 20px;
+  font-weight: bold;
+  top: 9px;
+  margin-right: 5px;
+}
