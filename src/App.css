@@ -1,1 +1,24 @@
+.app {
+  text-align: center;
+}
 
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.content__block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  height: 100px;
+  margin: 20px;
+  background-color: beige;
+}
+
+.content__pagination {
+  display: flex;
+  justify-content: center;
+}

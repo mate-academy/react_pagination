@@ -1,0 +1,13 @@
+.pagination {
+  width: max-content;
+}
+
+.pagination__dots {
+  display: flex;
+  align-items: flex-end;
+  padding: 0 10px;
+}
+
+.pagination__arrow {
+  margin: 0 10px;
+}
