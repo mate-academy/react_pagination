@@ -1,1 +1,24 @@
+.app__input-title {
+  display: block;
+}
 
+.app__input {
+  margin-bottom: 20px;
+}
+
+.app__element-list {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-gap: 10px;
+  margin-bottom: 20px;
+}
+
+.app__element-item {
+  background-color: #64c7ff;
+  color: white;
+  text-align: center;
+  line-height: 50px;
+  border-radius: 5px;
+  box-shadow: 0 8px 6px -6px black;
+  font-size: 14px;
+}
