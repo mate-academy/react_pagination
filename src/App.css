@@ -1,1 +1,13 @@
+*:focus {
+  outline: none;
+}
 
+p {
+  margin-left: 10px;
+}
+.settings-select {
+  margin: 15px;
+  background-color: #007bff;
+  border-color: #007bff;
+  color: white;
+}
