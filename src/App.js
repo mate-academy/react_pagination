@@ -21,28 +21,28 @@ class App extends Component {
       });
   }
 
-  changePage = ({ target }) => {
+  changePage = (page, button) => {
     const { currentPage } = this.state;
 
-    if (target.id === 'prev') {
-      currentPage !== 1
+    if (button === 'prev') {
+      currentPage !== page
         ? (this.setState(state => ({
           currentPage: state.currentPage - 1,
         })))
         : (this.setState({
           currentPage: 1,
         }));
-    } else if (target.id === 'next') {
-      currentPage < +target.parentElement.id
+    } else if (button === 'next') {
+      currentPage < page
         ? (this.setState(state => ({
           currentPage: state.currentPage + 1,
         })))
         : (this.setState({
-          currentPage: +target.parentElement.id,
+          currentPage: page,
         }));
     } else {
       this.setState({
-        currentPage: +target.id,
+        currentPage: page,
       });
     }
   }

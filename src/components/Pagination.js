@@ -23,7 +23,7 @@ export const Pagination = ({
             type="button"
             className="page-link"
             href="#"
-            onClick={changePage}
+            onClick={() => changePage(1, 'prev')}
             disabled={currentPage === 1}
           >
             Previous
@@ -36,7 +36,7 @@ export const Pagination = ({
               'page-item': true,
               active: page === currentPage,
             }))}
-            onClick={changePage}
+            onClick={() => changePage(page)}
           >
             <a
               id={page}
@@ -48,7 +48,6 @@ export const Pagination = ({
           </li>
         ))}
         <li
-          id={pages[pages.length - 1]}
           className="page-item"
         >
           <button
@@ -56,7 +55,7 @@ export const Pagination = ({
             type="button"
             className="page-link"
             href="#"
-            onClick={changePage}
+            onClick={() => changePage(pages[pages.length - 1], 'next')}
             disabled={currentPage === pages[pages.length - 1]}
           >
             Next
