@@ -2,9 +2,14 @@
   outline: none;
 }
 
+body{
+  background: mistyrose;
+}
+
 p {
   margin-left: 10px;
 }
+
 .settings-select {
   margin: 15px;
   background-color: #007bff;
