@@ -1,5 +1,9 @@
 # React Pagination
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_pagination/)
+- Replace `<your_account>` with your Github username in the links
+
+    - [DEMO LINK](https://andreas-just.github.io/react_pagination/)
+    - [PULL REQUEST](https://github.com/mate-academy/react_pagination/pull/40)
+
 - Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
 
 ## Task
