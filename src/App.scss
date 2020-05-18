@@ -1,0 +1,73 @@
+@import url("https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Lobster+Two:wght@400;700&family=Oleo+Script:wght@400;700&family=Original+Surfer&display=swap");
+
+body {
+  background-color: rgb(250, 248, 215);
+  padding: 20px 40px;
+  font-family: "Original Surfer", cursive;
+  font-weight: 400;
+  font-size: 20px;
+}
+
+.main-title.ui.header {
+  font-family: "Lobster Two", cursive;
+  font-size: 40px;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 1px 0 0 #fff;
+}
+
+.select {
+  margin: 5px 0 15px;
+
+  &__pages.ui.fluid.dropdown {
+    max-width: 142px;
+    cursor: pointer;
+    font: inherit;
+    padding: 3px 10px;
+  }
+
+  &__option {
+    cursor: pointer;
+  }
+}
+
+.item.ui.header {
+  padding: 10px 0 !important;
+  margin: 0 auto !important;
+  font-family: "Original Surfer", cursive;
+  font-size: 25px;
+}
+
+.tabs {
+  list-style: none;
+
+  &__title {
+    color: #a333c8;
+    font-family: "Oleo Script", cursive;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 1px;
+    margin: 0;
+    text-shadow: 1px 0 0 #fff;
+  }
+
+  &__content {
+    color: #333;
+    font-family: "Kalam", cursive;
+    font-size: 16px;
+    line-height: 18px;
+    margin: 0 0 24px;
+  }
+}
+
+.paginator {
+
+  &__prev-btn.ui.button:disabled,
+  &__button.ui.button:disabled {
+    opacity: 0.75 !important;
+  }
+
+  &__info {
+    margin-top: 15px;
+  }
+}
