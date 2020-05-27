@@ -1,1 +1,26 @@
+.container {
+  padding-top: 50px;
+}
 
+.form-control {
+  margin-bottom: 25px;
+  margin-top: 15px;
+}
+
+.pagination {
+  margin-top: 25px;
+  justify-content: center;
+}
+
+.item {
+  border: 1px solid #eee;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+}
+
+.number {
+  margin-right: 5px;
+  font-weight: 600;
+  color: #008cba;
+  font-size: 1.2em;
+}
