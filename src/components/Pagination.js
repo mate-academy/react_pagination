@@ -12,14 +12,14 @@ export const Pagination = ({ total, perPage, page, onPageChange }) => {
   return (
     <ul className="pagination">
       <li className="page-item">
-        <a
-          href="#"
+        <button
+          type="button"
           disabled={page < 2}
-          onClick={e => onPageChange(e, page - 1)}
+          onClick={() => onPageChange(page - 1)}
           className="page-link"
         >
           «
-        </a>
+        </button>
       </li>
       {paginationList.map(numberPage => (
         numberPage === 1
@@ -32,28 +32,29 @@ export const Pagination = ({ total, perPage, page, onPageChange }) => {
               key={numberPage + Math.random()}
               className={numberPage === page ? 'page-item active' : 'page-item'}
             >
-              <a
-                href="#"
-                onClick={e => onPageChange(e, numberPage)}
+              <button
+                type="button"
+                onClick={() => onPageChange(numberPage)}
                 className="page-link"
               >
                 {numberPage}
-              </a>
+              </button>
             </li>
           ) : numberPage === 2 || numberPage === paginationItem - 1 ? (
-            <li>...</li>
+            <li key={numberPage + Math.random()}>...</li>
           ) : null
       ))}
 
       <li className="page-item">
-        <a
+        <button
+          type="button"
           href="#"
           disabled={page > paginationItem - 1}
-          onClick={e => onPageChange(e, page + 1)}
+          onClick={() => onPageChange(page + 1)}
           className="page-link"
         >
           »
-        </a>
+        </button>
       </li>
 
     </ul>
