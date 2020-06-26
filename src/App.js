@@ -50,8 +50,6 @@ class App extends React.Component {
             <Switch>
               {
                 this.state.urls.map((url, i) => {
-                  console.log(url)
-
                   return (
                     <Route key={url} exact path={url}>
                       <GeneratePage path={url} posts={this.state.postList[i]} />
