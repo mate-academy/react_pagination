@@ -38,15 +38,20 @@ const App = () => {
         value={perPage}
         onChange={(ev) => {
           console.log(page);
-          if (+page > Posts.length / perPage) {
+          if (+page > Posts.length / ev.target.value) {
             console.log('fff');
-            searchParams.set('page', Posts.length / perPage);
+            searchParams.set('page', Posts.length / ev.target.value);
+            searchParams.set('perPage', ev.target.value);
+            history.push({
+              search: searchParams.toString(),
+            });
           }
-
-          searchParams.set('perPage', ev.target.value);
-          history.push({
-            search: searchParams.toString(),
-          });
+          else {
+            searchParams.set('perPage', ev.target.value);
+            history.push({
+              search: searchParams.toString(),
+            });
+          }
         }}
       >
 
@@ -73,7 +78,7 @@ const App = () => {
             return (
               <li>
                 <a
-                  href="#!"
+                  href=""
                   onClick={() => changePage(link)}
                 >
                   {link}
