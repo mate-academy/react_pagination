@@ -1,6 +1,10 @@
 select {
-  width: 50px;
+  width: 100%;
   height: 30px;
+  border: 1px solid rgb(209, 196, 196);
+  background-color: rgb(229, 233, 236);
+  border-radius: 5px;
+  outline: none;
 }
 
 .posts {
@@ -10,6 +14,7 @@ select {
 }
 
 .post {
+  padding: 5px;
   display: flex;
   align-items: center;
   margin: 1px 10px;
@@ -26,7 +31,9 @@ p {
   display: flex;
   flex-direction: column;
   align-items: left;
-  margin: 0 30%;
+  margin: 0 25%;
+  color: rgb(95, 95, 89);
+  font-style: oblique;
 }
 
 .page_link {
@@ -42,4 +49,8 @@ p {
   list-style: none;
   justify-content: space-evenly;
   padding: 0;
+}
+
+.page {
+  margin-right: 20px;
 }

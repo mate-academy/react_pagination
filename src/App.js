@@ -18,9 +18,9 @@ const App = () => {
   const lastIndex = +perPage * page;
   const startIndex = +perPage * (page - 1);
   const posts = Posts.slice(startIndex, lastIndex);
-  let links = generateLink(+page, Posts.length / perPage, linksDirection);
+  let links = generateLink(+page, Math.ceil(Posts.length / perPage), linksDirection);
 
-  if (links[2] !== links[1] + 1) {
+  if (links[2] !== links[1] + 1 && links.length === 3) {
     links.splice(2, 0, "sss");
   }
 
@@ -62,9 +62,10 @@ const App = () => {
       >
         <option>100</option>
         <option>50</option>
-        <option>20</option>
+        <option>15</option>
         <option>10</option>
       </select>
+      <h3>{`Total number of posts per this page ${posts.length}`}</h3>
       <ul className="posts">
         {
           posts.map((post, i) => {
@@ -109,7 +110,7 @@ const App = () => {
 };
 
 function generateLink(current, last, direction) {
-  console.log(direction, current, last, "bsshbwkuhb");
+  console.log(last, "bsshbwkuhb");
   if (last < 4) {
     const links = [];
 
