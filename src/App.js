@@ -7,7 +7,8 @@ import {
   useLocation,
 } from 'react-router-dom';
 import Posts from './api/posts';
-
+import { nominalTypeHack } from 'prop-types';
+let linksDirection = 'right';
 const App = () => {
   const history = useHistory();
   const location = useLocation();
@@ -17,36 +18,41 @@ const App = () => {
   const lastIndex = +perPage * page;
   const startIndex = +perPage * (page - 1);
   const posts = Posts.slice(startIndex, lastIndex);
-  const links = [];
+  let links = generateLink(+page, Posts.length / perPage, linksDirection);
 
-  for (let i = 0; i < Posts.length / +perPage; i++) {
-    links.push(i + 1);
+  if (links[2] !== links[1] + 1) {
+    links.splice(2, 0, "sss");
   }
 
+  console.log(links, 'sssss')
   const changePage = (link) => {
+    if (linksDirection === 'left' && link === +page - 1) {
+      linksDirection = 'left';
+    } else {
+      linksDirection = (link <= +page && linksDirection !== 'left') ? 'left' : 'right';
+    }
+
+
+    console.log('page',+page,'link', link, 'test', linksDirection, link===+page);
     searchParams.set('perPage', perPage);
     searchParams.set('page', link);
     history.push({
       search: searchParams.toString(),
     });
   };
-  console.log('www', [...searchParams.entries()], location, 'outside');
 
   return (
-    <div>
+    <div className="container">
       <select
         value={perPage}
         onChange={(ev) => {
-          console.log(page);
           if (+page > Posts.length / ev.target.value) {
-            console.log('fff');
             searchParams.set('page', Posts.length / ev.target.value);
             searchParams.set('perPage', ev.target.value);
             history.push({
               search: searchParams.toString(),
             });
-          }
-          else {
+          } else {
             searchParams.set('perPage', ev.target.value);
             history.push({
               search: searchParams.toString(),
@@ -54,7 +60,6 @@ const App = () => {
           }
         }}
       >
-
         <option>100</option>
         <option>50</option>
         <option>20</option>
@@ -65,20 +70,30 @@ const App = () => {
           posts.map((post, i) => {
             return (
               <li className="post">
-                <h4>{(i + 1 + (perPage * (page - 1)))}</h4>
+                <h4>{(i + 1 + (perPage * (page - 1))) + '.'}</h4>
                 <p>{post.title}</p>
               </li>
             );
           })
         }
       </ul>
-      <ul>
+      <ul className="pages">
         {
-          links.map((link) => {
+          links.map((link, i) => {
+            console.log(links.length);
+            if (i === 2 && links.length === 4) {
+              return (
+                <li className="page">
+                  <p>...</p>
+                </li>
+              );
+            }
+
             return (
-              <li>
+              <li className="page">
                 <a
-                  href=""
+                  className="page_link"
+                  href="#!"
                   onClick={() => changePage(link)}
                 >
                   {link}
@@ -92,5 +107,32 @@ const App = () => {
     </div>
   );
 };
+
+function generateLink(current, last, direction) {
+  console.log(direction, current, last, "bsshbwkuhb");
+  if (last < 4) {
+    const links = [];
+
+    for (let i = 1; i <= last; i++) {
+      links.push(i);
+    }
+
+    return links;
+  }
+
+  if (+current >= last - 1) {
+    return [last - 2, last - 1, last];
+  }
+
+  if (direction === 'right') {
+    return [+current, +current + 1, last];
+  }
+
+  if (current <= 2) {
+    return [1, 2, last];
+  }
+
+  return [current - 1, current, last];
+}
 
 export default App;
