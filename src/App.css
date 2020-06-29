@@ -1,4 +1,22 @@
-.links_list {
-  list-style: none;
+ul {
   display: flex;
+  list-style: none;
+}
+li {
+  margin: 0 10px;
+}
+
+.posts {
+  display: flex;
+  flex-direction: column;
+}
+
+.post {
+  display: flex;
+  align-items: center;
+}
+
+h4,
+p {
+  margin: 0 5px;
 }

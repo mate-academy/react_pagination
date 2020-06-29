@@ -1,121 +1,91 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-console */
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
+  useHistory,
+  useLocation,
 } from 'react-router-dom';
-import { GenerateLink } from './GenerateLink/GenerateLInk';
-import { GeneratePage } from './GeneratePage/GeneratePage';
 import Posts from './api/posts';
 
-class App extends React.Component {
-  state = {
-    postList: [[...Posts]],
-    numberOfPosts: 100,
-    urls: rebuildAllPages(100).urls,
-    links: rebuildAllPages(100).buttons,
+const App = () => {
+  const history = useHistory();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const perPage = searchParams.get('perPage') || 50;
+  const page = searchParams.get('page') || 1;
+  const lastIndex = +perPage * page;
+  const startIndex = +perPage * (page - 1);
+  const posts = Posts.slice(startIndex, lastIndex);
+  const links = [];
 
+  for (let i = 0; i < Posts.length / +perPage; i++) {
+    links.push(i + 1);
   }
 
-  numberProcessing = (ev) => {
-    ev.persist();
-    const lists = rebuildAllPages(+ev.target.value);
-
-    return (this.setState(prevState => ({
-      numberOfPosts: +ev.target.value,
-      postList: lists.list,
-      urls: lists.urls,
-      links: lists.buttons,
-    })));
-  }
-
-  render() {
-    return (
-      <section>
-        <select
-          defaultValue={this.state.numberOfPosts}
-          onChange={ev => this.numberProcessing(ev)}
-        >
-          <option>3</option>
-          <option>5</option>
-          <option>10</option>
-          <option>20</option>
-          <option>100</option>
-        </select>
-        <Router>
-          <div>
-            <Switch>
-              {
-                this.state.urls.map((url, i) => {
-                  return (
-                    <Route key={url} exact path={url}>
-                      <GeneratePage path={url} posts={this.state.postList[i]} />
-                    </Route>
-                  );
-                })
-              }
-            </Switch>
-            <ul className="links_list">
-              {
-                this.state.links.map(
-                  (option, i) => {
-
-                    return (
-                      <GenerateLink
-                        key={option}
-                        url={this.state.urls[i]}
-                        name={this.state.links[i]}
-                        posts={this.state.postList[i]}
-                      />
-                    );
-                  },
-                )
-              }
-            </ul>
-          </div>
-        </Router>
-      </section>
-    );
-  }
-}
-
-function rebuildAllPages(value) {
-  const rebuildedList = [];
-  let tempList = [];
-  const urlsList = [];
-  let tempValue = 1;
-  let counter = value;
-  const buttons = [];
-  let buttonNumber = 1;
-
-  for (let i = 0; i < Posts.length; i++) {
-    tempList.push(Posts[i]);
-    if (counter <= 1) {
-      counter = value;
-      rebuildedList.push(tempList);
-      tempList = [];
-      urlsList.push(`/items${tempValue}-${i + 1}`);
-      tempValue = i + 2;
-      buttons.push(buttonNumber);
-      buttonNumber++;
-    } else {
-      counter--;
-    }
-
-    if (i === Posts.length - 1 && tempList.length !== 0) {
-      rebuildedList.push(tempList);
-      urlsList.push(`/items${tempValue}-${i + 1}`);
-    }
-  }
-
-  return {
-    list: rebuildedList,
-    urls: urlsList,
-    buttons,
+  const changePage = (link) => {
+    searchParams.set('perPage', perPage);
+    searchParams.set('page', link);
+    history.push({
+      search: searchParams.toString(),
+    });
   };
-}
+  console.log('www', [...searchParams.entries()], location, 'outside');
+
+  return (
+    <div>
+      <select
+        value={perPage}
+        onChange={(ev) => {
+          console.log(page);
+          if (+page > Posts.length / perPage) {
+            console.log('fff');
+            searchParams.set('page', Posts.length / perPage);
+          }
+
+          searchParams.set('perPage', ev.target.value);
+          history.push({
+            search: searchParams.toString(),
+          });
+        }}
+      >
+
+        <option>100</option>
+        <option>50</option>
+        <option>20</option>
+        <option>10</option>
+      </select>
+      <ul className="posts">
+        {
+          posts.map((post, i) => {
+            return (
+              <li className="post">
+                <h4>{(i + 1 + (perPage * (page - 1)))}</h4>
+                <p>{post.title}</p>
+              </li>
+            );
+          })
+        }
+      </ul>
+      <ul>
+        {
+          links.map((link) => {
+            return (
+              <li>
+                <a
+                  href="#!"
+                  onClick={() => changePage(link)}
+                >
+                  {link}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+
+    </div>
+  );
+};
 
 export default App;
