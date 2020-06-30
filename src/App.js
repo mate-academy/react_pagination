@@ -1,14 +1,16 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-console */
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
 import {
   useHistory,
   useLocation,
 } from 'react-router-dom';
 import Posts from './api/posts';
-import { nominalTypeHack } from 'prop-types';
-let linksDirection = 'right';
+import { Pages } from './Pages';
+import { PostsList } from './PostsList';
+
+let direction = 'right';
 const App = () => {
   const history = useHistory();
   const location = useLocation();
@@ -18,22 +20,21 @@ const App = () => {
   const lastIndex = +perPage * page;
   const startIndex = +perPage * (page - 1);
   const posts = Posts.slice(startIndex, lastIndex);
-  let links = generateLink(+page, Math.ceil(Posts.length / perPage), linksDirection);
+  const links = makeLinks(+page, Math.ceil(Posts.length / perPage), direction);
 
   if (links[2] !== links[1] + 1 && links.length === 3) {
-    links.splice(2, 0, "sss");
+    links.splice(2, 0, '...');
   }
 
-  console.log(links, 'sssss')
   const changePage = (link) => {
-    if (linksDirection === 'left' && link === +page - 1) {
-      linksDirection = 'left';
+    if (direction === 'left' && link === +page - 1) {
+      direction = 'left';
     } else {
-      linksDirection = (link <= +page && linksDirection !== 'left') ? 'left' : 'right';
+      direction = (link <= +page && direction !== 'left')
+        ? 'left'
+        : 'right';
     }
 
-
-    console.log('page',+page,'link', link, 'test', linksDirection, link===+page);
     searchParams.set('perPage', perPage);
     searchParams.set('page', link);
     history.push({
@@ -49,15 +50,13 @@ const App = () => {
           if (+page > Posts.length / ev.target.value) {
             searchParams.set('page', Posts.length / ev.target.value);
             searchParams.set('perPage', ev.target.value);
-            history.push({
-              search: searchParams.toString(),
-            });
           } else {
             searchParams.set('perPage', ev.target.value);
-            history.push({
-              search: searchParams.toString(),
-            });
           }
+
+          history.push({
+            search: searchParams.toString(),
+          });
         }}
       >
         <option>100</option>
@@ -66,51 +65,14 @@ const App = () => {
         <option>10</option>
       </select>
       <h3>{`Total number of posts per this page ${posts.length}`}</h3>
-      <ul className="posts">
-        {
-          posts.map((post, i) => {
-            return (
-              <li className="post">
-                <h4>{(i + 1 + (perPage * (page - 1))) + '.'}</h4>
-                <p>{post.title}</p>
-              </li>
-            );
-          })
-        }
-      </ul>
-      <ul className="pages">
-        {
-          links.map((link, i) => {
-            console.log(links.length);
-            if (i === 2 && links.length === 4) {
-              return (
-                <li className="page">
-                  <p>...</p>
-                </li>
-              );
-            }
-
-            return (
-              <li className="page">
-                <a
-                  className="page_link"
-                  href="#!"
-                  onClick={() => changePage(link)}
-                >
-                  {link}
-                </a>
-              </li>
-            );
-          })
-        }
-      </ul>
+      <PostsList posts={posts} perPage={perPage} page={page} />
+      <Pages links={links} changePage={changePage} />
 
     </div>
   );
 };
 
-function generateLink(current, last, direction) {
-  console.log(last, "bsshbwkuhb");
+function makeLinks(current, last, way) {
   if (last < 4) {
     const links = [];
 
@@ -125,15 +87,13 @@ function generateLink(current, last, direction) {
     return [last - 2, last - 1, last];
   }
 
-  if (direction === 'right') {
+  if (way === 'right') {
     return [+current, +current + 1, last];
   }
 
-  if (current <= 2) {
-    return [1, 2, last];
-  }
-
-  return [current - 1, current, last];
+  return (current <= 2)
+    ? [1, 2, last]
+    : [current - 1, current, last];
 }
 
 export default App;
