@@ -49,51 +49,43 @@ const App = () => {
         onChange={(ev) => {
           if (+page > Posts.length / ev.target.value) {
             searchParams.set('page', Posts.length / ev.target.value);
-            searchParams.set('perPage', ev.target.value);
-          } else {
-            searchParams.set('perPage', ev.target.value);
           }
 
+          searchParams.set('perPage', ev.target.value);
           history.push({
             search: searchParams.toString(),
           });
         }}
       >
-        <option>100</option>
         <option>50</option>
         <option>15</option>
         <option>10</option>
       </select>
       <h3>{`Total number of posts per this page ${posts.length}`}</h3>
-      <PostsList posts={posts} perPage={perPage} page={page} />
+      <PostsList posts={posts} perPage={+perPage} page={+page} />
       <Pages links={links} changePage={changePage} />
-
     </div>
   );
 };
 
 function makeLinks(current, last, way) {
-  if (last < 4) {
-    const links = [];
+  let links = [];
 
+  if (last < 4) {
     for (let i = 1; i <= last; i++) {
       links.push(i);
     }
-
-    return links;
+  } else if (+current >= last - 1) {
+    links = [last - 2, last - 1, last];
+  } else if (way === 'right') {
+    links = [+current, +current + 1, last];
+  } else if (current <= 2) {
+    links = [1, 2, last];
+  } else {
+    links = [current - 1, current, last];
   }
 
-  if (+current >= last - 1) {
-    return [last - 2, last - 1, last];
-  }
-
-  if (way === 'right') {
-    return [+current, +current + 1, last];
-  }
-
-  return (current <= 2)
-    ? [1, 2, last]
-    : [current - 1, current, last];
+  return links;
 }
 
 export default App;

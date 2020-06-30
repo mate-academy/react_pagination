@@ -1,21 +1,21 @@
 import React from 'react';
-import { ShapeGeneratePage } from './Shapes/Shapes';
+import { ShapePostsList } from './Shapes/Shapes';
+import { Post } from './Post';
 
-export const PostsList = ({ posts, perPage, page }) => {
-  return (
-    <ul className="posts">
-      {
-        posts.map((post, i) => (
-          <li className="post" key={post.id}>
-            <h4>{`${(i + 1 + (perPage * (page - 1)))}. `}</h4>
-            <p>
-              {post.title}
-            </p>
-          </li>
-        ))
-      }
-    </ul>
-  );
-};
+export const PostsList = ({ posts, perPage, page }) => (
+  <ul className="posts">
+    {
+      posts.map((post, i) => (
+        <Post
+          key={post.id}
+          i={i}
+          page={page}
+          perPage={perPage}
+          title={post.title}
+        />
+      ))
+    }
+  </ul>
+);
 
-PostsList.propTypes = ShapeGeneratePage.isRequired;
+PostsList.propTypes = ShapePostsList.isRequired;
