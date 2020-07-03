@@ -1,5 +1,3 @@
-/* eslint-disable no-plusplus */
-/* eslint-disable no-console */
 import React from 'react';
 import './App.css';
 import {
@@ -9,22 +7,17 @@ import {
 import Posts from './api/posts';
 import { Pages } from './Pages';
 import { PostsList } from './PostsList';
+import { handleChanges } from './HandleChanges';
+import { showPosts } from './showPosts';
 
 let direction = 'right';
+
 const App = () => {
   const history = useHistory();
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
+  const searchParams = new URLSearchParams(useLocation().search);
   const perPage = searchParams.get('perPage') || 50;
   const page = searchParams.get('page') || 1;
-  const lastIndex = +perPage * page;
-  const startIndex = +perPage * (page - 1);
-  const posts = Posts.slice(startIndex, lastIndex);
-  const links = makeLinks(+page, Math.ceil(Posts.length / perPage), direction);
-
-  if (links[2] !== links[1] + 1 && links.length === 3) {
-    links.splice(2, 0, '...');
-  }
+  const visiblePosts = showPosts(+perPage, page, Posts);
 
   const changePage = (link) => {
     if (direction === 'left' && link === +page - 1) {
@@ -46,46 +39,25 @@ const App = () => {
     <div className="container">
       <select
         value={perPage}
-        onChange={(ev) => {
-          if (+page > Posts.length / ev.target.value) {
-            searchParams.set('page', Posts.length / ev.target.value);
-          }
-
-          searchParams.set('perPage', ev.target.value);
-          history.push({
-            search: searchParams.toString(),
-          });
-        }}
+        onChange={ev => handleChanges(
+          page, Posts.length, ev.target.value, searchParams, history,
+        )}
       >
         <option>50</option>
         <option>15</option>
         <option>10</option>
       </select>
-      <h3>{`Total number of posts per this page ${posts.length}`}</h3>
-      <PostsList posts={posts} perPage={+perPage} page={+page} />
-      <Pages links={links} changePage={changePage} />
+      <h3>{`Total number of posts per this page ${visiblePosts.length}`}</h3>
+      <PostsList posts={visiblePosts} perPage={+perPage} page={+page} />
+      <Pages
+        changePage={changePage}
+        page={page}
+        length={Posts.length}
+        perPage={perPage}
+        direction={direction}
+      />
     </div>
   );
 };
-
-function makeLinks(current, last, way) {
-  let links = [];
-
-  if (last < 4) {
-    for (let i = 1; i <= last; i++) {
-      links.push(i);
-    }
-  } else if (+current >= last - 1) {
-    links = [last - 2, last - 1, last];
-  } else if (way === 'right') {
-    links = [+current, +current + 1, last];
-  } else if (current <= 2) {
-    links = [1, 2, last];
-  } else {
-    links = [current - 1, current, last];
-  }
-
-  return links;
-}
 
 export default App;
