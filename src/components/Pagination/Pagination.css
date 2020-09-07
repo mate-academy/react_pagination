@@ -1,0 +1,52 @@
+.pagination {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+li {
+  list-style-type: none;
+  color: #a2a2a2;
+  font-size: 1.5em;
+}
+
+.set-per-page {
+  height: 25px;
+  width: 60px;
+  background: black;
+  border-radius: 5px;
+  border: 2px solid white;
+  color: white;
+  cursor: pointer;
+}
+
+.button {
+  margin: 5px;
+  padding: 20px 25px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+  color: #fff;
+  border: none;
+  background: #1f1f1f;
+}
+
+.button:hover {
+  background: #3f3f3f;
+}
+
+.button--selected {
+  background: #f90;
+  color: black;
+}
+
+.button--selected:hover {
+  background: #f90;
+}
+
+.side-button {
+  background-color: #000;
+  border: 3px solid #f90;
+  color: #f90;
+}
