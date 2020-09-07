@@ -1,6 +1,20 @@
 import React from 'react';
 import './App.css';
 
-const App = () => <h1>Pagination</h1>;
+import Pagination from './components/Pagination/Pagination';
+
+const App = () => (
+  <>
+    <h1>
+      Pagi
+      <span>nation</span>
+    </h1>
+    <Pagination
+      total={42}
+      perPage={5}
+      page={1}
+    />
+  </>
+);
 
 export default App;
