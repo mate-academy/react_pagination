@@ -34,7 +34,8 @@ export class List extends React.Component {
   render() {
     const { start, step } = this.state;
 
-    const buttons = [...Array(words.length / step)].map((item, i) => i + 1);
+    const buttons = [...Array(Math.ceil(words.length / step))]
+      .map((item, i) => i + 1);
 
     return (
       <div
@@ -117,7 +118,7 @@ export class List extends React.Component {
             className="pagination__button"
             type="button"
             onClick={this.toNext}
-            disabled={start === words.length - step && true}
+            disabled={start >= words.length - step && true}
           >
             Next
           </button>
