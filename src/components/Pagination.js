@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { Content } from './Content';
 
 export const Pagination = (
   { total,
@@ -10,57 +11,19 @@ export const Pagination = (
     perPageChange,
     info },
 ) => {
-  const firstVisibleId = (page - 1) * perPage + 1;
-  const lastVisibleId = (firstVisibleId + perPage - 1) > total
-    ? total
-    : firstVisibleId + perPage - 1;
   const lastPage = Math.ceil(total / perPage);
-  const pageMinusTwoTrigger = (page === lastPage && perPage < total);
-  const pagePlusTwoTrigger = (lastPage < 3 || page + 1 >= lastPage);
-  const content = [...Array(total)]
-    .map((_, i) => ({
-      id: i + 1,
-      text: 'Some text',
-    }));
+  const firstPageTrigger = (page === 1 || page === 2);
+  const lastPageTrigger = (page === lastPage || page === lastPage - 1);
 
   return (
     <div className="wrapper">
-      <select
-        name="perPage"
-        value={perPage}
-        onChange={perPageChange}
-        className="page-selector"
-      >
-        <option value={3}>
-          3
-        </option>
-        <option value={5}>
-          5
-        </option>
-        <option value={10}>
-          10
-        </option>
-        <option value={20}>
-          20
-        </option>
-      </select>
-      <ul>
-        {content.filter(item => item.id >= firstVisibleId
-        && item.id <= lastVisibleId)
-          .map(item => (
-            <li key={item.id} className="li">
-              {item.id}
-              {'. '}
-              {item.text}
-            </li>
-          ))}
-      </ul>
-
-      { info && (
-        <p className="page-info">
-          {`${firstVisibleId} - ${lastVisibleId} of ${total}`}
-        </p>
-      )}
+      <Content
+        total={total}
+        perPage={perPage}
+        page={page}
+        perPageChange={perPageChange}
+        info={info}
+      />
 
       <ul className="pagination">
         <li className="page-item">
@@ -69,19 +32,16 @@ export const Pagination = (
             onClick={() => pageChange(page - 1)}
             disabled={page === 1}
           >
-            Previous
+            {'<'}
           </button>
         </li>
         <li className="page-item">
-          { pageMinusTwoTrigger && (
+          { firstPageTrigger || (
             <button
               type="button"
-              onClick={() => pageChange(lastPage - 2)}
-              className={classNames('page-link', {
-                invisible: lastPage - 2 === 0,
-              })}
+              onClick={() => pageChange(1)}
             >
-              {lastPage - 2}
+              {1}
             </button>
           )}
         </li>
@@ -116,12 +76,12 @@ export const Pagination = (
           )}
         </li>
         <li className="page-item">
-          {pagePlusTwoTrigger || (
+          { lastPageTrigger || (
             <button
               type="button"
-              onClick={() => pageChange(page + 2)}
+              onClick={() => pageChange(lastPage)}
             >
-              {page + 2}
+              {lastPage}
             </button>
           )}
         </li>
@@ -131,7 +91,7 @@ export const Pagination = (
             onClick={() => pageChange(page + 1)}
             disabled={page === lastPage}
           >
-            Next
+            {'>'}
           </button>
         </li>
       </ul>
