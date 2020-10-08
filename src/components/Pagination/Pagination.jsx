@@ -4,75 +4,49 @@ import classNames from 'classnames';
 import { v4 as uuidv4 } from 'uuid';
 
 export const Pagination = ({ total, perPage, page, constrols }) => {
-  const paginationArr = [];
   const paginationPages = Math.ceil(total / perPage);
   const fromPages = page * perPage - perPage + 1;
   const toPages = page * perPage > total ? total : page * perPage;
+  const paginationArr = getPaginationControls(page, paginationPages);
 
-  if (paginationPages > 5) {
-    if (page === 1) {
-      paginationArr.push(page);
-      paginationArr.push(page + 1);
-      paginationArr.push(page + 2);
-      paginationArr.push('...');
-      paginationArr.push(paginationPages);
-    }
+  function getPaginationControls(active, last) {
+    if (last > 5) {
+      if (active === 1) {
+        return [active, active + 1, active + 2, '...', last];
+      }
 
-    if (page > 1 && page < 3) {
-      paginationArr.push(page - 1);
-      paginationArr.push(page);
-      paginationArr.push(page + 1);
-      paginationArr.push('...');
-      paginationArr.push(paginationPages);
-    }
+      if (active > 1 && active < 3) {
+        return [active - 1, active, active + 1, '...', last];
+      }
 
-    if (page > 2 && page < 4) {
-      paginationArr.push(page - 2);
-      paginationArr.push(page - 1);
-      paginationArr.push(page);
-      paginationArr.push(page + 1);
-      paginationArr.push('...');
-      paginationArr.push(paginationPages);
-    }
+      if (active > 2 && active < 4) {
+        return [active - 2, active - 1, active, active + 1, '...', last];
+      }
 
-    if (page > 3 && page < paginationPages - 2) {
-      paginationArr.push(1);
-      paginationArr.push('...');
-      paginationArr.push(page - 1);
-      paginationArr.push(page);
-      paginationArr.push(page + 1);
-      paginationArr.push('...');
-      paginationArr.push(paginationPages);
+      if (active > 3 && active < last - 2) {
+        return [1, '...', active - 1, active, active + 1, '...', last];
+      }
+
+      if (active > last - 3 && active < last - 1) {
+        return [1, '...', active - 1, active, active + 1, active + 2];
+      }
+
+      if (active > last - 2 && active < last) {
+        return [1, '...', active - 1, active, active + 1];
+      }
+
+      if (active === last) {
+        return [1, '...', active - 2, active - 1, active];
+      }
     }
 
-    if (page > paginationPages - 3 && page < paginationPages - 1) {
-      paginationArr.push(1);
-      paginationArr.push('...');
-      paginationArr.push(page - 1);
-      paginationArr.push(page);
-      paginationArr.push(page + 1);
-      paginationArr.push(page + 2);
+    const arr = [];
+
+    for (let i = 1; i <= last; i += 1) {
+      arr.push(i);
     }
 
-    if (page > paginationPages - 2 && page < paginationPages) {
-      paginationArr.push(1);
-      paginationArr.push('...');
-      paginationArr.push(page - 1);
-      paginationArr.push(page);
-      paginationArr.push(page + 1);
-    }
-
-    if (page === paginationPages) {
-      paginationArr.push(1);
-      paginationArr.push('...');
-      paginationArr.push(page - 2);
-      paginationArr.push(page - 1);
-      paginationArr.push(page);
-    }
-  } else {
-    for (let i = 1; i <= paginationPages; i += 1) {
-      paginationArr.push(i);
-    }
+    return arr;
   }
 
   return (
@@ -98,7 +72,7 @@ export const Pagination = ({ total, perPage, page, constrols }) => {
           </li>
 
           {paginationArr.map(pagination => (
-            pagination === +pagination
+            pagination !== '...'
               ? (
                 <li
                   key={uuidv4()}
