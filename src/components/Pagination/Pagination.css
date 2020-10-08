@@ -1,0 +1,17 @@
+button {
+  display: inline-block;
+  color: black;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.page.active {
+  background-color: rgb(11, 198, 245);
+  color: rgba(255, 255, 255, 0.61);
+  border-radius: 5px;
+}
+
+.page:hover:not(.active) {
+  background-color: rgb(11, 198, 245);
+  border-radius: 5px;
+}
