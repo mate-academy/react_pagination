@@ -20,32 +20,45 @@ export const Pagination = ({
   const finalNumberInPerPage = page * perPage > total ? total : page * perPage;
   let arrayOfPagination = [];
 
-  if (lastPage < 4) {
-    for (let i = firstPage; i <= lastPage; i += 1) {
-      arrayOfPagination.push(i);
+  const getPaginationControlsInMoreThan5Pages = () => {
+    if (page < firstPage + 2) {
+      arrayOfPagination = [firstPage, firstPage + 1,
+        firstPage + 2, skipPages, lastPage];
     }
-  } else if (page === firstPage) {
-    arrayOfPagination = [page, postcurrent, skipPages, lastPage];
-  } else if (precurrent === firstPage && postcurrent + 1 === lastPage) {
-    arrayOfPagination = [firstPage, page, postcurrent, lastPage];
-  } else if (precurrent === firstPage && postcurrent + 1 !== lastPage) {
-    arrayOfPagination = [firstPage, page, postcurrent, skipPages, lastPage];
-  } else if (precurrent === firstPage + 1 && postcurrent + 1 === lastPage) {
-    arrayOfPagination = [firstPage, precurrent, page, postcurrent, lastPage];
-  } else if (precurrent === firstPage + 1 && postcurrent + 1 !== lastPage) {
-    arrayOfPagination = [firstPage, precurrent,
-      page, postcurrent, skipPages, lastPage];
-  } else if (postcurrent + 1 === lastPage) {
-    arrayOfPagination = [firstPage, skipPages,
-      precurrent, page, postcurrent, lastPage];
-  } else if (postcurrent === lastPage) {
-    arrayOfPagination = [firstPage, skipPages, precurrent, page, postcurrent];
-  } else if (page === lastPage) {
-    arrayOfPagination = [firstPage, skipPages, precurrent, page];
-  } else if (postcurrent + 1 !== lastPage) {
-    arrayOfPagination = [firstPage, skipPages,
-      precurrent, page, postcurrent, skipPages, lastPage];
-  }
+
+    if (page > lastPage - 2) {
+      arrayOfPagination = [firstPage, skipPages,
+        lastPage - 2, lastPage - 1, lastPage];
+    }
+
+    if (page > firstPage + 1 && page < lastPage - 1) {
+      arrayOfPagination = [firstPage, skipPages, precurrent,
+        page, postcurrent, skipPages, lastPage];
+
+      if (lastPage - 2 === firstPage + 2) {
+        arrayOfPagination = arrayOfPagination
+          .filter(numberOfPage => numberOfPage !== '...');
+      } else if (page === firstPage + 2) {
+        arrayOfPagination.splice(1, 1);
+      } else if (page === lastPage - 2) {
+        arrayOfPagination.splice(5, 1);
+      }
+    }
+
+    return arrayOfPagination;
+  };
+
+  const getPaginationControls = () => {
+    if (lastPage < 5) {
+      for (let i = firstPage; i <= lastPage; i += 1) {
+        arrayOfPagination.push(i);
+      }
+    } else {
+      getPaginationControlsInMoreThan5Pages();
+    }
+  };
+
+  getPaginationControls();
 
   return (
     <>
@@ -61,6 +74,7 @@ export const Pagination = ({
         </button>
         {arrayOfPagination.map(numberOfPage => (
           <button
+            key={numberOfPage}
             type="button"
             className={classNames(
               'page',
