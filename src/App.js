@@ -8,11 +8,13 @@ class App extends React.PureComponent {
   state = {
     currentPage: 9,
     perPage: 5,
+    total: 42,
   }
 
   onPerPageChange = (event) => {
     this.setState({
       perPage: +event.target.value,
+      currentPage: 1,
     });
   }
 
@@ -35,7 +37,7 @@ class App extends React.PureComponent {
   }
 
   render() {
-    const { currentPage, perPage } = this.state;
+    const { currentPage, perPage, total } = this.state;
 
     return (
       <div className="app">
@@ -58,7 +60,7 @@ class App extends React.PureComponent {
         </label>
 
         <Pagination
-          total={42}
+          total={total}
           perPage={perPage}
           page={currentPage}
           onPage={this.onPageChange}
