@@ -65,7 +65,7 @@ export const Pagination = React.memo(({
             onClick={onPrev}
             disabled={page === 1}
           >
-            Prev
+            {`<`}
           </button>
         </li>
         {
@@ -92,7 +92,7 @@ export const Pagination = React.memo(({
             onClick={onNext}
             disabled={page === numberOfPages}
           >
-            Next
+            {`>`}
           </button>
         </li>
       </ul>
