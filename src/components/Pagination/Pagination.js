@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import './Pagination.scss';
 
 function makeArray(minNumber, maxNumber) {
   const arr = [];
@@ -28,7 +27,7 @@ export const Pagination = React.memo(({
   const lastItem = page * perPage > total ? total : page * perPage;
 
   return (
-    <nav className="is-flex is-align-items-center m-6">
+    <nav className="is-flex is-align-items-center my-5">
       {withInfo && (
         <p>
           {`${firstItem} - ${lastItem} of ${total}`}

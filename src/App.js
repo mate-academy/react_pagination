@@ -1,11 +1,20 @@
 import React from 'react';
-import './App.css';
+import './app.scss';
 import 'bulma/css/bulma.css';
 import { Pagination } from './components/Pagination/Pagination';
+
+const perPageOptions = [3, 5, 10, 20];
 
 class App extends React.PureComponent {
   state = {
     currentPage: 1,
+    perPage: 5,
+  }
+
+  onPerPageChange = (event) => {
+    this.setState({
+      perPage: event.target.value,
+    });
   }
 
   onPageChange = (page) => {
@@ -27,18 +36,37 @@ class App extends React.PureComponent {
   }
 
   render() {
-    const { currentPage } = this.state;
+    const { currentPage, perPage } = this.state;
 
     return (
-      <Pagination
-        total={42}
-        perPage={5}
-        page={currentPage}
-        onPage={this.onPageChange}
-        onPrev={this.prevPage}
-        onNext={this.nextPage}
-        withInfo
-      />
+      <div className="app">
+        <label>
+          <span className="is-size-5">{`Number of items per page: `}</span>
+          <div className="select is-info">
+            <select
+              onChange={this.onPerPageChange}
+            >
+              {
+                perPageOptions.map(option => (
+                  <option value={option}>
+                    {option}
+                  </option>
+                ))
+              }
+            </select>
+          </div>
+        </label>
+
+        <Pagination
+          total={42}
+          perPage={perPage}
+          page={currentPage}
+          onPage={this.onPageChange}
+          onPrev={this.prevPage}
+          onNext={this.nextPage}
+          withInfo
+        />
+      </div>
     );
   }
 }
