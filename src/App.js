@@ -6,13 +6,13 @@ const perPageOptions = [3, 5, 10, 20];
 
 class App extends React.PureComponent {
   state = {
-    currentPage: 1,
+    currentPage: 9,
     perPage: 5,
   }
 
   onPerPageChange = (event) => {
     this.setState({
-      perPage: event.target.value,
+      perPage: +event.target.value,
     });
   }
 
@@ -48,7 +48,7 @@ class App extends React.PureComponent {
             >
               {
                 perPageOptions.map(option => (
-                  <option value={option}>
+                  <option key={option} value={option}>
                     {option}
                   </option>
                 ))

@@ -2,12 +2,32 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-function makeArray(minNumber, maxNumber) {
+function makeArray(maxNumber, currPage) {
   const arr = [];
 
-  for (let i = minNumber; i <= maxNumber; i += 1) {
-    arr.push(i);
+  arr.push(1);
+
+  if (currPage > 3) {
+    arr.push('...');
   }
+
+  if (currPage > 2) {
+    arr.push(currPage - 1);
+  }
+
+  if (currPage !== 1 && currPage !== maxNumber) {
+    arr.push(currPage);
+  }
+
+  if (maxNumber - 1 > currPage) {
+    arr.push(currPage + 1);
+  }
+
+  if (maxNumber - 2 > currPage) {
+    arr.push('...');
+  }
+
+  arr.push(maxNumber);
 
   return arr;
 }
@@ -22,9 +42,13 @@ export const Pagination = React.memo(({
   withInfo,
 }) => {
   const numberOfPages = Math.ceil(total / perPage);
-  const pages = makeArray(1, numberOfPages);
+  const pages = makeArray(numberOfPages, page);
   const firstItem = (page - 1) * perPage + 1;
   const lastItem = page * perPage > total ? total : page * perPage;
+  const preparedPages = pages.map((name, index) => ({
+    name,
+    id: index,
+  }));
 
   return (
     <nav className="is-flex is-align-items-center my-5">
@@ -45,17 +69,18 @@ export const Pagination = React.memo(({
           </button>
         </li>
         {
-          pages.map(num => (
-            <li key={num}>
+          preparedPages.map(num => (
+            <li key={num.id}>
               <button
                 type="button"
                 className={classNames({
                   button: true,
-                  'is-info': num === page,
+                  'is-info': num.name === page,
                 })}
-                onClick={() => onPage(num)}
+                onClick={() => onPage(num.name)}
+                disabled={num.name === '...'}
               >
-                {num}
+                {num.name}
               </button>
             </li>
           ))
