@@ -1,6 +1,5 @@
 import React from 'react';
 import './app.scss';
-import 'bulma/css/bulma.css';
 import { Pagination } from './components/Pagination/Pagination';
 
 const perPageOptions = [3, 5, 10, 20];
@@ -44,6 +43,7 @@ class App extends React.PureComponent {
           <span className="is-size-5">{`Number of items per page: `}</span>
           <div className="select is-info">
             <select
+              value={perPage}
               onChange={this.onPerPageChange}
             >
               {
