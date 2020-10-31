@@ -27,7 +27,9 @@ function makeArray(maxNumber, currPage) {
     arr.push('...');
   }
 
-  arr.push(maxNumber);
+  if (maxNumber !== 1) {
+    arr.push(maxNumber);
+  }
 
   return arr;
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import './app.scss';
 import { Pagination } from './components/Pagination/Pagination';
 
-const perPageOptions = [3, 5, 10, 20];
+const perPageOptions = [3, 5, 10, 20, 50];
 
 class App extends React.PureComponent {
   state = {
