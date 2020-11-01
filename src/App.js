@@ -36,10 +36,6 @@ class App extends PureComponent {
     });
   }
 
-  // changeTotalItems = (e) => {
-  //   const { value } = e.target;
-  // }
-
   render() {
     const { currentPage, itemsPerPage, totalItems } = this.state;
     const firstItem = (currentPage - 1) * itemsPerPage + 1;
