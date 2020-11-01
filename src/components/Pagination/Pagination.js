@@ -1,7 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { PaginationButton } from '../PaginationButton';
+import { PaginationProps } from '../../props/PaginationProps';
 
 export const Pagination = ({ total, perPage, page, onPageChange }) => {
   const maxPages = Math.ceil(total / perPage);
@@ -64,9 +64,4 @@ export const Pagination = ({ total, perPage, page, onPageChange }) => {
   );
 };
 
-Pagination.propTypes = {
-  total: PropTypes.number.isRequired,
-  perPage: PropTypes.number.isRequired,
-  page: PropTypes.number.isRequired,
-  onPageChange: PropTypes.func.isRequired,
-};
+Pagination.propTypes = PaginationProps;

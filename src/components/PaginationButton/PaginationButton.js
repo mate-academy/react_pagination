@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { PaginationButtonProps } from '../../props/PaginationButtonProps';
 
 export const PaginationButton = ({ simbol, page, onPageChange }) => (
   <button
@@ -15,11 +15,7 @@ export const PaginationButton = ({ simbol, page, onPageChange }) => (
   </button>
 );
 
-PaginationButton.propTypes = {
-  simbol: PropTypes.string,
-  page: PropTypes.string.isRequired,
-  onPageChange: PropTypes.func.isRequired,
-};
+PaginationButton.propTypes = PaginationButtonProps;
 
 PaginationButton.defaultProps = {
   simbol: '',

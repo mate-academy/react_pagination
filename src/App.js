@@ -2,8 +2,8 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './App.css';
-import { Pagination } from './com/Pagination';
-import { Select } from './com/Select/Select';
+import { Pagination } from './components/Pagination';
+import { Select } from './components/Select';
 
 class App extends React.PureComponent {
   selectValues = [3, 5, 10, 20];

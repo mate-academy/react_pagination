@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { SelectProps } from '../../props/SelectProps';
 
 export const Select = ({ selectValues, onPerPageChange, perPage }) => (
   <select
@@ -20,10 +20,4 @@ export const Select = ({ selectValues, onPerPageChange, perPage }) => (
   </select>
 );
 
-Select.propTypes = {
-  selectValues: PropTypes.arrayOf(
-    PropTypes.number.isRequired,
-  ).isRequired,
-  onPerPageChange: PropTypes.func.isRequired,
-  perPage: PropTypes.number.isRequired,
-};
+Select.propTypes = SelectProps;
