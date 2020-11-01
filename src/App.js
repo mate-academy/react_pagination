@@ -2,11 +2,13 @@ import React, { PureComponent } from 'react';
 import './App.css';
 import Pagination from './components/Pagination/Pagination';
 
+const optionToChoseItemsCountPerPage = [3, 5, 10, 20];
+
 class App extends PureComponent {
   state = {
     currentPage: 1,
     itemsPerPage: 5,
-    totalItems: 19,
+    totalItems: 42,
   }
 
   changePage = (page) => {
@@ -25,14 +27,18 @@ class App extends PureComponent {
     });
   }
 
-  changeItemsPerPage = (e) => {
-    const { value } = e.target;
+  changeItemsCount = (e) => {
+    const { name, value } = e.target;
 
     this.setState({
       currentPage: 1,
-      itemsPerPage: +value,
+      [name]: +value,
     });
   }
+
+  // changeTotalItems = (e) => {
+  //   const { value } = e.target;
+  // }
 
   render() {
     const { currentPage, itemsPerPage, totalItems } = this.state;
@@ -43,18 +49,33 @@ class App extends PureComponent {
     return (
       <div className="pl-3">
         <h1>{`Current Page ${currentPage}`}</h1>
+        <label>
+          Choose total items
+          <input
+            name="totalItems"
+            className="form-control"
+            type="number"
+            value={totalItems}
+            onChange={this.changeItemsCount}
+          />
+        </label>
 
         <label>
           set number of items per page
           <select
+            name="itemsPerPage"
             value={itemsPerPage}
-            onChange={this.changeItemsPerPage}
+            onChange={this.changeItemsCount}
             className="form-control"
           >
-            <option value={3}>3</option>
-            <option value={5}>5</option>
-            <option value={10}>10</option>
-            <option value={20}>20</option>
+            {optionToChoseItemsCountPerPage.map(itemsCount => (
+              <option
+                key={itemsCount}
+                value={itemsCount}
+              >
+                {itemsCount}
+              </option>
+            ))}
           </select>
         </label>
 
