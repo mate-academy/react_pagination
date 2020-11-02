@@ -22,6 +22,10 @@ const App = () => {
   };
 
   const onPerPageChange = (newPerPage) => {
+    if (state.perPage === newPerPage) {
+      return;
+    }
+
     setState(prevState => ({
       ...prevState,
       page: 1,
