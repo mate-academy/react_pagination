@@ -1,62 +1,89 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames/bind';
 
 const renderPaginationBtn = (onClick, page, total) => {
-  const middleBtn = '...';
+  const middleBtn = '&hellip;';
   const gapBtns = [page - 1, page, page + 1];
 
   let btns = [];
 
   if (page < total - 2 && page > 3) {
     btns = [1, middleBtn, ...gapBtns, middleBtn, total];
-  } else
+  }
 
   if (page >= total - 2) {
     btns = [total - 2, total - 1, total];
-  } else
+  }
 
   if (page <= 3) {
     btns = [1, 2, 3];
   }
 
-  return btns.map((btn) => {
-    if (btn === '...') {
-      return btn;
-    }
+  return (
+    <ul className="pagination-list">
+      {btns.map((btn) => {
+        if (btn === '&hellip;') {
+          return (
+            <li>
+              <span className="pagination-ellipsis">
+                &hellip;
+              </span>
+            </li>
+          );
+        }
 
-    return (
-      <button
-        type="button"
-        key={btn}
-        onClick={onClick}
-        data-name={btn}
-      >
-        {btn}
-      </button>
-    );
-  });
+        return (
+          <li>
+            <button
+              className={
+                classNames('pagination-link', { 'is-current': btn === page })
+              }
+              type="button"
+              key={btn}
+              onClick={onClick}
+              data-name={btn}
+            >
+              {btn}
+            </button>
+          </li>
+        );
+      })
+      }
+    </ul>
+  );
 };
 
-// const rangeButtons = (from, to, step = 1) => {
-//   let i = from;
-//   const range = [];
-//
-//   while (i <= to) {
-//     range.push(i);
-//     i += step;
-//   }
-//
-//   return range;
-// };
-
 export const Pagination = ({ onClick, page, total }) => (
-  <div className="pagination">
+  <nav
+    className="pagination is-centered"
+    role="navigation"
+    aria-label="pagination"
+  >
     {page > 3
-    && <button type="button" onClick={onClick} data-name="prev">{'<<'}</button>}
+    && (
+      <button
+        className="pagination-previous"
+        type="button"
+        onClick={onClick}
+        data-name="prev"
+      >
+        {'<<'}
+      </button>
+    )}
     {renderPaginationBtn(onClick, page, total)}
     {page < total - 2
-    && <button type="button" onClick={onClick} data-name="next">{'>>'}</button>}
-  </div>
+    && (
+      <button
+        className="pagination-next"
+        type="button"
+        onClick={onClick}
+        data-name="next"
+      >
+        {'>>'}
+      </button>
+    )}
+  </nav>
 );
 
 Pagination.propTypes = {

@@ -6,6 +6,7 @@ class App extends PureComponent {
   state = {
     page: 1,
     total: 42,
+    perPage: 5,
   }
 
   handleChange = ({ target }) => {
@@ -35,12 +36,13 @@ class App extends PureComponent {
   }
 
   render() {
-    const { page, total } = this.state;
+    const { page, total, perPage } = this.state;
 
     return (
       <Pagination
         total={total}
         page={page}
+        perPage={perPage}
         onClick={this.handleChange}
       />
     );
