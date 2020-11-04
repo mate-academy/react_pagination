@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
+import { Select } from './components/Select';
 
 class App extends React.PureComponent {
   state = {
@@ -37,19 +38,31 @@ class App extends React.PureComponent {
     }));
   }
 
+  onPerPageChange = (event) => {
+    const { value } = event.target;
+
+    this.setState({
+      perPage: +value,
+    });
+  }
+
   render() {
     const { total, perPage, pageSelected } = this.state;
 
     return (
-      <Pagination
-        total={total}
-        perPage={perPage}
-        pageSelected={pageSelected}
-        onPageChange={this.onPageChange}
-        clickPrevious={this.clickPrevious}
-        clickNext={this.clickNext}
-        withInfo="true"
-      />
+      <div className="app">
+        <Select onChange={this.onPerPageChange} />
+
+        <Pagination
+          total={total}
+          perPage={perPage}
+          pageSelected={pageSelected}
+          onPageChange={this.onPageChange}
+          clickPrevious={this.clickPrevious}
+          clickNext={this.clickNext}
+          withInfo="true"
+        />
+      </div>
     );
   }
 }
