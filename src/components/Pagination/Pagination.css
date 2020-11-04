@@ -1,0 +1,12 @@
+.pag_btn {
+  margin-top: 5px;
+  margin-right: 10px;
+  background-color: transparent;
+  border-style: groove;
+  outline: none;
+  cursor: pointer;
+}
+
+.selectedButton {
+  color: green;
+}
