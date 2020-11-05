@@ -6,7 +6,7 @@ import { Button } from './Button';
 const classNames = require('classnames');
 
 export const Pagination = ({
-  total,
+  totalAmountOfItems,
   perPage,
   pageSelected,
   onPageChange,
@@ -14,7 +14,7 @@ export const Pagination = ({
   clickPrevious,
   withInfo,
 }) => {
-  const pagesAmount = Math.ceil(total / perPage);
+  const pagesAmount = Math.ceil(totalAmountOfItems / perPage);
 
   const pages = new Array(pagesAmount).fill({}).map((page, index) => ({
     ...page,
@@ -24,17 +24,15 @@ export const Pagination = ({
 
   return (
     <nav className="pagination">
-      {withInfo
-        ? (
-          <div className="info">
-            {(pageSelected - 1) * perPage + 1}
-            {' - '}
-            {(pageSelected) * perPage}
-            {' of '}
-            {total}
-          </div>
-        )
-        : null}
+      {withInfo && (
+        <div className="info">
+          {(pageSelected - 1) * perPage + 1}
+          {' - '}
+          {(pageSelected) * perPage}
+          {' of '}
+          {totalAmountOfItems}
+        </div>
+      )}
       <ul className="pagination justify-content-center">
         <Button
           disableIf={pageSelected === 1}
@@ -69,7 +67,7 @@ export const Pagination = ({
 };
 
 Pagination.propTypes = {
-  total: PropTypes.number.isRequired,
+  totalAmountOfItems: PropTypes.number.isRequired,
   perPage: PropTypes.number.isRequired,
   pageSelected: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,

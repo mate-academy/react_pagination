@@ -3,12 +3,14 @@ import './App.css';
 import { Pagination } from './components/Pagination';
 import { Select } from './components/Select';
 
+const initialState = {
+  totalAmountOfItems: 42,
+  perPage: 5,
+  pageSelected: 1,
+};
+
 class App extends React.PureComponent {
-  state = {
-    total: 42,
-    perPage: 5,
-    pageSelected: 1,
-  }
+  state = initialState;
 
   onPageChange = (number) => {
     this.setState({
@@ -17,7 +19,7 @@ class App extends React.PureComponent {
   }
 
   clickPrevious = () => {
-    if (this.state.pageSelected === 1) {
+    if (this.state.pageSelected === initialState.pageSelected) {
       return;
     }
 
@@ -27,9 +29,9 @@ class App extends React.PureComponent {
   }
 
   clickNext = () => {
-    const { total, perPage, pageSelected } = this.state;
+    const { totalAmountOfItems, perPage, pageSelected } = this.state;
 
-    if (pageSelected === Math.ceil(total / perPage)) {
+    if (pageSelected === Math.ceil(totalAmountOfItems / perPage)) {
       return;
     }
 
@@ -47,14 +49,14 @@ class App extends React.PureComponent {
   }
 
   render() {
-    const { total, perPage, pageSelected } = this.state;
+    const { totalAmountOfItems, perPage, pageSelected } = this.state;
 
     return (
       <div className="app">
         <Select onChange={this.onPerPageChange} />
 
         <Pagination
-          total={total}
+          totalAmountOfItems={totalAmountOfItems}
           perPage={perPage}
           pageSelected={pageSelected}
           onPageChange={this.onPageChange}
