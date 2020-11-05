@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import './App.css';
 import Pagination from './components/Pagination/Pagination';
 
-const optionToChoseItemsCountPerPage = [3, 5, 10, 20];
+const perPageSelectOptions = [3, 5, 10, 20];
 
 class App extends PureComponent {
   state = {
@@ -12,22 +12,24 @@ class App extends PureComponent {
   }
 
   changePage = (page) => {
-    if (page === 'Previous' || page === 'Next') {
-      this.setState(state => ({
-        currentPage: page === 'Previous'
-          ? state.currentPage - 1
-          : state.currentPage + 1,
-      }));
-
-      return;
-    }
-
     this.setState({
       currentPage: page,
     });
   }
 
-  changeItemsCount = (e) => {
+  moveToNextPage = () => {
+    this.setState(state => ({
+      currentPage: state.currentPage + 1,
+    }));
+  }
+
+  moveToPrevPage = () => {
+    this.setState(state => ({
+      currentPage: state.currentPage - 1,
+    }));
+  }
+
+  changeDefaultValues = (e) => {
     const { name, value } = e.target;
 
     this.setState({
@@ -52,7 +54,7 @@ class App extends PureComponent {
             className="form-control"
             type="number"
             value={totalItems}
-            onChange={this.changeItemsCount}
+            onChange={this.changeDefaultValues}
           />
         </label>
 
@@ -61,10 +63,10 @@ class App extends PureComponent {
           <select
             name="itemsPerPage"
             value={itemsPerPage}
-            onChange={this.changeItemsCount}
+            onChange={this.changeDefaultValues}
             className="form-control"
           >
-            {optionToChoseItemsCountPerPage.map(itemsCount => (
+            {perPageSelectOptions.map(itemsCount => (
               <option
                 key={itemsCount}
                 value={itemsCount}
@@ -77,6 +79,8 @@ class App extends PureComponent {
 
         <Pagination
           onPageChange={this.changePage}
+          onMoveToNextPage={this.moveToNextPage}
+          onMoveToPrevPage={this.moveToPrevPage}
           currentPage={currentPage}
           perPage={itemsPerPage}
           totalItems={totalItems}

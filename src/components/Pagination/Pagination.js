@@ -7,6 +7,8 @@ const Pagination = ({
   totalItems,
   onPageChange,
   withInfo,
+  onMoveToNextPage,
+  onMoveToPrevPage,
 }) => {
   const totalPages = Math.ceil(totalItems / perPage);
 
@@ -28,7 +30,7 @@ const Pagination = ({
           <button
             type="button"
             className="btn btn-outline-primary"
-            onClick={() => onPageChange('Previous')}
+            onClick={() => onMoveToPrevPage()}
             disabled={isDisablePreviousButton}
           >
             Previous
@@ -111,7 +113,7 @@ const Pagination = ({
           <button
             type="button"
             className="btn btn-outline-primary"
-            onClick={() => onPageChange('Next')}
+            onClick={() => onMoveToNextPage()}
             disabled={isDisableNextButton}
           >
             Next
@@ -127,6 +129,8 @@ Pagination.propTypes = {
   perPage: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,
+  onMoveToNextPage: PropTypes.func.isRequired,
+  onMoveToPrevPage: PropTypes.func.isRequired,
   withInfo: PropTypes.string,
 };
 
