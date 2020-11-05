@@ -36,17 +36,19 @@ function makeArray(maxNumber, currPage) {
 
 export const Pagination = React.memo(({
   total,
-  perPage,
-  page,
+  perPageItems,
+  currentPage,
   onPage,
   onNext,
   onPrev,
   withInfo,
 }) => {
-  const numberOfPages = Math.ceil(total / perPage);
-  const pages = makeArray(numberOfPages, page);
-  const firstItem = (page - 1) * perPage + 1;
-  const lastItem = page * perPage > total ? total : page * perPage;
+  const numberOfPages = Math.ceil(total / perPageItems);
+  const pages = makeArray(numberOfPages, currentPage);
+  const firstItem = (currentPage - 1) * perPageItems + 1;
+  const lastItem = currentPage * perPageItems > total
+    ? total
+    : currentPage * perPageItems;
   const preparedPages = pages.map((name, index) => ({
     name,
     id: index,
@@ -65,24 +67,24 @@ export const Pagination = React.memo(({
             type="button"
             className="button"
             onClick={onPrev}
-            disabled={page === 1}
+            disabled={currentPage === 1}
           >
             {`<`}
           </button>
         </li>
         {
-          preparedPages.map(num => (
-            <li key={num.id}>
+          preparedPages.map(page => (
+            <li key={page.id}>
               <button
                 type="button"
                 className={classNames({
                   button: true,
-                  'is-info': num.name === page,
+                  'is-info': page.name === currentPage,
                 })}
-                onClick={() => onPage(num.name)}
-                disabled={num.name === '...'}
+                onClick={() => onPage(page.name)}
+                disabled={page.name === '...'}
               >
-                {num.name}
+                {page.name}
               </button>
             </li>
           ))
@@ -92,7 +94,7 @@ export const Pagination = React.memo(({
             type="button"
             className="button"
             onClick={onNext}
-            disabled={page === numberOfPages}
+            disabled={currentPage === numberOfPages}
           >
             {`>`}
           </button>
@@ -104,8 +106,8 @@ export const Pagination = React.memo(({
 
 Pagination.propTypes = {
   total: PropTypes.number.isRequired,
-  perPage: PropTypes.number,
-  page: PropTypes.number,
+  perPageItems: PropTypes.number,
+  currentPage: PropTypes.number,
   onPage: PropTypes.func.isRequired,
   onPrev: PropTypes.func.isRequired,
   onNext: PropTypes.func.isRequired,
@@ -113,7 +115,7 @@ Pagination.propTypes = {
 };
 
 Pagination.defaultProps = {
-  perPage: 5,
-  page: 1,
+  perPageItems: 5,
+  currentPage: 1,
   withInfo: false,
 };

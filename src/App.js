@@ -24,20 +24,20 @@ class App extends React.PureComponent {
     });
   }
 
-  nextPage = () => {
+  moveToNextPage = () => {
     this.setState(state => ({
       currentPage: state.currentPage + 1,
     }));
   }
 
-  prevPage = () => {
+  moveToPrevPage = () => {
     this.setState(state => ({
       currentPage: state.currentPage - 1,
     }));
   }
 
   render() {
-    const { currentPage, perPage, total } = this.state;
+    const { currentPage, perPage: perPageItems, total } = this.state;
 
     return (
       <div className="app">
@@ -45,7 +45,7 @@ class App extends React.PureComponent {
           <span className="is-size-5">{`Number of items per page: `}</span>
           <div className="select is-info">
             <select
-              value={perPage}
+              value={perPageItems}
               onChange={this.onPerPageChange}
             >
               {
@@ -61,11 +61,11 @@ class App extends React.PureComponent {
 
         <Pagination
           total={total}
-          perPage={perPage}
-          page={currentPage}
+          perPageItems={perPageItems}
+          currentPage={currentPage}
           onPage={this.onPageChange}
-          onPrev={this.prevPage}
-          onNext={this.nextPage}
+          onPrev={this.moveToPrevPage}
+          onNext={this.moveToNextPage}
           withInfo
         />
       </div>
