@@ -62,7 +62,7 @@ class App extends React.PureComponent {
           onPageChange={this.onPageChange}
           clickPrevious={this.clickPrevious}
           clickNext={this.clickNext}
-          withInfo="true"
+          withInfo
         />
       </div>
     );
