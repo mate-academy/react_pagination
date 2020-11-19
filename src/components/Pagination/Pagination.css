@@ -1,0 +1,37 @@
+.Page-navigation {
+  width: auto;
+  height: 50px;
+}
+
+.pagination {
+  list-style: none;
+}
+
+.page-item {
+  display: inline;
+  margin: 5px;
+  padding: 15px;
+  border-radius: 15px;
+  border: 1px solid #81ecec;
+}
+
+a {
+  text-decoration: none;
+}
+
+p {
+  font-size: 18px;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+.active-item {
+  border-color: cadetblue;
+  padding: 20px;
+  border-radius: 50%;
+  background-color: #dff9fb;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.4;
+}
