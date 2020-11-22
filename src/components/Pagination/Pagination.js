@@ -55,7 +55,7 @@ export class Pagination extends React.Component {
               }
             }
           >
-            <a className="page-link" href="/#" aria-label="Previous">
+            <a className="page-link" href="!#" aria-label="Previous">
               <span aria-hidden="true">&laquo;</span>
             </a>
           </li>
@@ -73,7 +73,7 @@ export class Pagination extends React.Component {
                   }
                 }
               >
-                <a className="page-link" href="/#">{first}</a>
+                <a className="page-link" href="!#">{first}</a>
               </li>
               {page > 3 ? (<li className="page-item">...</li>) : null}
             </>
@@ -91,7 +91,7 @@ export class Pagination extends React.Component {
                 }
               }
             >
-              <a className="page-link" href="/#">{precurrent}</a>
+              <a className="page-link" href="!#">{precurrent}</a>
             </li>
           )}
           <li
@@ -106,7 +106,7 @@ export class Pagination extends React.Component {
               }
             }
           >
-            <a className="page-link" href="/#">{current}</a>
+            <a className="page-link" href="!#">{current}</a>
           </li>
           {postcurrent !== 0 && (
             <li
@@ -121,7 +121,7 @@ export class Pagination extends React.Component {
                 }
               }
             >
-              <a className="page-link" href="/#">{postcurrent}</a>
+              <a className="page-link" href="!#">{postcurrent}</a>
             </li>
           )}
           {last !== 0 && (
@@ -140,7 +140,7 @@ export class Pagination extends React.Component {
                   }
                 }
               >
-                <a className="page-link" href="/#">{last}</a>
+                <a className="page-link" href="!#">{last}</a>
               </li>
             </>
           )}
@@ -154,7 +154,7 @@ export class Pagination extends React.Component {
               }
             }
           >
-            <a className="page-link" href="/#" aria-label="Next">
+            <a className="page-link" href="!#" aria-label="Next">
               <span aria-hidden="true">&raquo;</span>
             </a>
           </li>
