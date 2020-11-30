@@ -1,53 +1,133 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
+import uuid from 'uuid-random';
 import { PaginationTypes } from './PaginationTypes';
 
 import './Pagination.css';
 
 export class Pagination extends React.Component {
   state = {
-    first: 0,
-    last: 0,
-    current: 0,
-    precurrent: 0,
-    postcurrent: 0,
+    paginationSchema: [],
   }
 
   componentDidMount() {
-    this.updateState(this.props.page);
+    this.getPaginationSchema(1);
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.perPage !== this.props.perPage) {
+    if (prevProps.amount !== this.props.amount) {
       this.props.onPageChange(1);
-      this.updateState(1);
+      this.getPaginationSchema(1);
     }
   }
 
-  updateState(newPage) {
+  getPaginationSchema = (currentPage) => {
+    const { amount } = this.props;
+
+    if (amount <= 5) {
+      this.setState({
+        paginationSchema:
+          Array.from({ length: amount }, (_, index) => index + 1),
+      });
+
+      return;
+    }
+
+    if (currentPage === 1) {
+      this.setState({
+        paginationSchema: [currentPage, currentPage + 1, '...', amount],
+      });
+
+      return;
+    }
+
+    if (currentPage === 2) {
+      this.setState({
+        paginationSchema:
+          [currentPage - 1, currentPage, currentPage + 1, '...', amount],
+      });
+
+      return;
+    }
+
+    if (currentPage === 3 && currentPage !== amount) {
+      this.setState({
+        paginationSchema:
+          [
+            currentPage - 2,
+            currentPage - 1,
+            currentPage,
+            currentPage + 1,
+            '...',
+            amount],
+      });
+
+      return;
+    }
+
+    if (currentPage === amount) {
+      this.setState({
+        paginationSchema: [1, '...', currentPage - 1, currentPage],
+      });
+
+      return;
+    }
+
+    if (currentPage === amount - 1) {
+      this.setState({
+        paginationSchema:
+          [
+            1,
+            '...',
+            currentPage - 1,
+            currentPage,
+            currentPage + 1,
+          ],
+      });
+
+      return;
+    }
+
+    if (currentPage === amount - 2) {
+      this.setState({
+        paginationSchema:
+          [
+            1,
+            '...',
+            currentPage - 1,
+            currentPage,
+            currentPage + 1,
+            currentPage + 2,
+          ],
+      });
+
+      return;
+    }
+
     this.setState({
-      first: newPage >= 3 ? 1 : 0,
-      last:
-      newPage <= Math.ceil(this.props.total / this.props.perPage) - 2
-        ? Math.ceil(this.props.total / this.props.perPage) : 0,
-      current: newPage,
-      precurrent: newPage > 1 ? newPage - 1 : 0,
-      postcurrent:
-      newPage < Math.ceil(this.props.total / this.props.perPage)
-        ? newPage + 1 : 0,
+      paginationSchema:
+        [
+          1,
+          '...',
+          currentPage - 1,
+          currentPage,
+          currentPage + 1,
+          '...',
+          amount,
+        ],
     });
   }
 
   render() {
-    const { page, total, perPage, onPageChange } = this.props;
-    const { first, last, current, precurrent, postcurrent } = this.state;
+    const { current, amount, onPageChange } = this.props;
+    const { paginationSchema } = this.state;
 
     return (
       <nav aria-label="Page-navigation">
         <ul className="pagination">
           <li
-            className={page > 1 ? 'page-item' : 'page-item disabled'}
+            className={current > 1 ? 'page-item' : 'page-item disabled'}
           >
             <a
               className="page-link"
@@ -56,131 +136,43 @@ export class Pagination extends React.Component {
               onClick={
                 (event) => {
                   event.preventDefault();
-                  onPageChange(page - 1);
-                  this.updateState(page - 1);
+                  onPageChange(current - 1);
+                  this.getPaginationSchema(current - 1);
                 }
               }
             >
               <span aria-hidden="true">&laquo;</span>
             </a>
           </li>
-          {first !== 0 && (
-            <>
-              <li
-                className={
-                  first === page
-                    ? 'page-item active-item' : 'page-item'
-                }
-              >
-                <a
-                  className="page-link"
-                  href="/#"
-                  onClick={
-                    (event) => {
-                      event.preventDefault();
-                      onPageChange(first);
-                      this.updateState(first);
-                    }
+          {paginationSchema.map(
+            element => (typeof element === 'number'
+              ? (
+                <li
+                  key={uuid()}
+                  className={
+                    element === current
+                      ? 'page-item active-item' : 'page-item'
                   }
                 >
-                  {first}
-                </a>
-              </li>
-              {page > 3 ? (<li className="page-item">...</li>) : null}
-            </>
-          )}
-          {precurrent !== 0 && (
-            <li
-              className={
-                precurrent === page
-                  ? 'page-item active-item' : 'page-item'
-              }
-            >
-              <a
-                className="page-link"
-                href="/#"
-                onClick={
-                  (event) => {
-                    event.preventDefault();
-                    onPageChange(precurrent);
-                    this.updateState(precurrent);
-                  }
-                }
-              >
-                {precurrent}
-              </a>
-            </li>
-          )}
-          <li
-            className={
-              current === page
-                ? 'page-item active-item' : 'page-item'
-            }
-          >
-            <a
-              className="page-link"
-              href="/#"
-              onClick={
-                (event) => {
-                  event.preventDefault();
-                  onPageChange(current);
-                  this.updateState(current);
-                }
-              }
-            >
-              {current}
-            </a>
-          </li>
-          {postcurrent !== 0 && (
-            <li
-              className={
-                postcurrent === page
-                  ? 'page-item active-item' : 'page-item'
-              }
-            >
-              <a
-                className="page-link"
-                href="/#"
-                onClick={
-                  (event) => {
-                    event.preventDefault();
-                    onPageChange(postcurrent);
-                    this.updateState(postcurrent);
-                  }
-                }
-              >
-                {postcurrent}
-              </a>
-            </li>
-          )}
-          {last !== 0 && (
-            <>
-              {page < Math.ceil(this.props.total / this.props.perPage) - 2
-                ? (<li className="page-item">...</li>) : null}
-              <li
-                className={
-                  last === page
-                    ? 'page-item active-item' : 'page-item'
-                }
-              >
-                <a
-                  className="page-link"
-                  href="/#"
-                  onClick={
-                    (event) => {
-                      event.preventDefault();
-                      onPageChange(last);
-                      this.updateState(last);
+                  <a
+                    className="page-link"
+                    href="/#"
+                    onClick={
+                      (event) => {
+                        event.preventDefault();
+                        onPageChange(element);
+                        this.getPaginationSchema(element);
+                      }
                     }
-                  }
-                >
-                  {last}
-                </a>
-              </li>
-            </>
+                  >
+                    {element}
+                  </a>
+                </li>
+              )
+              : (<li key={uuid()} className="page-item">{element}</li>)),
           )}
           <li
-            className={page < Math.ceil(total / perPage)
+            className={current < amount
               ? 'page-item' : 'page-item disabled'}
           >
             <a
@@ -190,8 +182,8 @@ export class Pagination extends React.Component {
               onClick={
                 (event) => {
                   event.preventDefault();
-                  onPageChange(page + 1);
-                  this.updateState(page + 1);
+                  onPageChange(current + 1);
+                  this.getPaginationSchema(current + 1);
                 }
               }
             >
