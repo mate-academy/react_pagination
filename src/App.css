@@ -1,1 +1,7 @@
-
+.App {
+  display: grid;
+  transform: translateY(50%);
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+}
