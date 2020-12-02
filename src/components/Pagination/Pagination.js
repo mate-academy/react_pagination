@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
@@ -24,6 +25,7 @@ export class Pagination extends React.Component {
 
   getPaginationSchema = (currentPage) => {
     const { amount } = this.props;
+    let schema = [];
 
     if (amount <= 5) {
       this.setState({
@@ -34,72 +36,29 @@ export class Pagination extends React.Component {
       return;
     }
 
-    if (currentPage === 1) {
+    if (currentPage <= 3) {
+      schema = currentPage === 3
+        ? [1, 2, 3, 4, '...', amount]
+        : currentPage === 2
+          ? [1, 2, 3, '...', amount]
+          : [1, 2, '...', amount];
+
       this.setState({
-        paginationSchema: [currentPage, currentPage + 1, '...', amount],
+        paginationSchema: [...schema],
       });
 
       return;
     }
 
-    if (currentPage === 2) {
+    if (currentPage >= amount - 2) {
+      schema = currentPage === amount - 2
+        ? [1, '...', amount - 3, amount - 2, amount - 1, amount]
+        : currentPage === amount - 1
+          ? [1, '...', amount - 2, amount - 1, amount]
+          : [1, '...', amount - 1, amount];
+
       this.setState({
-        paginationSchema:
-          [currentPage - 1, currentPage, currentPage + 1, '...', amount],
-      });
-
-      return;
-    }
-
-    if (currentPage === 3 && currentPage !== amount) {
-      this.setState({
-        paginationSchema:
-          [
-            currentPage - 2,
-            currentPage - 1,
-            currentPage,
-            currentPage + 1,
-            '...',
-            amount],
-      });
-
-      return;
-    }
-
-    if (currentPage === amount) {
-      this.setState({
-        paginationSchema: [1, '...', currentPage - 1, currentPage],
-      });
-
-      return;
-    }
-
-    if (currentPage === amount - 1) {
-      this.setState({
-        paginationSchema:
-          [
-            1,
-            '...',
-            currentPage - 1,
-            currentPage,
-            currentPage + 1,
-          ],
-      });
-
-      return;
-    }
-
-    if (currentPage === amount - 2) {
-      this.setState({
-        paginationSchema:
-          [
-            1,
-            '...',
-            currentPage - 1,
-            currentPage,
-            currentPage + 1,
-            currentPage + 2,
-          ],
+        paginationSchema: [...schema],
       });
 
       return;

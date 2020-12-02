@@ -8,12 +8,25 @@ export class App extends React.Component {
     total: 42,
     perPage: 5,
     page: 1,
+    paginationInfo: '',
   };
 
-  handlePageChange = (newPage) => {
+  componentDidMount() {
+    this.updatePaginationInfo();
+  }
+
+  updatePaginationInfo = () => {
     this.setState(state => ({
-      page: newPage,
+      paginationInfo: `${1 + (state.perPage * (state.page - 1))}
+      - ${Math.min(state.page * state.perPage, state.total)}`,
     }));
+  }
+
+  handlePageChange = (newPage) => {
+    this.setState({
+      page: newPage,
+    });
+    this.updatePaginationInfo();
   }
 
   onPerPageChange = (value) => {
@@ -27,14 +40,14 @@ export class App extends React.Component {
       total,
       perPage,
       page,
+      paginationInfo,
     } = this.state;
 
     return (
       <div className="App">
         <h1>Pagination</h1>
         <p>
-          {`Info: ${1 + (perPage * (page - 1))}
-            - ${Math.min(page * perPage, total)} of ${total}`}
+          {`Pagination Info: ${paginationInfo} of ${total}`}
         </p>
         <SelectPerPage
           perPage={perPage}
