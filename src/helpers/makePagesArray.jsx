@@ -30,5 +30,5 @@ export function makePagesArray(last, current) {
 
 export function makeEmojiArray(total) {
   return [...Array(total).keys()]
-    .map(m => String.fromCodePoint(`${128512 + m}`));
+    .map(item => String.fromCodePoint(`${128512 + item}`));
 }

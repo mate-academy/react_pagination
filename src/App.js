@@ -1,47 +1,50 @@
 import React, { useState } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import './App.css';
+import { Content } from './Content/Content';
 import { Pagination } from './Pagination/Pagination';
 
 const state = {
   total: 42,
   perPage: 5,
   page: 1,
-  option: false,
+  paginChanged: false,
 };
 
 export const App = () => {
-  const [pagin, setPagin] = useState(state);
-  const { page, option } = pagin;
+  const [pagination, setPagination] = useState(state);
+  const { perPage, page, paginChanged } = pagination;
   const onPerPageChange = (e) => {
-    setPagin({
-      ...pagin,
+    setPagination({
+      ...pagination,
       perPage: e.target.value,
       page: 1,
     });
   };
 
   const onChangePage = (item) => {
-    setPagin({
-      ...pagin, page: item,
+    setPagination({
+      ...pagination, page: item,
     });
   };
 
   const onClickPrev = () => {
-    setPagin({
-      ...pagin, page: page - 1,
+    setPagination({
+      ...pagination, page: page - 1,
     });
   };
 
   const onClickNext = () => {
-    setPagin({
-      ...pagin, page: page + 1,
+    setPagination({
+      ...pagination, page: page + 1,
     });
   };
 
-  const onClickOption = () => {
-    setPagin({
-      ...pagin, option: !option, page: 1,
+  const onChangePagination = () => {
+    setPagination({
+      ...pagination,
+      paginChanged: !paginChanged,
+      page: 1,
     });
   };
 
@@ -49,16 +52,17 @@ export const App = () => {
     <Switch>
       <Route path="/pagination">
         <h1>Pagination</h1>
+        <Content pagination={pagination} />
         <Pagination
-          pagin={pagin}
+          pagination={pagination}
           onChangePage={onChangePage}
           onClickPrev={onClickPrev}
           onClickNext={onClickNext}
           onChangePerPage={onPerPageChange}
-          onClickOption={onClickOption}
+          onChangePagination={onChangePagination}
         />
       </Route>
-      <Redirect path="/" to="/pagination?perPage=5&page=1" />
+      <Redirect path="/" to={`/pagination?perPage=${perPage}&page=${page}`} />
     </Switch>
   );
 };

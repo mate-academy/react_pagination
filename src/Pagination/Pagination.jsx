@@ -2,21 +2,20 @@ import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import classNames from 'classnames';
-import { makeEmojiArray, makePagesArray } from '../helpers/makePagesArray';
+import { makePagesArray } from '../helpers/makePagesArray';
 
 export const Pagination = ({
-  pagin,
+  pagination,
   onChangePage,
   onClickPrev,
   onClickNext,
   onChangePerPage,
-  onClickOption,
+  onChangePagination,
 }) => {
-  const { total, perPage, page, option } = pagin;
+  const { total, perPage, page, paginChanged } = pagination;
   const lastPage = Math.ceil(total / perPage);
-  const forPage = ((page - 1) * perPage);
-  const toPage = perPage * page > total
-    ? total : perPage * page;
+  const info = `${((page - 1) * perPage) + 1} -
+    ${perPage * page > total ? total : perPage * page} of ${total}`;
   const location = useLocation();
   const history = useHistory();
   const searchParams = new URLSearchParams(location.search);
@@ -26,15 +25,10 @@ export const Pagination = ({
   };
 
   return (
-    <div>
-      <div className="emoji">
-        {makeEmojiArray(total).slice(forPage, toPage).map(t => (
-          <span className="emoji" key={t}>{t}</span>
-        ))}
-      </div>
+    <>
       <div>
         <span>
-          {`${forPage + 1} - ${toPage} of ${total}`}
+          {info}
         </span>
         <select
           typy="select"
@@ -51,19 +45,26 @@ export const Pagination = ({
         </select>
         <button
           type="button"
-          className={classNames('option', {
-            paginFerst: option,
-            paginSecond: !option,
+          className={classNames('paginChanged', {
+            no_changed: !paginChanged,
+            changed: paginChanged,
           })}
-          onClick={onClickOption}
+          onClick={onChangePagination}
         >
-          Option
+          Change
         </button>
       </div>
       <div className="pagination">
+        <div className={classNames('pagin', {
+          pagin_first: !paginChanged,
+          pagin_second: paginChanged,
+        })}
+        >
+          {`${!paginChanged ? 'Pagination 1' : 'Pagination 2'}`}
+        </div>
         <button
           type="button"
-          className={classNames('prev', { disabl: page === 1 })}
+          className={classNames('prev', { disabled: page === 1 })}
           disabled={page === 1}
           onClick={() => {
             onClickPrev();
@@ -72,9 +73,9 @@ export const Pagination = ({
         >
           Prev
         </button>
-        {(option
+        {(paginChanged
           ? makePagesArray(lastPage, page)
-          : [...Array(lastPage).keys()].map(item => item + 1))
+          : [...Array(lastPage).keys()].map(val => val + 1))
           .map(item => (
             <button
               key={item}
@@ -91,7 +92,7 @@ export const Pagination = ({
           ))}
         <button
           type="button"
-          className={classNames('next', { disabl: page === lastPage })}
+          className={classNames('next', { disabled: page === lastPage })}
           disabled={page === lastPage}
           onClick={() => {
             onClickNext();
@@ -101,15 +102,15 @@ export const Pagination = ({
           Next
         </button>
       </div>
-    </div>
+    </>
   );
 };
 
 Pagination.propTypes = {
-  pagin: PropTypes.shape().isRequired,
+  pagination: PropTypes.shape().isRequired,
   onChangePage: PropTypes.func.isRequired,
   onClickPrev: PropTypes.func.isRequired,
   onClickNext: PropTypes.func.isRequired,
   onChangePerPage: PropTypes.func.isRequired,
-  onClickOption: PropTypes.func.isRequired,
+  onChangePagination: PropTypes.func.isRequired,
 };

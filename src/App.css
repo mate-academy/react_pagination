@@ -34,7 +34,7 @@ button {
   margin-top: 80px;
 }
 
-.disabl {
+.disabled {
   color: red;
   
 }
@@ -50,24 +50,36 @@ span {
   margin-top: 60px;
   margin-bottom: 80px;
   margin-right: 5px;
-  font-size: 32px;
+  font-size: 33px;
   padding: 10px;
 }
 
-.paginFerst {
-  background: red;
-}
-
-.paginSecond {
+.no_changed {
   background: green;
 }
 
-.paginFerst,
-.paginSecond {
+.changed {
+  background: red;
+}
+
+.paginChanged {
   width: 65px;
-  margin-left: 50px;
   border-radius: 5px;
+  margin-left: 50px;
+  padding: 2px;
   color: rgb(250, 249, 248);
+}
+
+.pagin_first {
+  color: green;
+}
+
+.pagin_second {
+  color: red;
+}
+
+.pagin {
+  margin-bottom: 20px;
 }
 
 select {
