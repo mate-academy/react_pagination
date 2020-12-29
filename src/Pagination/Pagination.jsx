@@ -26,7 +26,7 @@ export const Pagination = ({
 
   return (
     <>
-      <div>
+      <div className="info">
         <span>
           {info}
         </span>
