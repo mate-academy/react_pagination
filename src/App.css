@@ -10,14 +10,13 @@ h1 {
 .emoji {
   display: inline-block;
   margin: auto 5px 10px;
-  font-size: 38px;
+  font-size: 39px;
   padding: 0 5px;
 }
 
 .button {
   color: green;
   width: 30px;
-  height: 30px;
 }
 
 .activ {
@@ -28,7 +27,6 @@ h1 {
 .next,
 .prev {
   background: red;
-  padding: 5.2px;
   color: rgb(248, 248, 246);
 }
 
@@ -68,7 +66,9 @@ select {
 }
 
 button {
+  height: 30px;
   outline: none;
+  text-align: center;
   font-weight: bold;
   font-size: 15px;
   border: 1px solid rgb(103, 106, 110);
