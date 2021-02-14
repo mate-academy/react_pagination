@@ -36,7 +36,8 @@ class App extends React.Component {
   render() {
     const { contentParts, contentPerPage, selectedPage } = this.state;
     const firstElemToShow = this.findElementsToShow()[0];
-    const lastElemToShow = this.findElementsToShow()[contentPerPage - 1];
+    const lastElemToShow
+    = this.findElementsToShow()[this.findElementsToShow().length - 1];
 
     return (
       <>
