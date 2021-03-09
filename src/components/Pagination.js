@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 
 export const Pagination = ({
   totalPosts,
-  perPages,
+  perPage,
   selectedPage,
   onPageChange,
   onNext,
   onPrev,
   onPerPageChange,
 }) => {
-  const availableButtons = Array(Math.ceil(totalPosts.length / perPages))
+  const availableButtons = Array(Math.ceil(totalPosts.length / perPage))
     .fill(1)
     .map((el, index) => el + index);
   let visibleButtons;
@@ -62,54 +62,60 @@ export const Pagination = ({
     );
   }
 
-  if (availableButtons.length > 3) {
-    if (+selectedPage <= 3) {
+  function createVisibleButtons() {
+    if (availableButtons.length > 3) {
+      if (+selectedPage <= 3) {
+        visibleButtons = (
+          <>
+            {
+              availableButtons.filter(el => el < +selectedPage + 2)
+                .map(btn => createNavigationLi(btn, btn))
+            }
+            {createNavigationLi('...')}
+            {createNavigationLi(availableButtons.length)}
+          </>
+        );
+      }
+
+      if (+selectedPage >= 4) {
+        visibleButtons = (
+          <>
+            {createNavigationLi(1)}
+            {createNavigationLi('...')}
+            {
+              [...availableButtons]
+                .slice(2, availableButtons.length - 2)
+                .filter(
+                  el => el >= +selectedPage - 1 && el <= +selectedPage + 1,
+                ).map(btn => createNavigationLi(btn, btn))
+            }
+            {createNavigationLi('...')}
+            {createNavigationLi(availableButtons.length)}
+          </>
+        );
+      }
+
+      if (+selectedPage >= availableButtons.length - 2) {
+        visibleButtons = (
+          <>
+            {createNavigationLi(1)}
+            {createNavigationLi('...')}
+            {
+              availableButtons.filter(el => el > +selectedPage - 2)
+                .map(btn => createNavigationLi(btn, btn))
+            }
+          </>
+        );
+      }
+    } else {
       visibleButtons = (
         <>
-          {
-            availableButtons.filter(el => el < +selectedPage + 2)
-              .map(btn => createNavigationLi(btn, btn))
-          }
-          {createNavigationLi('...')}
-          {createNavigationLi(availableButtons.length)}
+          {availableButtons.map(btn => createNavigationLi(btn, btn))}
         </>
       );
     }
 
-    if (+selectedPage >= 4) {
-      visibleButtons = (
-        <>
-          {createNavigationLi(1)}
-          {createNavigationLi('...')}
-          {
-            [...availableButtons].slice(2, availableButtons.length - 2).filter(
-              el => el >= +selectedPage - 1 && el <= +selectedPage + 1,
-            ).map(btn => createNavigationLi(btn, btn))
-          }
-          {createNavigationLi('...')}
-          {createNavigationLi(availableButtons.length)}
-        </>
-      );
-    }
-
-    if (+selectedPage >= availableButtons.length - 2) {
-      visibleButtons = (
-        <>
-          {createNavigationLi(1)}
-          {createNavigationLi('...')}
-          {
-            availableButtons.filter(el => el > +selectedPage - 2)
-              .map(btn => createNavigationLi(btn, btn))
-          }
-        </>
-      );
-    }
-  } else {
-    visibleButtons = (
-      <>
-        {availableButtons.map(btn => createNavigationLi(btn, btn))}
-      </>
-    );
+    return visibleButtons;
   }
 
   return (
@@ -117,7 +123,7 @@ export const Pagination = ({
       <nav aria-label="Page navigation">
         <ul className="pagination justify-content-center">
           {createButtonLi(1, 'Previous', '«', onPrev)}
-          {visibleButtons}
+          {createVisibleButtons()}
           {createButtonLi(+availableButtons.length, 'Next', '»', onNext)}
         </ul>
       </nav>
@@ -134,7 +140,7 @@ export const Pagination = ({
 
 Pagination.propTypes = {
   totalPosts: PropTypes.arrayOf(PropTypes.number).isRequired,
-  perPages: PropTypes.number,
+  perPage: PropTypes.number,
   selectedPage: PropTypes.number,
   onPageChange: PropTypes.func.isRequired,
   onNext: PropTypes.func.isRequired,
@@ -143,6 +149,6 @@ Pagination.propTypes = {
 };
 
 Pagination.defaultProps = {
-  perPages: 5,
+  perPage: 5,
   selectedPage: 1,
 };

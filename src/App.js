@@ -8,32 +8,25 @@ const postFromServer = Array(42).fill(1).map((el, index) => el + index);
 class App extends React.Component {
   state = {
     selectedPage: 1,
-    perPages: 5,
+    perPage: 5,
     totalPosts: [...postFromServer],
     post: 1,
   }
 
   onPageChange = (event) => {
     const { textContent } = event.target;
-    let p;
 
-    if (textContent > +this.state.selectedPage) {
-      p = this.state.post + this.state.perPages;
-    } else {
-      p = this.state.post - this.state.perPages;
-    }
-
-    this.setState({
-      selectedPage: textContent,
-      post: p,
-    });
+    this.setState(state => ({
+      selectedPage: +textContent,
+      post: (+textContent * state.perPage) - (state.perPage - 1),
+    }));
   }
 
   onPerPageChange = (event) => {
     const { value } = event.target;
 
     this.setState({
-      perPages: +value,
+      perPage: +value,
       selectedPage: 1,
       post: 1,
     });
@@ -42,19 +35,31 @@ class App extends React.Component {
   onNext = () => {
     this.setState(state => ({
       selectedPage: state.selectedPage + 1,
-      post: state.post + state.perPages,
+      post: state.post + state.perPage,
     }));
   }
 
   onPrev = () => {
     this.setState(state => ({
       selectedPage: state.selectedPage - 1,
-      post: state.post - state.perPages,
+      post: state.post - state.perPage,
     }));
   }
 
+  addContentOnPage() {
+    const { totalPosts, perPage, post } = this.state;
+
+    return (
+      <>
+        {`Post ${post}-${post + (perPage - 1) < totalPosts.length
+          ? post + (perPage - 1)
+          : (totalPosts.length - post) + post} of ${totalPosts.length}`}
+      </>
+    );
+  }
+
   render() {
-    const { selectedPage, totalPosts, perPages, post } = this.state;
+    const { selectedPage, totalPosts, perPage } = this.state;
 
     return (
       <div className="text-center">
@@ -63,7 +68,7 @@ class App extends React.Component {
           {' '}
           {selectedPage}
           {'/'}
-          {Math.ceil(totalPosts.length / perPages)}
+          {Math.ceil(totalPosts.length / perPage)}
         </h1>
         <Pagination
           {...this.state}
@@ -73,9 +78,7 @@ class App extends React.Component {
           onPrev={this.onPrev}
         />
         <p>
-          {`Post ${post}-${post + (perPages - 1) < totalPosts.length
-            ? post + (perPages - 1)
-            : (totalPosts.length - post) + post} of ${totalPosts.length}`}
+          {this.addContentOnPage()}
         </p>
       </div>
     );
