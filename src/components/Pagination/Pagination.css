@@ -1,0 +1,49 @@
+.Pagination__list {
+  display: flex;
+  width: max-content;
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+}
+
+.Pagination__page,
+.Pagination__previous,
+.Pagination__next {
+  background-color: tomato;
+  margin: 1px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.Pagination__page {
+  background-color: thistle;
+  border: 2px solid red;
+  outline: none;
+}
+
+.Pagination__page_active {
+  border: 5px solid blue;
+}
+
+.Pagination__addition {
+  background-color: burlywood;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  opacity: 0;
+
+}
+
+.Pagination__addition_extra {
+  opacity: 1;
+}
+
+.Pagination__select {
+  display: block;
+  margin: 0 auto;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: cornflowerblue;
+}
