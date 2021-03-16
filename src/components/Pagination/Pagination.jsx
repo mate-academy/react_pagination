@@ -4,40 +4,17 @@ import classNames from 'classnames';
 
 export class Pagination extends React.Component {
   state = {
-    selectedPage: this.props.page,
-  }
-
-  inPageChange = (page) => {
-    this.setState({
-      selectedPage: +page.target.innerText,
-    });
-  }
-
-  prevPage = (page) => {
-    if (this.state.selectedPage === 1) {
-      return;
-    }
-
-    this.setState(state => ({
-      selectedPage: state.selectedPage - 1,
-    }));
-  }
-
-  nextPage = (page) => {
-    if (this.state.selectedPage
-      === Math.ceil(this.props.total / this.props.perPage)
-    ) {
-      return;
-    }
-
-    this.setState(state => ({
-      selectedPage: state.selectedPage + 1,
-    }));
   }
 
   render() {
-    const { total, perPage } = this.props;
-    const { selectedPage } = this.state;
+    const {
+      total,
+      perPage,
+      page,
+      inPageChange,
+      prevPage,
+      nextPage
+    } = this.props;
 
     const totalPages = Math.ceil(total / perPage);
     const pages = Array.from(Array(totalPages), (_, index) => index + 1);
@@ -48,42 +25,42 @@ export class Pagination extends React.Component {
           <ul className="pagination">
             <li className="page-item">
               <a
-                onClick={this.prevPage}
+                onClick={prevPage}
                 className={classNames('page-link-btn', {
-                  disabled: selectedPage === 1,
+                  disabled: page === 1,
                 })}
-                href={`#${selectedPage}`}
+                href={`#${page}`}
               >
                 Previous
               </a>
             </li>
-            {pages.map(page => (
-              <li key={page} className="page-item">
+            {pages.map(pageItem => (
+              <li key={pageItem} className="page-item">
                 <a
-                  onClick={this.inPageChange}
+                  onClick={inPageChange}
                   className={classNames('page-link', {
-                    active: this.state.selectedPage === page,
+                    active: page === pageItem,
                   })}
-                  href={`#${page}`}
+                  href={`#${pageItem}`}
                 >
-                  {page}
+                  {pageItem}
                 </a>
               </li>
             ))}
             <li className="page-item">
               <a
-                onClick={this.nextPage}
+                onClick={nextPage}
                 className={classNames('page-link-btn', {
-                  disabled: selectedPage === totalPages,
+                  disabled: page === totalPages,
                 })}
-                href={`#${selectedPage}`}
+                href={`#${page}`}
               >
                 Next
               </a>
             </li>
           </ul>
         </nav>
-        {selectedPage > 4 && (
+        {page > perPage && (
           <p>u can take some info from this small paragraph</p>
         )}
       </div>
@@ -92,7 +69,10 @@ export class Pagination extends React.Component {
 }
 
 Pagination.propTypes = {
-  selectedPage: PropTypes.number.isRequired,
+  page: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
   perPage: PropTypes.number.isRequired,
+  inPageChange: PropTypes.func.isRequired,
+  prevPage: PropTypes.func.isRequired,
+  nextPage: PropTypes.func.isRequired,
 };
