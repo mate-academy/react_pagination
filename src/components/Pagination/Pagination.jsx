@@ -6,8 +6,7 @@ import './Pagination.css';
 export class Pagination extends Component {
   state = {
     currentPage: this.props.page,
-    offset: 0,
-    data: [...Array.from({ length: this.props.total }, (_, i) => i + 1)],
+    step: 0,
   }
 
   onPageChange = (event) => {
@@ -16,19 +15,19 @@ export class Pagination extends Component {
     this.setState({ currentPage: +value });
   }
 
-  handleStepForward = () => {
+  handleNextStep = () => {
     this.setState(prevState => ({
-      offset: prevState.offset + 1,
+      step: prevState.step + 1,
     }));
   }
 
-  handleStepBack = () => {
+  handlePrevStep = () => {
     this.setState(prevState => ({
-      offset: prevState.offset - 1,
+      step: prevState.step - 1,
     }));
   }
 
-  handleChange = (event) => {
+  handleChangeQuantityPerPage = (event) => {
     const { value } = event.target;
 
     this.props.onChange(value);
@@ -36,15 +35,18 @@ export class Pagination extends Component {
 
   render() {
     const { perPage, total } = this.props;
-    const { currentPage, offset, data } = this.state;
+    const { currentPage, step } = this.state;
+    const initialValues = Array.from(
+      { length: this.props.total }, (_, i) => i + 1,
+    );
 
     const {
       onPageChange,
-      handleChange,
-      handleStepForward,
-      handleStepBack,
+      handleChangeQuantityPerPage,
+      handleNextStep,
+      handlePrevStep,
     } = this;
-    const slice = data.slice(offset, offset + perPage);
+    const slice = initialValues.slice(step, step + perPage);
 
     return (
       <>
@@ -55,7 +57,7 @@ export class Pagination extends Component {
                 type="button"
                 disabled={slice.includes(1)}
                 className="Pagination__previous"
-                onClick={handleStepBack}
+                onClick={handlePrevStep}
               >
                 Previous
               </button>
@@ -83,7 +85,7 @@ export class Pagination extends Component {
                 disabled={slice.includes(total)}
                 className="Pagination__next"
                 type="button"
-                onClick={handleStepForward}
+                onClick={handleNextStep}
               >
                 Next
               </button>
@@ -97,7 +99,7 @@ export class Pagination extends Component {
           You have lots of opportunities to make money together with us
         </div>
         <select
-          onChange={handleChange}
+          onChange={handleChangeQuantityPerPage}
           className="Pagination__select"
           value={perPage}
         >
