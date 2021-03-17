@@ -9,9 +9,9 @@ class App extends React.Component {
     page: 1,
   }
 
-  inPageChange = (page) => {
+  inPageChange = (pageTarget) => {
     this.setState({
-      page: +page.target.innerText,
+      page: pageTarget.value,
     });
   }
 
@@ -20,20 +20,20 @@ class App extends React.Component {
       return;
     }
 
-    this.setState(state => ({
-      page: state.page - 1,
+    this.setState(prevState => ({
+      page: prevState.page - 1,
     }));
   }
 
   nextPage = (page) => {
-    if (this.state.page
-      === Math.ceil(this.state.total / this.state.perPage)
-    ) {
+    if (this.state.page === (
+      Math.ceil(this.state.total / this.state.perPage)
+    )) {
       return;
     }
 
-    this.setState(state => ({
-      page: state.page + 1,
+    this.setState(prevState => ({
+      page: prevState.page + 1,
     }));
   }
 
