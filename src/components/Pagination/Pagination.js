@@ -36,8 +36,16 @@ export class Pagination extends React.Component {
     pageChanger(currentPage + 1);
   };
 
+  buttonHandler = (page) => {
+    const { pageChanger, currentPage } = this.props;
+
+    if (page !== currentPage) {
+      pageChanger(page);
+    }
+  }
+
   render() {
-    const { total, currentPage, pageChanger } = this.props;
+    const { total, currentPage } = this.props;
     const { visiblePages } = this.state;
 
     return (
@@ -65,9 +73,7 @@ export class Pagination extends React.Component {
                   ClassNames('button', { current: page === currentPage })
                 }
                 onClick={() => {
-                  if (page !== currentPage) {
-                    pageChanger(page);
-                  }
+                  this.buttonHandler(page);
                 }}
               >
                 {page}
