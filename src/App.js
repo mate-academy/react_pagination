@@ -49,7 +49,7 @@ class App extends React.PureComponent {
             handlerPage={this.onPageChange}
             prevPageHandler={this.prevPageHandler}
             nextPageHandler={this.nextPageHandler}
-            withInfo={6}
+            withInfo="true"
           />
         </nav>
       </>

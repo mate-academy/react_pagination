@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'class-names';
 import { PrevPage } from '../PrevPage/PrevPage';
 import { NextPage } from '../NextPage/NextPage';
-import { WithInfo } from '../WithInfo/WithInfo';
+import { Content } from '../Content/Content';
 import './Pagination.css';
 
 export const Pagination = ({
@@ -49,7 +49,7 @@ export const Pagination = ({
           nextPageHandler={nextPageHandler}
         />
       </ul>
-      {page >= withInfo && <WithInfo />}
+      {withInfo && <Content />}
     </>
   );
 };
@@ -61,5 +61,5 @@ Pagination.propTypes = {
   handlerPage: PropTypes.func.isRequired,
   prevPageHandler: PropTypes.func.isRequired,
   nextPageHandler: PropTypes.func.isRequired,
-  withInfo: PropTypes.number.isRequired,
+  withInfo: PropTypes.bool.isRequired,
 };
