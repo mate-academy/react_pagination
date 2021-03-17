@@ -36,6 +36,10 @@ export class Pagination extends React.Component {
     const startAddAdditionalInfoFrom = 6;
     const addAdditionalInfoTo = 10;
 
+    function shouldShowInfo(start, end) {
+      return selected >= start && selected <= end;
+    }
+
     return (
       <div>
         <nav aria-label="Page navigation example">
@@ -78,8 +82,7 @@ export class Pagination extends React.Component {
             </li>
           </ul>
         </nav>
-        {selected >= startAddAdditionalInfoFrom
-          && selected <= addAdditionalInfoTo
+        {shouldShowInfo(startAddAdditionalInfoFrom, addAdditionalInfoTo)
           && (
             <div>
               {withInfo}
