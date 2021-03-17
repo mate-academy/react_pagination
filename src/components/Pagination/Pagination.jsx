@@ -76,13 +76,12 @@ export class Pagination extends React.Component {
             </li>
           </ul>
         </nav>
-        {
-      selected >= 6 && selected <= 10
-      && (
-        <div>
-          {withInfo}
-        </div>
-      )
+        {selected >= 6 && selected <= 10
+          && (
+            <div>
+              {withInfo}
+            </div>
+          )
       }
       </div>
     );
