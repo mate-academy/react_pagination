@@ -1,0 +1,8 @@
+.selected {
+  background-color: rgba(86, 86, 206, 0.2);
+}
+
+.disabled {
+  pointer-events: none;
+  background-color: crimson;
+}
