@@ -33,6 +33,8 @@ export class Pagination extends React.Component {
     const { selected } = this.state;
     const totalPages = Math.ceil(total / perPage);
     const pages = Array.from(Array(totalPages), (_, index) => index + 1);
+    const startAddAdditionalInfoFrom = 6;
+    const addAdditionalInfoTo = 10;
 
     return (
       <div>
@@ -76,7 +78,8 @@ export class Pagination extends React.Component {
             </li>
           </ul>
         </nav>
-        {selected >= 6 && selected <= 10
+        {selected >= startAddAdditionalInfoFrom
+          && selected <= addAdditionalInfoTo
           && (
             <div>
               {withInfo}
