@@ -5,22 +5,52 @@ import classNames from 'classnames';
 export class Pagination extends React.Component {
   state = {
     selectLink: this.props.page,
-    withInfo: 'Some information',
+    withInfo: false,
   }
 
   handleNext = () => {
+    if (this.state.selectLink >= 6) {
+      this.setState({
+        withInfo: true,
+      });
+    } else {
+      this.setState({
+        withInfo: false,
+      });
+    }
+
     this.setState(prevState => ({
       selectLink: prevState.selectLink + 1,
     }));
   }
 
   handlePrevious = () => {
+    if (this.state.selectLink >= 6) {
+      this.setState({
+        withInfo: true,
+      });
+    } else {
+      this.setState({
+        withInfo: false,
+      });
+    }
+
     this.setState(prevState => ({
       selectLink: prevState.selectLink - 1,
     }));
   }
 
   handleClick = (page) => {
+    if (this.state.selectLink >= 6) {
+      this.setState({
+        withInfo: true,
+      });
+    } else {
+      this.setState({
+        withInfo: false,
+      });
+    }
+
     this.setState({
       selectLink: page,
     });
@@ -34,10 +64,8 @@ export class Pagination extends React.Component {
 
     return (
       <div>
-        {selectLink >= 6 && (
-          <p className="title">
-            {withInfo}
-          </p>
+        {withInfo && (
+          <h1>Some text</h1>
         )}
         <ul className="page">
           <button
