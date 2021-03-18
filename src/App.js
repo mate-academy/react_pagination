@@ -5,8 +5,6 @@ import { Pagination } from './components/Pagination';
 export class App extends Component {
   state = {
     perPage: 5,
-    total: 42,
-    page: 1,
   }
 
   onChangePerPage = (quantity) => {
@@ -16,16 +14,16 @@ export class App extends Component {
   }
 
   render() {
-    const { perPage, total, page } = this.state;
+    const { perPage } = this.state;
     const { onChangePerPage } = this;
 
     return (
       <>
         <h1>Pagination</h1>
         <Pagination
-          total={total}
+          total={42}
           perPage={perPage}
-          page={page}
+          page={1}
           onChange={onChangePerPage}
         />
       </>

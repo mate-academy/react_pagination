@@ -1,0 +1,11 @@
+.Extra__addition {
+  background-color: burlywood;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  opacity: 0;
+}
+
+.Extra__addition--active {
+  opacity: 1;
+}

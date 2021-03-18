@@ -27,19 +27,6 @@
   border: 5px solid blue;
 }
 
-.Pagination__addition {
-  background-color: burlywood;
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  opacity: 0;
-
-}
-
-.Pagination__addition_extra {
-  opacity: 1;
-}
-
 .Pagination__select {
   display: block;
   margin: 0 auto;

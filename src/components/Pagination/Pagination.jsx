@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { Select } from '../Select';
+import { Extra } from '../Extra';
+import { Button } from '../Button';
 import './Pagination.css';
 
 export class Pagination extends Component {
   state = {
     currentPage: this.props.page,
-    step: 0,
+    offsetPaginationRelativeToTheBeginning: 0,
   }
 
   onPageChange = (event) => {
@@ -17,13 +19,15 @@ export class Pagination extends Component {
 
   handleNextStep = () => {
     this.setState(prevState => ({
-      step: prevState.step + 1,
+      offsetPaginationRelativeToTheBeginning:
+        prevState.offsetPaginationRelativeToTheBeginning + 1,
     }));
   }
 
   handlePrevStep = () => {
     this.setState(prevState => ({
-      step: prevState.step - 1,
+      offsetPaginationRelativeToTheBeginning:
+        prevState.offsetPaginationRelativeToTheBeginning - 1,
     }));
   }
 
@@ -35,8 +39,8 @@ export class Pagination extends Component {
 
   render() {
     const { perPage, total } = this.props;
-    const { currentPage, step } = this.state;
-    const initialValues = Array.from(
+    const { currentPage, offsetPaginationRelativeToTheBeginning } = this.state;
+    const quantityOfPages = Array.from(
       { length: this.props.total }, (_, i) => i + 1,
     );
 
@@ -46,68 +50,56 @@ export class Pagination extends Component {
       handleNextStep,
       handlePrevStep,
     } = this;
-    const slice = initialValues.slice(step, step + perPage);
+    const extractedPages = quantityOfPages.slice(
+      offsetPaginationRelativeToTheBeginning,
+      offsetPaginationRelativeToTheBeginning + perPage,
+    );
 
     return (
       <>
         <nav aria-label="Pagination">
           <ul className="Pagination__list">
             <li className="Pagination__item">
-              <button
-                type="button"
-                disabled={slice.includes(1)}
-                className="Pagination__previous"
-                onClick={handlePrevStep}
-              >
-                Previous
-              </button>
+              <Button
+                text="Previous"
+                onChangeStep={handlePrevStep}
+                extractedPages={extractedPages.includes(1)}
+                name="Pagination__previous"
+              />
             </li>
-            {slice.map((eachPage) => {
-              const isActiveClass = currentPage === eachPage
+            {extractedPages.map((page) => {
+              const isActiveClass = currentPage === page
                 ? 'Pagination__page_active'
                 : null;
 
               return (
-                <li key={eachPage}>
+                <li key={page}>
                   <button
                     type="button"
-                    value={eachPage}
+                    value={page}
                     onClick={onPageChange}
                     className={`Pagination__page ${isActiveClass}`}
                   >
-                    {eachPage}
+                    {page}
                   </button>
                 </li>
               );
             })}
             <li className="page-item">
-              <button
-                disabled={slice.includes(total)}
-                className="Pagination__next"
-                type="button"
-                onClick={handleNextStep}
-              >
-                Next
-              </button>
+              <Button
+                text="Next"
+                name="Pagination__next"
+                onChangeStep={handleNextStep}
+                extractedPages={extractedPages.includes(total)}
+              />
             </li>
           </ul>
         </nav>
-        <div className={classNames('Pagination__addition', {
-          Pagination__addition_extra: currentPage > 5,
-        })}
-        >
-          You have lots of opportunities to make money together with us
-        </div>
-        <select
-          onChange={handleChangeQuantityPerPage}
-          className="Pagination__select"
-          value={perPage}
-        >
-          <option value={3}>3</option>
-          <option value={5}>5</option>
-          <option value={10}>10</option>
-          <option value={20}>20</option>
-        </select>
+        <Extra currentPage={currentPage} />
+        <Select
+          onChangeAmountOfPages={handleChangeQuantityPerPage}
+          amountPage={perPage}
+        />
       </>
     );
   }
