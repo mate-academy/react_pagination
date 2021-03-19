@@ -4,60 +4,48 @@ import classNames from 'classnames';
 
 export class Pagination extends React.Component {
   state = {
-    selectLink: this.props.page,
+    selectPage: this.props.page,
     withInfo: false,
+    breakPoin: 6,
+  }
+
+  checkInfo = () => {
+    if (this.state.selectPage >= this.state.breakPoin) {
+      this.setState({
+        withInfo: true,
+      });
+    } else {
+      this.setState({
+        withInfo: false,
+      });
+    }
   }
 
   handleNext = () => {
-    if (this.state.selectLink >= 6) {
-      this.setState({
-        withInfo: true,
-      });
-    } else {
-      this.setState({
-        withInfo: false,
-      });
-    }
-
     this.setState(prevState => ({
-      selectLink: prevState.selectLink + 1,
+      selectPage: prevState.selectPage + 1,
     }));
+    this.checkInfo();
   }
 
   handlePrevious = () => {
-    if (this.state.selectLink >= 6) {
-      this.setState({
-        withInfo: true,
-      });
-    } else {
-      this.setState({
-        withInfo: false,
-      });
-    }
+    this.checkInfo();
 
     this.setState(prevState => ({
-      selectLink: prevState.selectLink - 1,
+      selectPage: prevState.selectPage - 1,
     }));
   }
 
   handleClick = (page) => {
-    if (this.state.selectLink >= 6) {
-      this.setState({
-        withInfo: true,
-      });
-    } else {
-      this.setState({
-        withInfo: false,
-      });
-    }
+    this.checkInfo();
 
     this.setState({
-      selectLink: page,
+      selectPage: page,
     });
   }
 
   render() {
-    const { selectLink, withInfo } = this.state;
+    const { selectPage, withInfo } = this.state;
     const { total, perPage } = this.props;
     const links = Math.ceil(total / perPage);
     const pages = Array.from({ length: links }, (_, i) => i + 1);
@@ -80,7 +68,7 @@ export class Pagination extends React.Component {
               <a
                 href={`#${page}`}
                 className={classNames('link',
-                  { link__active: page === selectLink })}
+                  { link__active: page === selectPage })}
                 onClick={() => this.handleClick(page)}
               >
                 {page}
