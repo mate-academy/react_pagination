@@ -39,6 +39,7 @@ export class Pagination extends Component {
 
   render() {
     const { perPage, total } = this.props;
+    const startPagination = 1;
     const { currentPage, offsetPaginationRelativeToTheBeginning } = this.state;
     const quantityOfPages = Array.from(
       { length: this.props.total }, (_, i) => i + 1,
@@ -63,7 +64,7 @@ export class Pagination extends Component {
               <Button
                 text="Previous"
                 onChangeStep={handlePrevStep}
-                onDisable={extractedPages.includes(1)}
+                onDisable={extractedPages.includes(startPagination)}
                 name="pagination__previous"
               />
             </li>
