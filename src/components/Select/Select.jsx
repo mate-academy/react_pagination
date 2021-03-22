@@ -8,7 +8,7 @@ export function Select({
   return (
     <select
       onChange={onChangeAmountOfPages}
-      className="Pagination__select"
+      className="pagination__select"
       value={amountPage}
     >
       <option value={3}>3</option>

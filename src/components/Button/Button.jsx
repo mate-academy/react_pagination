@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export function Button({
-  extractedPages,
+  onDisable,
   onChangeStep,
   text,
   name,
@@ -10,7 +10,7 @@ export function Button({
   return (
     <button
       type="button"
-      disabled={extractedPages}
+      disabled={onDisable}
       className={name}
       onClick={onChangeStep}
     >
@@ -23,5 +23,5 @@ Button.propTypes = {
   onChangeStep: PropTypes.func.isRequired,
   text: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  extractedPages: PropTypes.bool.isRequired,
+  onDisable: PropTypes.bool.isRequired,
 };

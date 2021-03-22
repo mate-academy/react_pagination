@@ -5,8 +5,8 @@ import './Extra.css';
 
 export function Extra({ currentPage }) {
   return (
-    <div className={classNames('Extra__addition', {
-      'Extra__addition--active': currentPage > 5,
+    <div className={classNames('extra__addition', {
+      'extra__addition--active': currentPage > 5,
     })}
     >
       You have lots of opportunities to make money together with us

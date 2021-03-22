@@ -1,4 +1,4 @@
-.Pagination__list {
+.pagination__list {
   display: flex;
   width: max-content;
   list-style: none;
@@ -6,9 +6,9 @@
   margin: 0 auto;
 }
 
-.Pagination__page,
-.Pagination__previous,
-.Pagination__next {
+.pagination__page,
+.pagination__previous,
+.pagination__next {
   background-color: tomato;
   margin: 1px;
   padding: 10px;
@@ -17,17 +17,17 @@
   cursor: pointer;
 }
 
-.Pagination__page {
+.pagination__page {
   background-color: thistle;
   border: 2px solid red;
   outline: none;
 }
 
-.Pagination__page_active {
+.pagination__page_active {
   border: 5px solid blue;
 }
 
-.Pagination__select {
+.pagination__select {
   display: block;
   margin: 0 auto;
   padding: 5px;

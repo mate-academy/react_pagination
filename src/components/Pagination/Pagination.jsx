@@ -57,20 +57,20 @@ export class Pagination extends Component {
 
     return (
       <>
-        <nav aria-label="Pagination">
-          <ul className="Pagination__list">
-            <li className="Pagination__item">
+        <nav aria-label="pagination">
+          <ul className="pagination__list">
+            <li className="pagination__item">
               <Button
                 text="Previous"
                 onChangeStep={handlePrevStep}
-                extractedPages={extractedPages.includes(1)}
-                name="Pagination__previous"
+                onDisable={extractedPages.includes(1)}
+                name="pagination__previous"
               />
             </li>
             {extractedPages.map((page) => {
-              const isActiveClass = currentPage === page
-                ? 'Pagination__page_active'
-                : null;
+              const isActive = currentPage === page
+                ? 'pagination__page_active'
+                : '';
 
               return (
                 <li key={page}>
@@ -78,7 +78,7 @@ export class Pagination extends Component {
                     type="button"
                     value={page}
                     onClick={onPageChange}
-                    className={`Pagination__page ${isActiveClass}`}
+                    className={`pagination__page ${isActive}`}
                   >
                     {page}
                   </button>
@@ -88,9 +88,9 @@ export class Pagination extends Component {
             <li className="page-item">
               <Button
                 text="Next"
-                name="Pagination__next"
+                name="pagination__next"
                 onChangeStep={handleNextStep}
-                extractedPages={extractedPages.includes(total)}
+                onDisable={extractedPages.includes(total)}
               />
             </li>
           </ul>

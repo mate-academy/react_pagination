@@ -1,4 +1,4 @@
-.Extra__addition {
+.extra__addition {
   background-color: burlywood;
   padding: 20px;
   border-radius: 10px;
@@ -6,6 +6,6 @@
   opacity: 0;
 }
 
-.Extra__addition--active {
+.extra__addition--active {
   opacity: 1;
 }
