@@ -24,6 +24,7 @@ export class App extends Component {
           total={42}
           perPage={perPage}
           page={1}
+          withInfo={6}
           onChange={onChangePerPage}
         />
       </>

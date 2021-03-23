@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { Select } from '../Select';
-import { Extra } from '../Extra';
 import { Button } from '../Button';
 import './Pagination.css';
 
@@ -38,7 +38,7 @@ export class Pagination extends Component {
   }
 
   render() {
-    const { perPage, total } = this.props;
+    const { perPage, total, withInfo } = this.props;
     const startPagination = 1;
     const { currentPage, offsetPaginationRelativeToTheBeginning } = this.state;
     const quantityOfPages = Array.from(
@@ -96,7 +96,12 @@ export class Pagination extends Component {
             </li>
           </ul>
         </nav>
-        <Extra currentPage={currentPage} />
+        <div className={classNames('withInfo', {
+          'withInfo--active': currentPage > withInfo,
+        })}
+        >
+          You have lots of opportunities to make money together with us
+        </div>
         <Select
           onChangeAmountOfPages={handleChangeQuantityPerPage}
           amountPage={perPage}

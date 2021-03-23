@@ -34,3 +34,15 @@
   border-radius: 5px;
   background-color: cornflowerblue;
 }
+
+.withInfo {
+  background-color: burlywood;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  opacity: 0;
+}
+
+.withInfo--active {
+  opacity: 1;
+}
