@@ -4,26 +4,22 @@ import classNames from 'classnames';
 
 export class Pagination extends React.Component {
   state = {
-    selectPage: this.props.page,
+    selectedPage: this.props.page,
     withInfo: false,
-    breakPoin: 6,
+    breakPointForInfo: 6,
   }
 
   checkInfo = () => {
-    if (this.state.selectPage >= this.state.breakPoin) {
-      this.setState({
-        withInfo: true,
-      });
-    } else {
-      this.setState({
-        withInfo: false,
-      });
-    }
+    const { selectedPage, breakPointForInfo } = this.state;
+
+    return selectedPage >= breakPointForInfo
+      ? this.setState({ withInfo: true })
+      : this.setState({ withInfo: false });
   }
 
   handleNext = () => {
     this.setState(prevState => ({
-      selectPage: prevState.selectPage + 1,
+      selectedPage: prevState.selectedPage + 1,
     }));
     this.checkInfo();
   }
@@ -32,7 +28,7 @@ export class Pagination extends React.Component {
     this.checkInfo();
 
     this.setState(prevState => ({
-      selectPage: prevState.selectPage - 1,
+      selectedPage: prevState.selectedPage - 1,
     }));
   }
 
@@ -40,12 +36,12 @@ export class Pagination extends React.Component {
     this.checkInfo();
 
     this.setState({
-      selectPage: page,
+      selectedPage: page,
     });
   }
 
   render() {
-    const { selectPage, withInfo } = this.state;
+    const { selectedPage, withInfo } = this.state;
     const { total, perPage } = this.props;
     const links = Math.ceil(total / perPage);
     const pages = Array.from({ length: links }, (_, i) => i + 1);
@@ -67,8 +63,11 @@ export class Pagination extends React.Component {
             <li key={page}>
               <a
                 href={`#${page}`}
-                className={classNames('link',
-                  { link__active: page === selectPage })}
+                className={
+                  classNames(
+                    'link',
+                    { link__active: page === selectedPage },
+                  )}
                 onClick={() => this.handleClick(page)}
               >
                 {page}
