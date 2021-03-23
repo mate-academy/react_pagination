@@ -1,1 +1,7 @@
+* {
+  box-sizing: border-box;
+}
 
+body {
+  background-color: rgb(30, 226, 30);
+}
