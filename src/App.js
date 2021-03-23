@@ -9,6 +9,7 @@ const App = () => (
       total={42}
       perPage={5}
       page={1}
+      withInf0={false}
     />
   </>
 );

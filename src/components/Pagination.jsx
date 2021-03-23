@@ -5,16 +5,16 @@ import classNames from 'classnames';
 export class Pagination extends React.Component {
   state = {
     selectedPage: this.props.page,
-    withInfo: false,
     breakPointForInfo: 6,
+    checkWithInfo: this.props.withInfo,
   }
 
   checkInfo = () => {
     const { selectedPage, breakPointForInfo } = this.state;
 
     return selectedPage >= breakPointForInfo
-      ? this.setState({ withInfo: true })
-      : this.setState({ withInfo: false });
+      ? this.setState({ checkWithInfo: true })
+      : this.setState({ checkWithInfo: false });
   }
 
   handleNext = () => {
@@ -41,14 +41,14 @@ export class Pagination extends React.Component {
   }
 
   render() {
-    const { selectedPage, withInfo } = this.state;
+    const { selectedPage, checkWithInfo } = this.state;
     const { total, perPage } = this.props;
     const links = Math.ceil(total / perPage);
     const pages = Array.from({ length: links }, (_, i) => i + 1);
 
     return (
       <div>
-        {withInfo && (
+        {checkWithInfo && (
           <h1>Some text</h1>
         )}
         <ul className="page">
@@ -91,4 +91,5 @@ Pagination.propTypes = {
   page: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
   perPage: PropTypes.number.isRequired,
+  withInfo: PropTypes.bool.isRequired,
 };
