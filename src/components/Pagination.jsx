@@ -12,9 +12,9 @@ export class Pagination extends React.Component {
   checkInfo = () => {
     const { selectedPage, breakPointForInfo } = this.state;
 
-    return selectedPage >= breakPointForInfo
-      ? this.setState({ checkWithInfo: true })
-      : this.setState({ checkWithInfo: false });
+    return this.setState({
+      checkWithInfo: selectedPage >= breakPointForInfo,
+    });
   }
 
   handleNext = () => {
