@@ -1,1 +1,28 @@
+.page {
+  list-style: none;
+  display: flex;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+}
 
+.link {
+  text-decoration: none;
+  color: #f35a35;
+  padding: 10px;
+
+  border: 1px solid black;
+}
+
+.button {
+  padding: 10px 5px;
+  margin: 0 20px;
+}
+
+.link__active {
+  background-color: blue;
+}
+
+.title {
+  text-align: center;
+}
