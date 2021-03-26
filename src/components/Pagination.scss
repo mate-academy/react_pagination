@@ -1,0 +1,37 @@
+.Pagination {
+  display: flex;
+  list-style: none;
+
+  &__item {
+    margin: 1px;
+    width: 50px;
+    height: 20px;
+
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    background-color: darkseagreen;
+    &-active {
+      margin: 1px;
+      width: 50px;
+      height: 20px;
+      background-color: forestgreen;
+    }
+    &:hover {
+      background-color: rgb(112, 196, 112);
+    }
+  }
+
+  &__prev,
+  &__next {
+    width: 80px;
+
+    text-align: center;
+    cursor: pointer;
+    background-color: darkseagreen;
+    &-disable {
+      width: 80px;
+      background-color: whitesmoke;
+    }
+  }
+}
