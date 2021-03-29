@@ -4,64 +4,60 @@ import './Pagination.scss';
 
 class Pagination extends React.PureComponent {
   state = {
-    activeButton: this.props.page,
+    activePage: this.props.page,
   }
 
-  setNumber = pageNumber => () => {
+  listOfPages = new Array(this.props.total).fill(1);
+
+  setActivePage = pageNumber => () => {
     this.setState({
-      activeButton: pageNumber,
+      activePage: pageNumber,
     });
   }
 
   nextPage = () => {
     const stepPerPage = (
-      this.state.activeButton + this.props.perPage > this.props.total
-        ? this.props.total - this.state.activeButton
+      this.state.activePage + this.props.perPage > this.props.total
+        ? this.props.total - this.state.activePage
         : this.props.perPage);
 
     this.setState((state) => {
-      if (state.activeButton < this.props.total) {
+      if (state.activePage < this.props.total) {
         return {
-          activeButton: state.activeButton + stepPerPage,
+          activePage: state.activePage + stepPerPage,
         };
       }
 
       return {
-        activeButton: state.activeButton,
+        activePage: state.activePage,
       };
     });
   }
 
   prevPage = () => {
-    const stepPerPage = this.state.activeButton - this.props.perPage < 1
-      ? this.state.activeButton - 1
+    const stepPerPage = this.state.activePage - this.props.perPage < 1
+      ? this.state.activePage - 1
       : this.props.perPage;
 
     this.setState((state) => {
-      if (state.activeButton > 1) {
+      if (state.activePage > 1) {
         return {
-          activeButton: state.activeButton - stepPerPage,
+          activePage: state.activePage - stepPerPage,
         };
       }
 
       return {
-        activeButton: state.activeButton,
+        activePage: state.activePage,
       };
     });
   }
 
   render() {
-    const listOfPages = [];
-
-    for (let i = 1; i < this.props.total + 1; i += 1) {
-      listOfPages.push(i);
-    }
-
     return (
       <>
         <div>
           {
-            this.props.data[Number(this.state.activeButton) - 1]
+            this.props.data[Number(this.state.activePage) - 1]
           }
         </div>
         <nav aria-label="Page navigation example">
@@ -69,7 +65,7 @@ class Pagination extends React.PureComponent {
             <li>
               <button
                 type="button"
-                className={this.state.activeButton === 1
+                className={this.state.activePage === 1
                   ? 'Pagination__prev-disable'
                   : 'Pagination__prev'
                 }
@@ -79,18 +75,18 @@ class Pagination extends React.PureComponent {
               </button>
             </li>
             {
-              listOfPages.map(page => (
+              this.listOfPages.map((page, index) => (
                 <li
-                  key={page}
+                  key={index}
                 >
                   <button
                     type="button"
-                    className={+page === +this.state.activeButton
+                    className={index + 1 === +this.state.activePage
                       ? 'Pagination__item-active'
                       : 'Pagination__item'}
-                    onClick={this.setNumber(page)}
+                    onClick={this.setActivePage(index + 1)}
                   >
-                    {page}
+                    {index + 1}
                   </button>
                 </li>
               ))
@@ -98,7 +94,7 @@ class Pagination extends React.PureComponent {
             <li>
               <button
                 type="button"
-                className={this.state.activeButton === this.props.total
+                className={this.state.activePage === this.props.total
                   ? 'Pagination__next-disable'
                   : 'Pagination__next'
                 }
