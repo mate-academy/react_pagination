@@ -99,13 +99,7 @@ export const Pagination = ({
         </ul>
       </nav>
       <span>
-        {(activePage - 1) * perPage + 1}
-        {' '}
-        -
-        {maxCountItems}
-        {' '}
-        of
-        {total}
+        {`${(activePage - 1) * perPage + 1} - ${maxCountItems} of ${total}`}
       </span>
     </>
   );
