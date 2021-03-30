@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import { Pagination } from './Pagination';
 
-const data = [...Array(26)].map((e, i) => (i + 10).toString(36));
+const alphabetLetters = [...Array(26)].map((e, i) => (i + 10).toString(36));
 
 const App = () => (
   <div>
@@ -11,7 +11,7 @@ const App = () => (
       total={26}
       perPage={5}
       page={1}
-      data={data}
+      alphabetLetters={alphabetLetters}
     />
   </div>
 );

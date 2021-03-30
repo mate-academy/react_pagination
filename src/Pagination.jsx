@@ -7,7 +7,7 @@ export class Pagination extends Component {
     selectedPage: this.props.page,
     totalPageCount: Math.ceil(this.props.total / this.props.perPage),
     firstPage: this.props.page,
-    data: this.props.data,
+    alphabetLetters: this.props.alphabetLetters,
   }
 
   setNumber = pageNumber => () => {
@@ -37,21 +37,29 @@ export class Pagination extends Component {
   }
 
   render() {
-    const { selectedPage, data } = this.state;
+    const {
+      selectedPage,
+      alphabetLetters,
+      totalPageCount,
+    } = this.state;
     const { perPage } = this.props;
-    const { totalPageCount } = this.state;
     const pages = Array.from({ length: totalPageCount }, (_, i) => i + 1);
     const indexOfLastItem = selectedPage * perPage;
     const indexOfFirstItem = indexOfLastItem - perPage;
-    const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
-    const renderData = currentItems.map(item => (
-      <li
-        key={item}
-        className="list-group-item"
-      >
-        {item}
-      </li>
-    ));
+    const currentItems = alphabetLetters.slice(
+      indexOfFirstItem, indexOfLastItem,
+    );
+
+    const RenderData = ({ items }) => (
+      items.map(item => (
+        <li
+          key={item}
+          className="list-group-item"
+        >
+          {item}
+        </li>
+      ))
+    );
 
     return (
       <>
@@ -63,7 +71,7 @@ export class Pagination extends Component {
             'justify-content-center',
           )}
         >
-          {renderData}
+          <RenderData items={currentItems} />
         </ul>
         <nav aria-label="Page navigation example">
           <ul className="pagination justify-content-center">
@@ -129,5 +137,5 @@ Pagination.propTypes = {
   page: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
   perPage: PropTypes.number.isRequired,
-  data: PropTypes.instanceOf(Array).isRequired,
+  alphabetLetters: PropTypes.instanceOf(Array).isRequired,
 };
