@@ -1,6 +1,19 @@
 import React from 'react';
 import './App.css';
+import { Pagination } from './Pagination';
 
-const App = () => <h1>Pagination</h1>;
+const alphabetLetters = [...Array(26)].map((e, i) => (i + 10).toString(36));
+
+const App = () => (
+  <div>
+    <h1 className="title">Pagination</h1>
+    <Pagination
+      total={26}
+      perPage={5}
+      page={1}
+      alphabetLetters={alphabetLetters}
+    />
+  </div>
+);
 
 export default App;
