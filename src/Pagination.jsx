@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { ListItems } from './ListItems';
 
 export class Pagination extends Component {
   state = {
@@ -52,29 +53,10 @@ export class Pagination extends Component {
       indexOfFirstItem, indexOfLastItem,
     );
 
-    const RenderData = ({ items }) => (
-      items.map(item => (
-        <li
-          key={item}
-          className="list-group-item"
-        >
-          {item}
-        </li>
-      ))
-    );
-
     return (
       <>
-        <ul
-          className={classNames(
-            'list',
-            'list-group',
-            'list-group-horizontal',
-            'justify-content-center',
-          )}
-        >
-          <RenderData items={currentItems} />
-        </ul>
+        <ListItems items={currentItems} />
+
         <nav aria-label="Page navigation example">
           <ul className="pagination justify-content-center">
             <li
