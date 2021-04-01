@@ -5,19 +5,24 @@ import PropTypes from 'prop-types';
 export class Pagination extends Component {
   state = {
     selectedPage: this.props.page,
-    totalPageCount: Math.ceil(this.props.total / this.props.perPage),
-    firstPage: this.props.page,
-    alphabetLetters: this.props.alphabetLetters,
   }
 
-  setNumber = pageNumber => () => {
+  totalPageCount = Math.ceil(this.props.total / this.props.perPage);
+
+  firstPage = this.props.page;
+
+  alphabetLetters = this.props.alphabetLetters;
+
+  pages = Array.from(new Array(this.totalPageCount), (_, i) => i + 1);
+
+  setActivePage = pageNumber => () => {
     this.setState({
       selectedPage: pageNumber,
     });
   }
 
-  prevNumber = () => {
-    if (this.state.selectedPage <= this.state.firstPage) {
+  chosePrevPage = () => {
+    if (this.state.selectedPage <= this.firstPage) {
       return;
     }
 
@@ -26,8 +31,8 @@ export class Pagination extends Component {
     }));
   }
 
-  nextNumber = () => {
-    if (this.state.selectedPage >= this.state.totalPageCount) {
+  choseNextPage = () => {
+    if (this.state.selectedPage >= this.totalPageCount) {
       return;
     }
 
@@ -39,14 +44,11 @@ export class Pagination extends Component {
   render() {
     const {
       selectedPage,
-      alphabetLetters,
-      totalPageCount,
     } = this.state;
     const { perPage } = this.props;
-    const pages = Array.from({ length: totalPageCount }, (_, i) => i + 1);
     const indexOfLastItem = selectedPage * perPage;
     const indexOfFirstItem = indexOfLastItem - perPage;
-    const currentItems = alphabetLetters.slice(
+    const currentItems = this.alphabetLetters.slice(
       indexOfFirstItem, indexOfLastItem,
     );
 
@@ -78,19 +80,19 @@ export class Pagination extends Component {
             <li
               className={classNames(
                 'page-item',
-                { disabled: this.state.firstPage === this.state.selectedPage },
+                { disabled: this.firstPage === this.state.selectedPage },
               )}
             >
               <button
                 type="button"
                 className="page-link"
-                onClick={this.prevNumber}
+                onClick={this.chosePrevPage}
               >
                 Previous
               </button>
             </li>
 
-            {pages.map(page => (
+            {this.pages.map(page => (
               <li
                 className={classNames(
                   'page-item',
@@ -102,7 +104,7 @@ export class Pagination extends Component {
                 <button
                   type="button"
                   className="page-link"
-                  onClick={this.setNumber(page)}
+                  onClick={this.setActivePage(page)}
                 >
                   {page}
                 </button>
@@ -114,14 +116,14 @@ export class Pagination extends Component {
                 'page-item',
                 {
                   disabled:
-                    this.state.totalPageCount === this.state.selectedPage,
+                    this.totalPageCount === this.state.selectedPage,
                 },
               )}
             >
               <button
                 type="button"
                 className="page-link"
-                onClick={this.nextNumber}
+                onClick={this.choseNextPage}
               >
                 Next
               </button>
