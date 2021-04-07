@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
 import { Content } from './Content/Content';
 import { Pagination } from './Pagination/Pagination';
@@ -13,7 +13,7 @@ const state = {
 
 export const App = () => {
   const [pagination, setPagination] = useState(state);
-  const { perPage, page, paginChanged } = pagination;
+  const { page, paginChanged } = pagination;
   const onPerPageChange = (e) => {
     setPagination({
       ...pagination,
@@ -62,7 +62,8 @@ export const App = () => {
           onChangePagination={onChangePagination}
         />
       </Route>
-      <Redirect path="/" to={`/pagination?perPage=${perPage}&page=${page}`} />
+      <Redirect path="/" to="/pagination?perPage=5&page=1" />
+
     </Switch>
   );
 };

@@ -76,16 +76,18 @@ export const Pagination = ({
         {(paginChanged
           ? makePagesArray(lastPage, page)
           : [...Array(lastPage).keys()].map(val => val + 1))
-          .map(item => (
+          .map((item, index) => (
             <button
-              key={item}
+              key={`${index + 1}`}
               type="button"
-              className={classNames('button', { activ: page === item })}
+              className={classNames('button', {
+                activ: item === page,
+              })}
+              disabled={item === '...'}
               onClick={() => {
                 onChangePage(item);
                 changeHistory('page', item);
               }}
-              disabled={item === '...'}
             >
               {item}
             </button>
