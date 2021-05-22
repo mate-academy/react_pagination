@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 
@@ -8,6 +9,7 @@ const perPageOptions = [3, 5, 10, 15, 20];
 
 const MIN_TOTAL = 1;
 const MAX_TOTAL = 100;
+const WINDOW_SIZE = 2;
 
 export const Pagination = ({
   page, perPage, total,
@@ -28,53 +30,124 @@ export const Pagination = ({
   const nextPage = () => onPageChange(page + 1);
   const prevPage = () => onPageChange(page - 1);
 
+  const isFirstPage = useCallback(() => page === 1, [page]);
+  const isLastPage = useCallback(() => page === pageCount, [page, pageCount]);
+
+  const window = useMemo(() => {
+    if (pageCount <= WINDOW_SIZE) {
+      return Array(pageCount).keys().map(key => key + 1);
+    }
+
+    let first;
+    let last;
+
+    if (isLastPage()) {
+      first = page - WINDOW_SIZE > 0 ? page - WINDOW_SIZE : 1;
+      last = page;
+    } else {
+      first = page - 1 > 0 ? page - 1 : page;
+      last = first + WINDOW_SIZE <= pageCount ? first + WINDOW_SIZE : pageCount;
+    }
+
+    if (last - first > 1) {
+      return [
+        first,
+        first + 1,
+        last,
+      ];
+    }
+
+    return [first, last];
+  }, [page, pageCount]);
+
   return (
     <nav className="Page navigation">
       <ul className="pagination justify-content-center">
         <li
           className={cn('page-item', {
-            disabled: page <= 1,
+            disabled: isFirstPage(),
           })}
         >
           <a
             className="page-link"
             href="#"
             aria-label="Previous"
+            aria-disabled={isFirstPage() ? 'true' : 'false'}
             onClick={prevPage}
-            tabIndex={page <= 1 ? -1 : 0}
+            tabIndex={isFirstPage() ? -1 : 0}
           >
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
 
-        {[...Array(pageCount).keys()].map(pageNumber => (
+        {/* Render first page */}
+        {window.includes(1) || (
           <li
-            key={pageNumber}
+            key={1}
             className={cn('page-item', {
-              active: page === pageNumber + 1,
+              active: page === 1,
             })}
           >
             <a
               className="page-link"
               href="#"
-              onClick={() => onPageChange(pageNumber + 1)}
+              onClick={() => onPageChange(1)}
+              data-testid={1}
             >
-              {pageNumber + 1}
+              1
+            </a>
+          </li>
+        )}
+
+        {window.map(pageNumber => (
+          <li
+            key={pageNumber}
+            className={cn('page-item', {
+              active: page === pageNumber,
+            })}
+          >
+            <a
+              className="page-link"
+              href="#"
+              onClick={() => onPageChange(pageNumber)}
+              data-testid={pageNumber}
+            >
+              {pageNumber}
             </a>
           </li>
         ))}
 
+        {/* Render last page */}
+        {window.includes(pageCount) || (
+          <li
+            key={pageCount}
+            className={cn('page-item', {
+              active: page === pageCount,
+            })}
+          >
+            <a
+              className="page-link"
+              href="#"
+              onClick={() => onPageChange(pageCount)}
+              data-testid={pageCount}
+            >
+              {pageCount}
+            </a>
+          </li>
+        )}
+
         <li
           className={cn('page-item', {
-            disabled: page >= pageCount,
+            disabled: isLastPage(),
           })}
         >
           <a
             className="page-link"
             href="#"
             aria-label="Next"
+            aria-disabled={isLastPage() ? 'true' : 'false'}
             onClick={nextPage}
-            tabIndex={page >= pageCount ? -1 : 0}
+            tabIndex={isLastPage() ? -1 : 0}
           >
             <span aria-hidden="true">&raquo;</span>
           </a>
