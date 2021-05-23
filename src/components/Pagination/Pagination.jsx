@@ -27,8 +27,8 @@ export const Pagination = ({
   const nextPage = () => onPageChange(page + 1);
   const prevPage = () => onPageChange(page - 1);
 
-  const isFirstPage = useCallback(() => page === FIRST_PAGE, [page]);
-  const isLastPage = useCallback(() => page === pageCount, [page, pageCount]);
+  const isFirstPage = useMemo(() => page === FIRST_PAGE, [page]);
+  const isLastPage = useMemo(() => page === pageCount, [page, pageCount]);
 
   const isLeftPlaceholderVisible = window => (
     !window.includes(FIRST_PAGE) && !window.includes(FIRST_PAGE + 1)
@@ -45,7 +45,7 @@ export const Pagination = ({
     let first;
     let last;
 
-    if (isLastPage()) {
+    if (isLastPage) {
       first = page - WINDOW_SIZE > 0 ? page - WINDOW_SIZE : 1;
       last = page;
     } else {
@@ -69,16 +69,16 @@ export const Pagination = ({
       <ul className="pagination pagination-lg justify-content-center">
         <li
           className={cn('page-item', {
-            disabled: isFirstPage(),
+            disabled: isFirstPage,
           })}
         >
           <a
             className="page-link"
             href="#"
             aria-label="Previous"
-            aria-disabled={isFirstPage() ? 'true' : 'false'}
+            aria-disabled={isFirstPage ? 'true' : 'false'}
             onClick={prevPage}
-            tabIndex={isFirstPage() ? -1 : 0}
+            tabIndex={isFirstPage ? -1 : 0}
           >
             <span aria-hidden="true">&laquo;</span>
           </a>
@@ -164,16 +164,16 @@ export const Pagination = ({
 
         <li
           className={cn('page-item', {
-            disabled: isLastPage(),
+            disabled: isLastPage,
           })}
         >
           <a
             className="page-link"
             href="#"
             aria-label="Next"
-            aria-disabled={isLastPage() ? 'true' : 'false'}
+            aria-disabled={isLastPage ? 'true' : 'false'}
             onClick={nextPage}
-            tabIndex={isLastPage() ? -1 : 0}
+            tabIndex={isLastPage ? -1 : 0}
           >
             <span aria-hidden="true">&raquo;</span>
           </a>
