@@ -3,9 +3,5 @@
 }
 
 .page-link {
-  transition: all 200ms ease-out;
-}
-
-.activeLi {
-  color: #777;
+  transition: all 500ms ease-out;
 }
