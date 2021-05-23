@@ -9,6 +9,7 @@ const perPageOptions = [3, 5, 10, 15, 20];
 
 const MIN_TOTAL = 1;
 const MAX_TOTAL = 100;
+const FIRST_PAGE = 1;
 const WINDOW_SIZE = 2;
 
 export const Pagination = ({
@@ -18,24 +19,27 @@ export const Pagination = ({
 }) => {
   const pageCount = useMemo(() => Math.ceil(total / perPage), [total, perPage]);
 
-  const pageInfo = useMemo(() => {
-    const from = (perPage * page) - perPage + 1;
-    const to = (page === pageCount) ? total : (perPage * page);
-
-    return {
-      from, to,
-    };
-  }, [page, perPage, pageCount, total]);
+  const pageInfo = useMemo(() => ({
+    from: (perPage * page) - perPage + 1,
+    to: (page === pageCount) ? total : (perPage * page),
+  }), [page, perPage, pageCount, total]);
 
   const nextPage = () => onPageChange(page + 1);
   const prevPage = () => onPageChange(page - 1);
 
-  const isFirstPage = useCallback(() => page === 1, [page]);
+  const isFirstPage = useCallback(() => page === FIRST_PAGE, [page]);
   const isLastPage = useCallback(() => page === pageCount, [page, pageCount]);
+
+  const isLeftPlaceholderVisible = window => (
+    !window.includes(FIRST_PAGE) && !window.includes(FIRST_PAGE + 1)
+  );
+  const isRightPlaceholderVisible = window => (
+    !window.includes(pageCount) && !window.includes(pageCount - 1)
+  );
 
   const window = useMemo(() => {
     if (pageCount <= WINDOW_SIZE) {
-      return Array(pageCount).keys().map(key => key + 1);
+      return [...Array(pageCount).keys()].map(key => key + 1);
     }
 
     let first;
@@ -62,7 +66,7 @@ export const Pagination = ({
 
   return (
     <nav className="Page navigation">
-      <ul className="pagination justify-content-center">
+      <ul className="pagination pagination-lg justify-content-center">
         <li
           className={cn('page-item', {
             disabled: isFirstPage(),
@@ -81,25 +85,36 @@ export const Pagination = ({
         </li>
 
         {/* Render first page */}
-        {window.includes(1) || (
+        {window.includes(FIRST_PAGE) || (
           <li
-            key={1}
-            className={cn('page-item', {
-              active: page === 1,
-            })}
+            className="page-item"
           >
             <a
               className="page-link"
               href="#"
-              onClick={() => onPageChange(1)}
-              data-testid={1}
+              onClick={() => onPageChange(FIRST_PAGE)}
+              data-testid={FIRST_PAGE}
             >
               1
             </a>
           </li>
         )}
 
-        {window.map(pageNumber => (
+        {/* Render placeholder */}
+        {isLeftPlaceholderVisible(window) && (
+          <li
+            className="page-item"
+          >
+            <a
+              className="page-link"
+              href="#"
+            >
+              ...
+            </a>
+          </li>
+        )}
+
+        {window.map((pageNumber, idx) => (
           <li
             key={pageNumber}
             className={cn('page-item', {
@@ -117,13 +132,24 @@ export const Pagination = ({
           </li>
         ))}
 
+        {/* Render placeholder */}
+        {isRightPlaceholderVisible(window) && (
+          <li
+            className="page-item"
+          >
+            <a
+              className="page-link"
+              href="#"
+            >
+              ...
+            </a>
+          </li>
+        )}
+
         {/* Render last page */}
         {window.includes(pageCount) || (
           <li
-            key={pageCount}
-            className={cn('page-item', {
-              active: page === pageCount,
-            })}
+            className="page-item"
           >
             <a
               className="page-link"

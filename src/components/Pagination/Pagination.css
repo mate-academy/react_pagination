@@ -1,3 +1,11 @@
 .Pagination__info {
   text-align: center;
 }
+
+.page-link {
+  transition: all 200ms ease-out;
+}
+
+.activeLi {
+  color: #777;
+}
