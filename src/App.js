@@ -5,39 +5,35 @@ import items from './api/items';
 class App extends React.Component {
   state = {
     selectedPage: 1,
-    itemsFromServer: items,
-    itemsForShow: items.slice(0, 5),
     maxCount: 5,
 
   };
 
-  setSelected = (pageNumber) => {
-    this.setState(({ itemsFromServer, maxCount }) => {
-      const end = pageNumber * maxCount;
-      const start = end - maxCount;
-
-      return {
-        itemsForShow: itemsFromServer.slice(start, end),
-        selectedPage: pageNumber,
-      };
-    });
+  setSelected = (newSelPage) => {
+    this.setState({ selectedPage: newSelPage });
   };
 
   setMaxCount = (value) => {
-    this.setState(({ itemsFromServer }) => ({
-      itemsForShow: itemsFromServer.slice(0, value),
+    this.setState({
       maxCount: value,
       selectedPage: 1,
-    }));
+    });
   };
+
+  getShowItems = () => {
+    const { selectedPage, maxCount } = this.state;
+    const end = selectedPage * maxCount;
+    const start = end - maxCount;
+
+    return items.slice(start, end);
+  }
 
   render() {
     const {
       selectedPage,
-      itemsForShow,
       maxCount,
-      itemsFromServer,
     } = this.state;
+    const itemsForShow = this.getShowItems();
 
     return (
       <div>
@@ -47,7 +43,7 @@ class App extends React.Component {
           ))}
         </ul>
         <Pagination
-          total={itemsFromServer.length}
+          total={items.length}
           maxCount={maxCount}
           onChangeMaxCount={this.setMaxCount}
           selectedPage={selectedPage}
