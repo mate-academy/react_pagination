@@ -1,0 +1,10 @@
+.page-link_active {
+  transform: scale(1.2);
+  border-color: rgb(100,100,100);
+  z-index: 999;
+}
+
+.page-link:focus {
+  box-shadow: none;
+  z-index: 999;
+}
