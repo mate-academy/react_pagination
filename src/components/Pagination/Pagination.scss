@@ -1,0 +1,45 @@
+$text-color: rgb(26, 63, 177);
+
+.visibleItems {
+  color: $text-color;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.pagination {
+  font-size: 16px;
+  display: flex;
+  padding: 0;
+  list-style: none;
+
+  &__link {
+    padding: 10px 15px;
+    outline: 0;
+    color: royalblue;
+    font-size: inherit;
+    background-color: white;
+    border: 1px solid;
+    cursor: pointer;
+
+    &:hover {
+      margin-top: -1px;
+      border-width: 2px;
+    }
+
+    &:disabled {
+      margin-top: 0;
+      border-width: 1px;
+      color: rgb(0, 0, 0);
+      background-color: rgb(235, 235, 235);
+      cursor: not-allowed;
+    }
+
+    &_active {
+      margin-top: -1px;
+      color: $text-color;
+      font-weight: bold;
+      background-color: rgb(225, 237, 255);
+      border-width: 2px;
+    }
+  }
+}
