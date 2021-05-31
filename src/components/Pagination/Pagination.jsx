@@ -13,10 +13,12 @@ export const Pagination = ({
   const pageCount = useMemo(() => {
     onPage(1);
 
-    return (Math.floor(total / perPage) + 1);
+    return (total % perPage === 0)
+      ? total / perPage
+      : (Math.floor(total / perPage) + 1);
   }
   , [total, perPage]);
-  const info = useMemo(() => (`${(page - 1) * perPage} - ${page === pageCount
+  const info = useMemo(() => (`${(page - 1) * perPage} - ${(page === pageCount && total % perPage !== 0)
     ? ((page - 1) * perPage) + (total % perPage)
     : page * perPage} of ${total}`), [page, perPage, total, pageCount]);
 
