@@ -18,9 +18,16 @@ export const Pagination = ({
       : (Math.floor(total / perPage) + 1);
   }
   , [total, perPage]);
-  const info = useMemo(() => (`${((page - 1) * perPage) + 1} - ${(page === pageCount && total % perPage !== 0)
-    ? ((page - 1) * perPage) + (total % perPage)
-    : page * perPage} of ${total}`), [page, perPage, total, pageCount]);
+  const info = useMemo(() => {
+    const pages = (total === 0)
+      ? '0'
+      : `${((page - 1) * perPage) + 1} - ${
+        (page === pageCount && total % perPage !== 0)
+          ? ((page - 1) * perPage) + (total % perPage)
+          : page * perPage}`;
+
+    return `${pages} of ${total}`;
+  }, [page, perPage, total, pageCount]);
 
   const updatePaginationArr = useMemo(() => {
     const resultArr = Array(pageCount).fill(1)
@@ -50,7 +57,7 @@ export const Pagination = ({
             <label>
               Total items:
               <input
-                type="number"
+                type="text"
                 id="total"
                 name="total"
                 value={total}
