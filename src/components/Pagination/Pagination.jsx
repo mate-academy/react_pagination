@@ -1,17 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { Link, useLocation } from 'react-router-dom';
 import cn from 'classnames';
 import uuid from 'react-uuid';
+import queryString from 'query-string';
+import {
+  MIN_TOTAL, MAX_TOTAL, FIRST_PAGE,
+  WINDOW_SIZE, PER_PAGE_OPTIONS,
+} from '../../helpers/constants';
 
 import './Pagination.css';
-
-const perPageOptions = [3, 5, 10, 15, 20];
-
-const MIN_TOTAL = 1;
-const MAX_TOTAL = 100;
-const FIRST_PAGE = 1;
-const WINDOW_SIZE = 2;
 
 export const Pagination = ({
   page, perPage, total,
@@ -28,8 +27,8 @@ export const Pagination = ({
   const nextPage = () => onPageChange(page + 1);
   const prevPage = () => onPageChange(page - 1);
 
-  const isFirstPage = useMemo(() => page === FIRST_PAGE, [page]);
-  const isLastPage = useMemo(() => page === pageCount, [page, pageCount]);
+  const isFirstPage = page === FIRST_PAGE;
+  const isLastPage = page === pageCount;
 
   const window = useMemo(() => {
     if (pageCount <= WINDOW_SIZE) {
@@ -72,6 +71,9 @@ export const Pagination = ({
     return [first, last];
   }, [page, pageCount]);
 
+  const { pathname, search } = useLocation();
+  const searchParams = queryString.parse(search);
+
   return (
     <nav className="Page navigation">
       <ul className="pagination pagination-lg justify-content-center">
@@ -80,7 +82,14 @@ export const Pagination = ({
             disabled: isFirstPage,
           })}
         >
-          <a
+          <Link
+            to={{
+              pathname,
+              search: queryString.stringify({
+                ...searchParams,
+                page: page - 1,
+              }),
+            }}
             className="page-link"
             href="#"
             aria-label="Previous"
@@ -89,28 +98,32 @@ export const Pagination = ({
             tabIndex={isFirstPage ? -1 : 0}
           >
             <span aria-hidden="true">&laquo;</span>
-          </a>
+          </Link>
         </li>
 
-        {window.map((pageNumber, idx) => (
+        {window.map(pageNumber => (
           <li
             key={uuid()}
             className={cn('page-item', {
               active: page === pageNumber,
+              disabled: pageNumber === '...',
             })}
           >
-            <a
+            <Link
+              to={{
+                pathname,
+                search: queryString.stringify({
+                  ...searchParams,
+                  page: pageNumber,
+                }),
+              }}
               className="page-link"
               href="#"
-              onClick={() => {
-                if (pageNumber !== '...') {
-                  onPageChange(pageNumber);
-                }
-              }}
+              onClick={() => onPageChange(pageNumber)}
               data-testid={pageNumber}
             >
               {pageNumber}
-            </a>
+            </Link>
           </li>
         ))}
 
@@ -119,7 +132,14 @@ export const Pagination = ({
             disabled: isLastPage,
           })}
         >
-          <a
+          <Link
+            to={{
+              pathname,
+              search: queryString.stringify({
+                ...searchParams,
+                page: page + 1,
+              }),
+            }}
             className="page-link"
             href="#"
             aria-label="Next"
@@ -128,7 +148,7 @@ export const Pagination = ({
             tabIndex={isLastPage ? -1 : 0}
           >
             <span aria-hidden="true">&raquo;</span>
-          </a>
+          </Link>
         </li>
       </ul>
 
@@ -163,7 +183,7 @@ export const Pagination = ({
               onChange={e => onPerPageChange(+e.target.value)}
               className="form-select"
             >
-              {perPageOptions.map(option => (
+              {PER_PAGE_OPTIONS.map(option => (
                 <option key={option} value={option}>
                   {option}
                 </option>
