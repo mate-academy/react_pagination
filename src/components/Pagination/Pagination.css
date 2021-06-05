@@ -1,0 +1,7 @@
+.Pagination__info {
+  text-align: center;
+}
+
+.page-link {
+  transition: all 500ms ease-out;
+}

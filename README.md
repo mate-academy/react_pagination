@@ -1,5 +1,5 @@
 # React Pagination
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_pagination/)
+- Replace `<your_account>` with your Github username in the [DEMO LINK](https://mariiakornieva.github.io/react_pagination/)
 - Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
 
 ## Task
@@ -21,10 +21,13 @@
 3. Implement `prev` and `next` buttons
     - disable buttons if a move is not possible now
 4. Add an optional param `withInfo` to show extra info before the buttons (`6 - 10 of 20`)
+
 5. (*) Implement `<select>` (`3, 5, 10, 20`) field to change `perPage` and `onPerPageChange` callback
     - should be triggered if only `perPage` was changed
+
 6. (*) Change view to show buttons only for the `first`, `last`, `current`, one `precurrent` and `postcurrent` pages
     - `< 1 ... 4 [5] 6 ... 12 >`
     - `< [1] 2 ... 12 >`
+
 7. (*) Integrate React Router to show selected `?page=2&perPage=7` as `queryParams`
     - Read the `queryParams` from URL when component appears and apply them
