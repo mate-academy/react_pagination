@@ -1,1 +1,22 @@
+* {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
+.App {
+  display: flex;
+  flex-direction: column;
+  padding-top: 30px;
+  padding-bottom: 100px;
+  gap: 50px;
+}
+
+.header {
+  margin: auto;
+}
+
+.current-posters {
+  /* background-color: red; */
+  margin: auto;
+}
