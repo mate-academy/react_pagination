@@ -129,9 +129,10 @@ export const Pagination = ({
           </a>
         </li>
       </ul>
-      <p className="Pagination__info">
-        {info}
-      </p>
+      <div className="Pagination__info">
+        <img src={`https://picsum.photos/200/300?random=${page}`} alt="img" />
+        <p>{info}</p>
+      </div>
     </nav>
   );
 };
