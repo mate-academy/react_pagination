@@ -1,0 +1,13 @@
+.poster {
+  margin: auto;
+  box-shadow: 0 0 10px rgb(0, 0, 0);
+  width: 250px;
+  height: 370px;
+  border-radius: 5px;
+
+  &:hover {
+    box-shadow: 0 0 15px rgb(0, 0, 0);
+    width: 260px;
+    height: 380px;
+  }
+}

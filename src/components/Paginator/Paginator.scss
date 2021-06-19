@@ -1,0 +1,36 @@
+button {
+  border: 1px solid rgb(165, 164, 164);
+}
+
+.buttonsContainer {
+  display: flex;
+  margin: auto;
+  gap: 2px;
+}
+
+.button {
+  width: 100px;
+  height: 50px;
+  transition: 0.2s;
+
+  &--is-active {
+    background-color: rgb(159, 159, 159);
+  }
+
+  &:hover {
+    background-color: rgb(210, 207, 207);
+  }
+
+  &:active {
+    background-color: rgb(96, 95, 95);
+
+  }
+}
+
+.next {
+  border-bottom-right-radius: 15px;
+}
+
+.prev {
+  border-top-left-radius: 15px;
+}

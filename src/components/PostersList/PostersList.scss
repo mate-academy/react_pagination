@@ -1,0 +1,14 @@
+.posters-list {
+  display: flex;
+  min-width: 600px;
+  max-width: 1000px;
+  justify-content: space-evenly;
+  margin: auto;
+  flex-wrap: wrap;
+}
+
+.card {
+  display: flex;
+  width: 270px;
+  height: 400px;
+}
