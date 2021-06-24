@@ -13,15 +13,25 @@ export class App extends React.Component {
   };
 
   onPageChange = (selectPage) => {
+    if (selectPage !== 1) {
+      this.setState({ btnPrevDisabled: false });
+    } else {
+      this.setState({ btnPrevDisabled: true });
+    }
+
+    if (selectPage !== this.state.total) {
+      this.setState({ btnNextDisabled: false });
+    } else {
+      this.setState({ btnNextDisabled: true });
+    }
+
     this.setState({ currentPage: selectPage });
   };
 
   nextPage = () => {
     this.setState({ btnPrevDisabled: false });
-    if (this.state.currentPage === this.state.total) {
+    if (this.state.currentPage + 1 === this.state.total) {
       this.setState({ btnNextDisabled: true });
-
-      return;
     }
 
     if (this.state.currentPage === this.state.perPage) {
@@ -37,10 +47,8 @@ export class App extends React.Component {
 
   prevPage = () => {
     this.setState({ btnNextDisabled: false });
-    if (this.state.currentPage === 1) {
+    if (this.state.currentPage - 1 === 1) {
       this.setState({ btnPrevDisabled: true });
-
-      return;
     }
 
     if (this.state.currentPage === this.state.page) {
