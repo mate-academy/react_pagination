@@ -1,0 +1,35 @@
+.list-pages {
+  display: inline;
+  list-style: none;
+  padding: 0;
+  font-size: 20px;
+}
+
+.list-pages li {
+  display: inline;
+}
+
+.list-page {
+  box-shadow: 0 0 5px black;
+  width: 30px;
+  height: 40px;
+  box-sizing: border-box;
+  border: 1px solid gray;
+  border-radius: 10px;
+  padding: 5px;
+  margin: 0 5px;
+}
+
+.list-page--active {
+  border: 1px solid rgb(22, 0, 104);
+  background-color: rgb(142, 135, 170);
+}
+
+.list-bottom {
+  padding: 10px;
+  display: inline;
+  border: 3px solid rgba(48, 21, 21, 0.5);
+  border-radius: 30px;
+  background-color: rgb(189, 187, 187);
+  font-size: 20px;
+}
