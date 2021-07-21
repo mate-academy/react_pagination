@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Page } from '../Page/Page';
+import { Select } from '../Select/Select';
 
 export const Pagination = ({
   total,
@@ -13,62 +14,56 @@ export const Pagination = ({
   const pagesCount = Math.ceil(total / perPage);
   const pages = Array.from({ length: pagesCount }, (_, i) => i + 1);
   const perPageOptions = Array.from({ length: total }, (_, i) => i + 1);
+  const selectedPage = (page > pagesCount || page < 1) ? 1 : page;
   const extraInfo = withInfo
     ? (
       <p>
-        {`${(perPage * page - perPage + 1)} - ${(perPage * page > total
+        {`${(perPage * selectedPage - perPage + 1)} -
+        ${(perPage * selectedPage > total
           ? total
-          : perPage * page)} of ${total}`}
+          : perPage * selectedPage)} of ${total}`}
       </p>
     )
     : '';
 
   return (
     <>
-      <select
+      <Select
+        options={perPageOptions}
+        option={perPage}
         name="perPageSelect"
         id="perPageSelect"
-        value={perPage}
-        onChange={({ target }) => {
-          onPerPageChanged(target.value);
-        }}
-      >
-        {perPageOptions.map(perPageOption => (
-          <option
-            value={perPageOption}
-            key={perPageOption}
-          >
-            {perPageOption}
-          </option>
-        ))}
-      </select>
+        onOptionChanged={onPerPageChanged}
+      />
       {extraInfo}
       <nav aria-label="Page navigation example">
         <ul className="pagination">
           <li
-            className={`page-item ${page === 1 ? 'disabled' : ''}`}
+            className={`page-item ${selectedPage === 1 ? 'disabled' : ''}`}
             key="previous"
           >
             <Page
               content="previous"
               onPageChanged={onPageChanged}
-              page={page}
+              page={selectedPage}
             />
           </li>
           {pages.map((pageContent, i) => (
             <li
-              className={`page-item ${((i + 1) === page) ? 'active' : ''}`}
+              className={`page-item ${((i + 1) === selectedPage)
+                ? 'active'
+                : ''}`}
               key={pageContent}
             >
               <Page
                 content={pageContent.toString()}
                 onPageChanged={onPageChanged}
-                page={page}
+                page={selectedPage}
               />
             </li>
           ))}
           <li
-            className={`page-item ${page === pagesCount
+            className={`page-item ${selectedPage === pagesCount
               ? 'disabled'
               : ''}`}
             key="next"
@@ -76,7 +71,7 @@ export const Pagination = ({
             <Page
               content="next"
               onPageChanged={onPageChanged}
-              page={page}
+              page={selectedPage}
             />
           </li>
         </ul>
