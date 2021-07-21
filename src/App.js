@@ -5,6 +5,7 @@ import './App.css';
 class App extends React.Component {
   state = {
     page: 5,
+    perPage: 4,
   };
 
   onPageChanged = (page) => {
@@ -13,14 +14,21 @@ class App extends React.Component {
     });
   }
 
+  onPerPageChanged = (perPage) => {
+    this.setState({
+      perPage,
+    });
+  }
+
   render() {
     return (
       <Pagination
         total={42}
         page={this.state.page}
-        perPage={4}
+        perPage={this.state.perPage}
         withInfo
         onPageChanged={this.onPageChanged}
+        onPerPageChanged={this.onPerPageChanged}
       />
     );
   }

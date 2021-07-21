@@ -7,10 +7,12 @@ export const Pagination = ({
   perPage,
   page,
   onPageChanged,
+  onPerPageChanged,
   withInfo,
 }) => {
   const pagesCount = Math.ceil(total / perPage);
   const pages = Array.from({ length: pagesCount }, (_, i) => i + 1);
+  const perPageOptions = Array.from({ length: total }, (_, i) => i + 1);
   const extraInfo = withInfo
     ? (
       <p>
@@ -23,6 +25,23 @@ export const Pagination = ({
 
   return (
     <>
+      <select
+        name="perPageSelect"
+        id="perPageSelect"
+        value={perPage}
+        onChange={({ target }) => {
+          onPerPageChanged(target.value);
+        }}
+      >
+        {perPageOptions.map(perPageOption => (
+          <option
+            value={perPageOption}
+            key={perPageOption}
+          >
+            {perPageOption}
+          </option>
+        ))}
+      </select>
       {extraInfo}
       <nav aria-label="Page navigation example">
         <ul className="pagination">
@@ -72,6 +91,7 @@ Pagination.propTypes = {
   page: PropTypes.number,
   withInfo: PropTypes.bool,
   onPageChanged: PropTypes.func.isRequired,
+  onPerPageChanged: PropTypes.func.isRequired,
 };
 
 Pagination.defaultProps = {
