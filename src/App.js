@@ -19,6 +19,7 @@ class App extends React.Component {
         total={42}
         page={this.state.page}
         perPage={4}
+        withInfo
         onPageChanged={this.onPageChanged}
       />
     );
