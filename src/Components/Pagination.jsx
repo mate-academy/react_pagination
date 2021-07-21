@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import './Pagination.css';
 
 export const Pagination = ({
-  prevPage, nextPage, total,
-  firstVisiblePage, withInfo,
+  prevPage, nextPage,
+  total, withInfo,
   onPageChange, page, perPage,
 }) => {
   const list = [];
@@ -25,37 +25,14 @@ export const Pagination = ({
     </button>
   );
 
-  for (let i = firstVisiblePage; i <= firstVisiblePage + perPage - 1; i++) {
-    const currentPage = i;
-
+  for (let i = 1; i <= Math.ceil(total / perPage); i++) {
     list.push(
       <li
-        key={currentPage}
+        key={i}
       >
-        {createButton(currentPage)}
+        {createButton(i)}
       </li>
     );
-
-    if (total < i + 1) {
-      break;
-    }
-  }
-
-  const createButtonList = (index, content) => {
-    list.splice(index, 0,
-      <li>
-        {createButton(content)}
-      </li>);
-  };
-
-  if (firstVisiblePage !== 1) {
-    createButtonList(0, '...');
-    createButtonList(0, 1);
-  }
-
-  if (total > firstVisiblePage + perPage) {
-    createButtonList(list.length, '...');
-    createButtonList(list.length, total);
   }
 
   return (
@@ -64,10 +41,12 @@ export const Pagination = ({
       withInfo
       && (
       <h2>
-          {`${firstVisiblePage} - 
-          ${firstVisiblePage + perPage - 1 > total
+          {`${(page * perPage) - perPage > total
+            ? page || total
+            : (page * perPage) - perPage} - 
+          ${page * perPage > total
             ? total
-            : firstVisiblePage + perPage - 1}
+            : page * perPage}
           of ${total}`}
       </h2>
       )
@@ -76,7 +55,7 @@ export const Pagination = ({
         type="button"
         onClick={prevPage}
         className="list-bottom"
-        disabled={firstVisiblePage === 1}
+        disabled={page === 1}
       >
         prev
       </button>
@@ -87,7 +66,7 @@ export const Pagination = ({
         type="button"
         onClick={nextPage}
         className="list-bottom"
-        disabled={firstVisiblePage + perPage > total}
+        disabled={page * perPage > total}
       >
         next
       </button>
@@ -99,7 +78,6 @@ Pagination.propTypes = {
   prevPage: PropTypes.func.isRequired,
   nextPage: PropTypes.func.isRequired,
   total: PropTypes.number.isRequired,
-  firstVisiblePage: PropTypes.number.isRequired,
   withInfo: PropTypes.bool,
   onPageChange: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,

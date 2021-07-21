@@ -5,36 +5,21 @@ import { Pagination } from './Components/Pagination';
 class App extends React.Component {
   state = {
     selectedPage: 1,
-    firstVisiblePage: 1,
     total: 42,
     perPage: 5,
     withInfo: true,
   }
 
   nextPage = () => {
-    if (this.state.firstVisiblePage + this.state.perPage > this.state.total) {
-      return;
-    }
-
     this.setState(state => ({
-      firstVisiblePage: state.firstVisiblePage + state.perPage,
+      selectedPage: state.selectedPage + 1,
     }));
   }
 
   prevPage = () => {
-    if (this.state.firstVisiblePage === 1) {
-      return;
-    }
-
-    this.setState((state) => {
-      const currentPage = state.firstVisiblePage - state.perPage < 1
-        ? 1
-        : state.firstVisiblePage - state.perPage;
-
-      return ({
-        firstVisiblePage: currentPage,
-      });
-    });
+    this.setState(state => ({
+      selectedPage: state.selectedPage - 1,
+    }));
   };
 
   onPageChange = (page) => {
@@ -47,12 +32,13 @@ class App extends React.Component {
     if (+target.value !== this.state.perPage) {
       this.setState({
         perPage: +target.value,
+        selectedPage: 1,
       });
     }
   };
 
   render() {
-    const { total, perPage, firstVisiblePage, withInfo } = this.state;
+    const { total, perPage, withInfo } = this.state;
 
     return (
       <>
@@ -65,7 +51,6 @@ class App extends React.Component {
         </select>
 
         <Pagination
-          firstVisiblePage={firstVisiblePage}
           prevPage={this.prevPage}
           nextPage={this.nextPage}
           onPageChange={this.onPageChange}
