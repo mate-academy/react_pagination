@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { v4 as uuidv4 } from 'uuid';
 import './Pagination.css';
 import { Button } from '../Button';
 
@@ -98,7 +99,7 @@ export class Pagination extends React.Component {
               });
 
               return (
-                <li key={Math.random()} className={pageClass}>
+                <li key={uuidv4()} className={pageClass}>
                   <Button innerText={currentPage} action={this.onSelectPage} />
                 </li>
               );
