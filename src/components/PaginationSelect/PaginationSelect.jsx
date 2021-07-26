@@ -10,7 +10,7 @@ export const PaginationSelect = ({ selectId, range, value, action }) => (
     value={value}
   >
     {range.map(element => (
-      <option key={Math.random()} value={element}>{element}</option>
+      <option key={element} value={element}>{element}</option>
     ))}
   </select>
 );
