@@ -46,6 +46,7 @@ export const Pagination = ({
               content="previous"
               onPageChanged={onPageChanged}
               page={selectedPage}
+              pageNumber="previous"
             />
           </li>
           {pages.map((pageContent, i) => (
@@ -59,6 +60,7 @@ export const Pagination = ({
                 content={pageContent.toString()}
                 onPageChanged={onPageChanged}
                 page={selectedPage}
+                pageNumber={pageContent}
               />
             </li>
           ))}
@@ -72,6 +74,7 @@ export const Pagination = ({
               content="next"
               onPageChanged={onPageChanged}
               page={selectedPage}
+              pageNumber="next"
             />
           </li>
         </ul>

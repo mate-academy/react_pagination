@@ -8,10 +8,7 @@ export const Page = ({ content, onPageChanged, page }) => (
     onClick={(event) => {
       event.preventDefault();
 
-      const { target } = event;
-      const pageSelected = target.textContent;
-
-      switch (pageSelected) {
+      switch (content) {
         case 'previous': {
           onPageChanged(page - 1);
           break;
@@ -23,8 +20,8 @@ export const Page = ({ content, onPageChanged, page }) => (
         }
 
         default: {
-          if (page !== +pageSelected) {
-            onPageChanged(+pageSelected);
+          if (page !== +content) {
+            onPageChanged(+content);
           }
 
           break;
