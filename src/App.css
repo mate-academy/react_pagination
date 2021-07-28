@@ -1,1 +1,22 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
 
+.form-group {
+  flex-direction: column;
+}
+
+.pagination {
+  margin-top: 20px;
+}
+
+.label {
+  margin: 20px;
+}
+
+.is-active {
+  font-weight: 700;
+}
