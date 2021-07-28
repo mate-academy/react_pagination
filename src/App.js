@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { Page } from './Page';
 import { Pagination } from './Pagination';
@@ -14,6 +14,8 @@ const App = () => (
         <Page />
         <Pagination />
       </Route>
+
+      <Redirect to="/1?total=42&perPage=5" />
 
       <h1 className="alert alert-danger">
         Not found

@@ -10,9 +10,11 @@ import cn from 'classnames';
 export const Pagination = () => {
   const { search } = useLocation();
   const searchParams = new URLSearchParams(search);
+
   const total = +searchParams.get('total');
   const perPage = +searchParams.get('perPage');
-  const selectedPage = +(useRouteMatch().params.page) || 1;
+  const selectedPage = +(useRouteMatch().params.page);
+
   const [pages, setPages] = useState(Math.ceil(total / perPage));
 
   const buttons = useMemo(() => {
