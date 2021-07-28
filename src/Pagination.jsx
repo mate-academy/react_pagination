@@ -12,7 +12,7 @@ export const Pagination = () => {
   const searchParams = new URLSearchParams(search);
   const total = +searchParams.get('total');
   const perPage = +searchParams.get('perPage');
-  const selectedPage = +(useRouteMatch().params.page);
+  const selectedPage = +(useRouteMatch().params.page) || 1;
   const [pages, setPages] = useState(Math.ceil(total / perPage));
 
   const buttons = useMemo(() => {
@@ -65,7 +65,7 @@ export const Pagination = () => {
         >
           <NavLink
             to={{
-              pathname: `/pagination/${selectedPage - 1}`,
+              pathname: `/${selectedPage - 1}`,
               search,
             }}
             exact
@@ -85,7 +85,7 @@ export const Pagination = () => {
           >
             <NavLink
               to={{
-                pathname: `/pagination/${button}`,
+                pathname: `/${button}`,
                 search,
               }}
               exact
@@ -103,7 +103,7 @@ export const Pagination = () => {
         >
           <NavLink
             to={{
-              pathname: `/pagination/${selectedPage + 1}`,
+              pathname: `/${selectedPage + 1}`,
               search,
             }}
             exact

@@ -10,7 +10,7 @@ import { Form } from './Form';
 const App = () => (
   <div className="App">
     <Switch>
-      <Route path="/pagination/:page">
+      <Route path="/:page?">
         <Page />
         <Pagination />
       </Route>
