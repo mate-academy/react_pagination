@@ -1,6 +1,10 @@
 import React from 'react';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Pagination } from './Pagination';
 
-const App = () => <h1>Pagination</h1>;
-
-export default App;
+export const App = () => (
+  <Pagination
+    total={50}
+  />
+);
