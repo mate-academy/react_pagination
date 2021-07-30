@@ -24,15 +24,56 @@ export class Pagination extends React.PureComponent {
     this.setState({ page: value });
   }
 
+  onChangeHandler = (event) => {
+    const { value } = event.target;
+
+    this.setState({
+      page: 1,
+      perPage: +value,
+    });
+  }
+
   render() {
     const { total, perPage, page } = this.state;
     const paginationCalculate = total / perPage;
 
+    const paginationList = [];
+
+    for (let i = 0; i < paginationCalculate; i += 1) {
+      paginationList.push((
+        <li
+          key={uuid()}
+          className={`page-item ${page === (i + 1) ? 'active' : ''}`}
+        >
+          <a
+            className="page-link"
+            href="/"
+            onClick={event => this.onClickHandler(event, i + 1)}
+          >
+            {i + 1}
+          </a>
+        </li>
+      ));
+    }
+
     return (
       <>
-        <h1>Pagination</h1>
+        <select
+          className="form-select"
+          aria-label="Default select example"
+          style={{ width: '150px' }}
+          value={perPage}
+          onChange={this.onChangeHandler}
+        >
+          <option value="3">3</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+        </select>
         <p>
-          {`${(page - 1) * perPage + 1}-${page * perPage} of ${total}`}
+          {`${(page - 1) * perPage + 1}
+          - ${page * perPage > total ? total : page * perPage}
+            of ${total}`}
         </p>
         <nav aria-label="Page navigation example">
           <ul className="pagination">
@@ -41,23 +82,10 @@ export class Pagination extends React.PureComponent {
                 Previous
               </a>
             </li>
-            {[...Array(paginationCalculate).keys()].map(index => (
-              <li
-                key={uuid()}
-                className={`page-item ${page === (index + 1) ? 'active' : ''}`}
-              >
-                <a
-                  className="page-link"
-                  href="/"
-                  onClick={event => this.onClickHandler(event, index + 1)}
-                >
-                  {index + 1}
-                </a>
-              </li>
-            ))}
+            {paginationList}
             <li
               className={
-                `page-item ${page === paginationCalculate ? 'disabled' : ''}`
+                `page-item ${page === paginationList.length ? 'disabled' : ''}`
               }
             >
               <a className="page-link" href="/" onClick={this.nextPage}>Next</a>

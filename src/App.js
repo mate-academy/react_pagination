@@ -4,7 +4,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Pagination } from './Pagination';
 
 export const App = () => (
-  <Pagination
-    total={50}
-  />
+  <>
+    <h1>Pagination</h1>
+    <Pagination
+      total={50}
+    />
+  </>
 );
