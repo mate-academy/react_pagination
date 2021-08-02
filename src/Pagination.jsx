@@ -1,5 +1,4 @@
 import React from 'react';
-import uuid from 'react-uuid';
 import PropTypes from 'prop-types';
 
 export class Pagination extends React.PureComponent {
@@ -27,13 +26,15 @@ export class Pagination extends React.PureComponent {
   onChangeHandler = (event) => {
     const { value } = event.target;
 
-    this.setState({
-      page: 1,
-      perPage: +value,
-    });
+    if (this.state.perPage !== value) {
+      this.setState({
+        page: 1,
+        perPage: +value,
+      });
+    }
   }
 
-  render() {
+  renderPagination() {
     const { total, perPage, page } = this.state;
     const paginationCalculate = total / perPage;
 
@@ -42,7 +43,7 @@ export class Pagination extends React.PureComponent {
     for (let i = 0; i < paginationCalculate; i += 1) {
       paginationList.push((
         <li
-          key={uuid()}
+          key={i}
           className={`page-item ${page === (i + 1) ? 'active' : ''}`}
         >
           <a
@@ -55,6 +56,12 @@ export class Pagination extends React.PureComponent {
         </li>
       ));
     }
+
+    return paginationList;
+  }
+
+  render() {
+    const { total, perPage, page } = this.state;
 
     return (
       <>
@@ -82,10 +89,11 @@ export class Pagination extends React.PureComponent {
                 Previous
               </a>
             </li>
-            {paginationList}
+            {this.renderPagination()}
             <li
               className={
-                `page-item ${page === paginationList.length ? 'disabled' : ''}`
+                `page-item
+                ${page === this.renderPagination().length ? 'disabled' : ''}`
               }
             >
               <a className="page-link" href="/" onClick={this.nextPage}>Next</a>
