@@ -1,6 +1,5 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable no-plusplus */
-/* eslint-disable react/prop-types */
 import React, { useMemo, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { v4 } from 'uuid';
@@ -13,7 +12,7 @@ export const Pagination = () => {
 
   const total = +searchParams.get('total');
   const perPage = +searchParams.get('perPage');
-  const selectedPage = +(useRouteMatch().params.page);
+  const selectedPage = +(useRouteMatch().params.page) || 1;
 
   const [pages, setPages] = useState(Math.ceil(total / perPage));
 

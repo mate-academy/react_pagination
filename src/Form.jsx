@@ -6,10 +6,6 @@ import { useHistory, useLocation } from 'react-router-dom';
 const perPageOptions = [3, 5, 10, 20];
 
 export const Form = () => {
-  const [settings, setSettings] = useState({
-    total: 42,
-    perPage: 5,
-  });
   const [error, setError] = useState(false);
 
   const history = useHistory();
@@ -18,36 +14,26 @@ export const Form = () => {
   const handleChange = (e) => {
     const { value, name } = e.target;
 
-    if (+value || value === '') {
-      setSettings({
-        ...settings,
-        [name]: +value,
-      });
+    if (value > 0) {
+      searchParams.set(name, value);
+    } else {
+      searchParams.delete(name);
+    }
+
+    history.push({
+      pathname: '/1',
+      search: `?${searchParams.toString()}`,
+    });
+
+    if (+searchParams.get('total') < +searchParams.get('perPage')) {
+      setError(true);
+    } else {
+      setError(false);
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (settings.total < settings.perPage) {
-      setError(true);
-
-      return;
-    }
-
-    setError(false);
-
-    const keys = Object.keys(settings);
-
-    keys.forEach((key) => {
-      if (settings[key] > 0) {
-        searchParams.set(key, settings[key]);
-      } else {
-        searchParams.delete(key);
-      }
-    });
-
-    history.push(`?${searchParams.toString()}`);
   };
 
   return (
@@ -67,8 +53,8 @@ export const Form = () => {
           <input
             className="form-control"
             name="total"
-            value={settings.total}
-            onChange={handleChange}
+            type="number"
+            onBlur={handleChange}
           />
         </label>
 
@@ -77,7 +63,7 @@ export const Form = () => {
           <select
             className="form-select"
             name="perPage"
-            value={settings.perPage}
+            value={searchParams.get('perPage') || 5}
             onChange={handleChange}
           >
             {perPageOptions.map(option => (
@@ -91,10 +77,6 @@ export const Form = () => {
           </select>
         </label>
       </div>
-
-      <button type="submit" className="btn btn-primary">
-        Submit
-      </button>
     </form>
   );
 };
