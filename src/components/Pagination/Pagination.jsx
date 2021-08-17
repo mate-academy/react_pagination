@@ -39,6 +39,8 @@ export const Pagination = ({
           <button
             className="page-item page-link"
             type="button"
+            value={page - 1 ? page - 1 : page}
+            onClick={onPageChanged}
           >
             previous
           </button>
@@ -57,6 +59,8 @@ export const Pagination = ({
           <button
             className="page-item page-link"
             type="button"
+            value={page + 1 !== numberOfPages + 1 ? page + 1 : page}
+            onClick={onPageChanged}
           >
             next
           </button>

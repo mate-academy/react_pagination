@@ -34,7 +34,7 @@ export class App extends React.PureComponent {
       <Pagination
         total={total}
         perPage={perPage}
-        page={page}
+        page={Number(page)}
         changePerPage={this.handleChange}
         onPageChanged={this.onPageChanged}
       />
