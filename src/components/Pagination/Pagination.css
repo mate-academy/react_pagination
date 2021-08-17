@@ -1,0 +1,11 @@
+.pagination {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  gap: 20px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+}
