@@ -16,8 +16,8 @@
   border: 1px solid gray;
 }
 
-.page-item.hiddenBtn {
-  display: none;
+.page-link.disabled {
+  color: grey;
 }
 
 .page-link.active {

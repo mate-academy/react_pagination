@@ -80,10 +80,10 @@ const Pagination: React.FC<Props> = ({
         )}
         <ul className="pagination">
           <li
-            className={page === 1 ? 'page-item hiddenBtn' : 'page-item'}
+            className="page-item"
           >
             <a
-              className="page-link"
+              className={page === 1 ? 'page-link disabled' : 'page-link'}
               href="https://"
               onClick={handleMoveBack}
             >
@@ -105,10 +105,10 @@ const Pagination: React.FC<Props> = ({
             </li>
           ))}
           <li
-            className={page === pagesArray.length ? 'page-item hiddenBtn' : 'page-item'}
+            className="page-item"
           >
             <a
-              className="page-link"
+              className={page === pagesArray.length ? 'page-link disabled' : 'page-link'}
               href="https://"
               onClick={handleMoveForward}
             >
