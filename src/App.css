@@ -1,1 +1,13 @@
+.container {
+  margin: 30px auto 0;
+  text-align: center;
+}
 
+nav {
+  display: flex;
+  justify-content: center;
+}
+
+select {
+  margin: 20px;
+}
