@@ -14,7 +14,7 @@ const App = () => {
 
   useEffect(() => {
      history.push({
-       pathname: '/',
+       pathname: '/react_pagination/',
        search: '?page=' + page + '&perPage=' + perPage
      });
   }, [page, perPage, paramsPerPage, paramsPage, history]);
