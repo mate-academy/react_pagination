@@ -1,0 +1,39 @@
+.pagination {
+  display: flex;
+  list-style: none;
+  margin: 0px;
+  padding-left: 5px;
+}
+
+.page-link {
+  position: relative;
+  display: block;
+  padding: .5rem .75rem;
+  margin-left: -1px;
+  line-height: 1.25;
+  color: #007bff;
+  background-color: #fff;
+  border: 1px solid gray;
+}
+
+.page-link.disabled {
+  color: grey;
+}
+
+.page-link.active {
+  background-color:grey;
+}
+
+.pagination-info {
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+}
+
+nav {
+  display: flex;
+}
+
+
