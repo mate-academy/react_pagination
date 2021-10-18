@@ -24,9 +24,12 @@ class App extends React.Component<{}, State> {
   };
 
   onPerPageChange = (perPage: number) => {
-    this.setState({
-      perPage,
-    });
+    if (this.state.perPage !== perPage) {
+      this.setState({
+        perPage,
+        page: 1,
+      });
+    }
   };
 
   render() {
