@@ -1,1 +1,38 @@
+body {
+  display: flex;
+  justify-content: center;
+}
 
+.box {
+  display: flex;
+  flex-direction: row;
+}
+
+.active {
+  color: aqua;
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.title {
+  text-align: center;
+}
+
+.disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.list {
+  margin: 0;
+  padding: 10px;
+}
+
+.item {
+  display: inline;
+  margin: 5px;
+}
