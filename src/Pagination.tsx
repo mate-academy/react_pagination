@@ -27,13 +27,13 @@ export class Pagination extends React.Component<Props, {}> {
     const totalPage = countPage(total, perPage);
 
     return (
-      <ul className="list">
+      <ul className="pagination">
         {totalPage.map(number => {
           return (
-            <li key={number} className="item">
+            <li key={number} className="item page-item">
               <button
                 type="button"
-                className={classNames({ active: (page === number) })}
+                className={classNames({ active: (page === number) }, 'page-link')}
                 onClick={() => {
                   this.props.changePage(number);
                 }}

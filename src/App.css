@@ -9,7 +9,7 @@ body {
 }
 
 .active {
-  color: aqua;
+  background-color: rgb(142, 231, 241);
 }
 
 .root {
@@ -20,19 +20,4 @@ body {
 
 .title {
   text-align: center;
-}
-
-.disabled {
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-.list {
-  margin: 0;
-  padding: 10px;
-}
-
-.item {
-  display: inline;
-  margin: 5px;
 }

@@ -54,7 +54,7 @@ export class App extends React.Component<{}, {}> {
         <div className="box">
           <button
             type="button"
-            className={classNames({ disabled: page === 1 })}
+            className={classNames({ disabled: page === 1 }, 'btn btn-outline-primary')}
             onClick={() => {
               this.setState({ page: page -= 1 });
             }}
@@ -71,7 +71,7 @@ export class App extends React.Component<{}, {}> {
 
           <button
             type="button"
-            className={classNames({ disabled: page === Math.ceil(total / perPage) })}
+            className={classNames({ disabled: page === Math.ceil(total / perPage) }, 'btn btn-outline-primary')}
             onClick={() => {
               this.setState({ page: page += 1 });
             }}
