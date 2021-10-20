@@ -1,1 +1,23 @@
+body {
+  display: flex;
+  justify-content: center;
+}
 
+.box {
+  display: flex;
+  flex-direction: row;
+}
+
+.active {
+  background-color: rgb(142, 231, 241);
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.title {
+  text-align: center;
+}
