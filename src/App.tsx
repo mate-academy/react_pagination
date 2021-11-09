@@ -64,9 +64,11 @@ class App extends React.Component<{}, State> {
           Total items:
           <input
             type="number"
+            value={totalItems}
+            max={900}
+            min={1}
             placeholder="total items"
             name="totalItems"
-            value={totalItems}
             onChange={this.handleChange}
           />
         </div>
@@ -75,11 +77,11 @@ class App extends React.Component<{}, State> {
           Items per page:
           <input
             type="number"
-            placeholder="per page (default = 5)"
-            name="perPage"
             value={perPage}
             max={totalItems}
             min={1}
+            placeholder="per page (default = 5)"
+            name="perPage"
             onChange={this.handleChange}
           />
         </div>
