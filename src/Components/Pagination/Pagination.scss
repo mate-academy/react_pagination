@@ -1,0 +1,27 @@
+.pagination {
+  text-align: center;
+
+  &__button {
+    padding: 7px 15px;
+    cursor: pointer;
+    border: 1px solid rgb(225, 225, 225);
+    background-color: #fff;
+    color: blue;
+    transition: background-color 0.3s;
+
+    &:disabled {
+      background-color: #eee;
+      color: #444;
+    }
+
+    &:hover:not(&--active):not(:disabled) {
+      background-color: rgb(225, 225, 225);
+    }
+
+    &--active {
+      background-color: blue;
+      color: #fff;
+      border-color: blue;
+    }
+  }
+}
