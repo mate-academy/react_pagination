@@ -1,0 +1,8 @@
+.Pagination {
+  display: flex;
+  gap: 1px;
+}
+
+.Pagination__btn--active {
+  border: 2px solid blueviolet;
+}
