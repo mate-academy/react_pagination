@@ -1,0 +1,31 @@
+.pagination {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+
+  list-style-type: none;
+  padding: 0;
+
+  &__link {
+    text-decoration: none;
+    font-size: 20px;
+    color: rgb(41, 41, 41);
+    cursor: pointer;
+
+    &--current {
+      color: rgb(184, 4, 4);
+    }
+
+    &:hover {
+      font-weight: bolder;
+    }
+  }
+
+  &__button {
+    cursor: pointer;
+    width: 100px;
+    height: 40px;
+  }
+}
