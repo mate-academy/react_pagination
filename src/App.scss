@@ -1,0 +1,10 @@
+.App {
+  &__pagination {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 50%);
+  }
+}
