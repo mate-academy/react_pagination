@@ -24,30 +24,6 @@ export const Pagination: React.FC<Props> = ({
   const endItemsRange = pageQuantity === activePage ? total : activePage * perPage;
   const pagesArr = Array.from(Array(pageQuantity).keys()).map(num => num + 1);
 
-  const createPage = (page: number) => {
-    return (
-      <li className="pagination__page">
-        <button
-          type="button"
-          className={classNames(
-            'pagination__page-button',
-            { 'pagination__page-button--active': page === activePage },
-          )}
-          hidden={
-            page !== 1
-            && page !== activePage
-            && page !== activePage + 1
-            && page !== activePage - 1
-            && page !== pageQuantity
-          }
-          onClick={() => onPageChange(page)}
-        >
-          {page}
-        </button>
-      </li>
-    );
-  };
-
   return (
     <nav>
       <h3>{`${startItemsRange} - ${endItemsRange} of ${total}`}</h3>
@@ -64,51 +40,47 @@ export const Pagination: React.FC<Props> = ({
           </button>
         </li>
 
-        {pagesArr.map(page => {
-          if (page === activePage - 2) {
-            return (
-              <>
-                <li className="pagination__page">
-                  <button
-                    type="button"
-                    className="
-                      pagination__page-button
-                      pagination__page-button--spread
-                    "
-                    hidden={activePage < 4}
-                  >
-                    ...
-                  </button>
-                </li>
-                {createPage(page)}
-              </>
-            );
-          }
+        {pagesArr.map(page => (
+          <>
+            {(page === activePage - 2 || page === activePage + 2) && (
+              <li className="pagination__page">
+                <button
+                  type="button"
+                  className="
+                    pagination__page-button
+                    pagination__page-button--spread
+                  "
+                  hidden={page === activePage - 2
+                    ? activePage < 4
+                    : activePage >= pageQuantity - 2}
+                >
+                  ...
+                </button>
+              </li>
+            )}
 
-          if (page === activePage + 2) {
-            return (
-              <>
-                {createPage(page)}
-                <li className="pagination__page">
-                  <button
-                    type="button"
-                    className="
-                      pagination__page-button
-                      pagination__page-button--spread
-                    "
-                    hidden={activePage >= pageQuantity - 2}
-                  >
-                    ...
-                  </button>
-                </li>
-              </>
-            );
-          }
-
-          return (
-            createPage(page)
-          );
-        })}
+            <li className="pagination__page">
+              <button
+                type="button"
+                key={page}
+                className={classNames(
+                  'pagination__page-button',
+                  { 'pagination__page-button--active': page === activePage },
+                )}
+                hidden={
+                  page !== 1
+                  && page !== activePage
+                  && page !== activePage + 1
+                  && page !== activePage - 1
+                  && page < pageQuantity
+                }
+                onClick={() => onPageChange(page)}
+              >
+                {page}
+              </button>
+            </li>
+          </>
+        ))}
 
         <li className="pagination__page">
           <button
