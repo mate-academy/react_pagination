@@ -1,0 +1,22 @@
+.pagination {
+  display: flex;
+  padding: 0;
+
+  &__page {
+    list-style: none;
+  }
+
+  &__page-button {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    
+    &--active {
+      background-color: aqua;
+    }
+
+    &--spread {
+      cursor: default;
+    }
+  }
+}
