@@ -1,0 +1,52 @@
+.pagination {
+  padding: 20px;
+
+  &__info {
+    text-align: center;
+  }
+
+  &__list {
+    display: flex;
+    list-style-type: none;
+    padding: 30px;
+
+    &_page {
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+
+      &--link {
+        width: inherit;
+        height: inherit;
+        font-size: 16px;
+        padding: 20px;
+        border: 1px dotted black;
+        border-collapse: collapse;
+        background-color: transparent;
+        transition: background-color 0.2s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+          background-color: salmon;
+          font-weight: bold;
+        }
+
+        &:active {
+          background-color: chartreuse;
+          transition: background-color 0.2s ease-in-out;
+        }
+
+        &:disabled {
+          background-color: grey;
+          cursor: not-allowed;
+        }
+      }
+
+      .current {
+        background-color: black;
+        color: darkorange;
+        font-weight: bold;
+      }
+    }
+  }
+}
