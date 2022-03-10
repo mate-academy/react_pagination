@@ -13,33 +13,45 @@ export const PageNumbers: React.FC<Props> = ({
   setNextPage,
   currentPage,
 }) => {
+  const dottedButton = (id: number) => {
+    return (
+      <li key={id}>
+        <button
+          type="button"
+          className="buttons__button"
+        >
+          ...
+        </button>
+      </li>
+    );
+  };
+
+  const numberedButton = (id: number) => {
+    return (
+      <li key={id}>
+        <button
+          type="button"
+          className={currentPage === id ? 'buttons__button active' : 'buttons__button'}
+          onClick={() => {
+            setPage(id);
+          }}
+        >
+          {id}
+        </button>
+      </li>
+    );
+  };
+
   const renderButton = (button: number) => {
     if (button === 1) {
       return (
         <>
-          <li key={button}>
-            <button
-              type="button"
-              className={currentPage === button ? 'buttons__button active' : 'buttons__button'}
-              onClick={() => {
-                setPage(button);
-              }}
-            >
-              {button}
-            </button>
-          </li>
+          {numberedButton(button)}
+
           {button !== currentPage
             && currentPage !== 2
-            && pages.length >= 4
             && (
-              <li key={button + 1}>
-                <button
-                  type="button"
-                  className="buttons__button"
-                >
-                  ...
-                </button>
-              </li>
+              dottedButton(button + 1)
             )}
         </>
       );
@@ -50,28 +62,10 @@ export const PageNumbers: React.FC<Props> = ({
         <>
           {button !== currentPage
             && currentPage !== pages.length - 1
-            && pages.length >= 4
             && (
-              <li key={button - 1}>
-                <button
-                  type="button"
-                  className="buttons__button"
-                >
-                  ...
-                </button>
-              </li>
+              dottedButton(button - 1)
             )}
-          <li key={button}>
-            <button
-              type="button"
-              className={currentPage === button ? 'buttons__button active' : 'buttons__button'}
-              onClick={() => {
-                setPage(button);
-              }}
-            >
-              {button}
-            </button>
-          </li>
+          {numberedButton(button)}
         </>
       );
     }
@@ -81,17 +75,7 @@ export const PageNumbers: React.FC<Props> = ({
       || button === currentPage
     ) {
       return (
-        <li key={button}>
-          <button
-            type="button"
-            className={currentPage === button ? 'buttons__button active' : 'buttons__button'}
-            onClick={() => {
-              setPage(button);
-            }}
-          >
-            {button}
-          </button>
-        </li>
+        numberedButton(button)
       );
     }
 
@@ -100,6 +84,7 @@ export const PageNumbers: React.FC<Props> = ({
 
   return (
     <ul className="buttons">
+
       <li key={-1}>
         <button
           disabled={currentPage === 1}
@@ -110,20 +95,11 @@ export const PageNumbers: React.FC<Props> = ({
           Prev
         </button>
       </li>
+
       {pages.map((page: number) => {
         if (pages.length <= 5) {
           return (
-            <li key={page}>
-              <button
-                type="button"
-                className={currentPage === page ? 'buttons__button active' : 'buttons__button'}
-                onClick={() => {
-                  setPage(page);
-                }}
-              >
-                {page}
-              </button>
-            </li>
+            numberedButton(page)
           );
         }
 
@@ -139,6 +115,7 @@ export const PageNumbers: React.FC<Props> = ({
           Next
         </button>
       </li>
+
     </ul>
   );
 };
