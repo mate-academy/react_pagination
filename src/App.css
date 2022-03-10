@@ -1,1 +1,60 @@
+.app {
+  box-sizing: border-box;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
 
+.items__container {
+  width: 100%;
+  display: flex;
+  background-color: rgb(255, 255, 255);
+}
+
+.items__item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: bisque;
+  font-size: 26px;
+  flex-grow: 1;
+  margin: 10px;
+  background-color: red;
+  height: 400px;
+  border-radius: 10px;
+}
+
+.items__input--per-page {
+  padding: 20px;
+  font-size: 26px;
+  justify-content: center;
+  display: flex;
+}
+
+.items__input--per-page select {
+  margin-left: 20px;
+}
+
+.title {
+  padding: 20px;
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+  list-style: none;
+  align-items: center;
+}
+
+.buttons__button {
+  padding: 10px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.active {
+  background-color: red;
+  color: white;
+}
