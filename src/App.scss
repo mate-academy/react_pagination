@@ -1,0 +1,29 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+
+  .page_select {
+    margin: 10px;
+    padding: 10px;
+    font-weight: bold;
+
+    select {
+      margin: 10px;
+      padding: 5px;
+      font-weight: bold;
+    }
+  }
+}
+
+.content {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
