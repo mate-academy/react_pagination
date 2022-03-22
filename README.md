@@ -1,5 +1,5 @@
 # React Pagination
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_pagination/)
+- Replace `<your_account>` with your Github username in the [DEMO LINK](https://tumann21.github.io/react_pagination/)
 - Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
 - Use [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript)
 
@@ -7,9 +7,9 @@
 1. Implement `Pagination` component
     ```jsx harmony
     <Pagination
-      total={42} /* required */
-      perPage={5} /* optional with 5 by default */
-      page={1} /* optional with 1 by default */
+      total={42} /* required */ // count of elements
+      perPage={5} /* optional with 5 by default */ // how much elements on the page you will show
+      page={1} /* optional with 1 by default */ // what page is now chosen
     />
     ```
     - it should show buttons for all available pages.
