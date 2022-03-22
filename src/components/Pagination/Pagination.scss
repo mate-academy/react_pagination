@@ -1,0 +1,42 @@
+.pagination {
+  padding: 20px;
+
+  &__info {
+    text-align: center;
+  }
+
+  &__list {
+    display: flex;
+    list-style-type: none;
+    padding: 30px;
+
+    &_page {
+      width: 60px;
+      height: 60px;
+
+      &--link {
+        width: inherit;
+        height: inherit;
+        font-size: 16px;
+        padding: 20px;
+        border: 1px solid black;
+
+        &:hover {
+          background-color: white;
+          font-weight: bold;
+        }
+
+        &:disabled {
+          background-color: grey;
+          cursor: not-allowed;
+        }
+      }
+
+      .current {
+        background-color: black;
+        color: white;
+        font-weight: bold;
+      }
+    }
+  }
+}
