@@ -1,3 +1,38 @@
 html {
   margin: 10px;
 }
+
+* {
+  box-sizing: border-box;
+}
+
+.pagination {
+  display: flex;
+}
+
+.btn-direction {
+  padding: 0.5rem 0.75rem;
+  color: #007bff;
+  border: 1px solid #c7cbcf;
+}
+
+.btn-direction:hover {
+  z-index: 2;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(7, 109, 218, 0.25);
+}
+
+.button {
+  padding: 0.5rem 0.75rem;
+  color: #007bff;
+  border: 1px solid #c7cbcf;
+}
+
+.active {
+  z-index: 2;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(7, 109, 218, 0.25);
+  padding: 0.5rem 0.75rem;
+  color: #007bff;
+  border: 1px solid #c7cbcf;
+}

@@ -1,6 +1,5 @@
 import React from 'react';
 import './Pagination.css';
-import { Button } from 'react-bootstrap';
 
 type Props = {
   total: number,
@@ -34,42 +33,38 @@ export const Pagination: React.FC<Props> = ({
       : perPage * page} of ${total}`}
       </p>
       <div className="pagination">
-        <div
-          className="page-item"
-        >
-          <Button
-            className="button"
+        <div className="page-item">
+          <button
+            className="btn-direction"
             type="button"
             disabled={page === 1}
             onClick={onPrevious}
           >
             Previous
-          </Button>
+          </button>
         </div>
         {totalPageCount.map(item => {
           return (
-            <Button
+            <button
               key={item}
-              className="button"
+              className={page === item ? 'active' : 'button'}
               type="button"
               value={item}
               onClick={() => onPageChange(item)}
             >
               {item}
-            </Button>
+            </button>
           );
         })}
-        <div
-          className="page-item"
-        >
-          <Button
-            className="button"
+        <div className="page-item">
+          <button
+            className="btn-direction"
             type="button"
             disabled={page === totalPageCount.length}
             onClick={onNext}
           >
             Next
-          </Button>
+          </button>
         </div>
       </div>
     </>
