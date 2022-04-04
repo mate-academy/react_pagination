@@ -1,0 +1,27 @@
+.pagination {
+  list-style-type: none;
+
+  & li {
+    display: inline-block;
+    margin: 1px;
+
+    & button {
+      padding: 10px;
+      background-color: aqua;
+      border-radius: 10px;
+      cursor: pointer;
+
+      &:hover:not([disabled]) {
+        background-color: yellowgreen;
+      }
+
+      &.active {
+        background-color: yellowgreen;
+      }
+    }
+
+    & span {
+      padding: 5px;
+    }
+  }
+}
