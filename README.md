@@ -1,5 +1,5 @@
 # React Pagination
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_pagination/)
+- Replace `<your_account>` with your Github username in the [DEMO LINK](https://DimaBrushnivskyi.github.io/react_pagination/)
 - Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
 - Use [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript)
 
@@ -13,7 +13,7 @@
     />
     ```
     - it should show buttons for all available pages.
-      You may use [this markup](https://getbootstrap.com/docs/4.3/components/pagination/)
+    You may use [this markup](https://getbootstrap.com/docs/4.3/components/pagination/)
     - current page should be highlighted
 2. Implement `onPageChange` callback getting selected page as a param
     - should be triggered if only page was changed
