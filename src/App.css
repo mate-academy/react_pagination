@@ -10,6 +10,12 @@
   display: flex;
 }
 
+.pagination__link,
+.pagination__prev,
+.pagination__next {
+  text-decoration: none;
+}
+
 .pagination__item,
 .pagination__prev,
 .pagination__next {
@@ -19,7 +25,6 @@
   align-items: center;
 
   list-style: none;
-  text-decoration: none;
 
   width: 30px;
   height: 30px;

@@ -70,7 +70,7 @@ const Pagination: React.FC<Props> = ({
 
         <a
           className={classNames('pagination__next', {
-            disabled: page >= 9,
+            disabled: page >= displayPagination.length,
           })}
           href="#"
           aria-label="Next"
