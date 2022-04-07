@@ -29,3 +29,7 @@
     - `< [1] 2 ... 12 >`
 7. (*) Integrate React Router to show selected `?page=2&perPage=7` as `queryParams`
     - Read the `queryParams` from URL when component appears and apply them
+
+    ##REQUIREMENTS
+    1. [next] button should be named "Next" 
+    2. [previous] button should be named "Previous"
