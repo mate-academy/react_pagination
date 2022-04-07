@@ -6,6 +6,8 @@ const App: React.FC = () => {
   const [content] = useState(43);
   const [perPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
+  const [maxPageLimit, setMaxPageLimit] = useState(5);
+  const [minPage, setMinPageLimit] = useState(0);
 
   const handleClick = (presentPage: number) => {
     setCurrentPage(presentPage);
@@ -13,10 +15,20 @@ const App: React.FC = () => {
 
   const handlePrevBtn = (presentPage: number) => {
     setCurrentPage(presentPage - 1);
+
+    if ((presentPage - 1) % perPage === 0) {
+      setMaxPageLimit(maxPageLimit - perPage);
+      setMinPageLimit(minPage - perPage);
+    }
   };
 
   const handleNextBtn = (presentPage: number) => {
     setCurrentPage(presentPage + 1);
+
+    if (presentPage + 1 > maxPageLimit) {
+      setMaxPageLimit(maxPageLimit + perPage);
+      setMinPageLimit(minPage + perPage);
+    }
   };
 
   return (
@@ -29,6 +41,8 @@ const App: React.FC = () => {
         onPageChange={handleClick}
         onPrevBtn={handlePrevBtn}
         onNextBtn={handleNextBtn}
+        maxLimit={maxPageLimit}
+        minLimit={minPage}
       />
     </>
   );

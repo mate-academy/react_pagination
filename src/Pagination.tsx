@@ -9,6 +9,8 @@ interface Props {
   onPageChange: (presentPage: number) => void,
   onPrevBtn: (presentPage: number) => void,
   onNextBtn: (presentPage: number) => void,
+  maxLimit: number,
+  minLimit: number,
 }
 
 const Pagination: React.FC<Props> = ({
@@ -18,6 +20,8 @@ const Pagination: React.FC<Props> = ({
   onPageChange,
   onPrevBtn,
   onNextBtn,
+  maxLimit,
+  minLimit,
 }) => {
   // Make an Array of numbers from the total variable
   const fromNumToArr = () => {
@@ -32,6 +36,28 @@ const Pagination: React.FC<Props> = ({
 
   // Array of numbers which display pagination buttons
   const displayPagination = fromNumToArr();
+  const pagesToRender = displayPagination.map(el => {
+    if (el < maxLimit + 1 && el > minLimit) {
+      return (
+        <li
+          key={el}
+          className={classNames('pagination__item', {
+            active: el === page,
+          })}
+        >
+          <a
+            href="#"
+            className="pagination__link"
+            onClick={() => onPageChange(el)}
+          >
+            {el}
+          </a>
+        </li>
+      );
+    }
+
+    return null;
+  });
 
   return (
     <nav
@@ -51,22 +77,7 @@ const Pagination: React.FC<Props> = ({
           <span aria-hidden="true">&laquo;</span>
         </a>
 
-        {displayPagination.map(el => (
-          <li
-            key={el}
-            className={classNames('pagination__item', {
-              active: el === page,
-            })}
-          >
-            <a
-              href="#"
-              className="pagination__link"
-              onClick={() => onPageChange(el)}
-            >
-              {el}
-            </a>
-          </li>
-        ))}
+        {pagesToRender}
 
         <a
           className={classNames('pagination__next', {
