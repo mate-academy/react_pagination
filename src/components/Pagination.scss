@@ -1,0 +1,57 @@
+.Pagination {
+  &__info {
+    font-size: 16px;
+    margin: 20px 0 0;
+    text-align: center;
+    color: #464949;
+    font-weight: 300;
+  }
+}
+
+.list {
+  list-style: none;
+  display: flex;
+
+  &__button {
+    width: 60px;
+    text-transform: uppercase;
+    transition: all 0.4s linear;
+
+    &:not(:disabled):hover {
+      background-color: #929798;
+      color: #eee;
+    }
+  }
+}
+
+.button {
+  cursor: pointer;
+  border: 1px solid #929798;
+  border-radius: 10px;
+}
+
+.item {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid transparent;
+  overflow: hidden;
+
+  &__button {
+    width: 100%;
+    height: 100%;
+
+    &--choosen {
+      font-size: 20px;
+      color: #eee;
+      background-color: #929798;
+    }
+
+    &:not(.item__button--choosen):hover {
+      background-color: #e7e7e7;
+    }
+  }
+}

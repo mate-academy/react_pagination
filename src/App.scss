@@ -1,0 +1,40 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  font-family: "Arial", "Helvetica", sans-serif;
+  min-height: 100vh;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #dee2e2;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    min-width: 500px;
+    padding: 30px 50px;
+    border: 1px solid #929798e1;
+    border-radius: 20px;
+    box-shadow: 0 0 15px #929798,
+      0 0 25px #929798,
+      0 0 45px #929798;
+  }
+
+  &__title {
+    width: 100%;
+    text-align: center;
+    color: #464949;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    padding: 0 0 20px;
+    margin: 0 0 20px;
+    border-bottom: 1px solid #929798;
+  }
+}
