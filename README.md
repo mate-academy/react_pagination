@@ -31,5 +31,7 @@
     - Read the `queryParams` from URL when component appears and apply them
 
     ##REQUIREMENTS
-    1. [next] button should be named "Next" 
-    2. [previous] button should be named "Previous"
+    1. [next] button should have text inside button "Next" 
+    2. [previous] button should have text inside button "Previous"
+    3. Add to optional param `withInfo` data-cy attribute `data-cy='item_Number'`
+    4. Use class `active` for highlighted button
