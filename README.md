@@ -31,5 +31,6 @@
     - Read the `queryParams` from URL when component appears and apply them
 
     ##REQUIREMENTS
-    1. [next] button should be named "Next" 
-    2. [previous] button should be named "Previous"
+    1. [next] button should have text inside `Next` 
+    2. [previous] button should have text inside `Previous`
+    3. Highlighted button should have class `active`
