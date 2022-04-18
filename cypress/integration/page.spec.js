@@ -22,15 +22,15 @@ describe('Page', () => {
   })
 
   it ('should display 3 page after click on the button [3]', () => {
-    cy.get('[value="3"]').click()
-    cy.get('[value="3"]').should('have.class', 'active')
+    cy.get('button').contains('3').click()
+    cy.get('button').contains('3').should('have.class', 'active')
     cy.get('p').should('contain', 15)
   })
 
   it('should display the next page after click on the button [Next]', () => {
     cy.get('button').contains('Next')
       .click()
-    cy.get('[value="2"]').should('have.class', 'active')
+    cy.get('button').contains('2').should('have.class', 'active')
     cy.get('p').should('contain', 10)
   })
 
@@ -40,7 +40,7 @@ describe('Page', () => {
   })
 
   it('should display the previous page after click on the button [Previous]', () => {
-      cy.get('[value="7"]').click()
+      cy.get('button').contains('7').click()
       cy.get('button').contains('Previous')
         .click()
       cy.get('button').contains('6').should('have.class', 'active')
