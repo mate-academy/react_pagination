@@ -14,7 +14,8 @@ export const Pagination: React.FC<Props> = ({
   page,
   onPageChange,
 }) => {
-  const totalPageCount = [...Array(Math.ceil(total / perPage))].map((_, i) => i + 1);
+  const totalPageCount
+  = [...Array(Math.ceil(total / perPage))].map((_, i) => i + 1);
 
   const onNext = () => {
     onPageChange(page + 1);
@@ -26,7 +27,8 @@ export const Pagination: React.FC<Props> = ({
 
   return (
     <>
-      <p className="itemNumber">
+      <p 
+         className="itemNumber">
         {`${(perPage * page - perPage) + 1} -
         ${perPage * page > total
       ? total
