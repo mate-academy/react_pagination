@@ -27,8 +27,9 @@ export const Pagination: React.FC<Props> = ({
 
   return (
     <>
-      <p 
-         className="itemNumber">
+      <p
+        className="itemNumber"
+      >
         {`${(perPage * page - perPage) + 1} -
         ${perPage * page > total
       ? total
