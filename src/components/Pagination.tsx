@@ -26,6 +26,12 @@ export const Pagination: React.FC<Props> = ({
     : activePage * perPage;
   const pageArr = Array.from({ length: pageQuantity }, (_, i) => i + 1);
 
+  const hidePage = (page: number) => {
+    return (page !== 1 && page !== activePage
+      && page !== activePage + 1 && page !== activePage - 1
+      && page < pageQuantity);
+  };
+
   return (
     <nav aria-label="Page navigation example">
       <h3>{`${startInfoItem} - ${endInfoItem} of ${total}`}</h3>
@@ -76,13 +82,7 @@ export const Pagination: React.FC<Props> = ({
                   'pagination__page-button',
                   { 'pagination__page-button--active': page === activePage },
                 )}
-                hidden={
-                  page !== 1
-                  && page !== activePage
-                  && page !== activePage + 1
-                  && page !== activePage - 1
-                  && page < pageQuantity
-                }
+                hidden={hidePage(page)}
                 onClick={() => onPageChange(page)}
               >
                 {page}
