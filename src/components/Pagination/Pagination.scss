@@ -1,0 +1,51 @@
+.pagination-list {
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+  border-radius: 3px;
+  width: 30%;
+
+  &__item {
+
+    &__list {
+      text-align: center;
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      border-radius: 5px;
+      color: rgba(0, 0, 0, 0.4);
+      background: transparent;
+      margin-right: 4px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      text-decoration: none;
+
+      &:hover {
+        background-color: blue;
+        color: rgb(243, 243, 244);
+      }
+
+      &:focus {
+        border: 1px solid black;
+        box-shadow: 0 10px 27px -20px rgba(0, 0, 0, 0.33);
+      }
+
+      &:disabled {
+        color: rgba(208, 231, 247, 0.6);
+        background-color: rgb(244, 243, 246);
+      }
+    }
+  }
+
+  &__pageItem {
+    width: auto;
+    padding: 0 15px;
+  }
+
+  &-active {
+    border: 1px solid black;
+    box-shadow: 0 10px 27px -20px rgba(0, 0, 0, 0.33);
+    background-color: blue;
+    color: rgb(243, 243, 244);
+  }
+}
