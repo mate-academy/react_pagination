@@ -45,7 +45,7 @@ const App: React.FC = () => {
   return (
     <div className="app">
       <Link
-        to="/Pagination"
+        to="/"
         className="h1"
       >
         Pagination
@@ -65,7 +65,7 @@ const App: React.FC = () => {
       </div>
       <Routes>
         <Route
-          path="/Pagination"
+          path="/"
           element={(
             <Pagination
               onPageChange={onPageChange}
