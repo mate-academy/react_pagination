@@ -1,0 +1,15 @@
+.pagination {
+  
+  &__list {
+    list-style: none;
+    display: flex;
+  }
+
+  &__btn {
+    width: 30px;
+
+    &--act {
+      background-color: rgb(16, 80, 80);
+    }
+  }
+}
