@@ -38,7 +38,7 @@ const App: React.FC = () => {
             min={1}
             max={total}
             onChange={(event) => {
-              setPerPage(+event.target.value);
+              setPerPage(+event.target.value || 1);
               setPage(1);
             }}
           />
