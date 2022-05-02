@@ -14,9 +14,10 @@ const Pagination: React.FC<Data> = ({ total, perPage, page }) => {
 
   const arrPages = new Array(Math.ceil(total / limit)).fill('');
 
-  // eslint-disable-next-line
-  const onPageChange = (event: any): void => {
-    setActivePage(+event.target.textContent);
+  const onPageChange = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    const { innerHTML } = event.currentTarget;
+
+    setActivePage(+innerHTML);
   };
 
   const goToLeft = () => {
