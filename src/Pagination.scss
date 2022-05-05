@@ -1,0 +1,19 @@
+.pagination {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+
+  &__button {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+
+    &-spread {
+      cursor: default;
+    }
+  }
+}
+
+.active {
+  background-color: rgb(183, 183, 227);
+}
