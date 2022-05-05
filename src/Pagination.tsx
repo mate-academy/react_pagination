@@ -28,11 +28,10 @@ export const Pagination: React.FC<Props> = ({
   && value !== page - 1
   && value < pageQuantity);
 
-  const arrTotal = [];
-
-  for (let i = 1; i <= pageQuantity; i += 1) {
-    arrTotal.push(i);
-  }
+  const arrTotal = Array.from({ length: pageQuantity }, (_, i) => i + 1);
+  const rangeForSpread = 2;
+  const minVisiblePages = 4;
+  const maxVisiblePages = pageQuantity - 2;
 
   return (
     <>
@@ -53,16 +52,17 @@ export const Pagination: React.FC<Props> = ({
 
           {arrTotal.map(number => (
             <>
-              {(number === page + 2 || number === page - 2) && (
+              {(number === page + rangeForSpread
+              || number === page - rangeForSpread) && (
                 <li key={`spread-${number}`} className="pagination__item">
                   <button
                     type="button"
                     className="
                     pagination__button
                     pagination__button-spread"
-                    hidden={number === page - 2
-                      ? page < 4
-                      : page >= pageQuantity - 2}
+                    hidden={number === page - rangeForSpread
+                      ? page < minVisiblePages
+                      : page >= maxVisiblePages}
                   >
                     ...
                   </button>
