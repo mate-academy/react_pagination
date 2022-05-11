@@ -34,3 +34,4 @@
     1. [next] button should have text inside `Next` 
     2. [previous] button should have text inside `Previous`
     3. Highlighted button should have class `active`
+    4. Add data-cy attribute `info` to an optional param `withInfo`
