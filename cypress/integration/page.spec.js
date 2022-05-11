@@ -31,7 +31,7 @@ describe('Page', () => {
       .should('have.class', 'active');
   });
 
-  it ('should display 3 pages after click on the button [3]', () => {
+  it ('should display 3 page after click on the button [3]', () => {
     page.getPage('3')
       .click();
     page.getPage('3')
