@@ -26,7 +26,7 @@ describe('Page', () => {
       .should('contain', 1);
   });
 
-  it ('should be highlighted the button of the first page by default', () => {
+  it ('should highlight the button of the first page by default', () => {
     cy.get('.pagination').contains('1')
       .should('have.class', 'active');
   });
