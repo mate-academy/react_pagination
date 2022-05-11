@@ -27,7 +27,8 @@ export const Pagination: React.FC<Props> = ({
 
   return (
     <>
-      <p
+      <p 
+        data-cy="info"
         className="itemNumber"
       >
         {`${(perPage * page - perPage) + 1} -
