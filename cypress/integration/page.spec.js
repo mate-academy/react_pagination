@@ -67,7 +67,7 @@ describe('Page', () => {
       .should('contain', 30);
   });
 
-  it('Should be disable buttons if a move is not possible now', () => {
+  it('Should disable buttons if a move is not possible', () => {
     page.getPage('Previous')
       .should('be.disabled');
     page.getPage('9')
