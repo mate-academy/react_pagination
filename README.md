@@ -30,8 +30,8 @@
 7. (*) Integrate React Router to show selected `?page=2&perPage=7` as `queryParams`
     - Read the `queryParams` from URL when component appears and apply them
 
-    ##REQUIREMENTS
-    1. [next] button should have text inside `Next` 
-    2. [previous] button should have text inside `Previous`
-    3. Highlighted button should have class `active`
-    4. Add data-cy attribute `info` to an optional param `withInfo`
+## REQUIREMENTS
+  1. [next] button should have symbol inside `»` 
+  2. [previous] button should have text inside `«`
+  3. Highlighted button should have class `active`
+   
