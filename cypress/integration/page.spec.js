@@ -84,5 +84,5 @@ describe('Page', () => {
      .should('contain', '...')
      .should('have.length', 6)
 
-});
+  });
 });
