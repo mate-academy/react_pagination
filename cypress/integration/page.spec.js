@@ -37,27 +37,27 @@ describe('Page', () => {
     cy.get('select')
       .select('10');
     page.getPage('5')
-      .click()
+      .click();
     page.getPage('»')
-      .should('be.disabled')  
+      .should('be.disabled');
   });
 
   it('should select 3 items for displaying from the list', () => {
     cy.get('select')
       .select('3');
     page.getPage('14')
-      .click()
+      .click();
     page.getPage('»')
-      .should('be.disabled')  
+      .should('be.disabled'); 
   });
 
   it('should select 20 items for displaying from the list', () => {
     cy.get('select')
       .select('20');
     page.getPage('3')
-      .click()
+      .click();
     page.getPage('»')
-      .should('be.disabled')  
+      .should('be.disabled');
   });
 
   it('should display the previous page after click on the button [«]', () => {
@@ -82,7 +82,6 @@ describe('Page', () => {
    cy.get('.pagination')
      .children()
      .should('contain', '...')
-     .should('have.length', 6)
-
+     .should('have.length', 6);
   });
 });
