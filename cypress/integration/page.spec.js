@@ -1,6 +1,4 @@
-// WRITE TESTS HERE
-
-const { Children } = require("react");
+// WRITE TESTS HER
 
 describe('Page', () => {
   beforeEach(() => {
@@ -81,7 +79,6 @@ describe('Page', () => {
   it('should hide buttons', () => {
    cy.get('.pagination')
      .children()
-     .should('contain', '...')
-     .should('have.length', 6);
+     .should('contain', '...');
   });
 });
