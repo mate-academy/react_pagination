@@ -59,7 +59,7 @@ export const Pagination: React.FC<Props> = ({
 
   const visiblePages = useMemo(() => {
     return paginate(current, last);
-  }, [page, total]);
+  }, [page, total, perPage]);
 
   useEffect(() => {
     if (page === visiblePages[visiblePages.length - 1].value) {
