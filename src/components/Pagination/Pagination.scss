@@ -1,0 +1,23 @@
+.PageItem {
+  width: 40px;
+  border: 1px solid #bbb;
+  border-right: 0;
+  border-radius: 0;
+}
+
+.Selected {
+  background-color: #00f;
+  color: #fff;
+}
+
+.WithInfo {
+  padding: 0 5px;
+  box-sizing: border-box;
+  border: 1px solid #bbb;
+  border-right: 0;
+  border-radius: 0;
+  height: 40px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  line-height: 40px;
+}

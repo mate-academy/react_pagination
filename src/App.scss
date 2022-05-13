@@ -1,0 +1,33 @@
+.ChangeVersion {
+  width: 150px;
+  height: 30px;
+  margin-bottom: 20px;
+}
+
+button {
+  width: 100px;
+  height: 40px;
+  background-color: #fff;
+  font-size: 20px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.PrevButton {
+  border: 1px solid #bbb;
+  border-right: 0;
+  border-radius: 4px 0 0 4px;
+}
+
+.NextButton {
+  border: 1px solid #bbb;
+  border-radius: 0 4px 4px 0;
+}
+
+.ChangePerPage {
+  width: 150px;
+  height: 30px;
+  margin-bottom: 10px;
+}
