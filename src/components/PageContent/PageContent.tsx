@@ -1,15 +1,20 @@
 import React, { useMemo, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import './PageContent.scss';
 
 const PageContent: React.FC = () => {
   const [
     queryParams,
     setQueryParams,
-  ] = useState('');
+  ] = useState('/');
+
+  const { currentPage } = useParams();
 
   useMemo(() => {
-    setQueryParams(window.location.pathname);
-  }, [window.location.pathname]);
+    if (currentPage) {
+      setQueryParams(currentPage);
+    }
+  }, [currentPage]);
 
   return (
     <>

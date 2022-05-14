@@ -5,7 +5,7 @@ type Props = {
   total: number,
   perPage?: number,
   page?: number,
-  currentPage: number,
+  currentStartPage: number,
   withInfo: boolean,
   selectPage: (selectedPage: number) => void,
 };
@@ -14,7 +14,7 @@ const Pagination: React.FC<Props> = ({
   total,
   perPage = 5,
   page = 1,
-  currentPage,
+  currentStartPage,
   withInfo,
   selectPage,
 }) => {
@@ -51,7 +51,9 @@ const Pagination: React.FC<Props> = ({
               selectPage(visiblePage);
             }}
             className={
-              currentPage === visiblePage ? 'PageItem Selected' : 'PageItem'
+              currentStartPage === visiblePage
+                ? 'PageItem Selected'
+                : 'PageItem'
             }
             key={visiblePage}
           >

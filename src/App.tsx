@@ -10,9 +10,9 @@ interface State {
   perPage: number,
   page: number,
   withInfo: boolean,
-  currentPage: number,
+  startPage: number,
   isVersionOneUsed: boolean,
-  current: number,
+  currentPage: number,
   isFirstVisible: boolean,
   isPrecurrentVisible: boolean,
   isPostcurrentVisible: boolean,
@@ -27,9 +27,9 @@ class App extends React.Component<{}, State> {
     perPage: 5,
     page: 1,
     withInfo: true,
-    currentPage: 1,
+    startPage: 1,
     isVersionOneUsed: false,
-    current: 1,
+    currentPage: 1,
     isFirstVisible: false,
     isPrecurrentVisible: false,
     isPostcurrentVisible: true,
@@ -46,12 +46,12 @@ class App extends React.Component<{}, State> {
 
   onPageChange = (selectedPage: number) => {
     this.setState({
-      currentPage: selectedPage,
+      startPage: selectedPage,
     });
   };
 
   handlePrevButtonClick = () => {
-    if (this.state.currentPage === this.state.page) {
+    if (this.state.startPage === this.state.page) {
       this.setState((prevState) => {
         return {
           page: prevState.page - 1,
@@ -61,13 +61,13 @@ class App extends React.Component<{}, State> {
 
     this.setState((prevState) => {
       return {
-        currentPage: prevState.currentPage - 1,
+        startPage: prevState.startPage - 1,
       };
     });
   };
 
   handleNextButtonClick = () => {
-    if (this.state.currentPage
+    if (this.state.startPage
       === this.state.page + this.state.perPage - 1) {
       this.setState((prevState) => {
         return {
@@ -78,7 +78,7 @@ class App extends React.Component<{}, State> {
 
     this.setState((prevState) => {
       return {
-        currentPage: prevState.currentPage + 1,
+        startPage: prevState.startPage + 1,
       };
     });
   };
@@ -86,8 +86,8 @@ class App extends React.Component<{}, State> {
   setStartPage = (selectedFrameSize: number) => {
     let startPage: number;
 
-    if (this.state.currentPage - this.state.page > selectedFrameSize) {
-      startPage = this.state.currentPage - selectedFrameSize + 1;
+    if (this.state.startPage - this.state.page > selectedFrameSize) {
+      startPage = this.state.startPage - selectedFrameSize + 1;
     } else {
       startPage = this.state.page;
     }
@@ -182,7 +182,7 @@ class App extends React.Component<{}, State> {
   onPageChangeVersionTwo
   = (selectedPage: number) => {
     this.setState({
-      current: selectedPage,
+      currentPage: selectedPage,
     });
 
     if (selectedPage === this.state.page) {
@@ -225,10 +225,10 @@ class App extends React.Component<{}, State> {
   };
 
   handleBackButtonClick = () => {
-    const prevPage = this.state.current;
+    const prevPage = this.state.currentPage;
 
     this.setState(state => ({
-      current: state.current - 1,
+      currentPage: state.currentPage - 1,
     }));
 
     if (prevPage === this.state.page + 1) {
@@ -265,10 +265,10 @@ class App extends React.Component<{}, State> {
   };
 
   handleForthButtonClick = () => {
-    const prevPage = this.state.current;
+    const prevPage = this.state.currentPage;
 
     this.setState(state => ({
-      current: state.current + 1,
+      currentPage: state.currentPage + 1,
     }));
 
     if (prevPage === this.state.page) {
@@ -366,7 +366,7 @@ class App extends React.Component<{}, State> {
               type="button"
               className="PrevButton"
               disabled={
-                this.state.currentPage === 1
+                this.state.startPage === 1
               }
               onClick={this.handlePrevButtonClick}
             >
@@ -377,7 +377,7 @@ class App extends React.Component<{}, State> {
               total={this.state.total}
               perPage={this.state.perPage}
               page={this.state.page}
-              currentPage={this.state.currentPage}
+              currentStartPage={this.state.startPage}
               withInfo={this.state.withInfo}
               selectPage={this.onPageChange}
             />
@@ -386,7 +386,7 @@ class App extends React.Component<{}, State> {
               type="button"
               className="NextButton"
               disabled={
-                this.state.currentPage
+                this.state.startPage
                 === this.state.total
               }
               onClick={this.handleNextButtonClick}
@@ -402,9 +402,9 @@ class App extends React.Component<{}, State> {
         >
           <Pagination2
             first={this.state.page}
-            precurrent={this.state.current - 1}
-            current={this.state.current}
-            postcurrent={this.state.current + 1}
+            precurrent={this.state.currentPage - 1}
+            current={this.state.currentPage}
+            postcurrent={this.state.currentPage + 1}
             last={this.state.total}
             isFirstVisible={this.state.isFirstVisible}
             isPrecurrentFreeSpaceVisible={
@@ -424,7 +424,7 @@ class App extends React.Component<{}, State> {
           <Routes>
             <Route index element={<PageContent />} />
             <Route
-              path={`/page=${this.state.current}`}
+              path="/:currentPage"
               element={
                 <PageContent />
               }
