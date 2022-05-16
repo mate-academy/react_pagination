@@ -75,10 +75,4 @@ describe('Page', () => {
     page.getPage('»')
       .should('be.disabled');
   });
-
-  it('should hide buttons', () => {
-   cy.get('.pagination')
-     .children()
-     .should('contain', '...');
-  });
 });
