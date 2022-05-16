@@ -1,1 +1,10 @@
-/* not empty */
+.App {
+  width: 450px;
+  margin: 0 auto;
+
+}
+
+.App_subtitle {
+  color: rgb(5, 105, 100);
+  font-size: 20px;
+}
