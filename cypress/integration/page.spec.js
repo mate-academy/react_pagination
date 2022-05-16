@@ -1,4 +1,4 @@
-// WRITE TESTS HER
+// WRITE TESTS HERE
 
 describe('Page', () => {
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('Page', () => {
   };
 
   it('should highlight the button of the first page by default', () => {
-    cy.get('.pagination').contains('1')
+    page.getPage('1')
       .should('have.class', 'active');
   });
 
