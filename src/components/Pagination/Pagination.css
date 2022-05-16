@@ -1,0 +1,29 @@
+.pagination-list {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pagination-link {
+  display: inline-block;
+  text-decoration: none;
+  border: 1px solid rgb(233, 225, 225);
+  padding: 5px 10px;
+  color: rgb(0, 0, 0);
+}
+
+.pagination-link:hover {
+  background-color: rgb(234, 240, 240);
+}
+
+.active {
+  color: rgb(242, 12, 12);
+  border-color: rgb(0, 0, 0);
+}
+
+.disabled {
+  pointer-events: none;
+  color: rgb(171, 170, 170);
+}
