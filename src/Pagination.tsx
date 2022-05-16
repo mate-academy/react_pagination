@@ -1,11 +1,14 @@
+import classNames from 'classnames';
 import React from 'react';
-import './Pagination.css';
+import './Pagination.scss';
 
 type Props = {
-  total: number,
-  perPage: number,
-  page: number,
-  onPageChange: (event: number) => void
+  total: number;
+  perPage: number;
+  page: number;
+  onPageChange: (number: number) => void;
+  onClickNextButton: () => void;
+  onclickPrevButton: () => void;
 };
 
 export const Pagination: React.FC<Props> = ({
@@ -13,64 +16,87 @@ export const Pagination: React.FC<Props> = ({
   perPage,
   page,
   onPageChange,
+  onClickNextButton,
+  onclickPrevButton,
 }) => {
-  const totalPageCount
-  = [...Array(Math.ceil(total / perPage))].map((_, i) => i + 1);
+  const pageQuantity = Math.ceil(total / perPage);
+  const startRange = perPage * (page - 1) + 1;
+  const endRange = pageQuantity === page ? total : page * perPage;
+  const isHiddenButton = (value: number) => (value !== 1
+  && value !== page
+  && value !== page + 1
+  && value !== page - 1
+  && value < pageQuantity);
 
-  const onNext = () => {
-    onPageChange(page + 1);
-  };
-
-  const onPrevious = () => {
-    onPageChange(page - 1);
-  };
+  const arrTotal = Array.from({ length: pageQuantity }, (_, i) => i + 1);
+  const rangeForSpread = 2;
+  const minVisiblePages = 4;
+  const maxVisiblePages = pageQuantity - 2;
 
   return (
     <>
-      <p 
-        data-cy="info"
-        className="itemNumber"
-      >
-        {`${(perPage * page - perPage) + 1} -
-        ${perPage * page > total
-      ? total
-      : perPage * page} of ${total}`}
-      </p>
-      <div className="pagination">
-        <div className="page-item">
-          <button
-            className="btn-direction"
-            type="button"
-            disabled={page === 1}
-            onClick={onPrevious}
-          >
-            Previous
-          </button>
-        </div>
-        {totalPageCount.map(item => {
-          return (
+      <nav className="navigation">
+        <h3>{`${startRange} - ${endRange} of ${total}`}</h3>
+
+        <ul className="pagination">
+          <li className="pagination__item">
             <button
-              key={item}
-              className={page === item ? 'active' : 'button'}
               type="button"
-              value={item}
-              onClick={() => onPageChange(item)}
+              className="pagination__button"
+              disabled={page === 1}
+              onClick={onclickPrevButton}
             >
-              {item}
+              &laquo;
             </button>
-          );
-        })}
-        <div className="page-item">
-          <button
-            className="btn-direction"
-            type="button"
-            disabled={page === totalPageCount.length}
-            onClick={onNext}
-          >
-            Next
-          </button>
-        </div>
-      </div>
+          </li>
+
+          {arrTotal.map(number => (
+            <>
+              {(number === page + rangeForSpread
+              || number === page - rangeForSpread) && (
+                <li key={`spread-${number}`} className="pagination__item">
+                  <button
+                    type="button"
+                    className="
+                    pagination__button
+                    pagination__button-spread"
+                    hidden={number === page - rangeForSpread
+                      ? page < minVisiblePages
+                      : page >= maxVisiblePages}
+                  >
+                    ...
+                  </button>
+                </li>
+              )}
+
+              <li key={`item-${number}`} className="pagination__item">
+                <button
+                  type="button"
+                  className={classNames(
+                    'pagination__button',
+                    { active: page === number },
+                  )}
+                  hidden={isHiddenButton(number)}
+                  onClick={() => onPageChange(number)}
+                >
+                  {number}
+                </button>
+              </li>
+            </>
+          ))}
+
+          <li className="pagination__item">
+            <button
+              type="button"
+              className="pagination__button"
+              disabled={page === pageQuantity}
+              onClick={onClickNextButton}
+            >
+              &raquo;
+            </button>
+          </li>
+        </ul>
+      </nav>
     </>
   );
 };
