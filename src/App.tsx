@@ -8,7 +8,7 @@ type State = {
   page: number,
 };
 
-class App extends React.Component<{}, State> {
+export class App extends React.Component<{}, State> {
   state: State = {
     total: 42,
     perPage: 5,
@@ -77,5 +77,3 @@ class App extends React.Component<{}, State> {
     );
   }
 }
-
-export default App;
