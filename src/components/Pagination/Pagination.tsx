@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import React, { useEffect, useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import classNames from 'classnames';
 
 import './Pagination.scss';
 
@@ -108,11 +109,11 @@ export const Pagination: React.FC<Props> = ({
               <button
                 key={item.id}
                 type="button"
-                style={page === item.value
-                  ? { backgroundColor: '#ff784f' }
-                  : {}}
                 onClick={() => onPageChange(+item.value)}
-                className="pagination__button"
+                className={classNames(
+                  'pagination__button',
+                  { 'pagination__button--selected': page === item.value },
+                )}
               >
                 {item.value}
               </button>

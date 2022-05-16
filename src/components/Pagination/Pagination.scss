@@ -41,6 +41,11 @@
     border: 2px solid #3a3042;
     border-radius: 10px;
     background-color: #ffe19c;
+    transition: background-color 0.3s;
+
+    &--selected {
+      background-color: #ff784f;
+    }
 
     &:hover {
       background-color: #fed26c;
