@@ -1,8 +1,5 @@
 // WRITE TESTS HERE
 
-const { Children } = require("react");
-
-
 describe('Page', () => {
   beforeEach(() => {
     cy.visit('/');
@@ -16,7 +13,7 @@ describe('Page', () => {
   };
 
   it('should highlight the button of the first page by default', () => {
-    cy.get('.pagination').contains('1')
+    page.getPage('1')
       .should('have.class', 'active');
   });
 
@@ -77,11 +74,5 @@ describe('Page', () => {
       .click();
     page.getPage('»')
       .should('be.disabled');
-  });
-
-  it('should hide buttons', () => {
-   cy.get('.pagination')
-     .children()
-     .should('contain', '...');
   });
 });

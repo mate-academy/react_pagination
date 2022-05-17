@@ -22,7 +22,7 @@
 3. Implement `prev` and `next` buttons
     - disable buttons if a move is not possible now
 4. Add an optional param `withInfo` to show extra info before the buttons (`6 - 10 of 20`)
-5. (*) Implement `<select>` (`3, 5, 10, 20`) field to change `perPage` and `onPerPageChange` callback
+5. Implement `<select>` (`3, 5, 10, 20`) field to change `perPage` and `onPerPageChange` callback
     - should be triggered if only `perPage` was changed
 6. (*) Change view to show buttons only for the `first`, `last`, `current`, one `precurrent` and `postcurrent` pages
     - `< 1 ... 4 [5] 6 ... 12 >`
