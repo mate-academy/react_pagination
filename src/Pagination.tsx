@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import { v4 as uuidv4 } from 'uuid';
 import { usePagination, DOTS } from './usePagination';
 import './Pagination.scss';
 
@@ -31,7 +32,12 @@ const Pagination: React.FC<Props> = (props) => {
     siblingCount,
   });
 
-  if (page === 0 || paginationRange.length < 2) {
+  const paginationRange2 = paginationRange.map((elem) => ({
+    id: uuidv4(),
+    value: elem,
+  }));
+
+  if (page === 0 || paginationRange2.length < 2) {
     return null;
   }
 
@@ -43,7 +49,7 @@ const Pagination: React.FC<Props> = (props) => {
     onPageChange(page - 1);
   };
 
-  const lastPage = paginationRange[paginationRange.length - 1];
+  const lastPage = paginationRange2[paginationRange2.length - 1].value;
 
   return (
     <div className="pagination">
@@ -65,13 +71,13 @@ const Pagination: React.FC<Props> = (props) => {
           <div className="arrow left" />
         </button>
 
-        {paginationRange.map((pageNumber) => {
-          if (pageNumber === DOTS) {
+        {paginationRange2.map(({ value, id }) => {
+          if (value === DOTS) {
             return (
               <button
                 className="pagination-item dots"
                 type="button"
-                key={pageNumber}
+                key={id}
               >
                 &#8230;
               </button>
@@ -81,13 +87,13 @@ const Pagination: React.FC<Props> = (props) => {
           return (
             <button
               className={classNames('pagination-item', {
-                selected: pageNumber === page,
+                selected: value === page,
               })}
-              onClick={() => onPageChange(pageNumber)}
+              onClick={() => onPageChange(value)}
               type="button"
-              key={pageNumber}
+              key={id}
             >
-              {pageNumber}
+              {value}
             </button>
           );
         })}
@@ -111,6 +117,7 @@ const Pagination: React.FC<Props> = (props) => {
             const { value } = event.target;
 
             onPerPageChange(+value);
+            onPageChange(1);
           }}
           className="pagination__select"
         >
