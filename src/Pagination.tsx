@@ -50,14 +50,15 @@ const Pagination: React.FC<Props> = (props) => {
   };
 
   const lastPage = paginationRange2[paginationRange2.length - 1].value;
+  const indexStart = 1;
 
   return (
     <div className="pagination">
       {withInfo && (
         <p className="pagination__text">
           {page === lastPage
-            ? `${(page - 1) * perPage + 1}-${total} of ${total}`
-            : `${(page - 1) * perPage + 1}-${perPage * page} of ${total}`}
+            ? `${(page - indexStart) * perPage + indexStart}-${total} of ${total}`
+            : `${(page - indexStart) * perPage + indexStart}-${perPage * page} of ${total}`}
         </p>
       )}
       <ul className="pagination-container">
