@@ -1,14 +1,15 @@
 /* eslint-disable no-console */
 import React, { useEffect, useMemo, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import classNames from 'classnames';
+
+import { paginate } from '../../functions/paginate';
 
 import './Pagination.scss';
 
 type Props = {
   total: number;
-  perPage?: number;
-  page?: number;
+  perPage: number;
+  page: number;
   onPageChange: (index: number) => void;
   prevPage: () => void;
   nextPage: () => void;
@@ -24,39 +25,16 @@ export const Pagination: React.FC<Props> = ({
 }) => {
   const [isPrevDisabled, setPrevDisability] = useState(true);
   const [isNextDisabled, setNextDisability] = useState(false);
+
   const current = page;
   const last = Math.ceil(total / perPage);
 
-  const paginate = (currentPage: number, lastPage: number) => {
-    const delta = 1;
-    const result = [];
+  const firstElementOnPage = 1 + perPage * (page - 1);
+  let lastElementOnPage = perPage * page;
 
-    for (
-      let i = Math.max(2, (currentPage - delta));
-      i <= Math.min((lastPage - 1), (currentPage + delta));
-      i += 1
-    ) {
-      result.push(i);
-    }
-
-    if ((currentPage - delta) > 2) {
-      result.unshift('...');
-    }
-
-    if ((currentPage + delta) < (lastPage - 1)) {
-      result.push('...');
-    }
-
-    result.unshift(1);
-    if (lastPage !== 1) {
-      result.push(lastPage);
-    }
-
-    return result.map(value => ({
-      value,
-      id: uuidv4(),
-    }));
-  };
+  if (perPage * page > total) {
+    lastElementOnPage = total;
+  }
 
   const visiblePages = useMemo(() => {
     return paginate(current, last);
@@ -79,7 +57,7 @@ export const Pagination: React.FC<Props> = ({
   return (
     <div className="pagination">
       <p className="pagination__title">
-        {`${1 + perPage * (page - 1)} - ${perPage * page > total ? `${total}` : `${perPage * page}`} of ${total}`}
+        {`${firstElementOnPage} - ${lastElementOnPage} of ${total}`}
       </p>
 
       <div className="pagination__buttons">
@@ -132,9 +110,4 @@ export const Pagination: React.FC<Props> = ({
       </div>
     </div>
   );
-};
-
-Pagination.defaultProps = {
-  perPage: 5,
-  page: 1,
 };
