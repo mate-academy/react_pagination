@@ -1,8 +1,40 @@
-.PageItem {
-  width: 40px;
-  border: 1px solid #bbb;
-  border-right: 0;
-  border-radius: 0;
+.PagesPanel {
+  box-sizing: border-box;
+  margin: 0;
+  display: flex;
+  padding: 0;
+  width: 200px;
+  height: 30px;
+  list-style-type: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.PagesContainer {
+  display: flex;
+}
+
+.ItemPage {
+  margin: 0;
+  width: 30px;
+  text-align: center;
+  padding: 0;
+}
+
+.FreeSpace {
+  margin: 0;
+  padding: 0;
+  width: 30px;
+  text-align: center;
+}
+
+.PageLink {
+  text-decoration: none;
+  color: black;
+
+  &:visited {
+    color: black;
+  }
 }
 
 .Selected {
@@ -10,14 +42,19 @@
   color: #fff;
 }
 
-.WithInfo {
-  padding: 0 5px;
-  box-sizing: border-box;
-  border: 1px solid #bbb;
-  border-right: 0;
-  border-radius: 0;
-  height: 40px;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 20px;
-  line-height: 40px;
+.VersionTwoButton {
+  border: 0;
+  height: 30px;
+  width: 30px;
+  line-height: 30px;
+  font-size: 25px;
+  font-weight: bold;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.Forth {
+  text-align: right;
 }

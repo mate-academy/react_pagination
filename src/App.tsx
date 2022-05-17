@@ -3,15 +3,10 @@ import { Routes, Route } from 'react-router-dom';
 import './App.scss';
 import PageContent from './components/PageContent/PageContent';
 import Pagination from './components/Pagination/Pagination';
-import Pagination2 from './components/Pagination2/Pagination2';
 
 interface State {
   total: number,
-  perPage: number,
   page: number,
-  withInfo: boolean,
-  startPage: number,
-  isVersionOneUsed: boolean,
   currentPage: number,
   isFirstVisible: boolean,
   isPrecurrentVisible: boolean,
@@ -24,11 +19,7 @@ interface State {
 class App extends React.Component<{}, State> {
   state = {
     total: 42,
-    perPage: 5,
     page: 1,
-    withInfo: true,
-    startPage: 1,
-    isVersionOneUsed: false,
     currentPage: 1,
     isFirstVisible: false,
     isPrecurrentVisible: false,
@@ -36,70 +27,6 @@ class App extends React.Component<{}, State> {
     isPrecurrentFreeSpaceVisible: false,
     isPostcurrentFreeSpaceVisible: true,
     isLastVisible: true,
-  };
-
-  changeVersion = () => {
-    this.setState((state) => ({
-      isVersionOneUsed: !state.isVersionOneUsed,
-    }));
-  };
-
-  onPageChange = (selectedPage: number) => {
-    this.setState({
-      startPage: selectedPage,
-    });
-  };
-
-  handlePrevButtonClick = () => {
-    if (this.state.startPage === this.state.page) {
-      this.setState((prevState) => {
-        return {
-          page: prevState.page - 1,
-        };
-      });
-    }
-
-    this.setState((prevState) => {
-      return {
-        startPage: prevState.startPage - 1,
-      };
-    });
-  };
-
-  handleNextButtonClick = () => {
-    if (this.state.startPage
-      === this.state.page + this.state.perPage - 1) {
-      this.setState((prevState) => {
-        return {
-          page: prevState.page + 1,
-        };
-      });
-    }
-
-    this.setState((prevState) => {
-      return {
-        startPage: prevState.startPage + 1,
-      };
-    });
-  };
-
-  setStartPage = (selectedFrameSize: number) => {
-    let startPage: number;
-
-    if (this.state.startPage - this.state.page > selectedFrameSize) {
-      startPage = this.state.startPage - selectedFrameSize + 1;
-    } else {
-      startPage = this.state.page;
-    }
-
-    return startPage;
-  };
-
-  onPerPageChange = (event : React.ChangeEvent<HTMLSelectElement>) => {
-    this.setState({
-      page: this.setStartPage(parseInt(event.target.value, 10)),
-      perPage: +event.target.value,
-    });
   };
 
   setParemetersForValueOne = () => {
@@ -179,7 +106,7 @@ class App extends React.Component<{}, State> {
     });
   };
 
-  onPageChangeVersionTwo
+  onPageChange
   = (selectedPage: number) => {
     this.setState({
       currentPage: selectedPage,
@@ -311,96 +238,10 @@ class App extends React.Component<{}, State> {
           Pagination
         </h1>
 
-        <select
-          className="ChangeVersion"
-          defaultValue="VersionTwo"
-          onChange={this.changeVersion}
-        >
-          <option
-            value="VersionOne"
-          >
-            Version One
-          </option>
-          <option
-            value="VersionTwo"
-          >
-            Version Two
-          </option>
-        </select>
-
-        <div
-          className="VersionOne"
-          hidden={!this.state.isVersionOneUsed}
-        >
-          <select
-            className="ChangePerPage"
-            defaultValue={5}
-            onChange={this.onPerPageChange}
-          >
-            <option
-              value="3"
-            >
-              Pages to display 3
-            </option>
-            <option
-              value="5"
-            >
-              Pages to display 5
-            </option>
-            <option
-              value="10"
-            >
-              Pages to display 10
-            </option>
-            <option
-              value="20"
-            >
-              Pages to display 20
-            </option>
-          </select>
-
-          <nav
-            className="PagesContainer"
-          >
-            <button
-              type="button"
-              className="PrevButton"
-              disabled={
-                this.state.startPage === 1
-              }
-              onClick={this.handlePrevButtonClick}
-            >
-              Prev
-            </button>
-
-            <Pagination
-              total={this.state.total}
-              perPage={this.state.perPage}
-              page={this.state.page}
-              currentStartPage={this.state.startPage}
-              withInfo={this.state.withInfo}
-              selectPage={this.onPageChange}
-            />
-
-            <button
-              type="button"
-              className="NextButton"
-              disabled={
-                this.state.startPage
-                === this.state.total
-              }
-              onClick={this.handleNextButtonClick}
-            >
-              Next
-            </button>
-          </nav>
-        </div>
-
         <div
           className="VersionTwo"
-          hidden={this.state.isVersionOneUsed}
         >
-          <Pagination2
+          <Pagination
             first={this.state.page}
             precurrent={this.state.currentPage - 1}
             current={this.state.currentPage}
@@ -416,7 +257,7 @@ class App extends React.Component<{}, State> {
               this.state.isPostcurrentFreeSpaceVisible
             }
             isLastVisible={this.state.isLastVisible}
-            selectPage={this.onPageChangeVersionTwo}
+            selectPage={this.onPageChange}
             moveBack={this.handleBackButtonClick}
             moveForth={this.handleForthButtonClick}
           />
