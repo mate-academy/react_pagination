@@ -22,7 +22,33 @@ export const Pagination: React.FC<Props> = ({
   const pageBlocks = Math.ceil(total / perPage);
   const startPage = perPage * (currentPage - 1) + 1;
   const endPage = pageBlocks === currentPage ? total : currentPage * perPage;
+  const isLastPage = currentPage >= pageBlocks;
+  const prevHiddenPage = currentPage - 2;
+  const lastHiddenPage = currentPage + 2;
+
   const arrayPages = Array.from(Array(pageBlocks).keys()).map(num => num + 1);
+
+  const isBlockHidden = (item: number) => {
+    if (item !== 1
+      && item !== currentPage
+      && item !== currentPage + 1
+      && item !== currentPage - 1
+      && item < pageBlocks) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const isDotHidden = (item: number) => {
+    if (item === prevHiddenPage
+      ? currentPage < 4
+      : currentPage >= pageBlocks - 2) {
+      return true;
+    }
+
+    return false;
+  };
 
   return (
     <div className="pagination">
@@ -43,14 +69,12 @@ export const Pagination: React.FC<Props> = ({
 
         {arrayPages.map(el => (
           <>
-            {(el === currentPage - 2 || el === currentPage + 2) && (
+            {(el === prevHiddenPage || el === lastHiddenPage) && (
               <li key={el}>
                 <button
                   type="button"
                   className="pagination_item"
-                  hidden={el === currentPage - 2
-                    ? currentPage < 4
-                    : currentPage >= pageBlocks - 2}
+                  hidden={isDotHidden(el)}
                 >
                   ...
                 </button>
@@ -65,13 +89,7 @@ export const Pagination: React.FC<Props> = ({
                   'pagination_item',
                   { 'pagination_item--active': currentPage === el },
                 )}
-                hidden={
-                  el !== 1
-                  && el !== currentPage
-                  && el !== currentPage + 1
-                  && el !== currentPage - 1
-                  && el < pageBlocks
-                }
+                hidden={isBlockHidden(el)}
                 onClick={() => onPageChange(el)}
               >
                 {el}
@@ -84,7 +102,7 @@ export const Pagination: React.FC<Props> = ({
           <button
             type="button"
             className="pagination_button"
-            disabled={currentPage >= pageBlocks}
+            disabled={isLastPage}
             onClick={toNextPage}
           >
             Next
