@@ -1,0 +1,12 @@
+.app {
+  &__title {
+    text-align: center;
+  }
+
+  &__form {
+    margin-top: 30px;
+
+    display: flex;
+    justify-content: center;
+  }
+}

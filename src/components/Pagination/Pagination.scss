@@ -1,0 +1,22 @@
+.pagination {
+  &__title {
+    text-align: center;
+  }
+  &__etc {
+    display: inline-block;
+  }
+
+  &__btn-wrap {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+  }
+
+  &__btn {
+    height: 50px;
+    width: fit-content;
+    &_selected {
+      background-color: orange;
+    }
+  }
+}
