@@ -1,8 +1,4 @@
-import {
-  FC,
-  useCallback,
-  useState,
-} from 'react';
+import { FC, useCallback, useState } from 'react';
 import { Pagination } from './components/Pagination';
 import './App.css';
 
