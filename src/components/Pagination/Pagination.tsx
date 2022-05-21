@@ -45,6 +45,7 @@ export const Pagination: FC<Props> = (props) => {
     ? numberOfButtons
     : (currPage + 1);
   const lastButton = numberOfButtons;
+  const firstButton = 1;
 
   const isLastButton = currPage === numberOfButtons;
 
@@ -54,7 +55,7 @@ export const Pagination: FC<Props> = (props) => {
       && currPage >= (numberOfButtons - 2));
 
     return button === currPage
-        || button === 1
+        || button === firstButton
         || button === prevButton
         || button === nextButton
         || button === lastButton
@@ -67,7 +68,7 @@ export const Pagination: FC<Props> = (props) => {
   const threeDots = numberOfButtons + 8230;
 
   if (prevButton > 2 && numberOfButtons > 5) {
-    const firstBtn = visibleButtons.shift();
+    const firstBtn = visibleButtons && visibleButtons.shift();
 
     visibleButtons = firstBtn
       ? [firstBtn, threeDots, ...visibleButtons]
@@ -83,7 +84,7 @@ export const Pagination: FC<Props> = (props) => {
   }
 
   const onPage = Math.ceil(totalPages / numberOfButtons);
-  const firstItemOnPage = currPage * onPage - onPage + 1;
+  const firstItemOnPage = (currPage * onPage - onPage) + 1;
   let lastItemOnPage = currPage * onPage;
 
   if (isLastButton) {
