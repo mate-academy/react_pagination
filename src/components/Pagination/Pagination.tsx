@@ -1,270 +1,269 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Pagination.scss';
-
-interface PaginationState {
-  precurrent: number,
-  postcurrent: number,
-  isFirstVisible: boolean,
-  isPrecurrentVisible: boolean,
-  isPostcurrentVisible: boolean,
-  isPrecurrentFreeSpaceVisible: boolean,
-  isPostcurrentFreeSpaceVisible: boolean,
-  isLastVisible: boolean,
-}
 
 type Props = {
   first: number,
   last: number,
   current: number,
+  perPage: number,
+  total: number,
+  withInfo: boolean,
   selectPage: (selectedPage: number) => void,
   moveBack: () => void,
   moveForth: () => void,
 };
 
-class Pagination extends React.Component <Props, PaginationState> {
-  state = {
-    precurrent: this.props.current - 1,
-    postcurrent: this.props.current + 1,
-    isFirstVisible: false,
-    isPrecurrentVisible: false,
-    isPostcurrentVisible: true,
-    isPrecurrentFreeSpaceVisible: false,
-    isPostcurrentFreeSpaceVisible: true,
-    isLastVisible: true,
+const Pagination: React.FC <Props> = ({
+  first,
+  last,
+  current,
+  perPage,
+  total,
+  withInfo,
+  selectPage,
+  moveBack,
+  moveForth,
+}) => {
+  const [precurrent, setPrecurrent] = useState(current - 1);
+  const [postcurrent, setPostcurrent] = useState(current + 1);
+  const [isFirstVisible, setIsFirstVisible] = useState(false);
+  const [isLastVisible, setIsLastVisible] = useState(last > 2);
+  const [isPrecurrentVisible, setIsPrecurrentVisible] = useState(false);
+  const [isPostcurrentVisible, setIsPostcurrentVisible] = useState(last > 1);
+  const [
+    isPrecurrentFreeSpaceVisible,
+    setIsPrecurrentFreeSpaceVisible,
+  ] = useState(false);
+  const [
+    isPostcurrentFreeSpaceVisible,
+    setIsPostcurrentFreeSpaceVisible,
+  ] = useState(last > 3);
+
+  const setCurrentNeighboursValues = () => {
+    setPrecurrent(current - 1);
+    setPostcurrent(current + 1);
   };
 
-  componentDidUpdate(prevProps: Props) {
-    if (prevProps.current !== this.props.current) {
-      switch (this.props.current) {
-        case this.props.first:
-          this.setParemetersForValueOne();
-          break;
-        case this.props.first + 1:
-          this.setParametersForValueTwo();
-          break;
-        case this.props.first + 2:
-          this.setParametersForValueThree();
-          break;
-        case this.props.last:
-          this.setParametersForLastValue();
-          break;
-        case this.props.last - 1:
-          this.setParametersForSecondValueFromEnd();
-          break;
-        case this.props.last - 2:
-          this.setParametersForThirdValueFromEnd();
-          break;
-        default:
-          this.setParametersForRegularValue();
-      }
+  const setVisibleFirstAndCurrentNeighboursValues = () => {
+    setCurrentNeighboursValues();
+    setIsFirstVisible(true);
+  };
+
+  const setParametersForRegularValue = () => {
+    setVisibleFirstAndCurrentNeighboursValues();
+    setIsLastVisible(true);
+    setIsPrecurrentVisible(true);
+    setIsPrecurrentFreeSpaceVisible(true);
+    setIsPostcurrentVisible(true);
+    setIsPostcurrentFreeSpaceVisible(true);
+  };
+
+  const setParemetersForValueOne = () => {
+    setCurrentNeighboursValues();
+    setIsFirstVisible(false);
+    setIsLastVisible(last > 2);
+    setIsPrecurrentVisible(false);
+    setIsPrecurrentFreeSpaceVisible(false);
+    setIsPostcurrentVisible(last > 1);
+    setIsPostcurrentFreeSpaceVisible(last > 3);
+  };
+
+  const setParametersForValueTwo = () => {
+    setVisibleFirstAndCurrentNeighboursValues();
+    setIsLastVisible(last > 3);
+    setIsPrecurrentVisible(false);
+    setIsPrecurrentFreeSpaceVisible(false);
+    setIsPostcurrentVisible(last > 2);
+    setIsPostcurrentFreeSpaceVisible(last > 4);
+  };
+
+  const setParametersForValueThree = () => {
+    setVisibleFirstAndCurrentNeighboursValues();
+    setIsLastVisible(last > 4);
+    setIsPrecurrentVisible(true);
+    setIsPrecurrentFreeSpaceVisible(false);
+    setIsPostcurrentVisible(last > 3);
+    setIsPostcurrentFreeSpaceVisible(last > 5);
+  };
+
+  const setParametersForLastValue = () => {
+    setVisibleFirstAndCurrentNeighboursValues();
+    setIsLastVisible(false);
+    setIsPrecurrentVisible(true);
+    setIsPrecurrentFreeSpaceVisible(true);
+    setIsPostcurrentVisible(false);
+    setIsPostcurrentFreeSpaceVisible(false);
+  };
+
+  const setParametersForSecondValueFromEnd = () => {
+    setVisibleFirstAndCurrentNeighboursValues();
+    setIsLastVisible(false);
+    setIsPrecurrentVisible(true);
+    setIsPrecurrentFreeSpaceVisible(last > 4);
+    setIsPostcurrentVisible(true);
+    setIsPostcurrentFreeSpaceVisible(false);
+  };
+
+  const setParametersForThirdValueFromEnd = () => {
+    setVisibleFirstAndCurrentNeighboursValues();
+    setIsLastVisible(true);
+    setIsPrecurrentVisible(true);
+    setIsPrecurrentFreeSpaceVisible(true);
+    setIsPostcurrentVisible(true);
+    setIsPostcurrentFreeSpaceVisible(false);
+  };
+
+  const setNewParameters = () => {
+    switch (current) {
+      case first:
+        setParemetersForValueOne();
+        break;
+      case first + 1:
+        setParametersForValueTwo();
+        break;
+      case first + 2:
+        setParametersForValueThree();
+        break;
+      case last:
+        setParametersForLastValue();
+        break;
+      case last - 1:
+        setParametersForSecondValueFromEnd();
+        break;
+      case last - 2:
+        setParametersForThirdValueFromEnd();
+        break;
+      default:
+        setParametersForRegularValue();
     }
-  }
-
-  setParametersForRegularValue = () => {
-    this.setState({
-      precurrent: this.props.current - 1,
-      postcurrent: this.props.current + 1,
-      isFirstVisible: true,
-      isLastVisible: true,
-      isPrecurrentVisible: true,
-      isPrecurrentFreeSpaceVisible: true,
-      isPostcurrentVisible: true,
-      isPostcurrentFreeSpaceVisible: true,
-    });
   };
 
-  setParemetersForValueOne = () => {
-    this.setState({
-      precurrent: this.props.current - 1,
-      postcurrent: this.props.current + 1,
-      isFirstVisible: false,
-      isLastVisible: true,
-      isPrecurrentVisible: false,
-      isPrecurrentFreeSpaceVisible: false,
-      isPostcurrentVisible: true,
-      isPostcurrentFreeSpaceVisible: true,
-    });
-  };
+  useEffect(() => {
+    setNewParameters();
+  }, [current, last]);
 
-  setParametersForValueTwo = () => {
-    this.setState({
-      precurrent: this.props.current - 1,
-      postcurrent: this.props.current + 1,
-      isFirstVisible: true,
-      isLastVisible: true,
-      isPrecurrentVisible: false,
-      isPrecurrentFreeSpaceVisible: false,
-      isPostcurrentVisible: true,
-      isPostcurrentFreeSpaceVisible: true,
-    });
-  };
+  return (
+    <nav className="PagesContainer">
+      <NavLink
+        className="PageLink VersionTwoButton Back"
+        to={`/page=${current - 1}`}
+        onClick={moveBack}
+        style={{
+          pointerEvents: (current === first)
+            ? 'none' : 'auto',
+        }}
+      >
+        &lt;
+      </NavLink>
 
-  setParametersForValueThree = () => {
-    this.setState({
-      precurrent: this.props.current - 1,
-      postcurrent: this.props.current + 1,
-      isFirstVisible: true,
-      isLastVisible: true,
-      isPrecurrentVisible: true,
-      isPrecurrentFreeSpaceVisible: false,
-      isPostcurrentVisible: true,
-      isPostcurrentFreeSpaceVisible: true,
-    });
-  };
+      <span
+        className="AdditionalInfo"
+        hidden={!withInfo}
+      >
+        {`
+          ${(current - 1) * perPage + 1} - ${(current * perPage) < total ? (current * perPage) : total} of ${total}
+        `}
+      </span>
 
-  setParametersForLastValue = () => {
-    this.setState({
-      precurrent: this.props.current - 1,
-      postcurrent: this.props.current + 1,
-      isFirstVisible: true,
-      isLastVisible: false,
-      isPrecurrentVisible: true,
-      isPrecurrentFreeSpaceVisible: true,
-      isPostcurrentVisible: false,
-      isPostcurrentFreeSpaceVisible: false,
-    });
-  };
-
-  setParametersForSecondValueFromEnd = () => {
-    this.setState({
-      precurrent: this.props.current - 1,
-      postcurrent: this.props.current + 1,
-      isFirstVisible: true,
-      isLastVisible: false,
-      isPrecurrentVisible: true,
-      isPrecurrentFreeSpaceVisible: true,
-      isPostcurrentVisible: true,
-      isPostcurrentFreeSpaceVisible: false,
-    });
-  };
-
-  setParametersForThirdValueFromEnd = () => {
-    this.setState({
-      precurrent: this.props.current - 1,
-      postcurrent: this.props.current + 1,
-      isFirstVisible: true,
-      isLastVisible: true,
-      isPrecurrentVisible: true,
-      isPrecurrentFreeSpaceVisible: true,
-      isPostcurrentVisible: true,
-      isPostcurrentFreeSpaceVisible: false,
-    });
-  };
-
-  render() {
-    return (
-      <nav className="PagesContainer">
-        <NavLink
-          className="PageLink VersionTwoButton Back"
-          to={`/page=${this.props.current - 1}`}
-          onClick={this.props.moveBack}
-          style={{
-            pointerEvents: (this.props.current === this.props.first)
-              ? 'none' : 'auto',
-          }}
+      <ul
+        className="PagesPanel"
+      >
+        <li
+          className="ItemPage"
+          hidden={!isFirstVisible}
         >
-          &lt;
-        </NavLink>
-        <ul
-          className="PagesPanel"
+          <NavLink
+            className="PageLink"
+            to={`/page=${first}`}
+            onClick={() => {
+              selectPage(first);
+            }}
+          >
+            {first}
+          </NavLink>
+        </li>
+        <li
+          className="FreeSpace"
+          hidden={!isPrecurrentFreeSpaceVisible}
         >
-          <li
-            className="ItemPage"
-            hidden={!this.state.isFirstVisible}
-          >
-            <NavLink
-              className="PageLink"
-              to={`/page=${this.props.first}`}
-              onClick={() => {
-                this.props.selectPage(this.props.first);
-              }}
-            >
-              {this.props.first}
-            </NavLink>
-          </li>
-          <li
-            className="FreeSpace"
-            hidden={!this.state.isPrecurrentFreeSpaceVisible}
-          >
-            ...
-          </li>
-          <li
-            className="ItemPage"
-            hidden={!this.state.isPrecurrentVisible}
-          >
-            <NavLink
-              className="PageLink"
-              to={`/page=${this.state.precurrent}`}
-              onClick={() => {
-                this.props.selectPage(this.state.precurrent);
-              }}
-            >
-              {this.state.precurrent}
-            </NavLink>
-          </li>
-          <li
-            className="ItemPage"
-          >
-            <NavLink
-              className="PageLink"
-              to={`/page=${this.props.current}`}
-              onClick={() => {
-                this.props.selectPage(this.props.current);
-              }}
-            >
-              {`[${this.props.current}]`}
-            </NavLink>
-          </li>
-          <li
-            className="ItemPage"
-            hidden={!this.state.isPostcurrentVisible}
-          >
-            <NavLink
-              className="PageLink"
-              to={`/page=${this.state.postcurrent}`}
-              onClick={() => {
-                this.props.selectPage(this.state.postcurrent);
-              }}
-            >
-              {this.state.postcurrent}
-            </NavLink>
-          </li>
-          <li
-            className="FreeSpace"
-            hidden={!this.state.isPostcurrentFreeSpaceVisible}
-          >
-            ...
-          </li>
-          <li
-            className="ItemPage"
-            hidden={!this.state.isLastVisible}
-          >
-            <NavLink
-              className="PageLink"
-              to={`/page=${this.props.last}`}
-              onClick={() => {
-                this.props.selectPage(this.props.last);
-              }}
-            >
-              {this.props.last}
-            </NavLink>
-          </li>
-        </ul>
-        <NavLink
-          className="PageLink VersionTwoButton Forth"
-          to={`/page=${this.props.current + 1}`}
-          onClick={this.props.moveForth}
-          style={{
-            pointerEvents: (this.props.current === this.props.last)
-              ? 'none' : 'auto',
-          }}
+          ...
+        </li>
+        <li
+          className="ItemPage"
+          hidden={!isPrecurrentVisible}
         >
-          &gt;
-        </NavLink>
-      </nav>
-    );
-  }
-}
+          <NavLink
+            className="PageLink"
+            to={`/page=${precurrent}`}
+            onClick={() => {
+              selectPage(precurrent);
+            }}
+          >
+            {precurrent}
+          </NavLink>
+        </li>
+        <li
+          className="ItemPage"
+        >
+          <NavLink
+            className="PageLink"
+            to={`/page=${current}`}
+            onClick={() => {
+              selectPage(current);
+            }}
+          >
+            {`[${current}]`}
+          </NavLink>
+        </li>
+        <li
+          className="ItemPage"
+          hidden={!isPostcurrentVisible}
+        >
+          <NavLink
+            className="PageLink"
+            to={`/page=${postcurrent}`}
+            onClick={() => {
+              selectPage(postcurrent);
+            }}
+          >
+            {postcurrent}
+          </NavLink>
+        </li>
+        <li
+          className="FreeSpace"
+          hidden={!isPostcurrentFreeSpaceVisible}
+        >
+          ...
+        </li>
+        <li
+          className="ItemPage"
+          hidden={!isLastVisible}
+        >
+          <NavLink
+            className="PageLink"
+            to={`/page=${last}`}
+            onClick={() => {
+              selectPage(last);
+            }}
+          >
+            {last}
+          </NavLink>
+        </li>
+      </ul>
+      <NavLink
+        className="PageLink VersionTwoButton Forth"
+        to={`/page=${current + 1}`}
+        onClick={moveForth}
+        style={{
+          pointerEvents: (current === last)
+            ? 'none' : 'auto',
+        }}
+      >
+        &gt;
+      </NavLink>
+    </nav>
+  );
+};
 
 export default Pagination;

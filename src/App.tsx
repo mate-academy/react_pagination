@@ -1,80 +1,138 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import './App.scss';
 import PageContent from './components/PageContent/PageContent';
 import Pagination from './components/Pagination/Pagination';
 
-interface State {
-  total: number,
-  page: number,
-  currentPage: number,
-}
+const App: React.FC = () => {
+  const [total] = useState(42);
+  const [page] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [withInfo, setWithInfo] = useState(false);
+  const navigate = useNavigate();
 
-class App extends React.Component<{}, State> {
-  state = {
-    total: 42,
-    page: 1,
-    currentPage: 1,
+  const onPageChange = (selectedPage: number) => {
+    setCurrentPage(selectedPage);
   };
 
-  onPageChange = (selectedPage: number) => {
-    this.setState({
-      currentPage: selectedPage,
-    });
-  };
+  const handleBackButtonClick = () => {
+    const prevPage = currentPage;
 
-  handleBackButtonClick = () => {
-    const prevPage = this.state.currentPage;
-
-    if (prevPage > this.state.page) {
-      this.setState(state => ({
-        currentPage: state.currentPage - 1,
-      }));
+    if (prevPage > page) {
+      setCurrentPage(state => state - 1);
     }
   };
 
-  handleForthButtonClick = () => {
-    const prevPage = this.state.currentPage;
+  const handleForthButtonClick = () => {
+    const prevPage = currentPage;
 
-    if (prevPage < this.state.total) {
-      this.setState(state => ({
-        currentPage: state.currentPage + 1,
-      }));
+    if (prevPage < total) {
+      setCurrentPage(state => state + 1);
     }
   };
 
-  render() {
-    return (
-      <>
-        <h1>
-          Pagination
-        </h1>
+  const onPerPageChange = (event : React.ChangeEvent<HTMLSelectElement>) => {
+    setPerPage(+event.target.value);
+    setCurrentPage(page);
+    navigate('/page=1');
+  };
 
-        <div
-          className="VersionTwo"
+  return (
+    <>
+      <h1>
+        Pagination
+      </h1>
+
+      <form className="SelectOptions">
+        <select
+          className="ChangePerPage"
+          defaultValue={5}
+          onChange={onPerPageChange}
         >
-          <Pagination
-            first={this.state.page}
-            last={this.state.total}
-            current={this.state.currentPage}
-            selectPage={this.onPageChange}
-            moveBack={this.handleBackButtonClick}
-            moveForth={this.handleForthButtonClick}
-          />
+          <option
+            value="3"
+          >
+            Items to display 3
+          </option>
+          <option
+            value="5"
+          >
+            Items to display 5
+          </option>
+          <option
+            value="10"
+          >
+            Items to display 10
+          </option>
+          <option
+            value="20"
+          >
+            Items to display 20
+          </option>
+        </select>
 
-          <Routes>
-            <Route index element={<PageContent />} />
-            <Route
-              path="/:currentPage"
-              element={
-                <PageContent />
-              }
-            />
-          </Routes>
-        </div>
-      </>
-    );
-  }
-}
+        <p> Show additional info </p>
+
+        <label>
+          Yes
+          <input
+            name="withInfo"
+            type="radio"
+            value="yes"
+            onChange={() => setWithInfo(true)}
+          />
+        </label>
+        <label>
+          No
+          <input
+            name="withInfo"
+            type="radio"
+            value="no"
+            onChange={() => setWithInfo(false)}
+            checked={!withInfo}
+          />
+        </label>
+      </form>
+
+      <div
+        className="VersionTwo"
+      >
+        <Pagination
+          first={page}
+          last={Math.ceil(total / perPage)}
+          current={currentPage}
+          perPage={perPage}
+          total={total}
+          withInfo={withInfo}
+          selectPage={onPageChange}
+          moveBack={handleBackButtonClick}
+          moveForth={handleForthButtonClick}
+        />
+
+        <Routes>
+          <Route
+            index
+            element={(
+              <PageContent
+                total={total}
+                perPage={perPage}
+              />
+            )}
+          />
+          <Route
+            path="/:currentPage"
+            element={(
+              <PageContent
+                total={total}
+                perPage={perPage}
+              />
+            )}
+          />
+        </Routes>
+      </div>
+    </>
+  );
+};
 
 export default App;
