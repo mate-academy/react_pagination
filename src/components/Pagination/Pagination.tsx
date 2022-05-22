@@ -72,25 +72,29 @@ export const Pagination: FC<Props> = (props) => {
         || last5Buttons;
   };
 
-  let visibleButtons = buttons.filter(isVisibleButtons);
-
   const threeDots = numberOfButtons + 8230;
 
-  if (prevButton > 2 && numberOfButtons > 5) {
-    const firstBtn = visibleButtons && visibleButtons.shift();
+  const visibleButtons = useMemo(() => {
+    let filtered = buttons.filter(isVisibleButtons);
 
-    visibleButtons = firstBtn
-      ? [firstBtn, threeDots, ...visibleButtons]
-      : visibleButtons;
-  }
+    if (prevButton > 2 && numberOfButtons > 5) {
+      const firstBtn = filtered && filtered.shift();
 
-  if (nextButton < (buttons.length - 1) && numberOfButtons > 5) {
-    const lastBtn = visibleButtons && visibleButtons.pop();
+      filtered = firstBtn
+        ? [firstBtn, threeDots, ...filtered]
+        : filtered;
+    }
 
-    visibleButtons = lastBtn
-      ? [...visibleButtons, threeDots, lastBtn]
-      : visibleButtons;
-  }
+    if (nextButton < (buttons.length - 1) && numberOfButtons > 5) {
+      const lastBtn = filtered && filtered.pop();
+
+      filtered = lastBtn
+        ? [...filtered, threeDots, lastBtn]
+        : filtered;
+    }
+
+    return filtered;
+  }, [isVisibleButtons]);
 
   const onPage = Math.ceil(totalPages / numberOfButtons);
   const firstItemOnPage = (currPage * onPage - onPage) + 1;
