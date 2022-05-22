@@ -27,6 +27,7 @@ const App:FC = () => {
             (
               <Pagination
                 totalPages={totalPages}
+                page={page}
                 perPage={perPage}
                 onPageChange={onPageChange}
                 onPerPageChange={onPerPageChange}

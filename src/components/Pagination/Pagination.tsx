@@ -6,17 +6,16 @@ import './Pagination.scss';
 type Props = {
   totalPages: number,
   perPage: number,
-  // page: number | 1,
+  page: number,
   onPageChange: (newCurrPage: number) => void,
   onPerPageChange: (newPerPage: number) => void,
-  // prevPage: () => void,
-  // nextPage: () => void,
   withInfo: boolean | true,
 };
 
 export const Pagination: FC<Props> = (props) => {
   const {
     totalPages,
+    page,
     perPage,
     onPageChange,
     onPerPageChange,
@@ -25,8 +24,8 @@ export const Pagination: FC<Props> = (props) => {
 
   const [queryParams] = useSearchParams();
 
-  const newPage = Number(queryParams.get('page')) || 1;
-  const newPerPage = Number(queryParams.get('perPage')) || 5;
+  const newPage = Number(queryParams.get('page')) || page;
+  const newPerPage = Number(queryParams.get('perPage')) || perPage;
 
   useEffect(() => {
     onPageChange(newPage);
