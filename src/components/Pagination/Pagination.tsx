@@ -1,15 +1,16 @@
 import { FC, useEffect, useMemo } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import classNames from 'classnames';
 import './Pagination.scss';
 
 type Props = {
   totalPages: number,
-  perPage: number | 5,
-  page: number | 1,
+  perPage: number,
+  // page: number | 1,
   onPageChange: (newCurrPage: number) => void,
   onPerPageChange: (newPerPage: number) => void,
-  prevPage: () => void,
-  nextPage: () => void,
+  // prevPage: () => void,
+  // nextPage: () => void,
   withInfo: boolean | true,
 };
 
@@ -17,20 +18,28 @@ export const Pagination: FC<Props> = (props) => {
   const {
     totalPages,
     perPage,
-    page,
     onPageChange,
     onPerPageChange,
-    prevPage,
-    nextPage,
     withInfo,
   } = props;
+
+  const [queryParams] = useSearchParams();
+
+  const newPage = Number(queryParams.get('page')) || 1;
+  const newPerPage = Number(queryParams.get('perPage')) || 5;
+
+  useEffect(() => {
+    onPageChange(newPage);
+    onPerPageChange(newPerPage);
+  }, [queryParams]);
 
   const numberOfButtons = Math.ceil(totalPages / perPage);
   const buttons = useMemo(() => {
     return Array.from({ length: numberOfButtons }, (_, index) => index + 1);
   }, [totalPages, perPage]);
 
-  let currPage = page;
+  let currPage = newPage;
+  const currPerPage = newPerPage;
 
   if (currPage > numberOfButtons) {
     currPage = numberOfButtons;
@@ -52,7 +61,7 @@ export const Pagination: FC<Props> = (props) => {
   const isVisibleButtons = (button: number) => {
     const first5Buttons = (button <= 5 && currPage <= 3);
     const last5Buttons = (button >= (numberOfButtons - 4)
-      && currPage >= (numberOfButtons - 2));
+          && currPage >= (numberOfButtons - 2));
 
     return button === currPage
         || button === firstButton
@@ -91,29 +100,24 @@ export const Pagination: FC<Props> = (props) => {
     lastItemOnPage = totalPages;
   }
 
-  useEffect(() => {
-    onPageChange(currPage);
-  }, [currPage]);
-
   return (
     <>
-      {withInfo && (
-        <h1 className="content">
-          {`${firstItemOnPage} - ${lastItemOnPage} of `}
-          {totalPages}
-        </h1>
-      )}
+      <h1 className="content">
+        {withInfo
+          ? `${firstItemOnPage} - ${lastItemOnPage} of ${totalPages}`
+          : 'Choose page'}
+      </h1>
+
       <nav className="pagination">
-        <button
-          type="button"
+        <Link
+          to={{ pathname: '/', search: `?page=${prevButton}&perPage=${perPage}` }}
           className={classNames(
             'pagination__prev-btn pagination__btn',
+            { 'pagination__btn--disabled': currPage === 1 },
           )}
-          onClick={prevPage}
-          disabled={currPage === 1}
         >
-          {'<<'}
-        </button>
+          {'<'}
+        </Link>
 
         <div className="pagination__buttons">
           {visibleButtons.map((button, index) => {
@@ -121,7 +125,7 @@ export const Pagination: FC<Props> = (props) => {
               return (
                 <button
                   type="button"
-                  className="pagination__item-dots pagination__btn"
+                  className="pagination__btn pagination__btn--disabled"
                   key={button + String(index)}
                   disabled
                 >
@@ -131,31 +135,29 @@ export const Pagination: FC<Props> = (props) => {
             }
 
             return (
-              <button
-                type="button"
+              <Link
+                to={{ pathname: '/', search: `?page=${button}&perPage=${perPage}` }}
                 className={classNames(
                   'pagination__item pagination__btn',
+                  { 'pagination__btn--disabled': button === currPage },
                 )}
                 key={button}
-                onClick={() => onPageChange(button)}
-                disabled={button === currPage}
               >
                 {button}
-              </button>
+              </Link>
             );
           })}
         </div>
 
-        <button
-          type="button"
+        <Link
           className={classNames(
             'pagination__next-btn pagination__btn',
+            { 'pagination__btn--disabled': isLastButton },
           )}
-          onClick={nextPage}
-          disabled={isLastButton}
+          to={{ pathname: '/', search: `?page=${nextButton}&perPage=${perPage}` }}
         >
-          {'>>'}
-        </button>
+          {'>'}
+        </Link>
       </nav>
 
       <div className="pagination__settings">
@@ -163,8 +165,8 @@ export const Pagination: FC<Props> = (props) => {
           Items on a page:
         </p>
         <select
-          className="pagination__select pagination__btn"
-          value={perPage}
+          className="pagination__select"
+          value={currPerPage}
           onChange={({ target }) => {
             onPerPageChange(+target.value);
           }}

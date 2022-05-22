@@ -11,10 +11,17 @@
     gap: 5px;
   }
 
-  &__btn:not(&__select) {
+  &__btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     box-sizing: border-box;
     width: 35px;
     height: 35px;
+
+    color: black;
+    text-decoration: none;
 
     border: 1px solid #eee;
     background-color: #eee;
@@ -27,11 +34,15 @@
       border: 1px solid gray;
     }
 
-    &:disabled {
+    &--disabled {
+
+      pointer-events: none;
       cursor: default;
       border: transparent;
+      opacity: 0.7;
     }
   }
+
 
   &__prev-btn {
     margin-right: 4px;
