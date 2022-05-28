@@ -1,0 +1,28 @@
+.pagination {
+  list-style-type: none;
+
+  & li {
+    display: inline-block;
+    margin: 3px;
+
+    & button {
+      padding: 10px;
+      background-color: white;
+      cursor: pointer;
+
+      &:hover:not([disabled]) {
+        background-color: lightgray;
+      }
+
+      &.active {
+        background-color: silver;
+        color: black;
+        font-weight: bold;
+      }
+    }
+
+    & span {
+      padding: 5px;
+    }
+  }
+}
