@@ -1,0 +1,61 @@
+$color-blue: #08f;
+$color-gray: lightslategray;
+
+.info {
+  padding-top: 20px;
+}
+
+.total {
+  display: flex;
+  padding-top: 20px;
+
+  &__input {
+    width: 60px;
+    margin-left: 20px;
+  }
+}
+
+.container {
+  padding-top: 30px;
+}
+
+.button {
+  height: 40px;
+  width: 35px;
+  border: 1px solid $color-gray;
+  background-color: white;
+  font-size: 18px;
+  color: $color-blue;
+
+  &:disabled {
+    color: $color-gray;
+    background-color: white;
+  }
+
+  &__active {
+    background-color: $color-blue;
+    color: white;
+  }
+
+  &__nav-left {
+    width: 80px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+
+  &__nav-right {
+    width: 80px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+}
+
+.per-page {
+  display: flex;
+  padding-top: 20px;
+
+  &__select {
+    width: 60px;
+    margin-left: 20px;
+  }
+}
