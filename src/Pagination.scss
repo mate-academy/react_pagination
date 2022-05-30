@@ -1,0 +1,37 @@
+.active {
+  border-radius: 8px;
+  border: 3px solid blueviolet;
+}
+
+.button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border-color: inherit;
+  background-color: white;
+  color: blueviolet;
+
+  &:hover {
+    color: white;
+    background-color: blueviolet;
+    cursor: pointer;
+  }
+
+  &:disabled {
+    color: gray;
+    background-color: white;
+    cursor: default;
+  }
+
+  &__family {
+    display: flex;
+    justify-content: space-between;
+    width: 600px;
+  }
+}
+
+.dots {
+  padding: 8px 16px;
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  cursor: default;
+}
