@@ -1,5 +1,5 @@
-import { FC, useEffect, useMemo } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { FC, useMemo } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 import './Pagination.scss';
 
@@ -21,24 +21,15 @@ export const Pagination: FC<Props> = (props) => {
     onPerPageChange,
     withInfo,
   } = props;
-
-  const [queryParams] = useSearchParams();
-
-  const newPage = Number(queryParams.get('page')) || page;
-  const newPerPage = Number(queryParams.get('perPage')) || perPage;
-
-  useEffect(() => {
-    onPageChange(newPage);
-    onPerPageChange(newPerPage);
-  }, [queryParams]);
+  const navigate = useNavigate();
 
   const numberOfButtons = Math.ceil(totalPages / perPage);
   const buttons = useMemo(() => {
     return Array.from({ length: numberOfButtons }, (_, index) => index + 1);
   }, [totalPages, perPage]);
 
-  let currPage = newPage;
-  const currPerPage = newPerPage;
+  let currPage = page;
+  const currPerPage = perPage;
 
   if (currPage > numberOfButtons) {
     currPage = numberOfButtons;
@@ -95,9 +86,8 @@ export const Pagination: FC<Props> = (props) => {
     return filtered;
   }, [isVisibleButtons]);
 
-  const onPage = Math.ceil(totalPages / numberOfButtons);
-  const firstItemOnPage = (currPage * onPage - onPage) + 1;
-  let lastItemOnPage = currPage * onPage;
+  const firstItemOnPage = (currPage * currPerPage - currPerPage) + 1;
+  let lastItemOnPage = firstItemOnPage + currPerPage - 1;
 
   if (isLastButton) {
     lastItemOnPage = totalPages;
@@ -118,6 +108,7 @@ export const Pagination: FC<Props> = (props) => {
             'pagination__prev-btn pagination__btn',
             { 'pagination__btn--disabled': currPage === 1 },
           )}
+          onClick={() => onPageChange(prevButton)}
         >
           {'<'}
         </Link>
@@ -130,6 +121,7 @@ export const Pagination: FC<Props> = (props) => {
                   type="button"
                   className="pagination__btn pagination__btn--disabled"
                   key={button + String(index)}
+                  onClick={() => onPageChange(button)}
                   disabled
                 >
                   &#8230;
@@ -145,6 +137,7 @@ export const Pagination: FC<Props> = (props) => {
                   { 'pagination__btn--disabled': button === currPage },
                 )}
                 key={button}
+                onClick={() => onPageChange(button)}
               >
                 {button}
               </Link>
@@ -158,6 +151,7 @@ export const Pagination: FC<Props> = (props) => {
             { 'pagination__btn--disabled': isLastButton },
           )}
           to={{ pathname: '/', search: `?page=${nextButton}&perPage=${perPage}` }}
+          onClick={() => onPageChange(nextButton)}
         >
           {'>'}
         </Link>
@@ -172,6 +166,7 @@ export const Pagination: FC<Props> = (props) => {
           value={currPerPage}
           onChange={({ target }) => {
             onPerPageChange(+target.value);
+            navigate('..', { replace: true });
           }}
         >
           <option>3</option>

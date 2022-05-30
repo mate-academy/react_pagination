@@ -12,32 +12,31 @@ const App:FC = () => {
 
   const onPageChange = useCallback((newCurrPage: number) => {
     setCurrPage(newCurrPage);
-  }, [page]);
+  }, [page, perPage]);
 
   const onPerPageChange = useCallback((newPerPage2: number) => {
     setPerPage(newPerPage2);
-  }, [perPage]);
+    setCurrPage(1);
+  }, [perPage, page]);
 
   return (
-    <>
-      <Routes>
-        <Route
-          path="/*"
-          element={
-            (
-              <Pagination
-                totalPages={totalPages}
-                page={page}
-                perPage={perPage}
-                onPageChange={onPageChange}
-                onPerPageChange={onPerPageChange}
-                withInfo
-              />
-            )
-          }
-        />
-      </Routes>
-    </>
+    <Routes>
+      <Route
+        path="/*"
+        element={
+          (
+            <Pagination
+              totalPages={totalPages}
+              page={page}
+              perPage={perPage}
+              onPageChange={onPageChange}
+              onPerPageChange={onPerPageChange}
+              withInfo
+            />
+          )
+        }
+      />
+    </Routes>
   );
 };
 
