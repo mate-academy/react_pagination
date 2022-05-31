@@ -16,9 +16,8 @@ const App:FC = () => {
     setCurrPage(newCurrPage);
   }, [page, perPage]);
 
-  const onPerPageChange = useCallback((newPerPage2: number) => {
-    setPerPage(newPerPage2);
-    setCurrPage(1);
+  const onPerPageChange = useCallback((newPerPage: number) => {
+    setPerPage(newPerPage);
     navigate('/');
   }, [perPage, page]);
 

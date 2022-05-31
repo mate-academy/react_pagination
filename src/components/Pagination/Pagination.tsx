@@ -1,5 +1,5 @@
-import { FC, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { FC, useEffect, useMemo } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import classNames from 'classnames';
 import './Pagination.scss';
 
@@ -21,6 +21,18 @@ export const Pagination: FC<Props> = (props) => {
     onPerPageChange,
     withInfo,
   } = props;
+
+  const [queryParams] = useSearchParams();
+
+  const pageFromParams = queryParams.get('page');
+  const perPageFromParams = queryParams.get('perPage');
+
+  useEffect(() => {
+    if (pageFromParams && perPageFromParams) {
+      onPageChange(+pageFromParams);
+      onPerPageChange(+perPageFromParams);
+    }
+  }, []);
 
   const numberOfButtons = Math.ceil(totalPages / perPage);
   const buttons = useMemo(() => {
