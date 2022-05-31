@@ -1,5 +1,5 @@
 import { FC, useMemo } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import './Pagination.scss';
 
@@ -21,7 +21,6 @@ export const Pagination: FC<Props> = (props) => {
     onPerPageChange,
     withInfo,
   } = props;
-  const navigate = useNavigate();
 
   const numberOfButtons = Math.ceil(totalPages / perPage);
   const buttons = useMemo(() => {
@@ -166,7 +165,6 @@ export const Pagination: FC<Props> = (props) => {
           value={currPerPage}
           onChange={({ target }) => {
             onPerPageChange(+target.value);
-            navigate('..', { replace: true });
           }}
         >
           <option>3</option>

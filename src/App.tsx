@@ -1,14 +1,16 @@
 import {
   FC, useCallback, useState,
 } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { Pagination } from './components/Pagination';
+
 import './App.css';
 
 const App:FC = () => {
   const [page, setCurrPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
   const totalPages = 42;
+  const navigate = useNavigate();
 
   const onPageChange = useCallback((newCurrPage: number) => {
     setCurrPage(newCurrPage);
@@ -17,6 +19,7 @@ const App:FC = () => {
   const onPerPageChange = useCallback((newPerPage2: number) => {
     setPerPage(newPerPage2);
     setCurrPage(1);
+    navigate('/');
   }, [perPage, page]);
 
   return (
