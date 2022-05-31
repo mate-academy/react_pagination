@@ -1,1 +1,8 @@
-/* not empty */
+.App {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 600px;
+}
