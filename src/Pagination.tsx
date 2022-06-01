@@ -1,20 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Pagination.scss';
 
 const perPageRange = [3, 5, 10, 20];
 
-type Props = {
-  total: number,
-  perPage: number,
-  page: number,
-  onTotal: (total: number) => void;
-  onPerPage: (perPage: number) => void;
-  onPage: (page: number) => void;
-};
-
-export const Pagination: React.FC<Props> = ({
-  total, perPage, page, onTotal, onPerPage, onPage,
-}) => {
+export const Pagination: React.FC = () => {
+  const [total, setTotal] = useState(42);
+  const [perPage, setPerPage] = useState(5);
+  const [page, setPage] = useState(1);
   const lastPage = Math.ceil(total / perPage);
   const firstPage = page - page + 1;
   const nextPage = page + 1;
@@ -28,21 +20,21 @@ export const Pagination: React.FC<Props> = ({
   const isVisibleLastPage = page !== lastPage;
 
   const onPrevious = () => {
-    onPage(prevPage);
+    setPage(prevPage);
   };
 
   const onNext = () => {
-    onPage(nextPage);
+    setPage(nextPage);
   };
 
   const onTotalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onTotal(+e.target.value);
-    onPage(1);
+    setTotal(+e.target.value);
+    setPage(1);
   };
 
   const onPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    onPerPage(+e.target.value);
-    onPage(1);
+    setPerPage(+e.target.value);
+    setPage(1);
   };
 
   const fromItem = () => page * perPage - (perPage - 1);
@@ -72,7 +64,7 @@ export const Pagination: React.FC<Props> = ({
             type="button"
             onClick={e => {
               if (e.currentTarget.textContent) {
-                onPage(+e.currentTarget.textContent);
+                setPage(+e.currentTarget.textContent);
               }
             }}
             className="button"
@@ -90,7 +82,7 @@ export const Pagination: React.FC<Props> = ({
               type="button"
               onClick={e => {
                 if (e.currentTarget.textContent) {
-                  onPage(+e.currentTarget.textContent);
+                  setPage(+e.currentTarget.textContent);
                 }
               }}
               className="button"
@@ -110,7 +102,7 @@ export const Pagination: React.FC<Props> = ({
               type="button"
               onClick={e => {
                 if (e.currentTarget.textContent) {
-                  onPage(+e.currentTarget.textContent);
+                  setPage(+e.currentTarget.textContent);
                 }
               }}
               className="button"
@@ -128,7 +120,7 @@ export const Pagination: React.FC<Props> = ({
             type="button"
             onClick={e => {
               if (e.currentTarget.textContent) {
-                onPage(+e.currentTarget.textContent);
+                setPage(+e.currentTarget.textContent);
               }
             }}
             className="button"
