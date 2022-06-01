@@ -23,7 +23,8 @@ const App: FC = () => {
       <h1>Pagination</h1>
 
       <label htmlFor="withInfo">
-        {'Show additional information: '}
+        Show additional information:
+        {' '}
         <input
           type="checkbox"
           id="withInfo"
