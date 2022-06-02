@@ -1,0 +1,22 @@
+.pagination {
+  list-style: none;
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  height: 40px;
+  width: 40px;
+  background-color: #fff;
+  border: 1px solid lightblue;
+  border-radius: 4px;
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+.active {
+  color: #fff;
+  background-color: lightblue;
+}
