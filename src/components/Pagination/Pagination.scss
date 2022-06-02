@@ -1,0 +1,64 @@
+.PagesPanel {
+  box-sizing: border-box;
+  margin: 0;
+  display: flex;
+  padding: 0;
+  width: 200px;
+  height: 30px;
+  list-style-type: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.PagesContainer {
+  display: flex;
+}
+
+.ItemPage {
+  margin: 0;
+  width: 30px;
+  text-align: center;
+  padding: 0;
+}
+
+.FreeSpace {
+  margin: 0;
+  padding: 0;
+  width: 30px;
+  text-align: center;
+}
+
+.PageLink {
+  text-decoration: none;
+  color: black;
+
+  &:visited {
+    color: black;
+  }
+}
+
+.Selected {
+  background-color: #00f;
+  color: #fff;
+}
+
+.VersionTwoButton {
+  border: 0;
+  height: 30px;
+  width: 30px;
+  line-height: 30px;
+  font-size: 25px;
+  font-weight: bold;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.Forth {
+  text-align: right;
+}
+
+.AdditionalInfo {
+  line-height: 30px;
+}
