@@ -1,0 +1,11 @@
+.app {
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  font-size: 20px;
+  background-color: hsl(171, 100%, 41%);
+
+  &__select {
+    font-size: 30px;
+    background-color: hsl(171, 100%, 41%);
+  }
+}
