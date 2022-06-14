@@ -20,7 +20,7 @@ const App: React.FC = () => {
         <h1 className="text-primary text-center mb-3">Pagination</h1>
         <Routes>
           <Route
-            path="/"
+            path="/react_pagination"
             element={(
               <Pagination
                 total={pageOptions.total}

@@ -66,6 +66,10 @@ const Pagination: React.FC<Props> = ({
     setItems(Array.from({ length: total }, (_, i) => i + 1));
   }, [total]);
 
+  useEffect(() => {
+    getVisiblePages();
+  }, [total, queryPage]);
+
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement & HTMLSelectElement>,
   ) {
