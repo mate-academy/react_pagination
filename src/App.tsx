@@ -1,23 +1,12 @@
 import React, { useState } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Pagination from './components/Pagination';
 
 const App: React.FC = () => {
   const [pageOptions, setPageOptions] = useState({
     total: 42,
-    perPage: 5,
-    page: 1,
   });
-
-  function handleChange(
-    e: React.ChangeEvent<HTMLInputElement & HTMLSelectElement>,
-  ) {
-    const { name, value } = e.target;
-
-    setPageOptions(prev => (
-      { ...prev, [name]: +value }
-    ));
-  }
 
   function paginate(pageNumber: number) {
     setPageOptions(prev => (
@@ -26,18 +15,37 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="container">
-      <h1 className="text-primary text-center mb-3">Pagintation</h1>
-      <Pagination
-        total={pageOptions.total}
-        perPage={pageOptions.perPage}
-        page={pageOptions.page}
-        // eslint-disable-next-line
-        handleChange={handleChange}
-        // eslint-disable-next-line
-        paginate={paginate}
-      />
-    </div>
+    <BrowserRouter>
+      <div className="container">
+        <h1 className="text-primary text-center mb-3">Pagination</h1>
+        <Routes>
+          <Route
+            path="/"
+            element={(
+              <Pagination
+                total={pageOptions.total}
+                // eslint-disable-next-line
+                setPageOptions={setPageOptions}
+                // eslint-disable-next-line
+                paginate={paginate}
+              />
+            )}
+          />
+          <Route
+            path="/:tabId/page=:perTab"
+            element={(
+              <Pagination
+                total={pageOptions.total}
+                // eslint-disable-next-line
+                setPageOptions={setPageOptions}
+                // eslint-disable-next-line
+                paginate={paginate}
+              />
+            )}
+          />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 };
 

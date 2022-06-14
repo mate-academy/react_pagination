@@ -1,43 +1,52 @@
 import classNames from 'classnames';
-import { useEffect, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useState,
+  useEffect,
+} from 'react';
+import { useSearchParams } from 'react-router-dom';
 import './Pagination.scss';
 
 type Props = {
   total: number;
-  perPage: number;
-  page: number;
-  handleChange: (
-    e: React.ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void;
+  setPageOptions: Dispatch<SetStateAction<PageOpton>>
   paginate: (pageNumber: number) => void;
+};
+
+type PageOpton = {
+  total: number
 };
 
 const Pagination: React.FC<Props> = ({
   total,
-  perPage,
-  page,
-  handleChange,
+  setPageOptions,
   paginate,
 }) => {
   const [items, setItems] = useState(
     Array.from({ length: total }, (_, i) => i + 1),
   );
 
-  const indexOfLastPost = page * perPage;
-  const indexOfFirstPost = indexOfLastPost - perPage;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const queryPage = searchParams.get('perPage') || 5;
+  const queryPageNumber = searchParams.get('page') || 1;
+  const indexOfLastPost = +queryPageNumber * +queryPage;
+  const indexOfFirstPost = indexOfLastPost - +queryPage;
   const currentPosts = items.slice(indexOfFirstPost, indexOfLastPost);
 
   function getVisiblePages() {
     const dots = '...';
     const totalPages = Array.from({
-      length: Math.ceil(total / perPage),
+      length: Math.ceil(total / +queryPage),
     }, (_, i) => i + 1);
 
     if (totalPages.length < 5) {
       return totalPages;
     }
 
-    const startIndex: (number | string)[] = totalPages.slice(0, page - 1);
-    const endIndex: (number | string)[] = totalPages.slice(page);
+    const startIndex: (number | string)[] = totalPages
+      .slice(0, +queryPageNumber - 1);
+    const endIndex: (number | string)[] = totalPages.slice(+queryPageNumber);
     const result: (number | string)[] = [];
 
     if (startIndex.length > 2) {
@@ -48,7 +57,7 @@ const Pagination: React.FC<Props> = ({
       endIndex.splice(1, endIndex.length - 2, dots);
     }
 
-    return result.concat(startIndex, page, endIndex);
+    return result.concat(startIndex, queryPageNumber, endIndex);
   }
 
   const visiblePages = getVisiblePages();
@@ -56,6 +65,24 @@ const Pagination: React.FC<Props> = ({
   useEffect(() => {
     setItems(Array.from({ length: total }, (_, i) => i + 1));
   }, [total]);
+
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement & HTMLSelectElement>,
+  ) {
+    const { name, value } = e.target;
+    const query = value;
+
+    if (name === 'perPage') {
+      setSearchParams({ perPage: query, page: queryPageNumber.toString() });
+      setPageOptions(prev => (
+        { ...prev, perPage: +queryPage }
+      ));
+    }
+
+    setPageOptions(prev => (
+      { ...prev, [name]: +value }
+    ));
+  }
 
   return (
     <div>
@@ -66,15 +93,19 @@ const Pagination: React.FC<Props> = ({
         value={total}
         name="total"
       />
-      <label htmlFor="perPage">Items per pege</label>
+      <label htmlFor="perPage">Items per page</label>
       <select
         name="perPage"
         id="perPage"
-        value={perPage}
+        value={+queryPage}
         onChange={handleChange}
       >
-        <option value="3">3</option>
-        <option value="5">5</option>
+        <option value="3">
+          3
+        </option>
+        <option value="5">
+          5
+        </option>
         <option value="10">10</option>
         <option value="20">20</option>
       </select>
@@ -84,40 +115,71 @@ const Pagination: React.FC<Props> = ({
         </ul>
       ))}
       <ul className="pagination mt-5">
-        <li className={`page-item ${page - 1 < 1 ? 'disabled' : ''}`}>
-          <a
-            href="!#"
-            className="page-link"
-            onClick={() => paginate(page - 1)}
+        <li className={`page-item ${+queryPageNumber - 1 < 1 ? 'disabled' : ''}`}>
+          <p
+            aria-hidden="true"
+            className={classNames(
+              'page-link',
+            )}
+            onClick={() => {
+              setSearchParams({
+                perPage: queryPage.toString(),
+                page: (+queryPageNumber - 1).toString(),
+              });
+              paginate(+queryPageNumber);
+            }}
           >
             <span aria-hidden="true">&laquo;</span>
-          </a>
+          </p>
         </li>
-        {visiblePages.map(number => (
-          <li className="page-item" key={number}>
-            <a
-              href="!#"
+        {visiblePages.map(number => {
+          const currentPage = number === queryPageNumber;
+
+          return (
+            <li
+              key={number}
               className={classNames(
-                'page-link',
+                'page-item',
                 {
-                  active: page === number,
-                  disabled: typeof number !== 'number',
+                  active: currentPage,
+                  disabled: typeof +number !== 'number',
                 },
               )}
-              onClick={() => paginate(+number)}
             >
-              {number}
-            </a>
-          </li>
-        ))}
-        <li className={`page-item ${page + 1 > visiblePages.length ? 'disabled' : ''}`}>
-          <a
-            href="!#"
-            className="page-link"
-            onClick={() => paginate(page + 1)}
+              <p
+                aria-hidden="true"
+                className={classNames(
+                  'page-link',
+                )}
+                onClick={() => {
+                  setSearchParams({
+                    perPage: queryPage.toString(),
+                    page: number.toString(),
+                  });
+                  paginate(+queryPageNumber);
+                }}
+              >
+                {number}
+              </p>
+            </li>
+          );
+        })}
+        <li className={`page-item ${+queryPageNumber + 1 > visiblePages.length ? 'disabled' : ''}`}>
+          <p
+            aria-hidden="true"
+            className={classNames(
+              'page-link',
+            )}
+            onClick={() => {
+              setSearchParams({
+                perPage: queryPage.toString(),
+                page: (+queryPageNumber + 1).toString(),
+              });
+              paginate(+queryPageNumber);
+            }}
           >
             <span aria-hidden="true">&raquo;</span>
-          </a>
+          </p>
         </li>
 
         <h2>
