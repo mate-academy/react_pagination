@@ -143,10 +143,10 @@ const Pagination: React.FC<Props> = ({
             <li
               key={number}
               className={classNames(
-                'page-item',
+                'page-item clicable',
                 {
                   active: currentPage,
-                  disabled: typeof +number !== 'number',
+                  disabled: number === '...',
                 },
               )}
             >
