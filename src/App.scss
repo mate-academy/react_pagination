@@ -1,0 +1,9 @@
+iframe {
+  user-select: none !important;
+  display: none !important;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+}
