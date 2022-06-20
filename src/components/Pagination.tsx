@@ -11,7 +11,6 @@ import './Pagination.scss';
 type Props = {
   total: number;
   setPageOptions: Dispatch<SetStateAction<PageOpton>>
-  paginate: (pageNumber: number) => void;
 };
 
 type PageOpton = {
@@ -21,23 +20,22 @@ type PageOpton = {
 const Pagination: React.FC<Props> = ({
   total,
   setPageOptions,
-  paginate,
 }) => {
   const [items, setItems] = useState(
     Array.from({ length: total }, (_, i) => i + 1),
   );
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const queryPage = searchParams.get('perPage') || 5;
+  const queryPerPage = searchParams.get('perPage') || 5;
   const queryPageNumber = searchParams.get('page') || 1;
-  const indexOfLastPost = +queryPageNumber * +queryPage;
-  const indexOfFirstPost = indexOfLastPost - +queryPage;
+  const indexOfLastPost = +queryPageNumber * +queryPerPage;
+  const indexOfFirstPost = indexOfLastPost - +queryPerPage;
   const currentPosts = items.slice(indexOfFirstPost, indexOfLastPost);
 
   function getVisiblePages() {
     const dots = '...';
     const totalPages = Array.from({
-      length: Math.ceil(total / +queryPage),
+      length: Math.ceil(total / +queryPerPage),
     }, (_, i) => i + 1);
 
     if (totalPages.length < 5) {
@@ -64,11 +62,17 @@ const Pagination: React.FC<Props> = ({
 
   useEffect(() => {
     setItems(Array.from({ length: total }, (_, i) => i + 1));
+    getVisiblePages();
   }, [total]);
 
   useEffect(() => {
-    getVisiblePages();
-  }, [total, queryPage]);
+    const perPage = Math.ceil(total / +queryPerPage);
+
+    if (queryPageNumber > perPage) {
+      searchParams.set('page', perPage.toString());
+      setSearchParams(searchParams);
+    }
+  }, [queryPerPage, total]);
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement & HTMLSelectElement>,
@@ -79,7 +83,7 @@ const Pagination: React.FC<Props> = ({
     if (name === 'perPage') {
       setSearchParams({ perPage: query, page: queryPageNumber.toString() });
       setPageOptions(prev => (
-        { ...prev, perPage: +queryPage }
+        { ...prev, perPage: +queryPerPage }
       ));
     }
 
@@ -101,7 +105,7 @@ const Pagination: React.FC<Props> = ({
       <select
         name="perPage"
         id="perPage"
-        value={+queryPage}
+        value={+queryPerPage}
         onChange={handleChange}
       >
         <option value="3">
@@ -127,25 +131,22 @@ const Pagination: React.FC<Props> = ({
             )}
             onClick={() => {
               setSearchParams({
-                perPage: queryPage.toString(),
+                perPage: queryPerPage.toString(),
                 page: (+queryPageNumber - 1).toString(),
               });
-              paginate(+queryPageNumber);
             }}
           >
             <span aria-hidden="true">&laquo;</span>
           </p>
         </li>
         {visiblePages.map(number => {
-          const currentPage = number === queryPageNumber;
-
           return (
             <li
               key={number}
               className={classNames(
                 'page-item clicable',
                 {
-                  active: currentPage,
+                  active: +number === +queryPageNumber,
                   disabled: number === '...',
                 },
               )}
@@ -157,10 +158,9 @@ const Pagination: React.FC<Props> = ({
                 )}
                 onClick={() => {
                   setSearchParams({
-                    perPage: queryPage.toString(),
+                    perPage: queryPerPage.toString(),
                     page: number.toString(),
                   });
-                  paginate(+queryPageNumber);
                 }}
               >
                 {number}
@@ -176,10 +176,9 @@ const Pagination: React.FC<Props> = ({
             )}
             onClick={() => {
               setSearchParams({
-                perPage: queryPage.toString(),
+                perPage: queryPerPage.toString(),
                 page: (+queryPageNumber + 1).toString(),
               });
-              paginate(+queryPageNumber);
             }}
           >
             <span aria-hidden="true">&raquo;</span>

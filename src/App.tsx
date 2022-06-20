@@ -8,12 +8,6 @@ const App: React.FC = () => {
     total: 42,
   });
 
-  function paginate(pageNumber: number) {
-    setPageOptions(prev => (
-      { ...prev, page: pageNumber }
-    ));
-  }
-
   return (
     <BrowserRouter>
       <div className="container">
@@ -24,10 +18,7 @@ const App: React.FC = () => {
             element={(
               <Pagination
                 total={pageOptions.total}
-                // eslint-disable-next-line
                 setPageOptions={setPageOptions}
-                // eslint-disable-next-line
-                paginate={paginate}
               />
             )}
           />
@@ -36,10 +27,7 @@ const App: React.FC = () => {
             element={(
               <Pagination
                 total={pageOptions.total}
-                // eslint-disable-next-line
                 setPageOptions={setPageOptions}
-                // eslint-disable-next-line
-                paginate={paginate}
               />
             )}
           />
