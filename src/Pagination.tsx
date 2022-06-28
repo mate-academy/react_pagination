@@ -1,21 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 type Props = {
   total: number;
-  onSelect: (id: number) => void;
+  perPage: number;
+  onSelect: (selectedPage: number) => void;
 };
 
-export const Pagination: React.FC <Props> = ({ total, onSelect }) => {
+export const Pagination: React.FC <Props> = ({ total, perPage, onSelect }) => {
   const pages = [];
   const [selectedPage, setSelectedPage] = useState(1);
+  const amountOfPages = Math.ceil(total / perPage);
 
-  useEffect(() => {
-    onSelect(selectedPage - 1);
-  }, [selectedPage]);
-
-  for (let i = 1; i <= total; i += 1) {
+  for (let i = 1; i <= amountOfPages; i += 1) {
     pages.push(i);
   }
+
+  onSelect(selectedPage);
 
   return (
     <nav aria-label="Page navigation example">
@@ -72,7 +72,7 @@ export const Pagination: React.FC <Props> = ({ total, onSelect }) => {
                 return current;
               });
             }}
-            disabled={selectedPage === total}
+            disabled={selectedPage === amountOfPages}
           >
             <span aria-hidden="true">&raquo;</span>
           </button>

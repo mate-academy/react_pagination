@@ -2,32 +2,45 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { Pagination } from './Pagination';
+import { Content } from './Content';
 
 const App: React.FC = () => {
-  const amountOfPages = 9;
+  const amount = 42;
   const pageContent = [];
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [selectedPage, setSelectedPage] = useState(1);
 
-  const [selectedPage, setSelectedPage] = useState(0);
-
-  const onPageChange = (pageId: number) => {
-    setSelectedPage(pageId);
-  };
-
-  for (let i = 1; i <= amountOfPages; i += 1) {
-    pageContent.push(`Page number ${i}`);
+  for (let i = 1; i <= amount; i += 1) {
+    pageContent.push(`Content item ${i}`);
   }
+
+  const lastItem = selectedPage * itemsPerPage;
+  const firstItem = lastItem - itemsPerPage;
+  const currentContent = pageContent.slice(firstItem, lastItem);
 
   return (
     <div className="container">
       <h1 className="h1 text-center">
         Pagination
       </h1>
-      <p className="text-center">
-        {pageContent[selectedPage]}
-      </p>
+      <form>
+        <div>Set items per page</div>
+        <input
+          type="number"
+          className="input"
+          min="2"
+          onChange={(event) => {
+            setItemsPerPage(+event.target.value);
+          }}
+        />
+      </form>
+      <div className="container text-center">
+        <Content content={currentContent} />
+      </div>
       <Pagination
-        total={amountOfPages}
-        onSelect={onPageChange}
+        total={amount}
+        perPage={itemsPerPage}
+        onSelect={setSelectedPage}
       />
     </div>
   );
