@@ -1,1 +1,15 @@
-/* not empty */
+.page-link:focus {
+  outline: none;
+  color: #0d6efd;
+  background-color: #fff;
+  box-shadow: none;
+}
+
+.page-link.active {
+  color: #fff;
+  background-color: #0d6efd;
+}
+
+.input {
+  width: 40px;
+}
