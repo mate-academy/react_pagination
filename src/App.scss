@@ -1,0 +1,37 @@
+.active {
+  border-radius: 8px;
+  border: 3px solid rgb(75, 221, 133);
+}
+
+.button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border-color: inherit;
+  background-color: white;
+  color: rgb(43, 218, 49);
+
+  &:hover {
+    color: white;
+    background-color: rgb(31, 195, 89);
+    cursor: pointer;
+  }
+
+  &:disabled {
+    color: gray;
+    background-color: white;
+    cursor: default;
+  }
+
+  &__family {
+    display: flex;
+    justify-content: space-between;
+    width: 600px;
+  }
+}
+
+.dots {
+  padding: 8px 16px;
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  cursor: default;
+}
