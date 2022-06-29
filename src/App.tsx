@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pagination } from './Pagination';
-import './App.css';
+import './App.scss';
 
 const App: React.FC = () => (
   <>
