@@ -43,23 +43,29 @@ export const Settings: React.FC<Props> = ({
         </select>
       </div>
 
-      <div>
+      <form>
         <span>Set with info: </span>
-        <select
-          name="setWithInfo"
-          value={withInfo === true ? 'true' : 'false'}
-          onChange={(event) => {
-            if (event.target.value === 'true') {
-              return setWithInfo(true);
-            }
-
-            return setWithInfo(false);
-          }}
-        >
-          <option value="true">True</option>
-          <option value="false">False</option>
-        </select>
-      </div>
+        <label>
+          <input
+            type="radio"
+            name="WithInfo"
+            checked={withInfo}
+            value="true"
+            onChange={(event) => setWithInfo(event.target.value === 'true')}
+          />
+          <span>True</span>
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="WithInfo"
+            checked={!withInfo}
+            value="false"
+            onChange={(event) => setWithInfo(event.target.value === 'true')}
+          />
+          <span>False</span>
+        </label>
+      </form>
     </div>
   );
 };
