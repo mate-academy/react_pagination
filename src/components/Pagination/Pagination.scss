@@ -1,0 +1,18 @@
+ul {
+  list-style: none;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.button {
+  padding: 8px 10px;
+}
+
+.active {
+  background-color: #8f8f8f;
+  color: white;
+}
