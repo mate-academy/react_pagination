@@ -1,0 +1,22 @@
+.pagination {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+
+  &__page {
+    &-button {
+      font-size: 16px;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+
+      &--active {
+        background-color: lightyellow;
+      }
+
+      &--dots {
+        cursor: default;
+      }
+    }
+  }
+}
