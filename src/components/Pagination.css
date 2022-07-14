@@ -1,0 +1,13 @@
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 350px;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+}
