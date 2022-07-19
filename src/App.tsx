@@ -24,9 +24,9 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <Pagination
-        total={total} /* required */
-        perPage={perPage} /* optional with 5 by default */
-        page={page} /* optional with 1 by default */
+        total={total}
+        perPage={perPage}
+        page={page}
         onPageChange={onPageChange}
       />
     </div>

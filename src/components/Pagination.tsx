@@ -23,7 +23,9 @@ const Pagination: React.FC<Props> = ({
     ? page * perPage
     : total;
 
-  const fromPage = toPage - perPage + 1;
+  const fromPage = toPage - perPage + 1 > 0
+    ? toPage - perPage + 1
+    : 1;
   const withInfo = `${fromPage}-${toPage} of ${total}`;
 
   return (
@@ -85,6 +87,7 @@ const Pagination: React.FC<Props> = ({
           type="number"
           name="total"
           className="form-control"
+          min="1"
           value={total}
           onChange={({ target }) => {
             onPageChange(+target.value, 'total');
