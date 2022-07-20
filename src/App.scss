@@ -1,5 +1,19 @@
 /* not empty */
 .container {
-  max-width: max-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding: 20px;
+  width: max-content;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 30px;
 }

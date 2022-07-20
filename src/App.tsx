@@ -11,8 +11,8 @@ const App: React.FC = () => {
   return (
     <div className="container">
       <Paginator
-        total={total} /* required */
-        perPage={perPage} /* optional with 5 by default */
+        total={total}
+        perPage={perPage}
         pages={numOfPage}
       />
 
@@ -23,6 +23,7 @@ const App: React.FC = () => {
           aria-label="Floating label select example"
           onChange={(event) => setPerPage(+event.target.value)}
           defaultValue={5}
+          data-cy="perPageSelector"
         >
           <option value="3">3</option>
           <option value="5">5</option>

@@ -14,10 +14,10 @@ export const Paginator: React.FC<Props> = ({ total, perPage, pages }) => {
 
   return (
     <>
-      <h1>
-        {`${(perPage * (selPage + 1)) - perPage + 1} - ${
+      <h1 data-cy="info" className="title">
+        {`Page ${selPage + 1} (items ${(perPage * (selPage + 1)) - perPage + 1} - ${
 
-          (perPage * (selPage + 1) > total ? total : perPage * (selPage + 1))} of ${total}`}
+          (perPage * (selPage + 1) > total ? total : perPage * (selPage + 1))} of ${total})`}
 
       </h1>
 
