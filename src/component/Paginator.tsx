@@ -34,7 +34,7 @@ export const Paginator: React.FC<Props> = ({ total, perPage, pages }) => {
               className="page-link"
               onClick={() => setSelPage(prevSelPage => prevSelPage - 1)}
             >
-              Previous
+              «
             </button>
           </li>
           {arrPage.map(page => (
@@ -63,7 +63,7 @@ export const Paginator: React.FC<Props> = ({ total, perPage, pages }) => {
               className="page-link"
               onClick={() => setSelPage(prevSelPage => prevSelPage + 1)}
             >
-              Next
+              »
             </button>
           </li>
         </ul>
