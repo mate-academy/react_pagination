@@ -1,5 +1,5 @@
 # React Pagination
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_pagination/)
+- Replace `<your_account>` with your Github username in the [DEMO LINK](https://angelion541.github.io/react_pagination/)
 - Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
 - Use [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript)
 
@@ -31,7 +31,7 @@
     - Read the `queryParams` from URL when component appears and apply them
 
 ## REQUIREMENTS
-  1. [next] button should have symbol inside `»` 
+  1. [next] button should have symbol inside `»`
   2. [previous] button should have text inside `«`
   3. Highlighted button should have class `active`
-   
+

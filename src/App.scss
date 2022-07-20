@@ -1,0 +1,12 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+iframe {
+  display: none;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: max-content;
+}
