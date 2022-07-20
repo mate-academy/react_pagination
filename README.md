@@ -1,37 +1,33 @@
 # React Pagination
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_pagination/)
-- Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
-- Use [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript)
+You a given a list of items and markup for the `Pagination`. Implement the 
+`Pagination` as a stateless component to show only the items for a current page.
 
-## Task
-1. Implement `Pagination` component
+> Here is the [working example](https://mate-academy.github.io/react_pagination/)
+
+1. The `Pagination` should be used with the next props:
     ```jsx harmony
     <Pagination
-      total={42} /* required */
-      perPage={5} /* optional with 5 by default */
-      page={1} /* optional with 1 by default */
+      total={42} // total number of items to paginate
+      perPage={5} // number of items per page
+      currentPage={1} /* optional with 1 by default */
+      onPageChange={(page) => { ... }}
     />
     ```
-    - it should show buttons for all available pages.
-      You may use [this markup](https://getbootstrap.com/docs/4.3/components/pagination/)
-    - current page should be highlighted
-2. Implement `onPageChange` callback getting selected page as a param
-    - should be triggered if only page was changed
-    - `Pagination` should work like a controlled `input` all the params are set from outside.
-      So the `App` should listen to a callback and sets a changed `page` to the `Pagination`
-3. Implement `prev` and `next` buttons
-    - disable buttons if a move is not possible now
-4. Add an optional param `withInfo` to show extra info before the buttons (`6 - 10 of 20`)
-5. Implement `<select>` (`3, 5, 10, 20`) field to change `perPage` and `onPerPageChange` callback
-    - should be triggered if only `perPage` was changed
-6. (*) Change view to show buttons only for the `first`, `last`, `current`, one `precurrent` and `postcurrent` pages
-    - `< 1 ... 4 [5] 6 ... 12 >`
-    - `< [1] 2 ... 12 >`
-7. (*) Integrate React Router to show selected `?page=2&perPage=7` as `queryParams`
-    - Read the `queryParams` from URL when component appears and apply them
+1. Keep the HTML stucture `data-cy` attributes;
+1. Show all the existing pages considering `total` and `perPage`
+1. Current page should be highlighted with `li.active`;
+1. `onPageChange` callback should be triggered only if page was changed;
+1. The `App` should listen to the `onPageChange` and save a new page;
+1. `«` and `»` links should open the prev and the next pages accordingly
+    - disable each of them if it is already the first or the last page (use `li.disabled` and `a[aria-disabled="true"]`)
+1. Show the pagination info inside `data-cy="info"` in the next format `Page 1 (items 1 - 5 of 42)`;
+1. Implement the `<select data-cy="perPageSelector">` with `3`, `5`, `10`, `20` options to change the `perPage`;
+    - show the 1st page after changing a `perPage`;
+1. (*) Use React Router to save `?page=2&perPage=7` in the URL and apply them on page load
 
-## REQUIREMENTS
-  1. [next] button should have symbol inside `»` 
-  2. [previous] button should have text inside `«`
-  3. Highlighted button should have class `active`
-   
+## Instructions
+
+- Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).
+- Use the [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript).
+- Open one more terminal and run tests with `npm test` to ensure your solution is correct.
+- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_pagination/) and add it to the PR description.
