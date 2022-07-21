@@ -3,7 +3,7 @@ import React from 'react';
 
 interface Pages {
   possiblePages: number[],
-  setCurrentPage(argument: number): void,
+  setCurrentPage(page: number): void,
   rangeOfItems: number[],
   currentPage: number,
   maxItem: number,
