@@ -46,7 +46,7 @@ export const Pagination: React.FC<Props> = React.memo(
             <a
               data-cy="pageLink"
               className="page-link"
-              href="#1"
+              href={`#${i + 1}`}
               onClick={() => onPageChange(i + 1)}
             >
               {i + 1}
