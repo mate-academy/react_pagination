@@ -7,3 +7,6 @@ export function getNumbers(from: number, to: number): number[] {
 
   return numbers;
 }
+
+export const items = getNumbers(1, 56)
+  .map(n => `Item ${n}`);
