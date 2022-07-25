@@ -49,7 +49,9 @@ export const Pagination:React.FC<Props> = ({
               className="page-link"
               href="#1"
               onClick={() => {
-                onPageChange(page);
+                if (page !== currentPage) {
+                  onPageChange(page);
+                }
               }}
             >
               {page}
