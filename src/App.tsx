@@ -6,7 +6,7 @@ import { getNumbers } from './utils';
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [itemsPerPage, setItemsPerPage] = useState(3);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   const [selectedPage, setSelectedPage] = useState(1);
 
   const visibleItemsStart = itemsPerPage * (selectedPage - 1) + 1;
