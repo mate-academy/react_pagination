@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
@@ -10,17 +10,12 @@ const items = getNumbers(1, 42)
 export const App: React.FC = () => {
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-  const [total, setTotal] = useState(9);
 
   const lastElemetOnPage = (currentPage * itemsPerPage) <= items.length
     ? currentPage * itemsPerPage
     : (currentPage - 1) * itemsPerPage + (items.length % itemsPerPage);
 
   const firstElemetOnPage = (currentPage - 1) * itemsPerPage;
-
-  useEffect(() => {
-    setTotal(Math.ceil(items.length / itemsPerPage));
-  });
 
   const handleChangeCurrentPage = (
     event: React.FormEvent<HTMLAnchorElement>,
@@ -29,20 +24,23 @@ export const App: React.FC = () => {
 
     if (page === 'prev') {
       setCurrentPage(currentPage - 1);
-    } else if (page === 'next') {
+
+      return;
+    }
+
+    if (page === 'next') {
       setCurrentPage(currentPage + 1);
-    } else if (
+
+      return;
+    }
+
+    if (
       currentPage !== Number(page)
       && currentPage >= 1
-      && currentPage <= total
+      && currentPage <= items.length
     ) {
       setCurrentPage(Number(page));
     }
-  };
-
-  const handleItemsPerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setItemsPerPage(Number(event.target.value));
-    setCurrentPage(1);
   };
 
   return (
@@ -53,12 +51,35 @@ export const App: React.FC = () => {
         {`Page ${currentPage} (items ${firstElemetOnPage + 1} - ${lastElemetOnPage} of ${items.length})`}
       </p>
 
+      <div className="form-group row">
+        <div className="col-3 col-sm-2 col-xl-1">
+          <select
+            data-cy="perPageSelector"
+            id="perPageSelector"
+            className="form-control"
+            defaultValue={itemsPerPage}
+            onChange={(event) => {
+              setItemsPerPage(Number(event.target.value));
+              setCurrentPage(1);
+            }}
+          >
+            <option value="3">3</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+          </select>
+        </div>
+
+        <label htmlFor="perPageSelector" className="col-form-label col">
+          items per page
+        </label>
+      </div>
+
       <Pagination
-        total={total}
+        total={items.length}
         perPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={handleChangeCurrentPage}
-        onPerPageChange={handleItemsPerPage}
       />
       <ul>
         {
