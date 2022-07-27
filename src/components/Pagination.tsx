@@ -1,4 +1,5 @@
 import React from 'react';
+import './Pagination.css';
 
 interface Props {
   total: number,
@@ -68,7 +69,9 @@ const Pagination: React.FC<Props> = ({
         <option value={10}>10</option>
         <option value={20}>20</option>
       </select>
+
       <p>{withInfo}</p>
+
       <button
         type="button"
         onClick={goToPreviousPage}
@@ -77,6 +80,7 @@ const Pagination: React.FC<Props> = ({
       >
         prev
       </button>
+
       <div className="pagination-list">
         {getPaginationGroup().map((item) => {
           if (isRenderButton(item)) {
@@ -95,6 +99,7 @@ const Pagination: React.FC<Props> = ({
           );
         })}
       </div>
+
       <button
         type="button"
         onClick={goToNextPage}
