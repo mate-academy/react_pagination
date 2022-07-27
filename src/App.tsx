@@ -39,8 +39,8 @@ const App: React.FC = () => {
         total={totalItems}
         perPage={itemsPerPage}
         page={selectedPage}
-        onPageChange={handlePageChange}
-        onPerPageChange={handlePerPageChange}
+        handlePageChange={handlePageChange}
+        handlePerPageChange={handlePerPageChange}
         withInfo={info}
       />
     </div>

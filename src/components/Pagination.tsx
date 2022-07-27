@@ -5,26 +5,26 @@ interface Props {
   total: number,
   perPage: number,
   page: number,
-  onPageChange: (pageFromComponent: number) => void;
+  handlePageChange: (pageFromComponent: number) => void;
   withInfo: string,
-  onPerPageChange: (perPageFromComponent: number) => void
+  handlePerPageChange: (perPageFromComponent: number) => void
 }
 
 const Pagination: React.FC<Props> = ({
-  total, perPage, page, onPageChange, withInfo, onPerPageChange,
+  total, perPage, page, handlePageChange, withInfo, handlePerPageChange,
 }) => {
   function goToNextPage() {
-    onPageChange(page + 1);
+    handlePageChange(page + 1);
   }
 
   function goToPreviousPage() {
-    onPageChange((page - 1));
+    handlePageChange((page - 1));
   }
 
   function changePage(event: React.MouseEvent<HTMLButtonElement>) {
     const pageNumber = Number(event.currentTarget.textContent);
 
-    onPageChange(pageNumber);
+    handlePageChange(pageNumber);
   }
 
   const isRenderButton = (item: number) => {
@@ -48,7 +48,7 @@ const Pagination: React.FC<Props> = ({
   function changePerPage(event: React.ChangeEvent<HTMLSelectElement>) {
     const pageNumber = Number(event.currentTarget.value);
 
-    onPerPageChange(pageNumber);
+    handlePerPageChange(pageNumber);
   }
 
   const getPaginationGroup = () => {
