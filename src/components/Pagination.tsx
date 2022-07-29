@@ -7,25 +7,26 @@ interface Props {
   total: number,
   page: number,
   setPage: (page: number) => void,
-  withInfo: true | undefined,
+  withInfo: boolean,
 }
 
 export const Pagination: FC<Props> = ({
   total,
   page,
   setPage,
-  withInfo,
+  withInfo = true,
 }) => {
   const [onPage, setOnPage] = useState(5);
   const mathPages = (totalPage: number) => Math.ceil(total / totalPage);
   const lastElemOnPage = page * onPage;
   const [pages, setPages] = useState(mathPages(onPage));
 
-  const onPageChange = (value: string) => {
-    const totalPages = mathPages(+value);
+  const onPageChange = (value: number) => {
+    const totalPages = mathPages(value);
 
     setOnPage(() => +value);
     setPages(() => totalPages);
+
     if (page > totalPages) {
       setPage(totalPages);
     }
@@ -39,7 +40,11 @@ export const Pagination: FC<Props> = ({
     >
       {withInfo && (
         <h2>
-          {`${lastElemOnPage - onPage + 1}-${lastElemOnPage > total ? total : lastElemOnPage} of ${total}`}
+          {`${lastElemOnPage - onPage + 1}-${
+            lastElemOnPage > total
+              ? total
+              : lastElemOnPage
+          } of ${total}`}
         </h2>
       )}
       <ul className="pagination">
@@ -118,7 +123,10 @@ export const Pagination: FC<Props> = ({
           </li>
         )}
         <li
-          className={classNames('page-item', { disabled: page === pages })}
+          className={classNames(
+            'page-item',
+            { disabled: page === pages },
+          )}
         >
           <button
             type="button"
@@ -132,7 +140,7 @@ export const Pagination: FC<Props> = ({
       <select
         className="select mx-auto"
         value={onPage}
-        onChange={({ target }) => onPageChange(target.value)}
+        onChange={({ target }) => onPageChange(+target.value)}
       >
         {perPageOptions.map(option => (
           <option key={option}>
