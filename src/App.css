@@ -1,1 +1,23 @@
 /* not empty */
+body {
+  background-color: rgb(87, 87, 87);
+  color: white;
+}
+
+.active {
+  color: white;
+  background-color: rgb(114, 114, 183);
+}
+
+.page-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 5px;
+  width: 50px;
+  height: 50px;
+}
+
+.content {
+  height: 70vh;
+}
