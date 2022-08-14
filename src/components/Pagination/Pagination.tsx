@@ -20,7 +20,7 @@ export const Pagination: React.FC<Props> = ({
 
   const handlerCurrentPage = (page: string | null) => {
     if (page) {
-      onPageChange(+currentPage);
+      onPageChange(+page);
     }
   };
 
