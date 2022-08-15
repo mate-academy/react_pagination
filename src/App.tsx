@@ -14,8 +14,8 @@ export const App = () => {
     setCurrentPage(1);
   };
 
-  const fromPage = 1 + (currentPage - 1) * countItemsPerPage;
-  const toPage = currentPage === Math.ceil(countItems / countItemsPerPage)
+  const fromItem = 1 + (currentPage - 1) * countItemsPerPage;
+  const toItem = currentPage === Math.ceil(countItems / countItemsPerPage)
     ? countItems
     : currentPage * countItemsPerPage;
 
@@ -25,8 +25,8 @@ export const App = () => {
 
       <p className="lead" data-cy="info">
         {`Page ${currentPage} `
-          + `(items ${fromPage} `
-          + `- ${toPage}`
+          + `(items ${fromItem} `
+          + `- ${toItem}`
           + ` of ${countItems})`}
       </p>
 
@@ -59,7 +59,7 @@ export const App = () => {
       />
 
       <ul>
-        {getNumbers(fromPage, toPage).map(n => (
+        {getNumbers(fromItem, toItem).map(n => (
           <li key={n} data-cy="item">{`Item ${n}`}</li>
         ))}
       </ul>
