@@ -4,8 +4,6 @@ import { getNumbers } from './utils';
 
 import { Pagination } from './components/Pagination';
 
-// eslint-disable-next-line
-
 export const App: React.FC = () => {
   const [currPage, setCurrPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);

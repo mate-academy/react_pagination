@@ -27,8 +27,6 @@ export const Pagination: React.FC<Props> = ({
           href="#prev"
           aria-disabled="true"
           onClick={() => {
-            // eslint-disable-next-line
-            console.log('click');
             handlePageChange(-1);
           }}
         >
@@ -59,8 +57,6 @@ export const Pagination: React.FC<Props> = ({
           href="#next"
           aria-disabled="false"
           onClick={() => {
-            // eslint-disable-next-line
-            console.log(currentPage === lastPageId);
             handlePageChange(1);
           }}
         >
