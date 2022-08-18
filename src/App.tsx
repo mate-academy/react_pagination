@@ -18,11 +18,11 @@ export const App: React.FC = () => {
 
       <p className="lead" data-cy="info">
         {`Page ${currPage}
-        items ${((currPage - 1) * itemsPerPage) + 1} -
+        (items ${((currPage - 1) * itemsPerPage) + 1} -
         ${(currPage * itemsPerPage < amountOfItems
       ? currPage * itemsPerPage
       : amountOfItems)} of
-        ${amountOfItems}`}
+        ${amountOfItems})`}
       </p>
 
       <div className="form-group row">
