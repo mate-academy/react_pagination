@@ -7,20 +7,20 @@ import { getNumbers } from './utils';
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
+const onPageChange = (pageNumber: number, perPage: number) => {
+  return (
+    items
+      .slice((pageNumber - 1) * perPage, (pageNumber - 1) * perPage + perPage)
+  );
+};
+
 export const App: React.FC = () => {
-  const [total] = useState(items.length);
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
+  const total = items.length;
+  // const copyItems = [...items];
 
-  const copyItems = [...items];
-  const onPageChange = (pageNumber: number) => {
-    return (
-      copyItems
-        .slice((pageNumber - 1) * perPage, (pageNumber - 1) * perPage + perPage)
-    );
-  };
-
-  const itemsOnPage = onPageChange(currentPage);
+  const itemsOnPage = onPageChange(currentPage, perPage);
   const firstNumberItemONpage = (itemsOnPage[0].split(' '))[1];
   const lastNumberItemONpage = (itemsOnPage[itemsOnPage.length - 1]
     .split(' '))[1];
@@ -40,8 +40,8 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={(e) => {
-              setPerPage(Number(e.target.value));
+            onChange={(event) => {
+              setPerPage(Number(event.target.value));
               setCurrentPage(1);
             }}
           >
@@ -61,9 +61,11 @@ export const App: React.FC = () => {
         total={total}
         perPage={perPage}
         currentPage={currentPage}
-        itemsOnPage={itemsOnPage}
         setCurrentPage={setCurrentPage}
       />
+      <ul>
+        {itemsOnPage.map(item => <li data-cy="item" key={item}>{item}</li>)}
+      </ul>
 
     </div>
   );

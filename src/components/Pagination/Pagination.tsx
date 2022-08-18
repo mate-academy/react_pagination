@@ -4,13 +4,12 @@ interface Props {
   total: number,
   perPage: number,
   currentPage: number,
-  itemsOnPage:string[],
   setCurrentPage:(page : number) => void,
 }
 
 export const Pagination: React.FC<Props> = (props) => {
   const {
-    total, perPage, currentPage, itemsOnPage, setCurrentPage,
+    total, perPage, currentPage, setCurrentPage,
   } = props;
 
   const totalPage = (Math.ceil(total / perPage));
@@ -79,9 +78,6 @@ export const Pagination: React.FC<Props> = (props) => {
             »
           </a>
         </li>
-      </ul>
-      <ul>
-        {itemsOnPage.map(item => <li data-cy="item" key={item}>{item}</li>)}
       </ul>
     </>
   );
