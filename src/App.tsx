@@ -13,13 +13,8 @@ export const App: React.FC = () => {
 
   const total = items.length;
 
-  let last = currentPage * perPage;
-  let first = last - perPage;
-
-  if (last > total) {
-    last = total;
-    first = (currentPage - 1) * perPage;
-  }
+  const firstItem = (currentPage - 1) * perPage;
+  const lastItem = firstItem + perPage;
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -30,14 +25,14 @@ export const App: React.FC = () => {
     setCurrentPage(1);
   };
 
-  const currentPageItems = items.slice(first, last);
+  const currentPageItems = items.slice(firstItem, lastItem);
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${first + 1} - ${last} of ${total})`}
+        {`Page ${currentPage} (items ${firstItem + 1} - ${firstItem + currentPageItems.length} of ${total})`}
       </p>
 
       <div className="form-group row">

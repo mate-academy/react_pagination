@@ -19,31 +19,19 @@ export const Pagination: FC<Props> = (props) => {
 
   const pages = getNumbers(1, Math.ceil(total / perPage));
 
-  const isDisabled = (direction: string) => {
-    if (direction === 'prev' && currentPage === 1) {
-      return true;
-    }
-
-    if (direction === 'next' && currentPage === pages.length) {
-      return true;
-    }
-
-    return false;
-  };
-
   return (
     <ul className="pagination">
       <li
         className={classNames(
           'page-item',
-          { disabled: isDisabled('prev') },
+          { disabled: currentPage === 1 },
         )}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={isDisabled('prev')}
+          aria-disabled={currentPage === 1}
           onClick={() => {
             if (currentPage !== 1) {
               onPageChange(currentPage - 1);
@@ -78,14 +66,14 @@ export const Pagination: FC<Props> = (props) => {
       <li
         className={classNames(
           'page-item',
-          { disabled: isDisabled('next') },
+          { disabled: currentPage === pages.length },
         )}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={isDisabled('next')}
+          aria-disabled={currentPage === pages.length}
           onClick={() => {
             if (currentPage !== pages.length) {
               onPageChange(currentPage + 1);
