@@ -9,14 +9,17 @@ const items = getNumbers(1, 42)
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(3);
+  const [perPage, setPerPage] = useState(5);
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${currentPage * perPage - perPage + 1} - ${currentPage * perPage} of ${items.length})`}
+        {`Page ${currentPage} 
+        (items ${currentPage * perPage - perPage + 1} 
+        - ${currentPage * perPage > items.length ? items.length : currentPage * perPage}
+         of ${items.length})`}
       </p>
 
       <div className="form-group row">

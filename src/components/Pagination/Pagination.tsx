@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import { FC } from 'react';
+import { ItemsList } from '../ItemsList/ItemsList';
 
 type Props = {
   total: number,
@@ -82,11 +83,7 @@ export const Pagination: FC<Props> = ({
           </a>
         </li>
       </ul>
-      <ul>
-        {itemList(total, perPage, currentPage).map(item => (
-          <li data-cy="item">{`Item ${item}`}</li>
-        ))}
-      </ul>
+      <ItemsList itemList={itemList(total, perPage, currentPage)} />
     </>
   );
 };
