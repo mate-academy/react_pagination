@@ -12,17 +12,17 @@ export const App: React.FC = () => {
   const items = getNumbers(1, amountOfItems)
     .map(n => `Item ${n}`);
 
+  const firstItemOnPage = ((currPage - 1) * itemsPerPage) + 1;
+  const lastItemOnPage = currPage * itemsPerPage < amountOfItems
+    ? currPage * itemsPerPage
+    : amountOfItems;
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currPage}
-        (items ${((currPage - 1) * itemsPerPage) + 1} -
-        ${(currPage * itemsPerPage < amountOfItems
-      ? currPage * itemsPerPage
-      : amountOfItems)} of
-        ${amountOfItems})`}
+        {`Page ${currPage} (items ${firstItemOnPage} - ${lastItemOnPage} of ${amountOfItems})`}
       </p>
 
       <div className="form-group row">
