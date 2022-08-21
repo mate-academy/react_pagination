@@ -33,7 +33,9 @@ export const Pagination = (props: Props) => {
           href="#prev"
           aria-disabled={currentPage === 1}
           onClick={() => {
-            onPageChange(currentPage - 1);
+            if (currentPage !== 1) {
+              onPageChange(currentPage - 1);
+            }
           }}
         >
           «
@@ -70,7 +72,9 @@ export const Pagination = (props: Props) => {
           href="#next"
           aria-disabled={currentPage === totalPages}
           onClick={() => {
-            onPageChange(currentPage + 1);
+            if (currentPage !== totalPages) {
+              onPageChange(currentPage + 1);
+            }
           }}
         >
           »
