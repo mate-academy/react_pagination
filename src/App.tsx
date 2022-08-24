@@ -8,20 +8,25 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [selected, setSelected] = useState(1);
-  const [perPageSelector, setPerPageselector] = useState('5');
+  const [page, setPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
 
-  const pageBottom = (selected - 1) * +perPageSelector;
-  const pageTop = selected * +perPageSelector;
+  const pageStart = (page - 1) * itemsPerPage;
+  const itemsLength = items.length;
+  const pageEnd = itemsLength < page * itemsPerPage
+    ? itemsLength
+    : page * itemsPerPage;
+
+  const showItems = items.slice(pageStart, pageEnd);
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${selected} (items ${pageBottom + 1}
+        {`Page ${page} (items ${pageStart + 1}
           ${' - '}
-          ${pageTop <= items.length ? pageTop : items.length})
+          ${pageEnd})
           ${' of '}
           ${items.length}
           `}
@@ -33,10 +38,10 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            value={perPageSelector}
+            value={itemsPerPage}
             onChange={(event) => {
-              setPerPageselector(event.target.value);
-              setSelected(1);
+              setItemsPerPage(+event.target.value);
+              setPage(1);
             }}
           >
             <option value="3">3</option>
@@ -55,20 +60,14 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        items={items}
-        perPageSelector={+perPageSelector}
-        selected={selected}
-        setSelected={setSelected}
+        items={itemsLength}
+        itemsPerPage={itemsPerPage}
+        currentPage={page}
+        onChangePage={setPage}
       />
       <ul>
-        {items.filter((_, index) => {
-          return index >= pageBottom
-                  && index < pageTop;
-        }).map(item => (
-          <li
-            data-cy="item"
-            key={item}
-          >
+        {showItems.map(item => (
+          <li key={item}>
             {item}
           </li>
         ))}

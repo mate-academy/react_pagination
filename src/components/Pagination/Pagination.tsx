@@ -1,70 +1,88 @@
 import React from 'react';
+import classNames from 'classnames';
+import { getNumbers } from '../../utils';
 
 type Props = {
-  items: string[],
-  perPageSelector: number,
-  selected: number,
-  setSelected: React.Dispatch<React.SetStateAction<number>>
+  items: number,
+  itemsPerPage: number,
+  currentPage: number,
+  onChangePage: (selected: number) => void,
 };
 
 export const Pagination: React.FC<Props> = ({
   items,
-  perPageSelector,
-  selected,
-  setSelected,
+  itemsPerPage,
+  currentPage,
+  onChangePage,
 }) => {
-  const numberPages = Math.ceil(items.length / +perPageSelector);
+  const lastPages = Math.ceil(items / itemsPerPage);
+  const pages = getNumbers(1, Math.ceil(lastPages));
 
   return (
     <>
       <ul className="pagination">
-        <li className={`page-item ${selected === 1 && 'disabled'}`}>
+        <li className={classNames(
+          'page-item',
+          {
+            disabled: currentPage === 1,
+          },
+        )}
+        >
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
             aria-disabled="true"
             onClick={() => {
-              if (selected === 1) {
-                return;
+              if (currentPage !== 1) {
+                onChangePage(currentPage - 1);
               }
-
-              setSelected(prev => prev - 1);
             }}
           >
             «
           </a>
         </li>
-        {items.filter((_, index) => index < numberPages)
-          .map((item, index) => (
-            <li
-              className={`page-item ${selected === index + 1 && 'active'}`}
-              key={item}
+        {pages.map(page => (
+          <li
+            key={page}
+            className={classNames(
+              'page-item',
+              {
+                active: page === currentPage,
+              },
+            )}
+          >
+            <a
+              data-cy="pageLink"
+              className="page-link"
+              href="#1"
+              onClick={() => {
+                if (page !== currentPage) {
+                  onChangePage(page);
+                }
+              }}
             >
-              <a
-                data-cy="pageLink"
-                className="page-link"
-                href={`${index + 1}`}
-                onClick={() => {
-                  setSelected(index + 1);
-                }}
-              >
-                {index + 1}
-              </a>
-            </li>
-          ))}
-        <li className={`page-item ${selected === numberPages && 'disabled'}`}>
+              {page}
+            </a>
+          </li>
+        ))}
+        <li
+          className={classNames(
+            'page-item',
+            {
+              disabled: currentPage === lastPages,
+            },
+          )}
+        >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
             aria-disabled="false"
             onClick={() => {
-              if (selected === numberPages) {
-                return;
+              if (currentPage !== lastPages) {
+                onChangePage(currentPage + 1);
               }
-
-              setSelected(prev => prev + 1);
             }}
           >
             »
