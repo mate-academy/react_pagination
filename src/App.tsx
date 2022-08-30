@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import { Pagination } from './components/Pagination';
+import { Pagination } from './components/Pagination/Pagination';
 
 export const App: React.FC = () => {
   const total = 42;
