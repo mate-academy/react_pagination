@@ -4,11 +4,10 @@ import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
 export const App: React.FC = () => {
-  const [total] = useState(42);
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const items = getNumbers(1, total)
+  const items = getNumbers(1, 42)
     .map(n => `Item ${n}`);
 
   const indexOfLastItem = perPage * currentPage;
@@ -50,7 +49,7 @@ export const App: React.FC = () => {
 
       <Pagination
         setCurrentPage={setCurrentPage}
-        total={total}
+        total={items.length}
         perPage={perPage}
         currentPage={currentPage}
       />

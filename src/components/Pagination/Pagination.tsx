@@ -1,5 +1,5 @@
 import React, {
-  Dispatch, SetStateAction, useEffect, useState,
+  Dispatch, SetStateAction, useEffect,
 } from 'react';
 import classNames from 'classnames';
 
@@ -16,8 +16,6 @@ export const Pagination: React.FC<Props> = ({
   total,
   perPage,
 }) => {
-  const [isNextButton, setIsNextButton] = useState(false);
-  const [isPrevButton, setIsPrevButton] = useState(false);
   const pageNumbers: number[] = [];
 
   for (let i = 1; i <= Math.ceil(total / perPage); i += 1) {
@@ -36,8 +34,6 @@ export const Pagination: React.FC<Props> = ({
     }
 
     setCurrentPage(page);
-    setIsNextButton(page === pageNumbers.length);
-    setIsPrevButton(page === 1);
   }, [currentPage]);
 
   const changePage = (direction: 'prev' | 'next') => {
@@ -47,12 +43,12 @@ export const Pagination: React.FC<Props> = ({
 
   return (
     <ul className="pagination">
-      <li className={classNames('page-item', { disabled: isPrevButton })}>
+      <li className={classNames('page-item', { disabled: currentPage === 1 })}>
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={isPrevButton}
+          aria-disabled={currentPage === 1}
           onClick={() => changePage('prev')}
         >
           «
@@ -76,12 +72,14 @@ export const Pagination: React.FC<Props> = ({
           </a>
         </li>
       ))}
-      <li className={classNames('page-item', { disabled: isNextButton })}>
+      <li className={classNames('page-item',
+        { disabled: currentPage === pageNumbers.length })}
+      >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={isNextButton}
+          aria-disabled={currentPage === pageNumbers.length}
           onClick={() => changePage('next')}
         >
           »
