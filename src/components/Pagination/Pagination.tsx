@@ -16,7 +16,11 @@ export const Pagination: React.FC<Props> = ({
 }) => {
   const totalPages = Math.ceil(total / perPage);
 
-  const handlePageItemClick = (nextPage: number) => {
+  const handlePageItemClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+
+    const nextPage = +(event.currentTarget.dataset.page || 0);
+
     if (
       nextPage === currentPage || nextPage < 1 || nextPage > totalPages
     ) {
@@ -42,10 +46,8 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={currentPage === 1}
-          onClick={event => {
-            event.preventDefault();
-            handlePageItemClick(currentPage - 1);
-          }}
+          data-page={currentPage - 1}
+          onClick={handlePageItemClick}
         >
           «
         </a>
@@ -66,11 +68,8 @@ export const Pagination: React.FC<Props> = ({
                 data-cy="pageLink"
                 className="page-link"
                 href={`#${page}`}
-                onClick={event => {
-                  event.preventDefault();
-
-                  handlePageItemClick(page);
-                }}
+                data-page={page}
+                onClick={handlePageItemClick}
               >
                 {page}
               </a>
@@ -91,10 +90,8 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={currentPage === totalPages}
-          onClick={event => {
-            event.preventDefault();
-            handlePageItemClick(currentPage + 1);
-          }}
+          data-page={currentPage + 1}
+          onClick={handlePageItemClick}
         >
           »
         </a>
