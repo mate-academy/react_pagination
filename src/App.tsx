@@ -28,8 +28,6 @@ export const App: React.FC = () => {
   const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = (page: number) => setCurrentItem(page);
-  const nextPage = () => setCurrentItem(currentItem + 1);
-  const prevtPage = () => setCurrentItem(currentItem - 1);
 
   return (
     <div className="container">
@@ -46,7 +44,7 @@ export const App: React.FC = () => {
         {' '}
         -
         {' '}
-        {indexOfLastItem}
+        {currentItems.map(x => x.split(' ').pop()).pop()}
         {' '}
         of
         {' '}
@@ -85,8 +83,6 @@ export const App: React.FC = () => {
         totalItems={items.length}
         itemsPerPage={itemsPerPage}
         paginate={paginate}
-        nextPage={nextPage}
-        prevtPage={prevtPage}
         currentItem={currentItem}
       />
 

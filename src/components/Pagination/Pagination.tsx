@@ -4,8 +4,6 @@ type Props = {
   totalItems: number
   itemsPerPage: number
   paginate: (page: number) => void
-  nextPage: () => void
-  prevtPage: () => void
   currentItem: number
 };
 
@@ -14,8 +12,6 @@ export const Pagination: React.FC<Props> = (
     totalItems,
     itemsPerPage,
     paginate,
-    nextPage,
-    prevtPage,
     currentItem,
   },
 ) => {
@@ -24,12 +20,6 @@ export const Pagination: React.FC<Props> = (
   for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i += 1) {
     pageNumbers.push(i);
   }
-
-  // className={classNames('input', {
-  //   'is-danger': hasError,
-  // })}
-
-  // <li className="page-item"></li>
 
   return (
     <ul className="pagination">
@@ -41,14 +31,21 @@ export const Pagination: React.FC<Props> = (
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          onClick={() => prevtPage()}
-          // aria-disabled="true"
+          onClick={() => paginate(currentItem - 1)}
         >
           «
         </a>
       </li>
       {pageNumbers.map(page => (
-        <li>
+        <li
+          key={page}
+          className={classNames(
+            'page-item',
+            {
+              active: page === currentItem,
+            },
+          )}
+        >
           <a
             data-cy="pageLink"
             className="page-link"
@@ -66,9 +63,8 @@ export const Pagination: React.FC<Props> = (
         <a
           data-cy="nextLink"
           className="page-link"
-          href="#next"
-          onClick={() => nextPage()}
-          // aria-disabled="true"
+          href={`#${currentItem}`}
+          onClick={() => paginate(currentItem + 1)}
         >
           »
         </a>
