@@ -47,16 +47,14 @@ export const Pagination: React.FC<Props> = ({
           <li
             className={classNames(
               'page-item',
-              {
-                active: activePage === pageNumber,
-              },
+              { active: activePage === pageNumber },
             )}
             key={pageNumber}
           >
             <a
               data-cy="pageLink"
               className="page-link"
-              href="#1"
+              href={`#${pageNumber}`}
               onClick={() => onPageChange(pageNumber)}
             >
               {pageNumber}
@@ -67,9 +65,7 @@ export const Pagination: React.FC<Props> = ({
         <li
           className={classNames(
             'page-item',
-            {
-              disabled: pagesQuantity === activePage,
-            },
+            { disabled: pagesQuantity === activePage },
           )}
         >
           <a
