@@ -10,7 +10,7 @@ const itemsFromServer = getNumbers(1, 42)
 export const App: React.FC = () => {
   const [items, setItems] = useState(['']);
   const [loading, setLoading] = useState(false);
-  const [currentItem, setCurrentItem] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(3);
 
   useEffect(() => {
@@ -23,11 +23,11 @@ export const App: React.FC = () => {
     fetchItems();
   }, []);
 
-  const indexOfLastItem = currentItem * itemsPerPage;
+  const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
 
-  const paginate = (page: number) => setCurrentItem(page);
+  const onPageChange = (page: number) => setCurrentPage(page);
 
   return (
     <div className="container">
@@ -36,7 +36,7 @@ export const App: React.FC = () => {
       <p className="lead" data-cy="info">
         Page
         {' '}
-        {currentItem}
+        {currentPage}
         {' '}
         (items
         {' '}
@@ -61,7 +61,7 @@ export const App: React.FC = () => {
             value={itemsPerPage}
             onChange={(event) => {
               setItemsPerPage(+event.target.value);
-              setCurrentItem(1);
+              setCurrentPage(1);
             }}
           >
             <option value={3}>3</option>
@@ -82,8 +82,8 @@ export const App: React.FC = () => {
       <Pagination
         totalItems={items.length}
         itemsPerPage={itemsPerPage}
-        paginate={paginate}
-        currentItem={currentItem}
+        onPageChange={onPageChange}
+        currentPage={currentPage}
       />
 
       <Items

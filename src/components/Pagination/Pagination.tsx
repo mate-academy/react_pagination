@@ -3,16 +3,16 @@ import classNames from 'classnames';
 type Props = {
   totalItems: number
   itemsPerPage: number
-  paginate: (page: number) => void
-  currentItem: number
+  onPageChange: (page: number) => void
+  currentPage: number
 };
 
 export const Pagination: React.FC<Props> = (
   {
     totalItems,
     itemsPerPage,
-    paginate,
-    currentItem,
+    onPageChange,
+    currentPage,
   },
 ) => {
   const pageNumbers = [];
@@ -24,14 +24,14 @@ export const Pagination: React.FC<Props> = (
   return (
     <ul className="pagination">
       <li className={classNames('page-item', {
-        'page-item disabled': currentItem === 1,
+        'page-item disabled': currentPage === 1,
       })}
       >
         <a
           data-cy="prevLink"
           className="page-link"
-          href="#prev"
-          onClick={() => paginate(currentItem - 1)}
+          href={`#${currentPage}`}
+          onClick={() => onPageChange(currentPage - 1)}
         >
           «
         </a>
@@ -42,7 +42,7 @@ export const Pagination: React.FC<Props> = (
           className={classNames(
             'page-item',
             {
-              active: page === currentItem,
+              active: page === currentPage,
             },
           )}
         >
@@ -50,21 +50,21 @@ export const Pagination: React.FC<Props> = (
             data-cy="pageLink"
             className="page-link"
             href={`#${page}`}
-            onClick={() => paginate(page)}
+            onClick={() => onPageChange(page)}
           >
             {page}
           </a>
         </li>
       ))}
       <li className={classNames('page-item', {
-        'page-item disabled': currentItem === pageNumbers.length,
+        'page-item disabled': currentPage === pageNumbers.length,
       })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
-          href={`#${currentItem}`}
-          onClick={() => paginate(currentItem + 1)}
+          href={`#${currentPage}`}
+          onClick={() => onPageChange(currentPage + 1)}
         >
           »
         </a>
