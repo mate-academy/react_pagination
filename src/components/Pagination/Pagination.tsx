@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import { MouseEventHandler } from 'react';
 import { getNumbers } from '../../utils';
 
 type Props = {
@@ -7,8 +6,6 @@ type Props = {
   perPage: number;
   currentPage: number;
   onPageChange: (page: number) => void;
-  onPreviousPage: MouseEventHandler<HTMLAnchorElement>
-  onNextPage: MouseEventHandler<HTMLAnchorElement>
 };
 
 export const Pagination: React.FC<Props> = ({
@@ -16,8 +13,6 @@ export const Pagination: React.FC<Props> = ({
   perPage,
   currentPage,
   onPageChange,
-  onPreviousPage,
-  onNextPage,
 }) => {
   const totalPages = Math.ceil(total / perPage);
 
@@ -26,7 +21,7 @@ export const Pagination: React.FC<Props> = ({
 
     const page = Number(event.currentTarget.dataset.currentPage);
 
-    if (page === currentPage) {
+    if (page < 1 || page === currentPage || page > totalPages) {
       return;
     }
 
@@ -44,8 +39,9 @@ export const Pagination: React.FC<Props> = ({
           data-cy="prevLink"
           className="page-link"
           href="#prev"
+          data-current-page={currentPage - 1}
           aria-disabled={currentPage === 1}
-          onClick={onPreviousPage}
+          onClick={handleSetPage}
         >
           «
         </a>
@@ -75,8 +71,9 @@ export const Pagination: React.FC<Props> = ({
           data-cy="nextLink"
           className="page-link"
           href="#next"
+          data-current-page={currentPage + 1}
           aria-disabled={currentPage === totalPages}
-          onClick={onNextPage}
+          onClick={handleSetPage}
         >
           »
         </a>

@@ -13,22 +13,9 @@ export const App: React.FC = () => {
 
   const start = (page - 1) * perPage + 1;
   const end = Math.min(page * perPage, items.length);
-  const totalPages = Math.ceil(items.length / perPage);
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
-  };
-
-  const handlePreviousPage = () => {
-    setPage(page > 1
-      ? page - 1
-      : 1);
-  };
-
-  const handleNextPage = () => {
-    setPage(page < totalPages
-      ? page + 1
-      : totalPages);
   };
 
   return (
@@ -69,8 +56,6 @@ export const App: React.FC = () => {
         perPage={perPage}
         currentPage={page}
         onPageChange={handlePageChange}
-        onPreviousPage={handlePreviousPage}
-        onNextPage={handleNextPage}
       />
       <ul>
         {items.slice(start - 1, end).map(item => (
