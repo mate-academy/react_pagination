@@ -1,0 +1,17 @@
+.shortPagePagination__list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.shortPagePagination__link--passive {
+  pointer-events: none;
+  cursor: default;
+  color: #4a4141;
+}
+
+.shortPagePagination__span {
+    color: #a52a2a;
+      font-size: 18px;
+      font-weight: 700;
+}
