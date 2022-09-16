@@ -1,0 +1,36 @@
+.pagePagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagePagination__with-info {
+  margin-right: 30px;
+}
+
+.pagePagination__list {
+  display: flex;
+  justify-content: center;
+}
+
+.pagePagination__link {
+  border-bottom: 2px solid #0000;
+}
+
+.pagePagination__link:hover {
+  color: black;
+}
+
+.pagePagination__link--passive {
+  pointer-events: none;
+  cursor: default;
+  color: #4a4141;
+}
+
+.pagePagination__link--current {
+  border-color: blueviolet;
+}
+
+.pagePagination__select-perPage {
+  margin-left: 30px;
+}
