@@ -7,6 +7,7 @@ import { Page } from './components/Page';
 import { ShortPagePagination } from './components/ShortPagePagination';
 
 import './App.css';
+import { getNumbers } from './utils';
 
 const App: React.FC = () => {
   const [totalPage] = useState(42);
