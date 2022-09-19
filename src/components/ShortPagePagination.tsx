@@ -1,5 +1,6 @@
+import React from 'react';
 import classNames from 'classnames';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import './ShortPagePagination.css';
 
@@ -7,11 +8,11 @@ type Props = {
   total: number,
   page: number,
   perPage: number,
-  onPageChange: (selectedPage: number) => void,
+  updateSearch: (params: { [key: string]: string }) => void,
 };
 
-export const ShortPagePagination: React.FC<Props> = ({
-  total, page, onPageChange, perPage,
+export const ShortPagePagination: React.FC<Props> = React.memo(({
+  total, page, perPage, updateSearch,
 }) => {
   const getPath = (num: number) => {
     return { pathname: `/${num}`, search: `?page=${num}&perPage=${perPage}` };
@@ -32,7 +33,7 @@ export const ShortPagePagination: React.FC<Props> = ({
               },
             )}
             to={getPath(page - 1)}
-            onClick={() => onPageChange(page - 1)}
+            onClick={() => updateSearch({ page: `${page - 1}` })}
           >
             <span>&lt;</span>
           </Link>
@@ -44,7 +45,7 @@ export const ShortPagePagination: React.FC<Props> = ({
           <Link
             className="shortPagePagination__link"
             to={getPath(1)}
-            onClick={() => onPageChange(1)}
+            onClick={() => updateSearch({ page: '1' })}
           >
             1
           </Link>
@@ -62,7 +63,7 @@ export const ShortPagePagination: React.FC<Props> = ({
           <Link
             to={getPath(page - 1)}
             className="shortPagePagination__link"
-            onClick={() => onPageChange(page - 1)}
+            onClick={() => updateSearch({ page: `${page - 1}` })}
           >
             {page - 1}
           </Link>
@@ -70,16 +71,12 @@ export const ShortPagePagination: React.FC<Props> = ({
         <li
           className="shortPagePagination__item"
         >
-          <NavLink
-            className={({ isActive }) => classNames(
-              'shortPagePagination__link', {
-                'shortPagePagination__link--current': isActive,
-              },
-            )}
-            to={`/${page}`}
+          <span
+            className={'shortPagePagination__link'
+              + ' shortPagePagination__link--current'}
           >
             {`[ ${page} ]`}
-          </NavLink>
+          </span>
         </li>
         <li
           className="shortPagePagination__item"
@@ -89,7 +86,7 @@ export const ShortPagePagination: React.FC<Props> = ({
             className="shortPagePagination__link"
             to={getPath(page + 1)}
             onClick={() => {
-              onPageChange(page + 1);
+              updateSearch({ page: `${page + 1}` });
             }}
           >
             {page + 1}
@@ -108,7 +105,7 @@ export const ShortPagePagination: React.FC<Props> = ({
           <Link
             className="shortPagePagination__link"
             to={getPath(total)}
-            onClick={() => onPageChange(total)}
+            onClick={() => updateSearch({ page: `${total}` })}
           >
             {total}
           </Link>
@@ -125,7 +122,7 @@ export const ShortPagePagination: React.FC<Props> = ({
               },
             )}
             to={getPath(page + 1)}
-            onClick={() => onPageChange(page + 1)}
+            onClick={() => updateSearch({ page: `${page + 1}` })}
           >
             <span>&gt;</span>
           </Link>
@@ -133,4 +130,4 @@ export const ShortPagePagination: React.FC<Props> = ({
       </ul>
     </nav>
   );
-};
+});

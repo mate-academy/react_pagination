@@ -1,6 +1,6 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import './Pagination.css';
 
@@ -9,15 +9,15 @@ type Props = {
   perPage: number,
   page: number,
   withInfo?: boolean,
-  onPageChange: (selectedPage:number) => void,
-  changePerPage: (value:number) => void,
+  updateSearch: (params: { [key: string]: string }) => void,
 };
 
-export const Pagination: React.FC<Props> = ({
-  total, page, onPageChange, perPage, withInfo, changePerPage,
+export const Pagination: React.FC<Props> = React.memo(({
+  total, page, perPage, withInfo, updateSearch,
 }) => {
   const [pagesQty, setPagesQty] = useState([1]);
-  const [initialNum, setInitialNum] = useState(13);
+  const [initialNum, setInitialNum] = useState(1);
+  const [, setSearchParams] = useSearchParams();
 
   const getPagesQty:() => void = () => {
     const pagesArr = [];
@@ -47,6 +47,10 @@ export const Pagination: React.FC<Props> = ({
     }
   };
 
+  const getPath = (num: number) => {
+    return { pathname: `/${num}`, search: `?page=${num}&perPage=${perPage}` };
+  };
+
   useEffect(() => {
     getPagesQty();
   }, [total]);
@@ -63,17 +67,17 @@ export const Pagination: React.FC<Props> = ({
         <li
           className="pagePagination__item"
         >
-          <a
+          <button
+            type="button"
             className={classNames(
               'pagePagination__link', {
                 'pagePagination__link--passive': initialNum === 1,
               },
             )}
-            href="#"
             onClick={() => changeInitialNum(0 - perPage)}
           >
             <span>&laquo;</span>
-          </a>
+          </button>
         </li>
         {pagesQty.map(el => (
           <li
@@ -81,15 +85,15 @@ export const Pagination: React.FC<Props> = ({
             key={el}
             hidden={el < initialNum || el >= initialNum + perPage}
           >
-            <a
+            <Link
               className={classNames(
                 'pagePagination__link', {
                   'pagePagination__link--current': el === page,
                 },
               )}
-              href="#"
+              to={getPath(el)}
               onClick={() => {
-                onPageChange(el);
+                updateSearch({ page: `${el}` });
                 if ((initialNum + perPage - el) <= 1) {
                   changeInitialNum(Math.floor(perPage / 2));
                 }
@@ -97,17 +101,17 @@ export const Pagination: React.FC<Props> = ({
                 if ((initialNum + perPage - el) >= perPage) {
                   changeInitialNum(-Math.floor(perPage / 2));
                 }
-                //
               }}
             >
               {el}
-            </a>
+            </Link>
           </li>
         ))}
         <li
           className="pagePagination__item"
         >
-          <a
+          <button
+            type="button"
             className={classNames(
               'pagePagination__link', {
                 'pagePagination__link--passive': (
@@ -115,11 +119,10 @@ export const Pagination: React.FC<Props> = ({
                 ),
               },
             )}
-            href="#"
             onClick={() => changeInitialNum(perPage)}
           >
             <span>&raquo;</span>
-          </a>
+          </button>
         </li>
       </ul>
       <select
@@ -127,7 +130,10 @@ export const Pagination: React.FC<Props> = ({
         id="selectPerPage"
         className="pagePagination__select-perPage"
         value={perPage}
-        onChange={(e) => changePerPage(+e.target.value)}
+        onChange={(e) => {
+          updateSearch({ perPage: e.target.value });
+          setSearchParams({ perPage: e.target.value, page: `${page}` });
+        }}
       >
         <option value="3">3</option>
         <option value="5">5</option>
@@ -136,4 +142,4 @@ export const Pagination: React.FC<Props> = ({
       </select>
     </nav>
   );
-};
+});

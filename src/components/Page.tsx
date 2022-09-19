@@ -1,13 +1,13 @@
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 export const Page: React.FC = () => {
-  const [queryParams] = useSearchParams();
-  const pageNum = queryParams.get('page');
+  const location = useLocation();
+  const { page } = useParams();
 
   return (
-    <>
-      <h2>{`Page number: ${pageNum}`}</h2>
-      <p>{`queryParams: ${queryParams}`}</p>
-    </>
+    <div className="Page">
+      <h2>{`Page number: ${page}`}</h2>
+      <p>{`queryParams: ${location.search}`}</p>
+    </div>
   );
 };

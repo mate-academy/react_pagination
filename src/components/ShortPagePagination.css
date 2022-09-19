@@ -4,14 +4,40 @@
   align-items: center;
 }
 
-.shortPagePagination__link--passive {
-  pointer-events: none;
-  cursor: default;
-  color: #4a4141;
-}
-
 .shortPagePagination__span {
   color: #a52a2a;
   font-size: 18px;
   font-weight: 700;
+}
+
+.shortPagePagination__item {
+  text-align: center;
+  min-width: 45px;
+  min-height: 35px;
+}
+
+.shortPagePagination__link {
+  line-height: 35px;
+  color: #a52a2a;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.shortPagePagination__link:hover {
+  color: #8a2be2;
+}
+
+.shortPagePagination__link--passive {
+  pointer-events: none;
+  cursor: default;
+  color: #a52a2a55;
+}
+
+.shortPagePagination__link--current {
+  cursor: default;
+}
+
+.shortPagePagination__link--current:hover {
+  cursor: default;
+  color: #a52a2a;
 }
