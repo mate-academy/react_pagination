@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { Pagination } from './components/Pagination';
+import { Page } from './components/Page';
 import { ShortPagePagination } from './components/ShortPagePagination';
 
 import './App.css';
 
 const App: React.FC = () => {
-  const [totalPage] = useState(42); /* , setTotalPage */
+  const [totalPage] = useState(42);
   const [perPage, setPerPage] = useState(3);
   const [currentPage, setCurentPage] = useState(15);
   const [withInfo] = useState(true);
@@ -26,11 +28,18 @@ const App: React.FC = () => {
   return (
     <>
       <h1>{currentPage}</h1>
+      <Routes>
+        <Route path="/">
+          <Route index element={<h1>Pagination</h1>} />
+          <Route path=":pageNum" element={<Page />} />
+        </Route>
+      </Routes>
       {shortView ? (
         <ShortPagePagination
           total={totalPage}
           page={currentPage}
           onPageChange={onPageChange}
+          perPage={perPage}
         />
       )
         : (

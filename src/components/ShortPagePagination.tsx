@@ -1,24 +1,29 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import classNames from 'classnames';
+import { Link, NavLink } from 'react-router-dom';
 
 import './ShortPagePagination.css';
 
 type Props = {
   total: number,
   page: number,
+  perPage: number,
   onPageChange: (selectedPage: number) => void,
 };
 
 export const ShortPagePagination: React.FC<Props> = ({
-  total, page, onPageChange,
+  total, page, onPageChange, perPage,
 }) => {
+  const getPath = (num: number) => {
+    return { pathname: `/${num}`, search: `?page=${num}&perPage=${perPage}` };
+  };
+
   return (
     <nav className="shortPagePagination">
       <ul className="shortPagePagination__list">
         <li
           className="shortPagePagination__item"
         >
-          <a
+          <Link
             className={classNames(
               'shortPagePagination__link', {
                 'shortPagePagination__link--passive': (
@@ -26,23 +31,23 @@ export const ShortPagePagination: React.FC<Props> = ({
                 ),
               },
             )}
-            href="#"
+            to={getPath(page - 1)}
             onClick={() => onPageChange(page - 1)}
           >
             <span>&lt;</span>
-          </a>
+          </Link>
         </li>
         <li
           className="shortPagePagination__item"
           hidden={page < 3}
         >
-          <a
+          <Link
             className="shortPagePagination__link"
-            href="#"
+            to={getPath(1)}
             onClick={() => onPageChange(1)}
           >
             1
-          </a>
+          </Link>
         </li>
         <span
           hidden={page < 3}
@@ -54,38 +59,42 @@ export const ShortPagePagination: React.FC<Props> = ({
           className="shortPagePagination__item"
           hidden={page === 1}
         >
-          <a
+          <Link
+            to={getPath(page - 1)}
             className="shortPagePagination__link"
-            href="#"
             onClick={() => onPageChange(page - 1)}
           >
             {page - 1}
-          </a>
+          </Link>
         </li>
         <li
           className="shortPagePagination__item"
         >
-          <a
-            className={'shortPagePagination__link'
-              + 'shortPagePagination__link--current'}
-            href="#"
+          <NavLink
+            className={({ isActive }) => classNames(
+              'shortPagePagination__link', {
+                'shortPagePagination__link--current': isActive,
+              },
+            )}
+            to={`/${page}`}
           >
             {`[ ${page} ]`}
-          </a>
+          </NavLink>
         </li>
         <li
           className="shortPagePagination__item"
           hidden={page === total}
         >
-          <a
+          <Link
             className="shortPagePagination__link"
-            href="#"
-            onClick={() => onPageChange(page + 1)}
+            to={getPath(page + 1)}
+            onClick={() => {
+              onPageChange(page + 1);
+            }}
           >
             {page + 1}
-          </a>
+          </Link>
         </li>
-        {/* <span hidden=>...</span> */}
         <span
           hidden={page + 1 >= total}
           className="shortPagePagination__span"
@@ -96,18 +105,18 @@ export const ShortPagePagination: React.FC<Props> = ({
           className="shortPagePagination__item"
           hidden={page + 1 >= total}
         >
-          <a
+          <Link
             className="shortPagePagination__link"
-            href="#"
+            to={getPath(total)}
             onClick={() => onPageChange(total)}
           >
             {total}
-          </a>
+          </Link>
         </li>
         <li
           className="shortPagePagination__item"
         >
-          <a
+          <Link
             className={classNames(
               'shortPagePagination__link', {
                 'shortPagePagination__link--passive': (
@@ -115,11 +124,11 @@ export const ShortPagePagination: React.FC<Props> = ({
                 ),
               },
             )}
-            href="#"
+            to={getPath(page + 1)}
             onClick={() => onPageChange(page + 1)}
           >
             <span>&gt;</span>
-          </a>
+          </Link>
         </li>
       </ul>
     </nav>
