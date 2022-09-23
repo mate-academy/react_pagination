@@ -12,6 +12,14 @@ export const Pagination = ({
   onPageChange,
 }: Props) => {
   const pages = Math.ceil(total / perPage);
+  const pagesList = Array.from(Array(pages).keys());
+  const itemsList = Array.from(Array(perPage).keys())
+    .map(page => {
+      const currenPage = (currentPage * perPage) - (perPage) + (page + 1);
+
+      return (currenPage <= total ? currenPage : null);
+    })
+    .filter(page => page !== null);
 
   return (
     <>
@@ -20,14 +28,14 @@ export const Pagination = ({
           <a
             data-cy="prevLink"
             className="page-link"
-            href="#prev"
+            href={`#${currentPage}`}
             aria-disabled={currentPage === 1}
             onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
           >
             «
           </a>
         </li>
-        {Array.from(Array(pages).keys()).map(i => {
+        {pagesList.map(i => {
           return (
             <li
               className={`page-item ${i + 1 === currentPage && 'active'}`}
@@ -48,7 +56,7 @@ export const Pagination = ({
           <a
             data-cy="nextLink"
             className="page-link"
-            href="#next"
+            href={`#${currentPage}`}
             aria-disabled={currentPage === pages}
             onClick={() => currentPage < pages && onPageChange(currentPage + 1)}
           >
@@ -57,18 +65,12 @@ export const Pagination = ({
         </li>
       </ul>
       <ul>
-        {Array.from(Array(perPage).keys()).map(i => {
-          const currenItem = (currentPage * perPage) - (perPage) + (i + 1);
-
-          if (currenItem <= total) {
-            return (
-              <li data-cy="item" key={i + 1}>
-                {`Item ${currenItem}`}
-              </li>
-            );
-          }
-
-          return '';
+        {itemsList.map(item => {
+          return (
+            <li data-cy="item" key={item}>
+              {`Item ${item}`}
+            </li>
+          );
         })}
       </ul>
     </>
