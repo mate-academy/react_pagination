@@ -11,7 +11,7 @@ export const App: React.FC = () => {
   const [optionValue, setOptionValue] = useState(3);
   const [currentPage, setCurrentPage] = useState(1);
   const maxPage = Math.ceil(items.length / optionValue);
-  const lastIndexList = optionValue * currentPage;
+  let lastIndexList = optionValue * currentPage;
   const firstIndexList = lastIndexList - optionValue;
   const ourList = items.slice(firstIndexList, lastIndexList);
 
@@ -20,6 +20,10 @@ export const App: React.FC = () => {
       setCurrentPage(page);
     }
   };
+
+  if (currentPage === maxPage) {
+    lastIndexList = items.length;
+  }
 
   const switchPage = (val: string) => {
     if (val === 'nextLink' && currentPage < maxPage) {
@@ -47,7 +51,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items 1 - ${optionValue} of 42)`}
+        {`Page ${currentPage} (items ${firstIndexList + 1} - ${lastIndexList} of 42)`}
       </p>
 
       <div className="form-group row">
