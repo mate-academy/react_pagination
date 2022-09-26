@@ -60,9 +60,12 @@ export const App: FC = () => {
       />
       <ul>
         {visibleItems.map(item => (
-          item && (
-            <li key={item} data-cy="item">{item}</li>
-          )
+          <li
+            key={item}
+            data-cy="item"
+          >
+            {item}
+          </li>
         ))}
       </ul>
     </div>
