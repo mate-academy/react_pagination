@@ -53,15 +53,19 @@ export const Pagination = ({
           );
         })}
         <li className={`page-item ${currentPage === pages && 'disabled'}`}>
-          <a
+          <button
+            type="button"
             data-cy="nextLink"
             className="page-link"
-            href={`#${currentPage}`}
             aria-disabled={currentPage === pages}
-            onClick={() => currentPage < pages && onPageChange(currentPage + 1)}
+            disabled={currentPage === pages}
+            onClick={() => {
+              onPageChange(currentPage + 1);
+              window.location.href = `#${currentPage + 1}`;
+            }}
           >
             »
-          </a>
+          </button>
         </li>
       </ul>
       <ul>
