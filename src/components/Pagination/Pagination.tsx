@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-
-const { v4: uuidv4 } = require('uuid');
+import { v4 as uuidv4 } from 'uuid';
 
 type Props = {
   total: number,
