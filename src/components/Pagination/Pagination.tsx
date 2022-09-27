@@ -16,7 +16,7 @@ export const Pagination: React.FC<Props> = ({
   onPageChange,
 }) => {
   const totalPaginationPages = Math.ceil(total / perPage);
-  const totalPaginationArray = getNumbers(1, totalPaginationPages);
+  const totalPaginationList = getNumbers(1, totalPaginationPages);
 
   const handleClick = (item: number) => {
     if (item !== currentPage) {
@@ -44,7 +44,7 @@ export const Pagination: React.FC<Props> = ({
         </a>
       </li>
 
-      {totalPaginationArray.map(item => (
+      {totalPaginationList.map(item => (
         <li
           key={item}
           className={classNames('page-item',

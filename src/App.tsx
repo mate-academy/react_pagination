@@ -21,6 +21,8 @@ export const App: React.FC = () => {
     ? items.length
     : perPage * currentPage;
 
+  const resultItems = items.slice(leftItemsLimit, rightItemsLimit);
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
@@ -63,11 +65,11 @@ export const App: React.FC = () => {
         onPageChange={onPageChange}
       />
       <ul>
-        {items.map(item => (
+        {resultItems.map(item => (
           <li data-cy="item">
             {item}
           </li>
-        )).slice(leftItemsLimit, rightItemsLimit)}
+        ))}
       </ul>
     </div>
   );
