@@ -61,12 +61,15 @@ export const Pagination: React.FC<Props> = ({
           </a>
         </li>
       ))}
-      <li className="page-item">
+      <li className={classNames(
+        'page-item', { disabled: Math.ceil(total / perPage) },
+      )}
+      >
         <a
           data-cy="nextLink"
           className="page-link"
           href={`#${getItems[currentPage + 1]}`}
-          aria-disabled={currentPage < total}
+          aria-disabled={currentPage < Math.ceil(total / perPage)}
           onClick={itemLast}
 
         >
