@@ -14,7 +14,7 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
-  const items = Math.floor(total / perPage);
+  const items = Math.ceil(total / perPage);
   const getItems = getNumbers(1, items);
 
   const itemPrev = () => {
@@ -24,7 +24,7 @@ export const Pagination: React.FC<Props> = ({
   };
 
   const itemLast = () => {
-    if (currentPage < total) {
+    if (currentPage < Math.ceil(total / perPage)) {
       onPageChange(currentPage + 1);
     }
   };
