@@ -10,7 +10,9 @@ export const App: React.FC = () => {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(3);
   const startValue = page * perPage - perPage + 1;
-  const endValue = page * perPage;
+  const endValue = page * perPage > items.length
+    ? items.length
+    : page * perPage;
 
   return (
     <div className="container">
