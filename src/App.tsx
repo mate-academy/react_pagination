@@ -1,10 +1,8 @@
-/* eslint-disable no-console */
 import React, { useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
@@ -18,17 +16,18 @@ export const App: React.FC = () => {
   };
 
   const showItems = (values: string[] | number[]) => {
-    let v = values.slice(0, currentPage - 1);
+    let showValues = values.slice(0, currentPage - 1);
 
     if (currentPage < pages) {
-      v = values.slice((currentPage - 1) * perPage, perPage * currentPage);
+      showValues
+        = values.slice((currentPage - 1) * perPage, perPage * currentPage);
     }
 
     if (currentPage === pages) {
-      v = values.slice((currentPage - 1) * perPage, values.length);
+      showValues = values.slice((currentPage - 1) * perPage, values.length);
     }
 
-    return v;
+    return showValues;
   };
 
   const visibleItems = showItems(items);
@@ -69,9 +68,9 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={items.length} // total number of items to paginate
-        perPage={perPage} // number of items per page
-        currentPage={currentPage} /* optional with 1 by default */
+        total={items.length}
+        perPage={perPage}
+        currentPage={currentPage}
         onPageChange={onPageChange}
       />
       <ul>

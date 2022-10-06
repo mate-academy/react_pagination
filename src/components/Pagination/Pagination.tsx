@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { getNumbers } from '../../utils';
 
 type Props = {
@@ -37,6 +36,7 @@ export const Pagination: React.FC<Props> = ({
             «
           </a>
         </li>
+
         {numberPages.map(number => (
           <li
             className={`page-item ${currentPage === number && 'active'}`}
@@ -56,6 +56,7 @@ export const Pagination: React.FC<Props> = ({
             </a>
           </li>
         ))}
+
         <li
           className={`page-item ${currentPage === pages && 'disabled'}`}
         >
