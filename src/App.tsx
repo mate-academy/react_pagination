@@ -26,7 +26,9 @@ export const App: React.FC = () => {
 
       <p className="lead" data-cy="info">
         {`Page ${currentPage}`
-          + ` (items ${visibleItems[0]} - ${visibleItems[visibleItems.length - 1]} of ${quantityItems})`}
+          + ` (items ${items.indexOf(visibleItems[0]) + 1}`
+          + ` - ${items.indexOf(visibleItems[visibleItems.length - 1]) + 1}`
+          + ` of ${quantityItems})`}
       </p>
 
       <div className="form-group row">
@@ -48,7 +50,10 @@ export const App: React.FC = () => {
           </select>
         </div>
 
-        <label htmlFor="perPageSelector" className="col-form-label col">
+        <label
+          htmlFor="perPageSelector"
+          className="col-form-label col"
+        >
           items per page
         </label>
       </div>
