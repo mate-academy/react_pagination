@@ -41,6 +41,7 @@ export const App: React.FC = () => {
             onChange={event => {
               setCurrentPage(1);
               setPerPage(+event.target.value);
+              window.history.pushState('', '', '#1');
             }}
           >
             <option value="3">3</option>
