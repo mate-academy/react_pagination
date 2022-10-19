@@ -20,15 +20,17 @@ export const App: React.FC = () => {
     return false;
   });
 
+  const subTitle = `Page ${currentPage}`
+    + ` (items ${items.indexOf(visibleItems[0]) + 1}`
+    + ` - ${items.indexOf(visibleItems[visibleItems.length - 1]) + 1}`
+    + ` of ${quantityItems})`;
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage}`
-          + ` (items ${items.indexOf(visibleItems[0]) + 1}`
-          + ` - ${items.indexOf(visibleItems[visibleItems.length - 1]) + 1}`
-          + ` of ${quantityItems})`}
+        {subTitle}
       </p>
 
       <div className="form-group row">

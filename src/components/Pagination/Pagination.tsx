@@ -19,62 +19,57 @@ export const Pagination: React.FC<Props> = ({
   const pages = getNumbers(1, quantityPages);
 
   return (
-    <>
-      <ul className="pagination">
-        <li className={classNames('page-item', {
-          // eslint-disable-next-line
-          'disabled': currentPage === 1,
-        })}
+    <ul className="pagination">
+      <li className={classNames('page-item', {
+        disabled: currentPage === 1,
+      })}
+      >
+        <a
+          data-cy="prevLink"
+          className="page-link"
+          href="#prev"
+          aria-disabled={currentPage === 1}
+          onClick={() => {
+            onPageChange(currentPage - 1);
+          }}
+        >
+          «
+        </a>
+      </li>
+
+      {pages.map(page => (
+        <li
+          className={classNames('page-item', {
+            active: currentPage === page,
+          })}
         >
           <a
-            data-cy="prevLink"
+            data-cy="pageLink"
             className="page-link"
-            href="#prev"
-            aria-disabled={currentPage === 1}
-            onClick={() => {
-              onPageChange(currentPage - 1);
-            }}
+            href={`#${page}`}
+            onClick={() => onPageChange(page)}
           >
-            «
+            {page}
           </a>
         </li>
+      ))}
 
-        {pages.map(page => (
-          <li
-            className={classNames('page-item', {
-              // eslint-disable-next-line
-              'active': currentPage === page,
-            })}
-          >
-            <a
-              data-cy="pageLink"
-              className="page-link"
-              href={`#${page}`}
-              onClick={() => onPageChange(page)}
-            >
-              {page}
-            </a>
-          </li>
-        ))}
-
-        <li className={classNames('page-item', {
-          // eslint-disable-next-line
-          'disabled': currentPage === quantityPages,
-        })}
+      <li className={classNames('page-item', {
+        disabled: currentPage === quantityPages,
+      })}
+      >
+        <a
+          data-cy="nextLink"
+          className="page-link"
+          href="#next"
+          aria-disabled={currentPage === quantityPages}
+          onClick={() => {
+            onPageChange(currentPage + 1);
+          }}
         >
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled={currentPage === quantityPages}
-            onClick={() => {
-              onPageChange(currentPage + 1);
-            }}
-          >
-            »
-          </a>
-        </li>
-      </ul>
-    </>
+          »
+        </a>
+      </li>
+    </ul>
   );
 };
