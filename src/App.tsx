@@ -10,14 +10,22 @@ const items = getNumbers(start, end)
   .map(n => `${n}`);
 
 export const App: React.FC = () => {
-  const [perPage, setPerPage] = useState('5');
-  const [currentPage, setCurrentPage] = useState(1);
+  const defaultPerPage = '5';
+  const defaultPage = 1;
+
+  const [perPage, setPerPage] = useState(defaultPerPage);
+  const [currentPage, setCurrentPage] = useState(defaultPage);
 
   const startPage = (currentPage - 1) * Number(perPage);
   const stepPage = startPage + Number(perPage);
   const endPage = stepPage > end ? end : stepPage;
 
   const visibleItems = items.slice(startPage, endPage);
+
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setCurrentPage(1);
+    setPerPage(event.target.value);
+  };
 
   return (
     <div className="container">
@@ -34,10 +42,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={(event) => {
-              setCurrentPage(1);
-              setPerPage(event.target.value);
-            }}
+            onChange={(event) => handleChange(event)}
           >
             <option value="3">3</option>
             <option value="5">5</option>
