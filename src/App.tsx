@@ -9,7 +9,7 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [itemPerPage, setItemPerPage] = useState(3);
+  const [itemPerPage, setItemPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
   const currentItems = getCurrentItems(items, itemPerPage, currentPage);
@@ -18,8 +18,13 @@ export const App: React.FC = () => {
     setCurrentPage(page);
   };
 
-  const startIndex = itemPerPage * (currentPage - 1);
-  const endIndex = itemPerPage * currentPage;
+  const perPageHandler = (perPage: string) => {
+    setCurrentPage(1);
+    setItemPerPage(Number(perPage));
+  }
+
+  const startIndex = items.indexOf(currentItems[0]);
+  const endIndex = items.indexOf(currentItems[currentItems.length - 1]) + 1;
 
 
   return (
@@ -37,7 +42,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={itemPerPage}
-            onChange={event => setItemPerPage(Number(event.target.value))}
+            onChange={(event) => perPageHandler(event.target.value)}
           >
             <option value={3}>3</option>
             <option value={5}>5</option>
