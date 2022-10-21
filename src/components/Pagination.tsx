@@ -1,7 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import classNames from "classnames";
-import "./Pagination.css";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import classNames from 'classnames';
+import './Pagination.css';
 
 type Props = {
   total: number;
@@ -48,7 +48,17 @@ export const Pagination: React.FC<Props> = ({
         </select>
       </div>
       <div className="with-info text">
-        Items {itemsFrom} - {itemsTo > total ? total : itemsTo} of {total}
+        Items
+        {' '}
+        {itemsFrom}
+        {' '}
+        -
+        {' '}
+        {itemsTo > total ? total : itemsTo}
+        {' '}
+        of
+        {' '}
+        {total}
       </div>
 
       <ul className="pagination">
@@ -69,13 +79,13 @@ export const Pagination: React.FC<Props> = ({
           <li
             key={pageNumber}
             className={
-              pageNumber === page ||
-              pageNumber === 1 ||
-              pageNumber === page - 1 ||
-              pageNumber === page + 1 ||
-              pageNumber === pages.length
-                ? "pagination__item--active"
-                : "pagination__item"
+              pageNumber === page
+              || pageNumber === 1
+              || pageNumber === page - 1
+              || pageNumber === page + 1
+              || pageNumber === pages.length
+                ? 'pagination__item--active'
+                : 'pagination__item'
             }
           >
             {pageNumber === page - 1 && pageNumber !== 1 && perPage !== 20 && (
@@ -84,7 +94,7 @@ export const Pagination: React.FC<Props> = ({
             <Link to={`?page=${pageNumber}perPage=${perPage}`}>
               <button
                 type="button"
-                className={classNames("button", {
+                className={classNames('button', {
                   button__active: pageNumber === page,
                 })}
                 onClick={() => {

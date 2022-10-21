@@ -34,7 +34,7 @@
 }
 
 .button:hover {
-  background-color: #ffff88;
+  background-color: #ff8;
   color: #135aa5;
 }
 
@@ -42,10 +42,6 @@
   background-color: #135aa5;
   color: #fff;
 }
-
-/* .button__show {
-  display: block;
-} */
 
 .prev,
 .next {
