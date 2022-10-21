@@ -1,7 +1,5 @@
-/* eslint-disable */
-
-import classNames from "classnames";
-import { getPageNumbers } from "../../utils";
+import classNames from 'classnames';
+import { getPageNumbers } from '../../utils';
 
 type Props = {
   total: number
@@ -23,15 +21,15 @@ export const Pagination: React.FC<Props> = ({
 
   const prevPagehandler = () => {
     if (!isFirstPage) {
-      onPageChange(currentPage - 1)
+      onPageChange(currentPage - 1);
     }
-  }
+  };
 
   const lastPagehandler = () => {
     if (!isLastPage) {
-      onPageChange(currentPage + 1)
+      onPageChange(currentPage + 1);
     }
-  }
+  };
 
   return (
     <>
@@ -40,8 +38,8 @@ export const Pagination: React.FC<Props> = ({
           className={classNames(
             'page-item',
             {
-              'disabled': isFirstPage,
-            }
+              disabled: isFirstPage,
+            },
           )}
         >
           <a
@@ -62,7 +60,7 @@ export const Pagination: React.FC<Props> = ({
               'page-item',
               {
                 active: pageNumber === currentPage,
-              }
+              },
             )}
           >
             <a
@@ -80,8 +78,8 @@ export const Pagination: React.FC<Props> = ({
           className={classNames(
             'page-item',
             {
-              'disabled': isLastPage,
-            }
+              disabled: isLastPage,
+            },
           )}
         >
           <a

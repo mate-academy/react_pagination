@@ -3,8 +3,6 @@ import './App.css';
 import { Pagination } from './components/Pagination';
 import { getCurrentItems, getNumbers } from './utils';
 
-/* eslint-disable */
-
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
@@ -21,18 +19,29 @@ export const App: React.FC = () => {
   const perPageHandler = (perPage: string) => {
     setCurrentPage(1);
     setItemPerPage(Number(perPage));
-  }
+  };
 
   const startIndex = items.indexOf(currentItems[0]);
   const endIndex = items.indexOf(currentItems[currentItems.length - 1]) + 1;
-
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {currentPage} (items {startIndex + 1} - {endIndex} of 42)
+        Page
+        {' '}
+        {currentPage}
+        {' '}
+        (items
+        {' '}
+        {startIndex + 1}
+        {' '}
+        -
+        {' '}
+        {endIndex}
+        {' '}
+        of 42)
       </p>
 
       <div className="form-group row">
