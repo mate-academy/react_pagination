@@ -24,6 +24,18 @@ export const Pagination: React.FC<Props> = ({
     onPageChange(page);
   };
 
+  const handlePreviousPage = () => {
+    if (currentPage !== 1) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage !== (Math.ceil(total / itemsPerPage))) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
   return (
     <ul className="pagination">
       <li className={classNames(
@@ -36,9 +48,7 @@ export const Pagination: React.FC<Props> = ({
           href="#prev"
           aria-disabled={currentPage === 1}
           data-current-page={currentPage - 1}
-          onClick={() => (
-            currentPage !== 1 && onPageChange(currentPage - 1)
-          )}
+          onClick={handlePreviousPage}
         >
           «
         </a>
@@ -74,10 +84,7 @@ export const Pagination: React.FC<Props> = ({
           href="#next"
           data-current-page={currentPage + 1}
           aria-disabled={currentPage === totalPages}
-          onClick={() => (
-            currentPage !== (Math.ceil(total / itemsPerPage))
-              && onPageChange(currentPage + 1)
-          )}
+          onClick={handleNextPage}
         >
           »
         </a>
