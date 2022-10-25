@@ -8,7 +8,7 @@ const items: string[] = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [itemsPerPage, setItemsPerPage] = useState(3);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   const [page, setPage] = useState(1);
 
   const first = (page - 1) * itemsPerPage + 1;
@@ -32,6 +32,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
+            value={itemsPerPage}
             onChange={(event) => {
               setItemsPerPage(+event.target.value);
               setPage(1);
