@@ -32,6 +32,7 @@ export const Pagination: React.FC<Props> = ({
         >
           <a
             data-cy="prevLink"
+            id="prevLink"
             className="page-link"
             href="#prev"
             aria-disabled={selectedPage === 1}
@@ -41,25 +42,23 @@ export const Pagination: React.FC<Props> = ({
           </a>
         </li>
 
-        {paginationButtons.map(button => {
-          return (
-            <li
-              key={button}
-              className={classNames('page-item', {
-                active: button === selectedPage,
-              })}
+        {paginationButtons.map(button => (
+          <li
+            key={button}
+            className={classNames('page-item', {
+              active: button === selectedPage,
+            })}
+          >
+            <a
+              data-cy="pageLink"
+              className="page-link"
+              href={`#${button}`}
+              onClick={onPageChange}
             >
-              <a
-                data-cy="pageLink"
-                className="page-link"
-                href={`#${button}`}
-                onClick={onPageChange}
-              >
-                {button}
-              </a>
-            </li>
-          );
-        })}
+              {button}
+            </a>
+          </li>
+        ))}
 
         <li
           className={classNames('page-item', {
@@ -68,6 +67,7 @@ export const Pagination: React.FC<Props> = ({
         >
           <a
             data-cy="nextLink"
+            id="nextLink"
             className="page-link"
             href="#next"
             aria-disabled={selectedPage === paginationButtons.length}

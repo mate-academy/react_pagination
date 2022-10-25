@@ -12,7 +12,7 @@ const perPageOptions: number[] = [3, 5, 10, 20];
 export const App: React.FC = () => {
   const [itemsOnPage, setItemsOnPage] = useState(5);
   const [selectedPage, setSelectedPage] = useState(1);
-  const [paginationButtons, setPaginationButtons] = useState(
+  const [paginationButtons, setPaginationButtons] = useState<number[]>(
     getNumbers(1, Math.ceil(items.length / itemsOnPage)),
   );
 
@@ -22,11 +22,11 @@ export const App: React.FC = () => {
     : selectedPage * itemsOnPage;
 
   const onPageChange = (event: React.MouseEvent<HTMLElement>) => {
-    if (event.currentTarget.innerText === '«'
+    if (event.currentTarget.id === 'prevLink'
     && selectedPage !== 1
     ) {
       setSelectedPage(selectedPage - 1);
-    } else if (event.currentTarget.innerText === '»'
+    } else if (event.currentTarget.id === 'nextLink'
     && selectedPage !== paginationButtons.length
     ) {
       setSelectedPage(selectedPage + 1);
@@ -62,13 +62,11 @@ export const App: React.FC = () => {
               setSelectedPage(1);
             }}
           >
-            {perPageOptions.map(option => {
-              return (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              );
-            })}
+            {perPageOptions.map(option => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
           </select>
         </div>
 
