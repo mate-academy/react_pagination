@@ -4,7 +4,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
 
-const items = getNumbers(1, 42)
+const totalItems = 42;
+
+const items = getNumbers(1, totalItems)
   .map(n => ({
     name: `Item ${n}`,
     id: uuidv4(),
@@ -21,9 +23,9 @@ export const App: React.FC = () => {
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const fromItem = itemsPerPage * currentPage - (itemsPerPage - 1);
-  const toItem = (itemsPerPage * currentPage < 42)
+  const toItem = (itemsPerPage * currentPage < totalItems)
     ? (itemsPerPage * currentPage)
-    : 42;
+    : totalItems;
   const visibleItems = items.slice(fromItem - 1, toItem);
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -40,7 +42,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${fromItem} - ${toItem} of 42)`}
+        {`Page ${currentPage} (items ${fromItem} - ${toItem} of ${totalItems})`}
       </p>
 
       <div className="form-group row">
@@ -64,7 +66,7 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={42}
+        total={totalItems}
         perPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={handlePageGhange}
