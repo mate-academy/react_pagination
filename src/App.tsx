@@ -3,20 +3,21 @@ import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42)
+const minNumber = 1;
+const maxNumber = 42;
+const items = getNumbers(minNumber, maxNumber)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   const [itemsOnPage, setItemsOnPage] = useState(5);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(minNumber);
   const firstItem = (currentPage - 1) * itemsOnPage;
-  const lastItem = ((currentPage * itemsOnPage) < 42)
+  const lastItem = ((currentPage * itemsOnPage) < maxNumber)
     ? currentPage * itemsOnPage
-    : 42;
+    : maxNumber;
   const visibleItems = items.slice(firstItem, lastItem);
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setCurrentPage(1);
+    setCurrentPage(minNumber);
     setItemsOnPage(+event.target.value);
   };
 
@@ -25,7 +26,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${firstItem + 1} - ${lastItem} of 42)`}
+        {`Page ${currentPage} (items ${firstItem + 1} - ${lastItem} of ${maxNumber})`}
       </p>
 
       <div className="form-group row">
