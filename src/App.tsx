@@ -51,7 +51,7 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={42}
+        total={maxNumber}
         perPage={itemsOnPage}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
