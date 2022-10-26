@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import React from 'react';
-import { uuid } from 'uuidv4';
+import { v4 as uuidv4 } from 'uuid';
 
 type Props = {
   total: number;
@@ -18,7 +18,7 @@ export const Pagination: React.FC<Props> = ({
   const tabsCount = Math.ceil(total / perPage);
   const tabs = Array(tabsCount).fill(1).map((_, i) => ({
     number: i + 1,
-    id: uuid(),
+    id: uuidv4(),
   }));
 
   const getNextPage = () => {

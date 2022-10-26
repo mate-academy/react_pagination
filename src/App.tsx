@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import './App.css';
-import { uuid } from 'uuidv4';
+import { v4 as uuidv4 } from 'uuid';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
 
 const items = getNumbers(1, 42)
   .map(n => ({
     name: `Item ${n}`,
-    id: uuid(),
+    id: uuidv4(),
     number: n,
   }));
 
 const options = [3, 5, 10, 20];
 const optioinsWithId = options.map(option => ({
   name: option,
-  id: uuid(),
+  id: uuidv4(),
 }));
 
 export const App: React.FC = () => {
