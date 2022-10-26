@@ -2,6 +2,17 @@ import React from 'react';
 import classNames from 'classnames';
 import { getNumbers } from '../../utils';
 
+function isBringToEffect(
+  condition: boolean,
+  func: (event: React.MouseEvent<HTMLAnchorElement>) => void,
+) {
+  if (!condition) {
+    return func;
+  }
+
+  return undefined;
+}
+
 type Props = {
   items: string[],
   pageAmount: number,
@@ -31,14 +42,14 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#prev"
             aria-disabled={currentPage === 1}
-            onClick={(event) => onPageChange(event)}
+            onClick={onPageChange}
           >
             «
           </a>
         </li>
 
         {getNumbers(1, pageAmount).map(page => {
-          const isActive = page === currentPage;
+          const isActive = (page === currentPage);
 
           return (
             <li
@@ -54,11 +65,7 @@ export const Pagination: React.FC<Props> = ({
                 data-cy="pageLink"
                 className="page-link"
                 href={`#${page}`}
-                onClick={(event) => {
-                  if (!isActive) {
-                    onPageChange(event);
-                  }
-                }}
+                onClick={isBringToEffect(isActive, onPageChange)}
               >
                 { page }
               </a>
@@ -79,7 +86,7 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#next"
             aria-disabled={currentPage === pageAmount}
-            onClick={(event) => onPageChange(event)}
+            onClick={onPageChange}
           >
             »
           </a>

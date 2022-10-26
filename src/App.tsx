@@ -65,11 +65,7 @@ export class App extends Component {
 
   render() {
     const { currentPage, itemsPerPage } = this.state;
-
-    const pageAmount = Math.ceil(
-      items.length / itemsPerPage,
-    );
-
+    const pageAmount = Math.ceil(items.length / itemsPerPage);
     const showItems = ` ${currentPage * itemsPerPage - itemsPerPage + 1}`
       + ` - ${(currentPage * itemsPerPage > maxItems) ? (maxItems) : (currentPage * itemsPerPage)} `;
 
@@ -82,12 +78,7 @@ export class App extends Component {
         <h1>Items with Pagination</h1>
 
         <p className="lead" data-cy="info">
-          Page 1 (items
-          { showItems }
-          of
-          {' '}
-          {maxItems}
-          )
+          {`Page ${currentPage} (items ${showItems} of ${maxItems})`}
         </p>
 
         <div className="form-group row">
