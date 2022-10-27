@@ -4,34 +4,31 @@ import { getNumbers } from '../../utils';
 
 type Props = {
   items: string[]
-  itemsPerPage: number;
-  activePageLink: number;
-  setActivePageLink: (x: number) => void
-  startRender: number
-  endRender: number
+  perPage: number;
+  currentPage: number;
+  onPageChange: (x: number) => void
+  total: number
 };
 
 export const Pagination: React.FC<Props> = ({
   items,
-  itemsPerPage,
-  activePageLink,
-  setActivePageLink,
-  startRender,
-  endRender,
+  perPage,
+  currentPage,
+  onPageChange,
+  total,
 }) => {
-  const itemsRender = items.map(item => (
-    <li data-cy="item">{item}</li>
-  ));
-
-  const pageItems = Math.ceil(itemsRender.length / itemsPerPage);
+  const pageItems = Math.ceil(total / perPage);
   const pageItemsRender = getNumbers(1, pageItems);
+
+  const startRender = (currentPage - 1) * perPage;
+  const endRender = currentPage * perPage;
 
   return (
     <>
       <ul className="pagination">
         <li className={className(
           'page-item',
-          { disabled: activePageLink === 1 },
+          { disabled: currentPage === 1 },
         )}
         >
           <a
@@ -40,7 +37,7 @@ export const Pagination: React.FC<Props> = ({
             href="#prev"
             aria-disabled="true"
             onClick={() => {
-              setActivePageLink(activePageLink - 1);
+              onPageChange(currentPage - 1);
             }}
           >
             «
@@ -50,7 +47,7 @@ export const Pagination: React.FC<Props> = ({
           return (
             <li className={className(
               'page-item',
-              { active: activePageLink === number },
+              { active: currentPage === number },
             )}
             >
               <a
@@ -58,7 +55,7 @@ export const Pagination: React.FC<Props> = ({
                 className="page-link"
                 href={`#${number}`}
                 onClick={() => {
-                  setActivePageLink(number);
+                  onPageChange(number);
                 }}
               >
                 {number}
@@ -68,7 +65,7 @@ export const Pagination: React.FC<Props> = ({
         })}
         <li className={className(
           'page-item',
-          { disabled: activePageLink === pageItems },
+          { disabled: currentPage === pageItems },
         )}
         >
           <a
@@ -77,7 +74,7 @@ export const Pagination: React.FC<Props> = ({
             href="#next"
             aria-disabled="false"
             onClick={() => {
-              setActivePageLink(activePageLink + 1);
+              onPageChange(currentPage + 1);
             }}
           >
             »
@@ -85,7 +82,9 @@ export const Pagination: React.FC<Props> = ({
         </li>
       </ul>
       <ul>
-        {itemsRender.slice(startRender, endRender)}
+        {items.map(item => (
+          <li data-cy="item">{item}</li>
+        )).slice(startRender, endRender)}
       </ul>
     </>
   );

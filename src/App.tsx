@@ -47,11 +47,10 @@ export const App: React.FC = () => {
 
       <Pagination
         items={items}
-        itemsPerPage={itemsPerPage}
-        activePageLink={activePageLink}
-        setActivePageLink={setActivePageLink}
-        startRender={startRender}
-        endRender={endRender}
+        total={items.length} // total number of items to paginate
+        perPage={itemsPerPage} // number of items per page
+        currentPage={activePageLink} /* optional with 1 by default */
+        onPageChange={setActivePageLink}
       />
     </div>
   );
