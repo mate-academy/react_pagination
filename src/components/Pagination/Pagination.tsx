@@ -20,6 +20,18 @@ export const Pagination: FC<Props> = ({
   const isCurrentFirst = currentPage === 1;
   const isCurrentLast = currentPage === lastPage;
 
+  const handlePrev = () => {
+    if (!isCurrentFirst) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (!isCurrentLast) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
   return (
     <ul className="pagination">
       <li className={classNames(
@@ -32,11 +44,7 @@ export const Pagination: FC<Props> = ({
           className="page-link"
           href={`#${pages[currentPage - 1]}`}
           aria-disabled={isCurrentFirst}
-          onClick={() => {
-            if (!isCurrentFirst) {
-              onPageChange(currentPage - 1);
-            }
-          }}
+          onClick={() => handlePrev()}
         >
           «
         </a>
@@ -71,11 +79,7 @@ export const Pagination: FC<Props> = ({
           className="page-link"
           href={`#${pages[currentPage + 1]}`}
           aria-disabled={isCurrentLast}
-          onClick={() => {
-            if (!isCurrentLast) {
-              onPageChange(currentPage + 1);
-            }
-          }}
+          onClick={() => handleNext()}
         >
           »
         </a>
