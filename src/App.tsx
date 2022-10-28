@@ -10,33 +10,13 @@ const items = getNumbers(1, 42)
 export const App: React.FC = () => {
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
-  const [elements] = useState(items);
-
-  const changeCountOfPages = (countOfItems: number) => {
-    const pages = [];
-    const countOfPages = Math.ceil(42 / countOfItems);
-
-    for (let i = 0; i < countOfPages; i += 1) {
-      pages.push(i + 1);
-    }
-
-    return pages;
-  };
-
-  const goNext = () => {
-    setPage(currentPage => currentPage + 1);
-  };
-
-  const goPrev = () => {
-    setPage(currentPage => currentPage - 1);
-  };
 
   const onSetPage = (currentPage: number) => {
     setPage(currentPage);
   };
 
   const startItemPerPage = (page - 1) * itemsPerPage;
-  const visibleItems = [...elements].splice(startItemPerPage, itemsPerPage);
+  const visibleItems = [...items].splice(startItemPerPage, itemsPerPage);
   const from = startItemPerPage + 1;
   const to = startItemPerPage + itemsPerPage;
 
@@ -76,10 +56,7 @@ export const App: React.FC = () => {
 
       <Pagination
         currentPage={page}
-        changeCountOfPages={changeCountOfPages}
         itemsPerPage={itemsPerPage}
-        goNext={goNext}
-        goPrev={goPrev}
         onSetPage={onSetPage}
       />
 

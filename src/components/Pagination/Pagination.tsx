@@ -3,38 +3,45 @@ import cn from 'classnames';
 type Props = {
   currentPage: number;
   itemsPerPage: number;
-  changeCountOfPages: (itemsPerPage: number) => number[];
-  goNext: () => void;
-  goPrev: () => void;
   onSetPage: (currentPage: number) => void;
 };
 
 export const Pagination: React.FC<Props> = ({
   currentPage,
   itemsPerPage,
-  changeCountOfPages,
-  goNext,
-  goPrev,
   onSetPage,
 }) => {
+  const changeCountOfPages = (countOfItems: number) => {
+    const pages = [];
+    const countOfPages = Math.ceil(42 / countOfItems);
+
+    for (let i = 0; i < countOfPages; i += 1) {
+      pages.push(i + 1);
+    }
+
+    return pages;
+  };
+
+  const lastPage = changeCountOfPages(itemsPerPage).length;
+
+  const checkPage = (page: number) => {
+    return currentPage === page;
+  };
+
   return (
     <ul className="pagination">
       <li className={cn('page-item', {
-        disabled: currentPage === 1,
+        disabled: checkPage(1),
       })}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === 1
-            ? 'true'
-            : 'false'}
-          onClick={() => {
-            if (currentPage !== 1) {
-              goPrev();
-            }
-          }}
+          aria-disabled={checkPage(1)}
+          onClick={() => (
+            !checkPage(1) && onSetPage(currentPage - 1)
+          )}
         >
           «
         </a>
@@ -44,7 +51,7 @@ export const Pagination: React.FC<Props> = ({
         changeCountOfPages(itemsPerPage).map(page => (
           <li
             className={cn('page-item', {
-              active: page === currentPage,
+              active: checkPage(page),
             })}
             key={page}
           >
@@ -60,21 +67,17 @@ export const Pagination: React.FC<Props> = ({
         ))
       }
       <li className={cn('page-item', {
-        disabled: currentPage === changeCountOfPages(itemsPerPage).length,
+        disabled: checkPage(lastPage),
       })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === changeCountOfPages(itemsPerPage).length
-            ? 'true'
-            : 'false'}
-          onClick={() => {
-            if (currentPage !== changeCountOfPages(itemsPerPage).length) {
-              goNext();
-            }
-          }}
+          aria-disabled={checkPage(lastPage)}
+          onClick={() => (
+            !checkPage(lastPage) && onSetPage(currentPage + 1)
+          )}
         >
           »
         </a>
