@@ -12,15 +12,15 @@ export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const lastIndex = perPage * currentPage;
   const firstIndex = lastIndex - perPage;
-  const currentList = [...items].slice(firstIndex, lastIndex);
+  const currentList = items.slice(firstIndex, lastIndex);
   const lastOnPage = (lastIndex > items.length) ? items.length : lastIndex;
 
   const onPageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  const setNumberOfPages = (pages: number) => {
-    setPerPage(pages);
+  const setItemsPerPage = (page: number) => {
+    setPerPage(page);
     setCurrentPage(1);
   };
 
@@ -38,7 +38,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            onChange={(event) => setNumberOfPages(+event.target.value)}
+            onChange={(event) => setItemsPerPage(+event.target.value)}
           >
             <option value="3">3</option>
             <option value="5" selected>5</option>
@@ -59,7 +59,6 @@ export const App: React.FC = () => {
         onPageChange={onPageChange}
       />
       <Items currentList={currentList} />
-
     </div>
   );
 };
