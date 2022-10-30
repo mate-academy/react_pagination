@@ -1,0 +1,18 @@
+import { FC } from 'react';
+import { Item } from '../../react-app-env';
+
+interface Props {
+  items: Item[];
+}
+
+export const ItemsList: FC<Props> = ({ items }) => {
+  return (
+    <ul>
+      {items.map(({ title, id }) => (
+        <li data-cy="item" key={id}>
+          {title}
+        </li>
+      ))}
+    </ul>
+  );
+};
