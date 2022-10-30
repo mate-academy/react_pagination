@@ -29,5 +29,3 @@ export const PerPageSelect: FC<Props> = ({ perPage, handlePerPageSelect }) => {
     </div>
   );
 };
-
-export default PerPageSelect;

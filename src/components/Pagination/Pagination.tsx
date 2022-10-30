@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import cn from 'classnames';
 import { v4 as uuidv4 } from 'uuid';
+import { getNumbers } from '../../utils';
 
 interface Props {
   total: number;
@@ -16,18 +17,18 @@ export const Pagination: FC<Props> = ({
   currentPage = 1,
 }) => {
   const paginationLength = Math.ceil(total / perPage);
-  const paginationItems = Array(paginationLength).fill(0).map((_, i) => i + 1);
-  const prevIsDisabled = currentPage === 1;
-  const nextIsDisabled = currentPage === paginationLength;
+  const paginationItems = getNumbers(1, paginationLength);
+  const isPrevDisabled = currentPage === 1;
+  const isNextDisabled = currentPage === paginationLength;
 
   const changePageToPrev = () => {
-    if (!prevIsDisabled) {
+    if (!isPrevDisabled) {
       onPageChange(currentPage - 1);
     }
   };
 
   const changePageToNext = () => {
-    if (!nextIsDisabled) {
+    if (!isNextDisabled) {
       onPageChange(currentPage + 1);
     }
   };
@@ -36,14 +37,14 @@ export const Pagination: FC<Props> = ({
     <ul className="pagination">
       <li
         className={cn('page-item', {
-          disabled: prevIsDisabled,
+          disabled: isPrevDisabled,
         })}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={prevIsDisabled}
+          aria-disabled={isPrevDisabled}
           onClick={changePageToPrev}
         >
           «
@@ -70,14 +71,14 @@ export const Pagination: FC<Props> = ({
 
       <li
         className={cn('page-item', {
-          disabled: nextIsDisabled,
+          disabled: isNextDisabled,
         })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={nextIsDisabled}
+          aria-disabled={isNextDisabled}
           onClick={changePageToNext}
         >
           »
