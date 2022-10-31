@@ -6,7 +6,9 @@ import { Pagination } from './components/Pagination';
 import { PerPageSelect } from './components/PerPageSelect';
 import { getNumbers } from './utils';
 
-const items: Item[] = getNumbers(1, 42)
+const amountOfItemsToGenerate = 42;
+
+const items: Item[] = getNumbers(1, amountOfItemsToGenerate)
   .map(n => ({ title: `Item ${n}`, id: uuidv4() }));
 
 export const App: React.FC = () => {

@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import cn from 'classnames';
-import { v4 as uuidv4 } from 'uuid';
 import { getNumbers } from '../../utils';
 
 interface Props {
@@ -56,7 +55,7 @@ export const Pagination: FC<Props> = ({
           className={cn('page-item', {
             active: item === currentPage,
           })}
-          key={uuidv4()}
+          key={item}
         >
           <a
             data-cy="pageLink"
