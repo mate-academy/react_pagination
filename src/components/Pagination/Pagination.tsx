@@ -26,55 +26,52 @@ export const Pagination: React.FC<Props> = (
   return (
     <>
       <ul className="pagination">
-        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
         <li
           className={classNames(
             'page-item',
             { disabled: currentPage === firstPage },
           )}
-          onClick={() => onChangePage(currentPage - 1, lastPage)}
         >
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
             aria-disabled="true"
+            onClick={() => onChangePage(currentPage - 1, lastPage)}
           >
             «
           </a>
         </li>
         {pageItemsList.map(pageNumber => (
-          // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
           <li
             className={classNames(
               'page-item',
               { active: currentPage === pageNumber },
             )}
-            onClick={() => onChangePage(pageNumber)}
             key={pageNumber}
           >
             <a
               data-cy="pageLink"
               className="page-link"
               href={`#${pageNumber}`}
+              onClick={() => onChangePage(pageNumber)}
             >
               {pageNumber}
             </a>
           </li>
         ))}
-        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
         <li
           className={classNames(
             'page-item',
             { disabled: currentPage === lastPage },
           )}
-          onClick={() => onChangePage(currentPage + 1, lastPage)}
         >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
             aria-disabled="false"
+            onClick={() => onChangePage(currentPage + 1, lastPage)}
           >
             »
           </a>

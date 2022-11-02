@@ -57,8 +57,6 @@ export const App: React.FC = () => {
           items per page
         </label>
       </div>
-
-      {/* Move this markup to Pagination */}
       <Pagination
         total={totalItems}
         perPage={itemsPerPage}
