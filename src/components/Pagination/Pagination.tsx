@@ -1,17 +1,30 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import cn from 'classnames';
 
 import { getNumbers } from '../../utils';
 
 type Props = {
-  totalPages: number;
+  total: number;
+  perPage: number;
   currentPage: number;
   onPageChange: (page: number) => void;
 };
 
 export const Pagination: React.FC<Props> = ({
-  totalPages, currentPage, onPageChange,
+  total, perPage, currentPage, onPageChange,
 }) => {
+  const totalPages = Math.ceil(total / perPage);
+
+  const handlePrev = useCallback(() => {
+    return currentPage !== 1
+      && onPageChange((currentPage - 1));
+  }, [currentPage]);
+
+  const handleNext = useCallback(() => {
+    return currentPage !== totalPages
+      && onPageChange((currentPage + 1));
+  }, [currentPage]);
+
   return (
     <ul className="pagination">
       <li className={cn('page-item', { disabled: currentPage === 1 })}>
@@ -20,7 +33,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={currentPage === 1}
-          onClick={() => currentPage !== 1 && onPageChange((currentPage - 1))}
+          onClick={handlePrev}
         >
           «
         </a>
@@ -50,8 +63,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={currentPage === totalPages}
-          onClick={() => currentPage !== totalPages
-            && onPageChange((currentPage + 1))}
+          onClick={handleNext}
         >
           »
         </a>

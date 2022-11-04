@@ -3,14 +3,12 @@ import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42).map(n => `Item ${n}`);
+const numberOfItems = 42;
+const items = getNumbers(1, numberOfItems).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
-
-  const totalPages = Math.ceil(42 / itemsPerPage);
 
   const handleItemsPerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(+event.target.value);
@@ -22,9 +20,9 @@ export const App: React.FC = () => {
   };
 
   const startItemIndex = currentPage * itemsPerPage - itemsPerPage;
-  const endItemIndex = currentPage * itemsPerPage <= 42
+  const endItemIndex = currentPage * itemsPerPage <= items.length
     ? currentPage * itemsPerPage
-    : 42;
+    : items.length;
 
   const visibleItems = items.slice(startItemIndex, endItemIndex);
 
@@ -58,7 +56,8 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        totalPages={totalPages}
+        total={items.length}
+        perPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={onPageChange}
       />
