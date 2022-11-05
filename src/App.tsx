@@ -21,6 +21,7 @@ export const App: React.FC = () => {
   const setItemsPerPage = (page: number) => {
     setPerPage(page);
     setCurrentPage(1);
+    window.history.replaceState(null, '', '#1');
   };
 
   return (
