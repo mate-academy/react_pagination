@@ -16,57 +16,69 @@ export const Pagination: React.FC<Props> = ({
   onPageChange,
 }) => {
   const pages = getNumbers(1, Math.ceil(total / perPage));
+  const handlePageChange = (buttonType: string, condition: boolean) => {
+    const action = buttonType === 'prev'
+      ? currentPage - 1
+      : currentPage + 1;
+
+    if (!condition) {
+      onPageChange(action);
+    }
+  };
+
+  const isFirst = currentPage === 1;
+  const isLast = currentPage === pages.length;
 
   return (
     <ul className="pagination">
       <li className={classNames(
         'page-item',
-        { disabled: currentPage === 1 },
+        { disabled: isFirst },
       )}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === 1}
-          onClick={() => (currentPage !== 1
-            ? onPageChange(currentPage - 1)
-            : null)}
+          aria-disabled={isFirst}
+          onClick={() => handlePageChange('prev', isFirst)}
         >
           «
         </a>
       </li>
-      {pages.map(page => (
-        <li
-          key={page}
-          className={classNames(
-            'page-item',
-            { active: page === currentPage },
-          )}
-        >
-          <a
-            data-cy="pageLink"
-            className="page-link"
-            href={`#${page}`}
-            onClick={() => onPageChange(page)}
+      {pages.map(page => {
+        const isCurrent = page === currentPage;
+
+        return (
+          <li
+            key={page}
+            className={classNames(
+              'page-item',
+              { active: isCurrent },
+            )}
           >
-            {page}
-          </a>
-        </li>
-      ))}
+            <a
+              data-cy="pageLink"
+              className="page-link"
+              href={`#${page}`}
+              onClick={() => onPageChange(page)}
+            >
+              {page}
+            </a>
+          </li>
+        );
+      })}
       <li className={classNames(
         'page-item',
-        { disabled: currentPage === pages.length },
+        { disabled: isLast },
       )}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === pages.length}
-          onClick={() => (currentPage !== pages.length
-            ? onPageChange(currentPage + 1)
-            : null)}
+          aria-disabled={isLast}
+          onClick={() => handlePageChange('next', isLast)}
         >
           »
         </a>

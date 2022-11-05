@@ -58,8 +58,10 @@ export const App: React.FC = () => {
       />
       <ul>
         {items.map((item, index) => {
-          if (index >= (currentPage - 1) * perPage
-            && index < currentPage * perPage) {
+          const bottomCheck = index >= (currentPage - 1) * perPage;
+          const topCheck = index < currentPage * perPage;
+
+          if (bottomCheck && topCheck) {
             return (
               <li key={item} data-cy="item">{item}</li>
             );
