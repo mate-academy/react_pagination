@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import classNames from 'classnames';
 
 type Props = {
@@ -47,7 +46,7 @@ export const Pagination: FunctionComponent<Props> = ({
               'page-item',
               { active: pageNum === currentPage },
             )}
-            key={uuidv4()}
+            key={pageNum}
           >
             <a
               data-cy="pageLink"
@@ -86,7 +85,7 @@ export const Pagination: FunctionComponent<Props> = ({
         {itemsOnPage.map(item => (
           <li
             data-cy="item"
-            key={uuidv4()}
+            key={item}
           >
             {`Item ${item}`}
           </li>

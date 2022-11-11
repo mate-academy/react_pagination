@@ -4,11 +4,13 @@ import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
 
 const items: number[] = getNumbers(1, 42);
+const total = 42;
+const initialItemsPerPage = 5;
+const initialPage = 1;
 
 export const App: React.FC = () => {
-  const total = 42;
-  const [perPage, setPerPage] = useState(3);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(initialItemsPerPage);
+  const [currentPage, setCurrentPage] = useState(initialPage);
   const totalPages = getNumbers(1, Math.ceil(total / perPage));
   const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault();
