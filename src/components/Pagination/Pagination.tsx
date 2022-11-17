@@ -1,24 +1,21 @@
 import classNames from 'classnames';
 import React from 'react';
-import { getNumbers } from '../../utils';
+import { Link, useSearchParams } from 'react-router-dom';
+import { getNumbers } from '../../utils/utils';
+import { getSearchWith } from '../../utils/getSearchWith';
 
 type Props = {
-  activePage: number,
   pagesQuantity: number,
   itemsOnCurrentPage: number[],
-  onPageChange: (page: number) => void,
-  onPrevPage: (page: number) => void,
-  onNextPage: (page: number) => void,
 };
 
 export const Pagination: React.FC<Props> = ({
-  activePage,
   pagesQuantity,
   itemsOnCurrentPage,
-  onPageChange,
-  onPrevPage,
-  onNextPage,
 }) => {
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get('page') || '1';
+
   const arrayOfPages = getNumbers(1, pagesQuantity);
 
   return (
@@ -28,55 +25,58 @@ export const Pagination: React.FC<Props> = ({
           className={classNames(
             'page-item',
             {
-              disabled: activePage === 1,
+              disabled: +page === 1,
             },
           )}
         >
-          <a
+          <Link
             data-cy="prevLink"
             className="page-link"
-            href={`#${activePage}`}
-            aria-disabled="true"
-            onClick={() => onPrevPage(activePage)}
+            to={{
+              search: getSearchWith(searchParams, { page: `${+page - 1}` }),
+            }}
+            aria-disabled={+page === 1 ? 'true' : 'false'}
           >
             «
-          </a>
+          </Link>
         </li>
 
         {arrayOfPages.map(pageNumber => (
           <li
             className={classNames(
               'page-item',
-              { active: activePage === pageNumber },
+              { active: +page === pageNumber },
             )}
             key={pageNumber}
           >
-            <a
+            <Link
               data-cy="pageLink"
               className="page-link"
-              href={`#${activePage}`}
-              onClick={() => onPageChange(pageNumber)}
+              to={{
+                search: getSearchWith(searchParams, { page: `${pageNumber}` }),
+              }}
             >
               {pageNumber}
-            </a>
+            </Link>
           </li>
         ))}
 
         <li
           className={classNames(
             'page-item',
-            { disabled: pagesQuantity === activePage },
+            { disabled: pagesQuantity === +page },
           )}
         >
-          <a
+          <Link
             data-cy="nextLink"
             className="page-link"
-            href={`#${activePage}`}
-            aria-disabled="false"
-            onClick={() => onNextPage(activePage)}
+            to={{
+              search: getSearchWith(searchParams, { page: `${+page + 1}` }),
+            }}
+            aria-disabled={pagesQuantity === +page ? 'true' : 'false'}
           >
             »
-          </a>
+          </Link>
         </li>
       </ul>
       <ul>

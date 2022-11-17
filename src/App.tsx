@@ -1,62 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import './App.css';
-import { getNumbers } from './utils';
+import { getNumbers } from './utils/utils';
 import { Pagination } from './components/Pagination';
 
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = searchParams.get('page') || '1';
+  const perPage = Number(searchParams.get('perPage') || '5');
+
   const [allItems] = useState(items);
-  const [itemsPerPage, setItemsPerPage] = useState(5);
-  const [activePage, setActivePage] = useState(1);
+  const pagesQuantity = Math.ceil(allItems.length / perPage);
 
-  const pagesQuantity = Math.ceil(allItems.length / itemsPerPage);
-
-  const fistItemInPage = activePage * itemsPerPage - itemsPerPage + 1;
-  const lastItemInPage = activePage * itemsPerPage > allItems.length
+  const fistItemInPage = +page * perPage - perPage + 1;
+  const lastItemInPage = +page * perPage > allItems.length
     ? allItems.length
-    : activePage * itemsPerPage;
+    : +page * perPage;
 
   const itemsOnCurrentPage = getNumbers(fistItemInPage, lastItemInPage);
-
-  const handleChangePage = (page: number) => {
-    const isActive = page === activePage;
-
-    if (!isActive) {
-      setActivePage(page);
-    }
-  };
-
-  const handleNextPage = (page: number) => {
-    const isLastPage = page === pagesQuantity;
-
-    if (!isLastPage) {
-      setActivePage(page + 1);
-    }
-  };
-
-  const handlePrevPage = (page: number) => {
-    const isFirstPage = page === 1;
-
-    if (!isFirstPage) {
-      setActivePage(page - 1);
-    }
-  };
 
   const handleChangeItemsPerPage = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
-    setItemsPerPage(Number(event.target.value));
-    setActivePage(1);
+    setSearchParams({ perPage: event.target.value, page: '1' });
   };
+
+  useEffect(() => {
+    setSearchParams({ perPage: '5', page });
+  }, []);
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${activePage} (items ${fistItemInPage} - ${lastItemInPage} of ${allItems.length})`}
+        {`Page ${page} (items ${fistItemInPage} - ${lastItemInPage} of ${allItems.length})`}
       </p>
 
       <div className="form-group row">
@@ -65,7 +46,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            value={itemsPerPage}
+            value={perPage}
             onChange={handleChangeItemsPerPage}
           >
             <option value="3">3</option>
@@ -82,13 +63,8 @@ export const App: React.FC = () => {
 
       <Pagination
         pagesQuantity={pagesQuantity}
-        activePage={activePage}
         itemsOnCurrentPage={itemsOnCurrentPage}
-        onPageChange={handleChangePage}
-        onPrevPage={handlePrevPage}
-        onNextPage={handleNextPage}
       />
-
     </div>
   );
 };
