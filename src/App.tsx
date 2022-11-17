@@ -13,12 +13,16 @@ export const App: React.FC = () => {
 
   const total = getNumbers(1, Math.ceil(items.length / perPage));
 
+  // eslint-disable-next-line
+  console.log(total);
+
   const firstElement = (currentPage - 1) * perPage + 1;
   const lastElement = Math.min(currentPage * perPage, items.length);
   const visibleElements = items.slice(firstElement - 1, lastElement);
 
-  // eslint-disable-next-line max-len
-  const handleSelectItemsPerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSelectItemsPerPage = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
     setCurrentPage(1);
     setPerPage(Number(event.target.value));
   };
