@@ -6,6 +6,8 @@ import { Pagination } from './components/Pagination';
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
+const setLinkOnChange = () => window.history.replaceState(null, '', '#1');
+
 export const App: React.FC = () => {
   const defaultItemPerPage = 5;
   const defaultCurrentPage = 1;
@@ -38,6 +40,7 @@ export const App: React.FC = () => {
             onChange={(event) => {
               setItemPerPage(Number(event.target.value));
               setCurrentPage(defaultCurrentPage);
+              setLinkOnChange();
             }}
           >
             <option value="3">3</option>
