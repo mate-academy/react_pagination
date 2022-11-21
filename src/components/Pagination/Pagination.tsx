@@ -32,9 +32,7 @@ export const Pagination: React.FC<Props> = ({
           <Link
             data-cy="prevLink"
             className="page-link"
-            to={{
-              search: getSearchWith(searchParams, { page: `${+page - 1}` }),
-            }}
+            to={+page === 1 ? `../?${getSearchWith(searchParams, { page: '1' })}` : `../?${getSearchWith(searchParams, { page: `${+page - 1}` })}`}
             aria-disabled={+page === 1 ? 'true' : 'false'}
           >
             «
@@ -70,9 +68,7 @@ export const Pagination: React.FC<Props> = ({
           <Link
             data-cy="nextLink"
             className="page-link"
-            to={{
-              search: getSearchWith(searchParams, { page: `${+page + 1}` }),
-            }}
+            to={+page === pagesQuantity ? `../?${getSearchWith(searchParams, { page: `${pagesQuantity}` })}` : `../?${getSearchWith(searchParams, { page: `${+page + 1}` })}`}
             aria-disabled={pagesQuantity === +page ? 'true' : 'false'}
           >
             »
