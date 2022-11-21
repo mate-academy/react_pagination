@@ -18,6 +18,22 @@ export const Pagination: React.FC<Props> = ({
 
   const arrayOfPages = getNumbers(1, pagesQuantity);
 
+  const linkToPrevPage = () => {
+    const search = +page === 1
+      ? `../?${getSearchWith(searchParams, { page: '1' })}`
+      : `../?${getSearchWith(searchParams, { page: `${+page - 1}` })}`;
+
+    return search;
+  };
+
+  const linkToNextPage = () => {
+    const search = +page === pagesQuantity
+      ? `../?${getSearchWith(searchParams, { page: `${pagesQuantity}` })}`
+      : `../?${getSearchWith(searchParams, { page: `${+page + 1}` })}`;
+
+    return search;
+  };
+
   return (
     <>
       <ul className="pagination">
@@ -32,7 +48,7 @@ export const Pagination: React.FC<Props> = ({
           <Link
             data-cy="prevLink"
             className="page-link"
-            to={+page === 1 ? `../?${getSearchWith(searchParams, { page: '1' })}` : `../?${getSearchWith(searchParams, { page: `${+page - 1}` })}`}
+            to={linkToPrevPage()}
             aria-disabled={+page === 1 ? 'true' : 'false'}
           >
             «
@@ -68,7 +84,7 @@ export const Pagination: React.FC<Props> = ({
           <Link
             data-cy="nextLink"
             className="page-link"
-            to={+page === pagesQuantity ? `../?${getSearchWith(searchParams, { page: `${pagesQuantity}` })}` : `../?${getSearchWith(searchParams, { page: `${+page + 1}` })}`}
+            to={linkToNextPage()}
             aria-disabled={pagesQuantity === +page ? 'true' : 'false'}
           >
             »
