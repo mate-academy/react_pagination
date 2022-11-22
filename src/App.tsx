@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -8,14 +8,16 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [page, setPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [postPerPage, setPostPerPage] = useState(5)
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {page}
+        Page
+        {currentPage}
         (items 1 - 5 of 42)
       </p>
 
@@ -38,7 +40,13 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      <Pagination page={page} />
+      <Pagination
+        currentPage={currentPage}
+        total={42} // total number of items to paginate
+        postPerPage={postPerPage} // number of items per page
+        // currentPage={1} /* optional with 1 by default */
+        onPageChange={(page) => { ... }}
+      />
 
       <ul>
         <li data-cy="item">Item 1</li>
