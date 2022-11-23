@@ -9,23 +9,25 @@ const items = getNumbers(1, 42)
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [postPerPage] = useState(5);
-  // const [classActive, setClassActive] = useState(false);
-  // const [list, setList] = useStaste(items);
+  const [postPerPage, setPostPerPage] = useState(5);
+  const totalPages = 42;
 
-  const indexOfLastPost = currentPage * postPerPage; // 1*5= 5/ 2*5 = 10/ 3*5 = 15
-  const indexOfFirstPost = indexOfLastPost - postPerPage; // 15 - 5 = 10/ 10 - 5 = 5
+  let indexOfLastPost = currentPage * postPerPage;
+
+  if (indexOfLastPost >= totalPages) {
+    indexOfLastPost = totalPages;
+  }
+
+  const indexOfFirstPost = indexOfLastPost - postPerPage;
   const currentPosts = items.slice(indexOfFirstPost, indexOfLastPost);
 
-  //   if(indexOfLastPost => 9) {
-  //     indexOfLastPost - 3
-  //  }
-  //  indexOfLastPost
-
-  // change page
   const onPageChange = (pageNumber:number) => {
     setCurrentPage(pageNumber);
-    // setClassActive(true);
+  };
+
+  const changeItemsPerPage = (event:any) => {
+    setPostPerPage(event.target.value);
+    setCurrentPage(1);
   };
 
   return (
@@ -34,7 +36,7 @@ export const App: React.FC = () => {
 
       <p className="lead" data-cy="info">
         {`Page ${currentPage} `}
-        {`(items ${indexOfFirstPost + 1} - ${indexOfLastPost} of 42)`}
+        {`(items ${indexOfFirstPost + 1} - ${indexOfLastPost} of ${totalPages})`}
       </p>
 
       <div className="form-group row">
@@ -43,6 +45,8 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
+            value={postPerPage}
+            onChange={changeItemsPerPage}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -58,13 +62,10 @@ export const App: React.FC = () => {
 
       <Pagination
         currentPage={currentPage}
-        total={42} // total number of items to onPageChange
-        postPerPage={5} // number of items per page
-        // currentPage={1} /* optional with 1 by default */
-        // onPageChange={(page) => { ... }}
+        total={totalPages}
+        postPerPage={postPerPage}
         onPageChange={onPageChange}
         setCurrentPage={setCurrentPage}
-        // classActive={classActive}
       />
 
       <ul>
