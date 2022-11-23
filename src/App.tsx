@@ -8,17 +8,33 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(0);
-  const [postPerPage, setPostPerPage] = useState(5)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postPerPage] = useState(5);
+  // const [classActive, setClassActive] = useState(false);
+  // const [list, setList] = useStaste(items);
+
+  const indexOfLastPost = currentPage * postPerPage; // 1*5= 5/ 2*5 = 10/ 3*5 = 15
+  const indexOfFirstPost = indexOfLastPost - postPerPage; // 15 - 5 = 10/ 10 - 5 = 5
+  const currentPosts = items.slice(indexOfFirstPost, indexOfLastPost);
+
+  //   if(indexOfLastPost => 9) {
+  //     indexOfLastPost - 3
+  //  }
+  //  indexOfLastPost
+
+  // change page
+  const onPageChange = (pageNumber:number) => {
+    setCurrentPage(pageNumber);
+    // setClassActive(true);
+  };
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page
-        {currentPage}
-        (items 1 - 5 of 42)
+        {`Page ${currentPage} `}
+        {`(items ${indexOfFirstPost + 1} - ${indexOfLastPost} of 42)`}
       </p>
 
       <div className="form-group row">
@@ -42,18 +58,24 @@ export const App: React.FC = () => {
 
       <Pagination
         currentPage={currentPage}
-        total={42} // total number of items to paginate
-        postPerPage={postPerPage} // number of items per page
+        total={42} // total number of items to onPageChange
+        postPerPage={5} // number of items per page
         // currentPage={1} /* optional with 1 by default */
-        onPageChange={(page) => { ... }}
+        // onPageChange={(page) => { ... }}
+        onPageChange={onPageChange}
+        setCurrentPage={setCurrentPage}
+        // classActive={classActive}
       />
 
       <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
+        {currentPosts.map(item => (
+          <li
+            data-cy="item"
+            key={item}
+          >
+            {item}
+          </li>
+        ))}
       </ul>
     </div>
   );
