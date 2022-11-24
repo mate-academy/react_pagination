@@ -25,8 +25,8 @@ export const App: React.FC = () => {
     setCurrentPage(pageNumber);
   };
 
-  const changeItemsPerPage = (event:any) => {
-    setPostPerPage(event.target.value);
+  const changeItemsPerPage = (event:React.ChangeEvent<HTMLSelectElement>) => {
+    setPostPerPage(+event.target.value);
     setCurrentPage(1);
   };
 
