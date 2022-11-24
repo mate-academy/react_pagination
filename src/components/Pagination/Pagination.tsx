@@ -50,7 +50,6 @@ export const Pagination: React.FC<Props>
           active: page === currentPage,
         })}
         >
-
           <a
             key={page}
             data-cy="pageLink"
