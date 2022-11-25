@@ -53,7 +53,7 @@ export const App: React.FC = () => {
       <Pagination
         total={total}
         currentPage={currentPage}
-        onPageChange={setCurrentPage}
+        setCurrentPage={setCurrentPage}
       />
 
       {visibleItems.map(item => (

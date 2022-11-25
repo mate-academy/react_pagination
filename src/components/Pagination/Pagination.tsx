@@ -4,23 +4,23 @@ import React from 'react';
 type Props = {
   total: number[],
   currentPage: number,
-  onPageChange: (event: number) => void,
+  setCurrentPage: (event: number) => void,
 };
 
 export const Pagination: React.FC<Props> = ({
   total,
   currentPage,
-  onPageChange,
+  setCurrentPage,
 }) => {
   const onNext = () => {
     if (currentPage < total.length) {
-      onPageChange(currentPage + 1);
+      setCurrentPage(currentPage + 1);
     }
   };
 
   const onPrev = () => {
     if (currentPage > 1) {
-      onPageChange(currentPage - 1);
+      setCurrentPage(currentPage - 1);
     }
   };
 
@@ -53,7 +53,7 @@ export const Pagination: React.FC<Props> = ({
               className="page-link"
               href={`#${page}`}
               onClick={() => {
-                onPageChange(currentPage);
+                setCurrentPage(page);
               }}
             >
               {page}
