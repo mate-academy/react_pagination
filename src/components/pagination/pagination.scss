@@ -1,0 +1,20 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid green;
+  border-radius: 12px;
+  padding: 24px;
+
+  &__select {
+    width: 100px;
+    color: green;
+    border-color: greenyellow;
+    cursor: pointer;
+  }
+}
+
+.pagination h3 {
+  color: green;
+}

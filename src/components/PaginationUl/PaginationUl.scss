@@ -1,0 +1,25 @@
+.paginationUl {
+  display: flex;
+  justify-content: flex-start;
+  padding: 0;
+
+  &__button {
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 6px;
+
+    &:hover {
+      background-color: aquamarine;
+      cursor: pointer;
+    }
+  }
+
+  &__active {
+    border-color: green;
+    color: green;
+  }
+
+  &__disabele {
+    pointer-events: none;
+  }
+}
