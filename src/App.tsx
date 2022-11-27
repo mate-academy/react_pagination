@@ -12,11 +12,7 @@ export const App: React.FC = () => {
   const [postPerPage, setPostPerPage] = useState(5);
   const totalPages = 42;
 
-  let indexOfLastPost = currentPage * postPerPage;
-
-  if (indexOfLastPost >= totalPages) {
-    indexOfLastPost = totalPages;
-  }
+  const indexOfLastPost = currentPage * postPerPage;
 
   const indexOfFirstPost = indexOfLastPost - postPerPage;
   const currentPosts = items.slice(indexOfFirstPost, indexOfLastPost);
