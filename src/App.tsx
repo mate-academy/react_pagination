@@ -17,6 +17,12 @@ export const App: React.FC = () => {
   const indexOfFirstPost = indexOfLastPost - postPerPage;
   const currentPosts = items.slice(indexOfFirstPost, indexOfLastPost);
 
+  let news = indexOfLastPost;
+
+  if (indexOfLastPost > totalPages) {
+    news = indexOfLastPost - postPerPage + 2;
+  }
+
   const onPageChange = (pageNumber:number) => {
     setCurrentPage(pageNumber);
   };
@@ -32,7 +38,7 @@ export const App: React.FC = () => {
 
       <p className="lead" data-cy="info">
         {`Page ${currentPage} `}
-        {`(items ${indexOfFirstPost + 1} - ${indexOfLastPost} of ${totalPages})`}
+        {`(items ${indexOfFirstPost + 1} - ${news} of ${totalPages})`}
       </p>
 
       <div className="form-group row">
