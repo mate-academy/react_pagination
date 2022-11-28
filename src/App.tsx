@@ -13,8 +13,13 @@ export const App: React.FC = () => {
 
   const startOffset = (currentPage - 1) * itemsPerPage;
   const endOffset = Math.min(currentPage * itemsPerPage, items.length);
-
   const currentItems = items.slice(startOffset, endOffset);
+
+  const handlePageSelector = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1);
+    window.location.hash = '1';
+  };
 
   return (
     <div className="container">
@@ -31,10 +36,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={itemsPerPage}
-            onChange={event => {
-              setItemsPerPage(Number(event.target.value));
-              setCurrentPage(1);
-            }}
+            onChange={handlePageSelector}
           >
             <option value="3">3</option>
             <option value="5">5</option>
