@@ -59,7 +59,6 @@ export const App: React.FC = () => {
         currentPage={currentPage}
         onPageChange={onPageChange}
       />
-
     </div>
   );
 };

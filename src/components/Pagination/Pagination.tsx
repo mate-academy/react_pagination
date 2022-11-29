@@ -9,7 +9,10 @@ type Props = {
 };
 
 export const Pagination: React.FC<Props> = ({
-  total, perPage, onPageChange, currentPage,
+  total,
+  perPage,
+  onPageChange,
+  currentPage,
 }) => {
   const numberOfLinks = Math.ceil(42 / perPage);
   const pageNumber = getNumbers(1, numberOfLinks);
