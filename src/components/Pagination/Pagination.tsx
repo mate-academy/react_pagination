@@ -15,6 +15,7 @@ export const Pagination: React.FC<Props>
   currentPage, total, postPerPage, onPageChange, setCurrentPage,
 }) => {
   const pageNumbers = [];
+  const disabledArea = currentPage === 1;
 
   for (let i = 1; i <= Math.ceil(total / postPerPage); i += 1) {
     pageNumbers.push(i);
@@ -40,7 +41,7 @@ export const Pagination: React.FC<Props>
           className="page-link"
           href="#prev"
           onClick={previousPage}
-          aria-disabled={currentPage === 1}
+          aria-disabled={disabledArea}
         >
           «
         </a>
@@ -69,7 +70,7 @@ export const Pagination: React.FC<Props>
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled="false"
+          aria-disabled={disabledArea}
           onClick={nextPage}
         >
           »
