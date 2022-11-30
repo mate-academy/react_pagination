@@ -3,8 +3,6 @@ import React from 'react';
 
 interface Props {
   items: string[],
-  startItem: number,
-  endItem: number,
   total: number,
   perPage: string,
   currentPage: string,
@@ -13,14 +11,11 @@ interface Props {
 
 export const Pagination: React.FC<Props> = ({
   items,
-  startItem,
-  endItem,
   total,
   perPage,
   currentPage,
   onPageChange,
 }) => {
-  const visibleItems = items.slice(startItem - 1, endItem);
   const getCountPages = () => {
     const count = total / +perPage;
 
@@ -43,6 +38,7 @@ export const Pagination: React.FC<Props> = ({
     if (isDisabledPrev) {
       return;
     }
+
     onPageChange((page => `${+page - 1}`));
   };
 
@@ -50,6 +46,7 @@ export const Pagination: React.FC<Props> = ({
     if (isDisabledNext) {
       return;
     }
+
     onPageChange((page => `${+page + 1}`));
   };
 
@@ -113,7 +110,7 @@ export const Pagination: React.FC<Props> = ({
         </li>
       </ul>
       <ul>
-        {visibleItems.map((item) => (
+        {items.map((item) => (
           <li data-cy="item">
             {item}
           </li>
