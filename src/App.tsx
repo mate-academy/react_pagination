@@ -39,6 +39,10 @@ export const App: React.FC = () => {
     setCurrentPage(page);
   };
 
+  const totalHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTotal(+e.target.value);
+  };
+
   return (
     <div className="container">
       <h1>{`${total} Items with Pagination`}</h1>
@@ -56,8 +60,9 @@ export const App: React.FC = () => {
             value={perPage}
             onChange={perPageChangeHandler}
           >
-            {selectOptions
-              .map(value => <option key={value} value={value}>{value}</option>)}
+            {selectOptions.map(value => (
+              <option key={value} value={value}>{value}</option>
+            ))}
           </select>
         </div>
 
@@ -73,9 +78,7 @@ export const App: React.FC = () => {
             min={1}
             className="form-control"
             value={total}
-            onChange={(e) => {
-              setTotal(+e.target.value);
-            }}
+            onChange={totalHandler}
           />
         </div>
 
@@ -91,7 +94,9 @@ export const App: React.FC = () => {
         onPageChange={onPageChange}
       />
       <ul>
-        {itemsArr.map(item => <li key={item} data-cy="item">{`Item ${item}`}</li>)}
+        {itemsArr.map(item => (
+          <li key={item} data-cy="item">{`Item ${item}`}</li>
+        ))}
       </ul>
     </div>
   );
