@@ -13,7 +13,7 @@ export const App: React.FC = () => {
   const total = items.length;
 
   const firstItem = (currentPage - 1) * perPage;
-  const lastItem = Math.min((firstItem + perPage), items.length);
+  const lastItem = Math.min((firstItem + perPage), total);
 
   const currentItems = items.slice(firstItem, lastItem);
 
