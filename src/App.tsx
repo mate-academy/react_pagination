@@ -3,22 +3,20 @@ import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination/Pagination';
 
-const initialItems = getNumbers(1, 42);
+const options = [3, 5, 10, 20];
 
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [total] = useState(42);
 
-  const changePage = useCallback((page: number) => (
-    setCurrentPage(page)
-  ), []);
+  const initialItems = getNumbers(1, total);
 
   const itemsOnPage = useCallback((currPage: number, itemsPerPage: number) => {
     const itemStart = itemsPerPage * (currPage - 1);
     const itemEnd = itemStart + itemsPerPage + 1;
 
-    return [...initialItems].filter(i => (
+    return initialItems.filter(i => (
       i > itemStart && i < itemEnd));
   }, []);
 
@@ -47,10 +45,11 @@ export const App: React.FC = () => {
             value={perPage}
             onChange={(event) => setPerPage(Number(event.target.value))}
           >
-            <option value={3}>3</option>
-            <option value={5}>5</option>
-            <option value={10}>10</option>
-            <option value={20}>20</option>
+            {options.map(option => (
+              <option value={option} key={option}>
+                {option}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -63,9 +62,7 @@ export const App: React.FC = () => {
         total={42}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={
-          useCallback((page: number) => changePage(page), [currentPage])
-        }
+        onPageChange={useCallback(setCurrentPage, [currentPage, perPage])}
       />
 
       <ul>

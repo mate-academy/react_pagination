@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
+import { getNumbers } from '../../utils';
 
 interface Props {
   total: number,
@@ -17,19 +18,7 @@ export const Pagination: React.FC<Props> = React.memo(({
   const amountOfPages = Math.ceil(total / perPage);
   const isFirstPage = currentPage - 1 === 0;
   const isLastPage = currentPage === amountOfPages;
-  const isPrevPage = currentPage - 1 !== 0;
-  const isNextPage = currentPage + 1 !== amountOfPages + 1;
-
-  const visiblePages = () => {
-    const pages = [];
-
-    // eslint-disable-next-line no-plusplus
-    for (let i = 1; i <= amountOfPages; i++) {
-      pages.push(i);
-    }
-
-    return pages;
-  };
+  const visiblePages = getNumbers(1, amountOfPages);
 
   return (
     <ul className="pagination">
@@ -41,18 +30,16 @@ export const Pagination: React.FC<Props> = React.memo(({
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={isFirstPage
-            ? 'true'
-            : 'false'}
+          aria-disabled={isFirstPage}
           onClick={() => (
-            isPrevPage && onPageChange(currentPage - 1)
+            !isFirstPage && onPageChange(currentPage - 1)
           )}
         >
           «
         </a>
       </li>
 
-      {visiblePages().map(page => {
+      {visiblePages.map(page => {
         const isCurrentPage = currentPage === page;
 
         return (
@@ -84,11 +71,9 @@ export const Pagination: React.FC<Props> = React.memo(({
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={isLastPage
-            ? 'true'
-            : 'false'}
+          aria-disabled={isLastPage}
           onClick={() => (
-            isNextPage && onPageChange(currentPage + 1)
+            !isLastPage && onPageChange(currentPage + 1)
           )}
         >
           »
