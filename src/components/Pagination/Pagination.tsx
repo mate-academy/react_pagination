@@ -37,7 +37,7 @@ export const Pagination: FC<Props> = React.memo(
             href="#prev"
             aria-disabled={prevButtonIsDisabled}
             onClick={() => {
-              if (currentPage !== 1) {
+              if (!prevButtonIsDisabled) {
                 onPageChange(currentPage - 1);
               }
             }}
@@ -79,7 +79,7 @@ export const Pagination: FC<Props> = React.memo(
             href="#next"
             aria-disabled={nextButtonIsDisabled}
             onClick={() => {
-              if (currentPage !== countOfPages) {
+              if (!nextButtonIsDisabled) {
                 onPageChange(currentPage + 1);
               }
             }}
