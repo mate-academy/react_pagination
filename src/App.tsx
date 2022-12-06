@@ -20,6 +20,15 @@ export const App: React.FC = () => {
   const visibleItems = items
     .slice(currentItemsStart, currentItemsEnd);
 
+  const handleChange = (page: number) => setCurrentPage(page);
+
+  const selectPerPage = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setPerPage(Number(event.target.value));
+    setCurrentPage(1);
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
@@ -35,10 +44,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={event => {
-              setPerPage(Number(event.target.value));
-              setCurrentPage(1);
-            }}
+            onChange={selectPerPage}
           >
             <option value={3}>3</option>
             <option value={5}>5</option>
@@ -52,12 +58,11 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
       <Pagination
         total={items.length}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={(page: number) => setCurrentPage(page)}
+        onPageChange={handleChange}
       />
       <ul>
         {visibleItems.map(item => (
