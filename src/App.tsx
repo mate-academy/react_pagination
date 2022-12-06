@@ -14,8 +14,18 @@ export const App: React.FC = () => {
     return getNumbers(start, end).map(n => `Item ${n}`);
   }, [start, end]);
 
-  const onPageChange = (page: number) => {
-    setCurrentPage(page);
+  const onPageChange = (page: number | string) => {
+    if (typeof page === 'number') {
+      setCurrentPage(page);
+    }
+
+    if (page === 'next') {
+      setCurrentPage((prevCurrent) => prevCurrent + 1);
+    }
+
+    if (page === 'prev') {
+      setCurrentPage((prevCurrent) => prevCurrent - 1);
+    }
   };
 
   const hendleChange = useCallback(

@@ -7,7 +7,7 @@ interface Props {
   total: number,
   perPage: number,
   currentPage: number,
-  onPageChange: (page: number) => void,
+  onPageChange: (page: number | string) => void,
 }
 
 export const Pagination: React.FC<Props> = ({
@@ -25,6 +25,18 @@ export const Pagination: React.FC<Props> = ({
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === pageAmount.length;
 
+  const onNextPage = () => {
+    if (!isLastPage) {
+      onPageChange('next');
+    }
+  };
+
+  const onPrevPage = () => {
+    if (!isFirstPage) {
+      onPageChange('prev');
+    }
+  };
+
   return (
     <ul className="pagination">
       <li className={classNames(
@@ -39,11 +51,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={isFirstPage}
-          onClick={() => {
-            if (!isFirstPage) {
-              onPageChange(currentPage - 1);
-            }
-          }}
+          onClick={onPrevPage}
         >
           «
         </a>
@@ -80,11 +88,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={isLastPage}
-          onClick={() => {
-            if (!isLastPage) {
-              onPageChange(currentPage + 1);
-            }
-          }}
+          onClick={onNextPage}
         >
           »
         </a>
