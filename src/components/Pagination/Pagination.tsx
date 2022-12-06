@@ -26,7 +26,7 @@ export const Pagination: React.FC<Props> = ({
         <a
           data-cy="prevLink"
           className="page-link"
-          href="#prev"
+          href={`#${currentPage}`}
           aria-disabled={currentPage === 1}
           onClick={() => onPageChange(currentPage - 1)}
         >
@@ -44,7 +44,7 @@ export const Pagination: React.FC<Props> = ({
           <a
             data-cy="pageLink"
             className="page-link"
-            href="#{page}"
+            href={`#${currentPage}`}
             onClick={() => onPageChange(page)}
           >
             {page}
@@ -60,7 +60,7 @@ export const Pagination: React.FC<Props> = ({
         <a
           data-cy="nextLink"
           className="page-link"
-          href="#next"
+          href={`#${currentPage}`}
           aria-disabled={currentPage === pagination.length}
           onClick={() => onPageChange(currentPage + 1)}
         >

@@ -27,10 +27,6 @@ export const App: React.FC = () => {
     setCurrentPage(1);
   }, [itemPerPage]);
 
-  useEffect(() => {
-    getVisibleItems();
-  }, [currentPage]);
-
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
