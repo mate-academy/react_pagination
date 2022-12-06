@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
@@ -11,20 +11,28 @@ export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const total = items.length;
+  const total = useMemo(() => items.length, []);
 
-  const firstPageItemIndex = perPage * currentPage - perPage;
+  const firstPageItemIndex = useMemo(() => {
+    return perPage * currentPage - perPage;
+  }, [perPage, currentPage]);
 
-  const lastPageItemIndex = perPage * currentPage > total
-    ? total
-    : perPage * currentPage;
+  const lastPageItemIndex = useMemo(() => {
+    return perPage * currentPage > total
+      ? total
+      : perPage * currentPage;
+  }, [perPage, currentPage]);
 
-  const visibleItems = items.slice(firstPageItemIndex, lastPageItemIndex);
+  const visibleItems = useMemo(() => {
+    return items.slice(firstPageItemIndex, lastPageItemIndex);
+  }, [perPage, currentPage]);
 
-  const handleChange = ((event: React.ChangeEvent<HTMLSelectElement>) => {
-    setPerPage(Number(event.target.value));
-    setCurrentPage(1);
-  });
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLSelectElement>) => {
+      setPerPage(Number(event.target.value));
+      setCurrentPage(1);
+    }, [],
+  );
 
   return (
     <div className="container">
