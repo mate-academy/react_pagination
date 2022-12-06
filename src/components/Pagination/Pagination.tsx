@@ -7,7 +7,7 @@ interface Props {
   total: number,
   perPage: number,
   currentPage: number,
-  onPageChange: (page: number | string) => void,
+  onPageChange: (page: number) => void,
 }
 
 export const Pagination: React.FC<Props> = ({
@@ -22,12 +22,15 @@ export const Pagination: React.FC<Props> = ({
     return getNumbers(1, pageCount);
   }, [total, perPage]);
 
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === pageAmount.length;
+
   return (
     <ul className="pagination">
       <li className={classNames(
         'page-item',
         {
-          disabled: currentPage === 1,
+          disabled: isFirstPage,
         },
       )}
       >
@@ -35,10 +38,10 @@ export const Pagination: React.FC<Props> = ({
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === 1}
+          aria-disabled={isFirstPage}
           onClick={() => {
-            if (currentPage > 1) {
-              onPageChange('prev');
+            if (!isFirstPage) {
+              onPageChange(currentPage - 1);
             }
           }}
         >
@@ -68,7 +71,7 @@ export const Pagination: React.FC<Props> = ({
       <li className={classNames(
         'page-item',
         {
-          disabled: currentPage === pageAmount.length,
+          disabled: isLastPage,
         },
       )}
       >
@@ -76,10 +79,10 @@ export const Pagination: React.FC<Props> = ({
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === pageAmount.length}
+          aria-disabled={isLastPage}
           onClick={() => {
-            if (currentPage < pageAmount.length) {
-              onPageChange('next');
+            if (!isLastPage) {
+              onPageChange(currentPage + 1);
             }
           }}
         >
