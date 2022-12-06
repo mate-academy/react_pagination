@@ -18,10 +18,6 @@ export const Pagination: React.FC<Props> = ({
   const numberOfPages = Math.ceil(total / perPage);
   const pagination: number[] = getNumbers(1, numberOfPages);
 
-  if (currentPage > pagination.length) {
-    onPageChange(1);
-  }
-
   return (
     <ul className="pagination">
       <li

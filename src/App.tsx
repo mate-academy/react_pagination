@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination/Pagination';
 import { getNumbers } from './utils';
@@ -21,7 +21,15 @@ export const App: React.FC = () => {
 
   const firstItem = (currentPage - 1) * itemPerPage + 1;
 
-  const visibleItems = [...items].slice(firstItem - 1, lastItem);
+  const getVisibleItems = () => [...items].slice(firstItem - 1, lastItem);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [itemPerPage]);
+
+  useEffect(() => {
+    getVisibleItems();
+  }, [currentPage]);
 
   return (
     <div className="container">
@@ -60,7 +68,7 @@ export const App: React.FC = () => {
       />
 
       <ul>
-        {visibleItems.map(item => (
+        {getVisibleItems().map(item => (
           <li key={item} data-cy="item">{item}</li>
         ))}
       </ul>
