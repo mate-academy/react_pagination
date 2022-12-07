@@ -2,7 +2,7 @@
 
 > Here is the [working version](https://mate-academy.github.io/react_pagination/)
 
-You a given a list of items and markup for the `Pagination`. Implement the 
+You a given a list of items and markup for the `Pagination`. Implement the
 `Pagination` as a stateless component to show only the items for a current page.
 
 1. The `Pagination` should be used with the next props:
@@ -17,7 +17,7 @@ You a given a list of items and markup for the `Pagination`. Implement the
 1. Keep the HTML stucture `data-cy` attributes;
 1. Show all the existing pages considering `total` and `perPage`
 1. Current page should be highlighted with `li.active`;
-1. `onPageChange` callback should be triggered only if page was changed;
+1. `onPageChange` capllback should be triggered only if age was changed;
 1. The `App` should listen to the `onPageChange` and save a new page;
 1. `«` and `»` links should open the prev and the next pages accordingly
     - disable each of them if it is already the first or the last page (use `li.disabled` and `a[aria-disabled="true"]`)
@@ -31,4 +31,4 @@ You a given a list of items and markup for the `Pagination`. Implement the
 - Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).
 - Use the [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript).
 - Open one more terminal and run tests with `npm test` to ensure your solution is correct.
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_pagination/) and add it to the PR description.
+- Replace `<your_account>` with your Github username in the [DEMO LINK](https://referee1988.github.io/react_pagination/) and add it to the PR description.
