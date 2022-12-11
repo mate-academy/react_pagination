@@ -22,8 +22,8 @@ export const Pagination: React.FC<Props> = ({
   const nextPage = currentPage + 1;
   const prevPage = currentPage - 1;
 
-  const handlePageClick = (currpage: number) => (currpage !== currentPage) && (
-    onPageChange(currpage)
+  const handlePageClick = (currPage: number) => (currPage !== currentPage) && (
+    onPageChange(currPage)
   );
 
   return (
