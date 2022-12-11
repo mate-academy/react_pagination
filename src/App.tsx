@@ -28,7 +28,7 @@ export const App: React.FC = () => {
         {`Page ${currentPage} (items `}
         {startVisibleItems + 1}
         {' - '}
-        {endVisibleItems}
+        {(endVisibleItems > total) ? total : endVisibleItems}
         {' of '}
         {total}
         )
