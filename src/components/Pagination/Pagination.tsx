@@ -26,11 +26,13 @@ export const Pagination: React.FC<Props> = ({
   const onPageClick = (
     event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
   ) => {
-    if (+event.currentTarget.id === currentPage) {
+    const { id } = event.currentTarget;
+
+    if (+id === currentPage) {
       return;
     }
 
-    onPageChange(+event.currentTarget.id);
+    onPageChange(+id);
   };
 
   const onPrevClick = () => {
