@@ -21,7 +21,7 @@ export const App: React.FC = () => {
         {`Page ${page} (items
           ${itemPerPage[0].slice(5)} -
           ${itemPerPage[itemPerPage.length - 1].slice(5)} of
-          ${items.length})`}
+          ${items.length})`.replace(/\r?\n/g, '')}
       </p>
 
       <div className="form-group row">
