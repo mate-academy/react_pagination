@@ -9,7 +9,7 @@ const items = getNumbers(1, 42)
 
 export const App: React.FC = () => {
   const [page, setPage] = useState(1);
-  const [selectPerPage, setSelectPerPage] = useState(3);
+  const [selectPerPage, setSelectPerPage] = useState(5);
   const itemPerPage = [...items]
     .slice(page * selectPerPage - selectPerPage, page * selectPerPage);
 
