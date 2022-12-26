@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import React from 'react';
 
 type Props = {
   total: number,
@@ -15,12 +16,21 @@ export const Pagination: React.FC<Props> = ({
 }) => {
   const pages = new Array(Math.ceil(total / perPage)).fill(0)
     .map((item, index) => item + index + 1);
+
   const slide = (direction: string) => {
     switch (direction) {
-      case '#prev': onPageChange(currentPage - 1);
+      case 'prevLink':
+        if (currentPage > 1) {
+          onPageChange(currentPage - 1);
+        }
+
         break;
 
-      case '#next': onPageChange(currentPage + 1);
+      case 'nextLink':
+        if (currentPage < pages.length) {
+          onPageChange(currentPage + 1);
+        }
+
         break;
 
       default:
@@ -37,10 +47,10 @@ export const Pagination: React.FC<Props> = ({
         <a
           data-cy="prevLink"
           className="page-link"
-          href="#prev"
+          href={`#${currentPage}`}
           aria-disabled={currentPage === 1}
-          onClick={(event) => {
-            slide(event.currentTarget.hash);
+          onClick={() => {
+            slide('prevLink');
           }}
         >
           «
@@ -49,7 +59,7 @@ export const Pagination: React.FC<Props> = ({
 
       {pages.map((item) => (
         <li
-          key={item * 5}
+          key={item}
           className={classNames(
             'page-item', (item === currentPage) ? 'active' : '',
           )}
@@ -57,8 +67,8 @@ export const Pagination: React.FC<Props> = ({
           <a
             data-cy="pageLink"
             className="page-link"
-            onClick={(event) => {
-              onPageChange(+(event.currentTarget.hash.slice(1)));
+            onClick={() => {
+              onPageChange(item);
             }}
             href={`#${item}`}
           >
@@ -75,10 +85,10 @@ export const Pagination: React.FC<Props> = ({
         <a
           data-cy="nextLink"
           className="page-link"
-          href="#next"
+          href={`#${currentPage}`}
           aria-disabled={currentPage === pages.length}
-          onClick={(event) => {
-            slide(event.currentTarget.hash);
+          onClick={() => {
+            slide('nextLink');
           }}
         >
           »
