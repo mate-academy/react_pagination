@@ -7,6 +7,9 @@ interface Props {
   total: number;
   perPage: number;
   currentPage: number;
+  firstItem: number;
+  lastItem: number;
+  items: string[];
   onPageChange: (page: number | string) => void;
 }
 
@@ -15,13 +18,11 @@ export const Pagination: FC<Props> = ({
   perPage,
   currentPage,
   onPageChange,
+  firstItem,
+  lastItem,
+  items,
 }) => {
-  const firstItem = (currentPage - 1) * perPage + 1;
-
-  const lastItem = firstItem + perPage > total
-    ? total
-    : firstItem + perPage - 1;
-  const recentItems = getNumbers(firstItem, lastItem).map((n: number) => `Item ${n}`);
+  const recentItems = items.slice(firstItem - 1, lastItem);
 
   const paginationNumber = Math.ceil(total / perPage);
 

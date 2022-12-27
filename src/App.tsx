@@ -71,6 +71,9 @@ export const App: React.FC = () => {
         perPage={perPage}
         currentPage={currentPage}
         onPageChange={handlePageChange}
+        firstItem={firstItem}
+        lastItem={lastItem}
+        items={items}
       />
     </div>
   );
