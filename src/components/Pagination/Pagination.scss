@@ -1,0 +1,10 @@
+.Pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+.active > .page-link {
+  color: #fff;
+  background-color: #007bff;
+}
