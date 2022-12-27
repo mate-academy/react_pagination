@@ -3,7 +3,7 @@ import cn from 'classnames';
 type Props = {
   items: string[],
   total: number,
-  perPage: number,
+  itemsPerPage: number,
   currentPage: number,
   onPageChange: React.Dispatch<React.SetStateAction<number>>,
 };
@@ -11,20 +11,28 @@ type Props = {
 export const Pagination = ({
   items,
   total,
-  perPage,
+  itemsPerPage,
   currentPage = 1,
   onPageChange,
 }: Props) => {
   const pages = [];
 
-  for (let i = 0; i < total; i += perPage) {
+  for (
+    let firstItemIndex = 0;
+    firstItemIndex < total;
+    firstItemIndex += itemsPerPage
+  ) {
+    const lastItemIndex = firstItemIndex + itemsPerPage < total
+      ? firstItemIndex + itemsPerPage
+      : total;
+
     pages.push(items.slice(
-      i,
-      i + perPage < total ? i + perPage : total,
+      firstItemIndex,
+      lastItemIndex,
     ));
   }
 
-  const getRandKey = (name:string, num: number) => {
+  const getRandomKey = (name:string, num: number) => {
     return `${name}_${num}_${Math.floor(Math.random() * 100)}`;
   };
 
@@ -54,7 +62,7 @@ export const Pagination = ({
         </li>
         {pages.map((_el, i) => (
           <li
-            key={getRandKey('pageLink', i)}
+            key={getRandomKey('pageLink', i)}
             className={`page-item${i === currentPage - 1 ? ' active' : ''}`}
           >
             <a
@@ -94,7 +102,7 @@ export const Pagination = ({
       </ul>
       <ul>
         {pages[currentPage - 1].map((pageItem, i) => (
-          <li data-cy="item" key={getRandKey('item', i)}>
+          <li data-cy="item" key={getRandomKey('item', i)}>
             {pageItem}
           </li>
         ))}
