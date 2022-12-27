@@ -17,10 +17,10 @@ export const Pagination: FC<Props> = ({
   total,
   perPage,
   currentPage,
-  onPageChange,
   firstItem,
   lastItem,
   items,
+  onPageChange,
 }) => {
   const recentItems = items.slice(firstItem - 1, lastItem);
 

@@ -70,10 +70,10 @@ export const App: React.FC = () => {
         total={total}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={handlePageChange}
         firstItem={firstItem}
         lastItem={lastItem}
         items={items}
+        onPageChange={handlePageChange}
       />
     </div>
   );
