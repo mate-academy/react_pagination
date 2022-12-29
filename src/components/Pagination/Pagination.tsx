@@ -25,12 +25,14 @@ export const Pagination: React.FC<Props> = ({
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === totalPages;
 
-  const handlerChangePage = (event: any) => {
-    if (event.target.id === PageSwitcher.Prev && !isFirstPage) {
+  const handlerChangePage = (event: React.SyntheticEvent) => {
+    const { id } = event.target as HTMLAnchorElement;
+
+    if (id === PageSwitcher.Prev && !isFirstPage) {
       onPageChange(currentPage - 1);
     }
 
-    if (event.target.id === PageSwitcher.Next && !isLastPage) {
+    if (id === PageSwitcher.Next && !isLastPage) {
       onPageChange(currentPage + 1);
     }
   };

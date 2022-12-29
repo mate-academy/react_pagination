@@ -3,9 +3,7 @@ import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42)
-  .map(n => `Item ${n}`);
+const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
