@@ -1,11 +1,13 @@
 import cn from 'classnames';
+import { generateKey } from '../../utils/generateKey';
+import sliceIntoChunks from '../../utils/sliceIntoChunks';
 
 type Props = {
   items: string[],
   total: number,
   itemsPerPage: number,
   currentPage: number,
-  onPageChange: React.Dispatch<React.SetStateAction<number>>,
+  setPage: React.Dispatch<React.SetStateAction<number>>,
 };
 
 export const Pagination = ({
@@ -13,27 +15,24 @@ export const Pagination = ({
   total,
   itemsPerPage,
   currentPage = 1,
-  onPageChange,
+  setPage,
 }: Props) => {
-  const pages = [];
+  const pages = sliceIntoChunks(
+    items,
+    total,
+    itemsPerPage,
+  );
 
-  for (
-    let firstItemIndex = 0;
-    firstItemIndex < total;
-    firstItemIndex += itemsPerPage
-  ) {
-    const lastItemIndex = firstItemIndex + itemsPerPage < total
-      ? firstItemIndex + itemsPerPage
-      : total;
-
-    pages.push(items.slice(
-      firstItemIndex,
-      lastItemIndex,
-    ));
-  }
-
-  const getRandomKey = (name:string, num: number) => {
-    return `${name}_${num}_${Math.floor(Math.random() * 100)}`;
+  const handlePageChange = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+    target: number,
+    disable: number,
+  ) => {
+    if (disable === target) {
+      e.preventDefault();
+    } else {
+      setPage(target);
+    }
   };
 
   return (
@@ -49,35 +48,31 @@ export const Pagination = ({
             className="page-link"
             href="#prev"
             aria-disabled={currentPage === 1}
-            onClick={(e) => {
-              if (currentPage !== 1) {
-                onPageChange(prevState => prevState - 1);
-              } else {
-                e.preventDefault();
-              }
-            }}
+            onClick={(e) => handlePageChange(e, currentPage - 1, 0)}
           >
             «
           </a>
         </li>
+
         {pages.map((_el, i) => (
           <li
-            key={getRandomKey('pageLink', i)}
-            className={`page-item${i === currentPage - 1 ? ' active' : ''}`}
+            key={generateKey('pageLink', i)}
+            className={cn(
+              'page-item',
+              { active: (i + 1) === currentPage },
+            )}
           >
             <a
               data-cy="pageLink"
               className="page-link"
               href={`#${i + 1}`}
-              onClick={(e) => {
-                e.preventDefault();
-                onPageChange(i + 1);
-              }}
+              onClick={(e) => handlePageChange(e, i + 1, currentPage)}
             >
               {i + 1}
             </a>
           </li>
         ))}
+
         <li className={cn(
           'page-item',
           { disabled: currentPage === pages.length },
@@ -88,21 +83,20 @@ export const Pagination = ({
             className="page-link"
             href="#next"
             aria-disabled={currentPage === pages.length}
-            onClick={(e) => {
-              if (currentPage !== pages.length) {
-                onPageChange(prevState => prevState + 1);
-              } else {
-                e.preventDefault();
-              }
-            }}
+            onClick={(e) => handlePageChange(
+              e,
+              currentPage + 1,
+              pages.length + 1,
+            )}
           >
             »
           </a>
         </li>
       </ul>
+
       <ul>
         {pages[currentPage - 1].map((pageItem, i) => (
-          <li data-cy="item" key={getRandomKey('item', i)}>
+          <li data-cy="item" key={generateKey('item', i)}>
             {pageItem}
           </li>
         ))}
