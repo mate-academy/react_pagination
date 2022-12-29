@@ -12,6 +12,7 @@ export const App: React.FC = () => {
   const [page, setPage] = useState(1);
   const start = (page - 1) * perPage + 1;
   const end = Math.min(page * perPage, items.length);
+  const itemsOnPage = items.slice(start - 1, end);
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
@@ -61,7 +62,7 @@ export const App: React.FC = () => {
       />
 
       <ul>
-        {items.slice(start - 1, end).map(item => (
+        {itemsOnPage.map(item => (
           <li
             key={item}
             data-cy="item"

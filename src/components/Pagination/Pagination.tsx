@@ -2,6 +2,11 @@ import classNames from 'classnames';
 import React from 'react';
 import { getNumbers } from '../../utils';
 
+enum PageSwitcher {
+  Prev = 'prev',
+  Next = 'next',
+}
+
 type Props = {
   total: number;
   perPage: number;
@@ -21,11 +26,11 @@ export const Pagination: React.FC<Props> = ({
   const isLastPage = currentPage === totalPages;
 
   const handlerChangePage = (event: any) => {
-    if (event.target.id === 'prev' && !isFirstPage) {
+    if (event.target.id === PageSwitcher.Prev && !isFirstPage) {
       onPageChange(currentPage - 1);
     }
 
-    if (event.target.id === 'next' && !isLastPage) {
+    if (event.target.id === PageSwitcher.Next && !isLastPage) {
       onPageChange(currentPage + 1);
     }
   };
