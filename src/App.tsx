@@ -11,7 +11,7 @@ export const App: React.FC = () => {
   const item = ['3', '5', '10', '20'];
 
   const [currentPage, setCurrentPage] = useState(items[0]);
-  const [value, setValue] = useState<string>(item[3]);
+  const [value, setValue] = useState<string>(item[1]);
 
   const totalResult = items.slice(
     +value * currentPage - +value,
