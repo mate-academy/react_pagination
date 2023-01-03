@@ -24,12 +24,21 @@ export const Pagination: React.FC<Props> = ({
   };
 
   const handleArrow = (direction: string) => {
+    if ((
+      currentPage === 1 && direction === 'prev')
+      || (currentPage === pages.length && direction === 'next')) {
+      return;
+    }
+
     onPageChange(direction === 'next' ? currentPage + 1 : currentPage - 1);
   };
 
   return (
     <ul className="pagination">
-      <li className={classNames('page-item', { disabled: currentPage === 1 })}>
+      <li className={
+        classNames('page-item', { disabled: currentPage === 1 })
+      }
+      >
         <a
           data-cy="prevLink"
           className="page-link"
@@ -43,7 +52,9 @@ export const Pagination: React.FC<Props> = ({
 
       {pages.map(page => (
         <li
-          className={classNames('page-item', { active: page === currentPage })}
+          className={
+            classNames('page-item', { active: page === currentPage })
+          }
           key={page}
         >
           <a

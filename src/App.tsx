@@ -16,6 +16,8 @@ export const App: React.FC = () => {
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
+    setSelectedPage(1);
+
     setPerPage(+value);
     setExtremeItems({ start: 1, end: +value });
   };
