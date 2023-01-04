@@ -3,20 +3,18 @@ import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-
 const items = getNumbers(1, 42).map((n) => n);
 
 export const App: React.FC = () => {
-  const item = ['3', '5', '10', '20'];
+  const itemsPerPage = ['3', '5', '10', '20'];
 
   const [currentPage, setCurrentPage] = useState(items[0]);
-  const [value, setValue] = useState<string>(item[1]);
+  const [value, setValue] = useState<string>(itemsPerPage[1]);
 
-  const totalResult = items.slice(
-    +value * currentPage - +value,
-    +value * currentPage,
-  );
+  const totalStart = +value * currentPage - +value;
+  const totalEnd = +value * currentPage;
+
+  const totalResult = items.slice(totalStart, totalEnd);
 
   return (
     <div className="container">
@@ -26,8 +24,7 @@ export const App: React.FC = () => {
         Page
         {' '}
         {currentPage}
-        {' '}
-        {`(items ${totalResult[0]} - ${
+        {` (items ${totalResult[0]} - ${
           totalResult[totalResult.length - 1]
         } of ${items.length})`}
       </p>
@@ -43,7 +40,7 @@ export const App: React.FC = () => {
               setValue(event.target.value);
             }}
           >
-            {item.map((it) => (
+            {itemsPerPage.map((it) => (
               <option value={it} key={it}>
                 {it}
               </option>
@@ -55,8 +52,6 @@ export const App: React.FC = () => {
           items per page
         </label>
       </div>
-
-      {/* Move this markup to Pagination */}
 
       <Pagination
         total={items}

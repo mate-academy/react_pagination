@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect } from 'react';
 import classnames from 'classnames';
 
 type Props = {
@@ -14,28 +14,31 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
-  const totalResult = total.slice(
-    perPage * currentPage - perPage,
-    perPage * currentPage,
-  );
+  const totalStart = perPage * currentPage - perPage;
+  const totalEnd = perPage * currentPage;
+
+  const totalResult = total.slice(totalStart, totalEnd);
 
   const existingPages = total.slice(0, Math.ceil(42 / perPage));
 
-  useMemo(() => onPageChange(total[0]), [perPage]);
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === existingPages.length;
+
+  useEffect(() => onPageChange(total[0]), [perPage]);
 
   return (
     <>
       <ul className="pagination">
         <li
           className={classnames('page-item', {
-            disabled: currentPage === 1,
+            disabled: isFirstPage,
           })}
         >
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled={currentPage === 1}
+            aria-disabled={isFirstPage}
             onClick={() => onPageChange(currentPage - 1)}
           >
             «
@@ -59,14 +62,14 @@ export const Pagination: React.FC<Props> = ({
         ))}
         <li
           className={classnames('page-item', {
-            disabled: currentPage === existingPages.length,
+            disabled: isLastPage,
           })}
         >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={currentPage === existingPages.length}
+            aria-disabled={isLastPage}
             onClick={() => onPageChange(currentPage + 1)}
           >
             »
