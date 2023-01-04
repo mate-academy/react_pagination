@@ -15,13 +15,14 @@ export const App: React.FC = () => {
   const numberOfTheLastPage = Math.ceil(total / perPage);
   const itemsOnTheLasPage = total % perPage || perPage;
 
-  const itemsOnPage = Array<string>(
-    numberOfTheLastPage === currentPage ? itemsOnTheLasPage : perPage,
-  )
-    .fill('Item ')
-    .map((item, index) => (
-      item + (perPage * currentPage - perPage + index + 1)
-    ));
+  const itemsOnPage = Array.from(
+    {
+      length: (
+        numberOfTheLastPage === currentPage ? itemsOnTheLasPage : perPage
+      ),
+    },
+    (_item, index) => `Item ${(perPage * currentPage - perPage + index + 1)}`,
+  );
 
   const firstItemOnPage = itemsOnPage[0]
     .slice(itemsOnPage[0].indexOf(' ') + 1);
