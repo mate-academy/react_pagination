@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import classnames from 'classnames';
 
 type Props = {
@@ -23,8 +23,6 @@ export const Pagination: React.FC<Props> = ({
 
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === existingPages.length;
-
-  useEffect(() => onPageChange(total[0]), [perPage]);
 
   return (
     <>
