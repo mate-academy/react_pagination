@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 
 type Props = {
@@ -23,7 +24,7 @@ export const Pagination: React.FC<Props> = ({
     const el = e.target as HTMLElement;
     const clickedPAge = Number(el.textContent);
 
-    if (clickedPAge !== currentPage) {
+    if (Number(e.target) !== currentPage) {
       onPageChange(clickedPAge);
     }
   };
@@ -42,7 +43,7 @@ export const Pagination: React.FC<Props> = ({
 
   return (
     <ul className="pagination">
-      <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+      <li className={classNames('page-item', { disabled: currentPage === 1 })}>
         <a
           data-cy="prevLink"
           className="page-link"
@@ -54,7 +55,10 @@ export const Pagination: React.FC<Props> = ({
         </a>
       </li>
       {currentPages.map(page => (
-        <li className={`page-item ${page === currentPage ? 'active' : ''}`} key={page}>
+        <li className={
+          classNames('page-item', { active: page === currentPage })
+        }
+        >
           <a data-cy="pageLink" className="page-link" href={`#${page}`} onClick={pageClickHandler}>{page}</a>
         </li>
       ))}

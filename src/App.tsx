@@ -26,11 +26,7 @@ export const App: React.FC = () => {
   const currentEnd = (currentStart + perPage - 1) > total
     ? total
     : currentStart + perPage - 1;
-  const currentNumbers = [];
-
-  for (let i = currentStart; i <= currentEnd; i += 1) {
-    currentNumbers.push(i);
-  }
+  const currentNumbers = items.slice(currentStart - 1, currentEnd);
 
   return (
     <div className="container">
@@ -68,7 +64,9 @@ export const App: React.FC = () => {
         onPageChange={onPageChange}
       />
       <ul>
-        {currentNumbers.map(number => <li data-cy="item" key={number}>{`Item ${number}`}</li>)}
+        {currentNumbers.map(
+          number => <li data-cy="item" key={number}>{number}</li>,
+        )}
       </ul>
     </div>
   );
