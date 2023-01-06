@@ -25,30 +25,48 @@ export const Pagination: FC<Props> = ({
     setPrev(currentPage - 1);
   }, [currentPage]);
 
-  const isLastPage = currentPage === pages.length;
-  const isFirstPage = currentPage === 1;
+  const renderStepButton = (direction: 'prev' | 'next') => {
+    const isAnEdgePage = {
+      prev: currentPage === 1,
+      next: currentPage === pages.length,
+    }[direction];
 
-  return (
-    <ul className="pagination">
+    const page = {
+      prev,
+      next,
+    }[direction];
+
+    const button = {
+      prev: '«',
+      next: '»',
+    }[direction];
+
+    return (
       <li
         className={cn('page-item', {
-          disabled: isFirstPage,
+          disabled: isAnEdgePage,
         })}
       >
         <a
-          data-cy="prevLink"
+          data-cy={`${direction}Link`}
           className="page-link"
-          href="#prev"
-          aria-disabled={isFirstPage}
+          href={`#${direction}`}
+          aria-disabled={isAnEdgePage}
           onClick={() => {
-            if (!isFirstPage) {
-              onPageChange(prev);
+            if (!isAnEdgePage) {
+              onPageChange(page);
             }
           }}
         >
-          «
+          {button}
         </a>
       </li>
+    );
+  };
+
+  return (
+    <ul className="pagination">
+      {renderStepButton('prev')}
 
       {pages.map(page => (
         <li
@@ -70,25 +88,7 @@ export const Pagination: FC<Props> = ({
         </li>
       ))}
 
-      <li
-        className={cn('page-item', {
-          disabled: isLastPage,
-        })}
-      >
-        <a
-          data-cy="nextLink"
-          className="page-link"
-          href="#next"
-          aria-disabled={isLastPage}
-          onClick={() => {
-            if (!isLastPage) {
-              onPageChange(next);
-            }
-          }}
-        >
-          »
-        </a>
-      </li>
+      {renderStepButton('next')}
     </ul>
   );
 };
