@@ -47,7 +47,7 @@ export const App: FC = () => {
             className="form-control"
             value={perPage}
             onChange={(event) => {
-              setPerPage(+event.target.value);
+              setPerPage(Number(event.target.value));
               setCurrentPage(1);
             }}
           >
