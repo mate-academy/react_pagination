@@ -12,23 +12,6 @@ export const Pagination: React.FC<Page> = ({
   const numbersOfpages = Math.ceil(total / perPage);
   const pagesLinksArray = getNumbers(1, numbersOfpages);
 
-  // function getArrayOfNumbersOfItemsPerPage(
-  //   numberOfItems: number,
-  //   currentPageNumber: number,
-  //   totalNumber: number,
-  // ): number[] {
-  //   const numbers = [];
-  //   const from = numberOfItems * currentPageNumber - numberOfItems + 1;
-  //   const to = numberOfItems * currentPageNumber > totalNumber
-  //     ? totalNumber : numberOfItems * currentPageNumber;
-
-  //   for (let n = from; n <= to; n += 1) {
-  //     numbers.push(n);
-  //   }
-
-  //   return numbers;
-  // }
-
   return (
     <>
       <ul className="pagination">
