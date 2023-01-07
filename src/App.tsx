@@ -6,9 +6,10 @@ import { Pagination } from './components/Pagination';
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
+const defaultPerPage = 5;
+
 export const App: React.FC = () => {
-  const total = items.length;
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(defaultPerPage);
   const [currentPage, setCurrentPage] = useState(1);
 
   const onPageChange = (page: number) => {
@@ -23,8 +24,8 @@ export const App: React.FC = () => {
   };
 
   const currentStart = perPage * (currentPage - 1) + 1;
-  const currentEnd = (currentStart + perPage - 1) > total
-    ? total
+  const currentEnd = (currentStart + perPage - 1) > items.length
+    ? items.length
     : currentStart + perPage - 1;
   const currentNumbers = items.slice(currentStart - 1, currentEnd);
 
@@ -33,7 +34,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${currentStart} - ${currentEnd} of ${total})`}
+        {`Page ${currentPage} (items ${currentStart} - ${currentEnd} of ${items.length})`}
       </p>
 
       <div className="form-group row">
@@ -58,7 +59,7 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={total}
+        total={items.length}
         perPage={perPage}
         currentPage={currentPage}
         onPageChange={onPageChange}

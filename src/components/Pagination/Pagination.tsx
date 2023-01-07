@@ -18,15 +18,8 @@ export const Pagination: React.FC<Props> = ({
     currentPages.push(i);
   }
 
-  const pageClickHandler = (
-    e:React.MouseEvent<HTMLAnchorElement>,
-  ) => {
-    const el = e.target as HTMLElement;
-    const clickedPAge = Number(el.textContent);
-
-    if (Number(e.target) !== currentPage) {
-      onPageChange(clickedPAge);
-    }
+  const pageClickHandler = (page: number) => {
+    onPageChange(page);
   };
 
   const prevClickHandler = () => {
@@ -59,7 +52,16 @@ export const Pagination: React.FC<Props> = ({
           classNames('page-item', { active: page === currentPage })
         }
         >
-          <a data-cy="pageLink" className="page-link" href={`#${page}`} onClick={pageClickHandler}>{page}</a>
+          <a
+            data-cy="pageLink"
+            className="page-link"
+            href={`#${page}`}
+            onClick={() => {
+              pageClickHandler(page);
+            }}
+          >
+            {page}
+          </a>
         </li>
       ))}
 
