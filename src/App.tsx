@@ -3,6 +3,9 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
+import { ItemList } from './components/ItemList';
+import { Selector } from './components/Selector';
+import { Info } from './components/Info';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42)
@@ -40,30 +43,14 @@ export const App: FC = () => {
     <div className="container">
       <h1>Items with Pagination</h1>
 
-      <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${firstItem} - ${lastItem} of ${items.length})`}
-      </p>
+      <Info
+        currentPage={currentPage}
+        firstItem={firstItem}
+        lastItem={lastItem}
+        length={items.length}
+      />
 
-      <div className="form-group row">
-        <div className="col-3 col-sm-2 col-xl-1">
-          <select
-            data-cy="perPageSelector"
-            id="perPageSelector"
-            className="form-control"
-            value={perPage}
-            onChange={(e) => setPerPage(Number(e.target.value))}
-          >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-          </select>
-        </div>
-
-        <label htmlFor="perPageSelector" className="col-form-label col">
-          items per page
-        </label>
-      </div>
+      <Selector perPage={perPage} setPerPage={setPerPage} />
 
       <Pagination
         currentPage={currentPage}
@@ -71,19 +58,11 @@ export const App: FC = () => {
         pages={pageCount}
       />
 
-      <ul>
-        {items.map((item, index) => {
-          const start = (currentPage - 1) * perPage;
-          const end = start + perPage;
-
-          if (index >= start && index < end) {
-            return <li data-cy="item" key={item}>{item}</li>;
-          }
-
-          return null;
-        })}
-
-      </ul>
+      <ItemList
+        items={items}
+        currentPage={currentPage}
+        perPage={perPage}
+      />
     </div>
   );
 };
