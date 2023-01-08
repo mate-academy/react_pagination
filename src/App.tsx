@@ -25,11 +25,13 @@ export const App: FC = () => {
     }
   };
 
+  const pageCount = Math.ceil(items.length / perPage);
+
   const firstItem = (currentPage - 1) * perPage + 1;
   const lastItem = Math.min(currentPage * perPage, items.length);
 
   useEffect(() => {
-    if (currentPage > Math.ceil(items.length / perPage)) {
+    if (currentPage > pageCount) {
       setCurrentPage(1);
     }
   }, [perPage]);
@@ -64,10 +66,9 @@ export const App: FC = () => {
       </div>
 
       <Pagination
-        total={items.length}
-        perPage={Number(perPage)}
         currentPage={currentPage}
         onPageChange={pageChange}
+        pages={pageCount}
       />
 
       <ul>

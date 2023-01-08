@@ -1,20 +1,14 @@
 import type { MouseEvent, FC } from 'react';
-import cn from 'classnames';
+import { StepButton } from '../StepButton';
+import { PageNumber } from '../PageNumber';
 
 type Props = {
-  total: number;
-  perPage: number;
   currentPage: number;
+  pages: number;
   onPageChange: (action: number | string) => void;
 };
 
-export const Pagination: FC<Props> = ({
-  total,
-  perPage,
-  currentPage,
-  onPageChange,
-}) => {
-  const pages = Math.ceil(total / perPage);
+export const Pagination: FC<Props> = ({ currentPage, onPageChange, pages }) => {
   const pageNumbers = Array.from({ length: pages }, (_, i) => i + 1);
 
   const nextClick = (e: MouseEvent) => {
@@ -38,54 +32,28 @@ export const Pagination: FC<Props> = ({
 
   return (
     <ul className="pagination">
-      <li
-        className={cn('page-item', {
-          disabled: currentPage === 1,
-        })}
-      >
-        <a
-          data-cy="prevLink"
-          className="page-link"
-          href="#prev"
-          aria-disabled={currentPage === 1}
-          onClick={e => prevClick(e)}
-        >
-          «
-        </a>
-      </li>
+
+      <StepButton
+        direction="prev"
+        page={currentPage}
+        totalPage={pages}
+        handleClick={prevClick}
+      />
+
       {pageNumbers.map((page) => (
-        <li
-          className={cn('page-item', {
-            active: page === currentPage,
-          })}
-        >
-          <a
-            data-cy="pageLink"
-            className="page-link"
-            href={`#${page}`}
-            onClick={(e) => {
-              e.preventDefault();
-              onPageChange(page);
-            }}
-          >
-            {page}
-          </a>
-        </li>
+        <PageNumber
+          key={page}
+          page={page}
+          currentPage={currentPage}
+          onPageChange={onPageChange}
+        />
       ))}
-      <li className={cn('page-item', {
-        disabled: currentPage === pages,
-      })}
-      >
-        <a
-          data-cy="nextLink"
-          className="page-link"
-          href="#next"
-          aria-disabled={currentPage === pages}
-          onClick={e => nextClick(e)}
-        >
-          »
-        </a>
-      </li>
+      <StepButton
+        direction="next"
+        page={currentPage}
+        totalPage={pages}
+        handleClick={nextClick}
+      />
     </ul>
   );
 };
