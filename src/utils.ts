@@ -1,9 +1,8 @@
-export function getNumbers(from: number, to: number): number[] {
-  const numbers = [];
-
-  for (let n = from; n <= to; n += 1) {
-    numbers.push(n);
-  }
-
-  return numbers;
+export function getNumbers(
+  from: number,
+  to: number,
+): number[] {
+  return Array(to - from + 1)
+    .fill(0)
+    .map((_, i) => i + from);
 }
