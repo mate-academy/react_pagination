@@ -8,26 +8,31 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
+  const defaultItemsPerPage = 5;
+  const defaultPage = 1;
+
+  const [currentPage, setCurrentPage] = useState(defaultPage);
+  const [itemsPerPage, setitemsPerPage] = useState(defaultItemsPerPage);
+
+  const itemsToDisplay = items.slice(0, itemsPerPage);
 
   const [
     visibleItems,
     setVisibleItems,
-  ] = useState(items.slice(0, perPage));
+  ] = useState(itemsToDisplay);
 
   const total = items.length;
-  const from = currentPage * perPage - perPage + 1;
-  const to = Math.min(total, currentPage * perPage);
+  const from = currentPage * itemsPerPage - itemsPerPage + 1;
+  const to = Math.min(total, currentPage * itemsPerPage);
 
   useEffect(() => {
     const newItems = items.slice(
-      (currentPage - 1) * perPage,
-      currentPage * perPage,
+      (currentPage - 1) * itemsPerPage,
+      currentPage * itemsPerPage,
     );
 
     setVisibleItems(newItems);
-  }, [currentPage, perPage]);
+  }, [currentPage, itemsPerPage]);
 
   return (
     <div className="container">
@@ -42,13 +47,13 @@ export const App: FC = () => {
       <div className="form-group row">
         <div className="col-3 col-sm-2 col-xl-1">
           <select
-            data-cy="perPageSelector"
-            id="perPageSelector"
+            data-cy="itemsPerPageSelector"
+            id="itemsPerPageSelector"
             className="form-control"
-            value={perPage}
+            value={itemsPerPage}
             onChange={(event) => {
-              setPerPage(Number(event.target.value));
-              setCurrentPage(1);
+              setitemsPerPage(Number(event.target.value));
+              setCurrentPage(defaultPage);
             }}
           >
             <option value="3">3</option>
@@ -59,7 +64,7 @@ export const App: FC = () => {
         </div>
 
         <label
-          htmlFor="perPageSelector"
+          htmlFor="itemsPerPageSelector"
           className="col-form-label col"
         >
           items per page
@@ -68,7 +73,7 @@ export const App: FC = () => {
 
       <Pagination
         total={total}
-        perPage={perPage}
+        itemsPerPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={(page: number) => {
           setCurrentPage(page);

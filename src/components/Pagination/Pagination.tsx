@@ -4,18 +4,27 @@ import { getNumbers } from '../../utils';
 
 type Props = {
   total: number
-  perPage: number
+  itemsPerPage: number
   currentPage: number
   onPageChange: (page: number) => void
 };
 
+enum Direction {
+  Prev = 'prev',
+  Next = 'next',
+}
+
+type ButtonProp = {
+  direction: Direction
+};
+
 export const Pagination: FC<Props> = ({
   total,
-  perPage,
+  itemsPerPage,
   currentPage = 1,
   onPageChange,
 }) => {
-  const pages = getNumbers(1, Math.ceil(total / perPage));
+  const pages = getNumbers(1, Math.ceil(total / itemsPerPage));
 
   const [prev, setPrev] = useState(currentPage - 1);
   const [next, setNext] = useState(currentPage + 1);
@@ -25,10 +34,10 @@ export const Pagination: FC<Props> = ({
     setPrev(currentPage - 1);
   }, [currentPage]);
 
-  const renderStepButton = (direction: 'prev' | 'next') => {
-    const isAnEdgePage = {
-      prev: currentPage === 1,
-      next: currentPage === pages.length,
+  const StepButton: FC<ButtonProp> = ({ direction }) => {
+    const isAnEdgePage = currentPage === {
+      prev: 1,
+      next: pages.length,
     }[direction];
 
     const page = {
@@ -66,7 +75,7 @@ export const Pagination: FC<Props> = ({
 
   return (
     <ul className="pagination">
-      {renderStepButton('prev')}
+      <StepButton direction={Direction.Prev} />
 
       {pages.map(page => (
         <li
@@ -88,7 +97,7 @@ export const Pagination: FC<Props> = ({
         </li>
       ))}
 
-      {renderStepButton('next')}
+      <StepButton direction={Direction.Next} />
     </ul>
   );
 };
