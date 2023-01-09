@@ -3,6 +3,8 @@ import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
 
+const items = getNumbers(1, 42).map(n => `Item ${n}`);
+
 export const App: React.FC = () => {
   const [total] = useState(42);
   const [perPage, setPerPage] = useState(5);
@@ -14,16 +16,14 @@ export const App: React.FC = () => {
 
   const maxEnd = perPage * currentPage;
   const itemEnd = maxEnd > total ? total : maxEnd;
-  const itemStart = (maxEnd - perPage) + 1;
-
-  const items = getNumbers(itemStart, itemEnd).map(n => `Item ${n}`);
+  const itemStart = maxEnd - perPage;
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${itemStart} - ${itemEnd} of ${total})`}
+        {`Page ${currentPage} (items ${itemStart + 1} - ${itemEnd} of ${total})`}
       </p>
 
       <div className="form-group row">
@@ -58,7 +58,7 @@ export const App: React.FC = () => {
       />
 
       <ul>
-        {items.map(item => (
+        {items.slice(itemStart, itemEnd).map(item => (
           <li data-cy="item" key={item}>{item}</li>
         ))}
       </ul>

@@ -95,6 +95,5 @@ export const Pagination: React.FC<Props> = (
         </a>
       </li>
     </ul>
-
   );
 };
