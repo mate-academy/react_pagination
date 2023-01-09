@@ -12,7 +12,7 @@ export const App: FC = () => {
   const defaultPage = 1;
 
   const [currentPage, setCurrentPage] = useState(defaultPage);
-  const [itemsPerPage, setitemsPerPage] = useState(defaultItemsPerPage);
+  const [itemsPerPage, setItemsPerPage] = useState(defaultItemsPerPage);
 
   const itemsToDisplay = items.slice(0, itemsPerPage);
 
@@ -52,7 +52,7 @@ export const App: FC = () => {
             className="form-control"
             value={itemsPerPage}
             onChange={(event) => {
-              setitemsPerPage(Number(event.target.value));
+              setItemsPerPage(Number(event.target.value));
               setCurrentPage(defaultPage);
             }}
           >
