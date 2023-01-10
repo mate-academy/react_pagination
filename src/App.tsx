@@ -2,12 +2,12 @@ import type { FC } from 'react';
 import { useState, useEffect } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
-import { Pagination } from './components/Pagination';
 import { ItemList } from './components/ItemList';
 import { Selector } from './components/Selector';
 import { Info } from './components/Info';
+import { Direction } from './types/Direction';
+import { Pagination } from './components/Pagination';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
@@ -15,12 +15,12 @@ export const App: FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const pageChange = (action: number | string) => {
+  const pageChange = (action: number | Direction) => {
     switch (action) {
-      case 'next':
+      case Direction.Next:
         setCurrentPage((prev) => prev + 1);
         break;
-      case 'prev':
+      case Direction.Prev:
         setCurrentPage((prev) => prev - 1);
         break;
       default:
@@ -55,7 +55,7 @@ export const App: FC = () => {
       <Pagination
         currentPage={currentPage}
         onPageChange={pageChange}
-        pages={pageCount}
+        pageCount={pageCount}
       />
 
       <ItemList

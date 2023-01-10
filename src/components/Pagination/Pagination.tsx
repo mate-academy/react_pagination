@@ -1,24 +1,29 @@
 import type { MouseEvent, FC } from 'react';
 import { StepButton } from '../StepButton';
 import { PageNumber } from '../PageNumber';
+import { Direction } from '../../types/Direction';
 
 type Props = {
   currentPage: number;
-  pages: number;
-  onPageChange: (action: number | string) => void;
+  pageCount: number;
+  onPageChange: (action: number | Direction) => void;
 };
 
-export const Pagination: FC<Props> = ({ currentPage, onPageChange, pages }) => {
-  const pageNumbers = Array.from({ length: pages }, (_, i) => i + 1);
+export const Pagination: FC<Props> = ({
+  currentPage,
+  onPageChange,
+  pageCount,
+}) => {
+  const pageNumbers = Array.from({ length: pageCount }, (_, i) => i + 1);
 
   const nextClick = (e: MouseEvent) => {
     e.preventDefault();
 
-    if (currentPage === pages) {
+    if (currentPage === pageCount) {
       return;
     }
 
-    onPageChange('next');
+    onPageChange(Direction.Next);
   };
 
   const prevClick = (e: MouseEvent) => {
@@ -27,16 +32,16 @@ export const Pagination: FC<Props> = ({ currentPage, onPageChange, pages }) => {
       return;
     }
 
-    onPageChange('prev');
+    onPageChange(Direction.Prev);
   };
 
   return (
     <ul className="pagination">
 
       <StepButton
-        direction="prev"
+        direction={Direction.Prev}
         page={currentPage}
-        totalPage={pages}
+        totalPage={pageCount}
         handleClick={prevClick}
       />
 
@@ -49,9 +54,9 @@ export const Pagination: FC<Props> = ({ currentPage, onPageChange, pages }) => {
         />
       ))}
       <StepButton
-        direction="next"
+        direction={Direction.Next}
         page={currentPage}
-        totalPage={pages}
+        totalPage={pageCount}
         handleClick={nextClick}
       />
     </ul>

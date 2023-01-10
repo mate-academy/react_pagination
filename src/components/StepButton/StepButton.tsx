@@ -1,8 +1,9 @@
 import type { FC, MouseEvent } from 'react';
 import cn from 'classnames';
+import { Direction } from '../../types/Direction';
 
 type Props = {
-  direction: 'next' | 'prev';
+  direction: Direction;
   page: number;
   totalPage: number;
   handleClick: (e: MouseEvent) => void;
@@ -13,9 +14,9 @@ export const StepButton: FC<Props> = ({
   page,
   totalPage,
   handleClick,
-}) => {
-  if (direction === 'prev') {
-    return (
+}) => (
+  <>
+    {direction === Direction.Prev && (
       <li
         className={cn('page-item', {
           disabled: page === 1,
@@ -31,24 +32,24 @@ export const StepButton: FC<Props> = ({
           «
         </a>
       </li>
-    );
-  }
+    )}
 
-  return (
-    <li
-      className={cn('page-item', {
-        disabled: page === totalPage,
-      })}
-    >
-      <a
-        data-cy="nextLink"
-        className="page-link"
-        href="#next"
-        aria-disabled={page === totalPage}
-        onClick={(e) => handleClick(e)}
+    {direction === Direction.Next && (
+      <li
+        className={cn('page-item', {
+          disabled: page === totalPage,
+        })}
       >
-        »
-      </a>
-    </li>
-  );
-};
+        <a
+          data-cy="nextLink"
+          className="page-link"
+          href="#next"
+          aria-disabled={page === totalPage}
+          onClick={(e) => handleClick(e)}
+        >
+          »
+        </a>
+      </li>
+    )}
+  </>
+);
