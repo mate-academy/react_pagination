@@ -56,9 +56,9 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        page={page}
-        paginate={paginate}
-        totalPages={totalPages}
+        currentPage={page}
+        onPageChange={paginate}
+        total={totalPages}
       />
       <Items
         items={currentItems}

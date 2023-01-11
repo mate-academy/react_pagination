@@ -2,34 +2,34 @@ import React from 'react';
 import cn from 'classnames';
 
 interface Props {
-  page: number;
-  paginate: (num: number) => void;
-  totalPages: number;
+  currentPage: number;
+  onPageChange: (num: number) => void;
+  total: number;
 }
 
 export const Pagination: React.FC<Props> = ({
-  page,
-  paginate,
-  totalPages,
+  currentPage,
+  onPageChange,
+  total,
 }) => {
   const pages = [];
 
-  for (let i = 1; i <= totalPages; i += 1) {
+  for (let i = 1; i <= total; i += 1) {
     pages.push(i);
   }
 
   return (
     <ul className="pagination">
       <li className={cn('page-item', {
-        disabled: page <= 1,
+        disabled: currentPage <= 1,
       })}
       >
         <a
           data-cy="prevLink"
           className="page-link"
-          href={`#${page}`}
-          aria-disabled={page > 1 ? 'false' : 'true'}
-          onClick={() => page > 1 && paginate(page - 1)}
+          href={`#${currentPage}`}
+          aria-disabled={currentPage > 1 ? 'false' : 'true'}
+          onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
         >
           «
         </a>
@@ -38,7 +38,7 @@ export const Pagination: React.FC<Props> = ({
         pages.map((num) => (
           <li
             className={cn('page-item', {
-              active: page === num,
+              active: currentPage === num,
             })}
             key={num}
           >
@@ -46,7 +46,7 @@ export const Pagination: React.FC<Props> = ({
               data-cy="pageLink"
               className="page-link"
               href={`#${num}`}
-              onClick={() => paginate(num)}
+              onClick={() => onPageChange(num)}
             >
               {num}
             </a>
@@ -54,15 +54,15 @@ export const Pagination: React.FC<Props> = ({
         ))
       }
       <li className={cn('page-item', {
-        disabled: page >= pages.length,
+        disabled: currentPage >= pages.length,
       })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
-          href={`#${page}`}
-          aria-disabled={page === totalPages ? 'true' : 'false'}
-          onClick={() => page !== totalPages && paginate(page + 1)}
+          href={`#${currentPage}`}
+          aria-disabled={currentPage === total ? 'true' : 'false'}
+          onClick={() => currentPage !== total && onPageChange(currentPage + 1)}
         >
           »
         </a>
