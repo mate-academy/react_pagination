@@ -23,6 +23,28 @@ export const Pagination: React.FC<Props> = (props) => {
   const isBackButtonDisabled = currentPage === 1;
   const isForwardButtonDisabled = currentPage === pages[pages.length - 1];
 
+  const handlePageBack = () => {
+    if (!isBackButtonDisabled) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const HandlePageSwap = (
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+  ) => {
+    const newPage = event.currentTarget.textContent;
+
+    if (newPage && currentPage !== +newPage) {
+      onPageChange(+newPage);
+    }
+  };
+
+  const handlePageForward = () => {
+    if (!isForwardButtonDisabled) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
   return (
     <>
       <ul className="pagination">
@@ -37,11 +59,7 @@ export const Pagination: React.FC<Props> = (props) => {
             className="page-link"
             href="#prev"
             aria-disabled={isBackButtonDisabled}
-            onClick={() => {
-              if (!isBackButtonDisabled) {
-                onPageChange(currentPage - 1);
-              }
-            }}
+            onClick={handlePageBack}
           >
             «
           </a>
@@ -59,14 +77,8 @@ export const Pagination: React.FC<Props> = (props) => {
               <a
                 data-cy="pageLink"
                 className="page-link"
-                href="#2"
-                onClick={(event) => {
-                  const newPage = event.currentTarget.textContent;
-
-                  if (newPage && currentPage !== +newPage) {
-                    onPageChange(+newPage);
-                  }
-                }}
+                href={`#${page}`}
+                onClick={HandlePageSwap}
               >
                 {page}
               </a>
@@ -85,11 +97,7 @@ export const Pagination: React.FC<Props> = (props) => {
             className="page-link"
             href="#next"
             aria-disabled={isForwardButtonDisabled}
-            onClick={() => {
-              if (!isForwardButtonDisabled) {
-                onPageChange(currentPage + 1);
-              }
-            }}
+            onClick={handlePageForward}
           >
             »
           </a>
