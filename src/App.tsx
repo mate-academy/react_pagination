@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, {
+  useCallback, useEffect, useMemo, useState,
+} from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
@@ -9,25 +11,39 @@ const items = getNumbers(1, 42)
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
-  const [visibleItems, setVisibleItems] = useState(items.slice(0, perPage));
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [visibleItems, setVisibleItems] = useState<string[]>([]);
 
-  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newPerPage = Number(event.target.value);
+  useEffect(() => {
+    const initialVisibleItems = items.slice(0, itemsPerPage);
 
-    setPerPage(newPerPage);
-    setCurrentPage(1);
-    setVisibleItems(items.slice(0, newPerPage));
-  };
+    setVisibleItems(initialVisibleItems);
+  }, []);
+
+  const handleSelectChange = useCallback(
+    (event: React.ChangeEvent<HTMLSelectElement>) => {
+      const newItemsPerPage = Number(event.target.value);
+
+      setItemsPerPage(newItemsPerPage);
+      setCurrentPage(1);
+      setVisibleItems(items.slice(0, newItemsPerPage));
+    },
+    [],
+  );
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     setVisibleItems(items
-      .slice((page - 1) * perPage, page * perPage));
+      .slice((page - 1) * itemsPerPage, page * itemsPerPage));
   };
 
-  const firstVisibleItem = (currentPage - 1) * perPage + 1;
-  const lastVisibleItem = Math.min((currentPage * perPage), items.length);
+  const firstVisibleItem = useMemo(() => {
+    return (currentPage - 1) * itemsPerPage + 1;
+  }, [currentPage, itemsPerPage]);
+
+  const lastVisibleItem = useMemo(() => {
+    return Math.min((currentPage * itemsPerPage), items.length);
+  }, [currentPage, itemsPerPage, items]);
 
   return (
     <div className="container">
@@ -43,7 +59,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            value={perPage}
+            value={itemsPerPage}
             onChange={handleSelectChange}
           >
             <option value="3">3</option>
@@ -60,7 +76,7 @@ export const App: React.FC = () => {
 
       <Pagination
         total={items.length} // total number of items to paginate
-        perPage={perPage} // number of items per page
+        itemsPerPage={itemsPerPage} // number of items per page
         currentPage={currentPage}
         onPageChange={handlePageChange}
       />

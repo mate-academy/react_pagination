@@ -1,44 +1,53 @@
-import classNames from 'classnames';
-import { FC } from 'react';
+import cn from 'classnames';
+import {
+  FC, memo, useCallback, useMemo,
+} from 'react';
 
 type Props = {
   total: number,
-  perPage: number,
+  itemsPerPage: number,
   currentPage: number,
   onPageChange: (page: number) => void,
 };
 
-export const Pagination: FC<Props> = ({
+export const Pagination: FC<Props> = memo(({
   total,
-  perPage,
+  itemsPerPage,
   currentPage,
   onPageChange,
 }) => {
   const pageNums: number[] = [];
-  const pagesCounter = Math.ceil(total / perPage);
+  const pagesCounter = useMemo(() => {
+    return Math.ceil(total / itemsPerPage);
+  }, [total, itemsPerPage]);
 
   for (let i = 1; i <= pagesCounter; i += 1) {
     pageNums.push(i);
   }
 
-  const handlePageNumClick = (num: number) => {
+  const handlePageNumClick = useCallback((num: number) => {
     if (num !== currentPage && num > 0 && num <= pageNums.length) {
       onPageChange(num);
     }
-  };
+  }, [currentPage, pageNums]);
+
+  const isFirstPageActive = useMemo(() => currentPage === 1, [currentPage]);
+  const isLastPageActive = useMemo(() => (
+    currentPage === pageNums.length
+  ), [currentPage]);
 
   return (
     <ul className="pagination">
-      <li className={classNames(
+      <li className={cn(
         'page-item',
-        { disabled: currentPage === 1 },
+        { disabled: isFirstPageActive },
       )}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === 1}
+          aria-disabled={isFirstPageActive}
           onClick={() => handlePageNumClick(currentPage - 1)}
         >
           «
@@ -47,7 +56,7 @@ export const Pagination: FC<Props> = ({
       {pageNums.map(num => (
         <li
           key={num}
-          className={classNames(
+          className={cn(
             'page-item',
             { active: num === currentPage },
           )}
@@ -62,16 +71,16 @@ export const Pagination: FC<Props> = ({
           </a>
         </li>
       ))}
-      <li className={classNames(
+      <li className={cn(
         'page-item',
-        { disabled: currentPage === pageNums.length },
+        { disabled: isLastPageActive },
       )}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === pageNums.length}
+          aria-disabled={isLastPageActive}
           onClick={() => handlePageNumClick(currentPage + 1)}
         >
           »
@@ -79,4 +88,4 @@ export const Pagination: FC<Props> = ({
       </li>
     </ul>
   );
-};
+});
