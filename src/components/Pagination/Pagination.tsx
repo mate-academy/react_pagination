@@ -1,5 +1,7 @@
 import { FC } from 'react';
 import cn from 'classnames';
+import { NavigationList } from '../NavigationList/NavigationList';
+import { FilteredItems } from '../FilteredItems/FilteredItems';
 
 interface Props {
   total: number;
@@ -14,45 +16,23 @@ export const Pagination: FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
-  const natigationItems
-    = Array.from(
-      { length: Math.ceil(total / perPage) },
-      (_, i) => i + 1,
-    )
-      .map(item => (
-        <li
-          key={item}
-          className={cn(
-            'page-item',
-            { active: item === currentPage },
-          )}
-        >
-          <a
-            data-cy="pageLink"
-            className="page-link"
-            href={`#${item}`}
-            onClick={() => onPageChange(item)}
-          >
-            {item}
-          </a>
-        </li>
-      ));
-
-  const navListLength = natigationItems.length;
+  const navListLength = Math.ceil(total / perPage);
+  const isLeftButtonAvailable = currentPage <= 1;
+  const isRightButtonAvailable = currentPage >= navListLength;
 
   return (
     <>
       <ul className="pagination">
         <li className={cn(
           'page-item',
-          { disabled: currentPage <= 1 },
+          { disabled: isLeftButtonAvailable },
         )}
         >
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled={currentPage <= 1}
+            aria-disabled={isLeftButtonAvailable}
             onClick={() => {
               if (currentPage > 1) {
                 onPageChange(currentPage - 1);
@@ -62,17 +42,21 @@ export const Pagination: FC<Props> = ({
             «
           </a>
         </li>
-        {natigationItems}
+        <NavigationList
+          length={navListLength}
+          currentPage={currentPage}
+          onPageChange={onPageChange}
+        />
         <li className={cn(
           'page-item',
-          { disabled: currentPage >= navListLength },
+          { disabled: isRightButtonAvailable },
         )}
         >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={currentPage >= navListLength}
+            aria-disabled={isRightButtonAvailable}
             onClick={() => {
               if (currentPage < navListLength) {
                 onPageChange(currentPage + 1);
@@ -83,28 +67,11 @@ export const Pagination: FC<Props> = ({
           </a>
         </li>
       </ul>
-      <ul>
-        {Array(perPage)
-          .fill(0)
-          .map((_, i) => i)
-          .sort((a, b) => b - a)
-          .map(item => {
-            const maxValue = perPage * currentPage;
-
-            if (maxValue - item > total) {
-              return null;
-            }
-
-            return (
-              <li
-                key={item}
-                data-cy="item"
-              >
-                {`Item ${maxValue - item}`}
-              </li>
-            );
-          })}
-      </ul>
+      <FilteredItems
+        perPage={perPage}
+        currentPage={currentPage}
+        total={total}
+      />
     </>
   );
 };

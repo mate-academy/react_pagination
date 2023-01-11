@@ -8,23 +8,25 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
+  const defaultPage = 1;
+
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPageSelector, setPerPageSelector] = useState('5');
-  const maxItem = Number(perPageSelector) * currentPage < items.length
-    ? Number(perPageSelector) * currentPage
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const maxItem = Number(itemsPerPage) * currentPage < items.length
+    ? Number(itemsPerPage) * currentPage
     : items.length;
 
-  const itemsInColumn = maxItem - ((currentPage - 1) * +perPageSelector);
+  const itemsInColumn = maxItem - ((currentPage - 1) * +itemsPerPage);
   const minValue = maxItem - itemsInColumn;
 
   const handlePage = (pageId: number) => {
     setCurrentPage(pageId);
   };
 
-  const handlePerPage = (value: string) => {
-    setPerPageSelector(value);
+  const handlePerPage = (value: number) => {
+    setItemsPerPage(value);
 
-    setCurrentPage(1);
+    setCurrentPage(defaultPage);
   };
 
   return (
@@ -41,13 +43,13 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            value={perPageSelector}
-            onChange={(event) => handlePerPage(event.target.value)}
+            value={itemsPerPage}
+            onChange={(event) => handlePerPage(+event.target.value)}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            <option value={3}>3</option>
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+            <option value={20}>20</option>
           </select>
         </div>
 
@@ -58,12 +60,10 @@ export const App: React.FC = () => {
 
       <Pagination
         total={items.length}
-        perPage={Number(perPageSelector)}
+        perPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={handlePage}
       />
     </div>
   );
 };
-
-export default App;
