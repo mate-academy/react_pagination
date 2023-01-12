@@ -14,7 +14,6 @@ export const App: React.FC = () => {
   const indexOfLastItem = page * +itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - +itemsPerPage;
   const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(items.length / +itemsPerPage);
   const end = Math.min(indexOfFirstItem + +itemsPerPage, items.length);
 
   const paginate = (pageNumber: number) => {
@@ -58,7 +57,8 @@ export const App: React.FC = () => {
       <Pagination
         currentPage={page}
         onPageChange={paginate}
-        total={totalPages}
+        total={items.length}
+        perPage={+itemsPerPage}
       />
       <Items
         items={currentItems}

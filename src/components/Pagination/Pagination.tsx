@@ -5,16 +5,19 @@ interface Props {
   currentPage: number;
   onPageChange: (num: number) => void;
   total: number;
+  perPage: number;
 }
 
 export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
   total,
+  perPage,
 }) => {
+  const totalPages = Math.ceil(total / perPage);
   const pages = [];
 
-  for (let i = 1; i <= total; i += 1) {
+  for (let i = 1; i <= totalPages; i += 1) {
     pages.push(i);
   }
 
@@ -61,8 +64,9 @@ export const Pagination: React.FC<Props> = ({
           data-cy="nextLink"
           className="page-link"
           href={`#${currentPage}`}
-          aria-disabled={currentPage === total ? 'true' : 'false'}
-          onClick={() => currentPage !== total && onPageChange(currentPage + 1)}
+          aria-disabled={currentPage === totalPages ? 'true' : 'false'}
+          onClick={() => currentPage !== totalPages
+            && onPageChange(currentPage + 1)}
         >
           »
         </a>
