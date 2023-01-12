@@ -2,21 +2,38 @@ type Props = {
   itemsLoad: string[],
   itemsPerPage: number,
   total: number,
-  paginate: (number:number) => void,
+  onPageChange: (number:number) => void,
   currentPage: number,
-  nextPage: () => void,
-  prevPage: () => void
+  setCurrentPage: (cb: (currentPage: number) => number) => void
 };
 
 export const Pagination: React.FC<Props>
   = ({
-    itemsLoad, itemsPerPage, total, paginate, currentPage, nextPage, prevPage,
+    itemsLoad,
+    itemsPerPage,
+    total,
+    onPageChange,
+    currentPage,
+    setCurrentPage,
   }) => {
     const pageNumbers = [];
+    const numberOfPages = Math.ceil(total / itemsPerPage);
 
     for (let i = 1; i <= Math.ceil(total / itemsPerPage); i += 1) {
       pageNumbers.push(i);
     }
+
+    const nextPage = () => {
+      if (currentPage !== numberOfPages) {
+        setCurrentPage((prev: number) => prev + 1);
+      }
+    };
+
+    const prevPage = () => {
+      if (currentPage !== 1) {
+        setCurrentPage(prev => prev - 1);
+      }
+    };
 
     return (
       <>
@@ -26,7 +43,7 @@ export const Pagination: React.FC<Props>
               data-cy="prevLink"
               className="page-link"
               href="#prev"
-              aria-disabled="true"
+              aria-disabled={currentPage === 1 ? 'true' : 'false'}
               onClick={prevPage}
             >
               «
@@ -37,20 +54,20 @@ export const Pagination: React.FC<Props>
               <a
                 data-cy="pageLink"
                 className="page-link"
-                href="!#"
-                onClick={() => paginate(number)}
+                href={`#${number}`}
+                onClick={() => onPageChange(number)}
               >
                 {number}
               </a>
             </li>
           ))}
 
-          <li className="page-item">
+          <li className={`page-item ${currentPage === numberOfPages ? 'disabled' : ''}`}>
             <a
               data-cy="nextLink"
               className="page-link"
               href="#next"
-              aria-disabled="false"
+              aria-disabled={currentPage === numberOfPages ? 'true' : 'false'}
               onClick={nextPage}
             >
               »
