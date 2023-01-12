@@ -44,8 +44,8 @@ export const App: React.FC = () => {
       <div className="form-group row">
         <div className="col-3 col-sm-2 col-xl-1">
           <select
-            data-cy="perItemselector"
-            id="perItemselector"
+            data-cy="perPageSelector"
+            id="perPageSelector"
             className="form-control"
             value={itemsPerPage}
             onChange={handleOption}
@@ -61,7 +61,7 @@ export const App: React.FC = () => {
           </select>
         </div>
 
-        <label htmlFor="perItemselector" className="col-form-label col">
+        <label htmlFor="perPageSelector" className="col-form-label col">
           items per page
         </label>
       </div>
