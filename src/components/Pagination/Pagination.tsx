@@ -1,11 +1,10 @@
 import classNames from 'classnames';
-import { getNumbers } from '../../utils';
+import { getNumbers, numberOfPages, currentItems } from '../../utils';
 
 type Props = {
   total: number,
   perPage: string,
   currentPage: number,
-  currentItems: number[],
   onPageChange: CallableFunction,
   prevButton: CallableFunction,
   nextButton: CallableFunction,
@@ -15,13 +14,11 @@ export const Pagination: React.FC<Props> = ({
   total,
   perPage,
   currentPage,
-  currentItems,
   onPageChange,
   prevButton,
   nextButton,
 }) => {
-  const numberOfPages = Math.ceil(total / +perPage);
-  const pagesCollection = getNumbers(1, numberOfPages);
+  const pagesCollection = getNumbers(1, numberOfPages(total, perPage));
 
   return (
     <>
@@ -60,14 +57,14 @@ export const Pagination: React.FC<Props> = ({
         ))}
         <li
           className={classNames('page-item', {
-            disabled: currentPage === numberOfPages,
+            disabled: currentPage === numberOfPages(total, perPage),
           })}
         >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={currentPage === numberOfPages}
+            aria-disabled={currentPage === numberOfPages(total, perPage)}
             onClick={() => nextButton()}
           >
             »
@@ -76,7 +73,7 @@ export const Pagination: React.FC<Props> = ({
       </ul>
 
       <ul>
-        {currentItems.map((number: number) => (
+        {currentItems(total, currentPage, perPage).map((number: number) => (
           <li
             data-cy="item"
             key={number}
