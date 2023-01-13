@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import cn from 'classnames';
 import React from 'react';
 import { getItems } from '../../additionalFunctions/getItems';
 import { getPages } from '../../additionalFunctions/getPages';
@@ -49,7 +49,7 @@ export const Pagination: React.FC<Props> = (props) => {
     <>
       <ul className="pagination">
         <li
-          className={classNames({
+          className={cn({
             'page-item': true,
             disabled: isBackButtonDisabled,
           })}
@@ -69,7 +69,7 @@ export const Pagination: React.FC<Props> = (props) => {
           pages.map(page => (
             <li
               key={page}
-              className={classNames({
+              className={cn({
                 'page-item': true,
                 active: page === currentPage,
               })}
@@ -87,7 +87,7 @@ export const Pagination: React.FC<Props> = (props) => {
         }
 
         <li
-          className={classNames({
+          className={cn({
             'page-item': true,
             disabled: isForwardButtonDisabled,
           })}
