@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import cn from 'classnames';
 import { NavigationList } from '../NavigationList/NavigationList';
-import { FilteredItems } from '../FilteredItems/FilteredItems';
+import { getNumbers } from '../../utils';
 
 interface Props {
   total: number;
@@ -19,6 +19,7 @@ export const Pagination: FC<Props> = ({
   const navListLength = Math.ceil(total / perPage);
   const isLeftButtonAvailable = currentPage <= 1;
   const isRightButtonAvailable = currentPage >= navListLength;
+  const navigationList = getNumbers(1, navListLength);
 
   return (
     <>
@@ -43,7 +44,7 @@ export const Pagination: FC<Props> = ({
           </a>
         </li>
         <NavigationList
-          length={navListLength}
+          list={navigationList}
           currentPage={currentPage}
           onPageChange={onPageChange}
         />
@@ -67,11 +68,6 @@ export const Pagination: FC<Props> = ({
           </a>
         </li>
       </ul>
-      <FilteredItems
-        perPage={perPage}
-        currentPage={currentPage}
-        total={total}
-      />
     </>
   );
 };

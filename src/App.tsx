@@ -18,15 +18,21 @@ export const App: React.FC = () => {
 
   const itemsInColumn = maxItem - ((currentPage - 1) * +itemsPerPage);
   const minValue = maxItem - itemsInColumn;
+  const maxValue = itemsPerPage * currentPage;
+  const displayItems = items.slice(maxValue - itemsPerPage, maxValue);
 
   const handlePage = (pageId: number) => {
-    setCurrentPage(pageId);
+    if (pageId !== currentPage) {
+      setCurrentPage(pageId);
+    }
   };
 
   const handlePerPage = (value: number) => {
-    setItemsPerPage(value);
+    if (value !== itemsPerPage) {
+      setItemsPerPage(value);
 
-    setCurrentPage(defaultPage);
+      setCurrentPage(defaultPage);
+    }
   };
 
   return (
@@ -64,6 +70,15 @@ export const App: React.FC = () => {
         currentPage={currentPage}
         onPageChange={handlePage}
       />
+
+      {displayItems.map(item => (
+        <li
+          key={item}
+          data-cy="item"
+        >
+          {item}
+        </li>
+      ))}
     </div>
   );
 };

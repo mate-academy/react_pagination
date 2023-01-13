@@ -2,41 +2,37 @@ import React from 'react';
 import cn from 'classnames';
 
 type Props = {
-  length: number;
+  list: number[];
   currentPage: number;
   onPageChange: (item: number) => void;
 };
 
 export const NavigationList: React.FC<Props> = ({
-  length,
+  list,
   currentPage,
   onPageChange,
 }) => {
   return (
     <>
       {
-        Array.from(
-          { length },
-          (_, i) => i + 1,
-        )
-          .map(item => (
-            <li
-              key={item}
-              className={cn(
-                'page-item',
-                { active: item === currentPage },
-              )}
+        list.map(item => (
+          <li
+            key={item}
+            className={cn(
+              'page-item',
+              { active: item === currentPage },
+            )}
+          >
+            <a
+              data-cy="pageLink"
+              className="page-link"
+              href={`#${item}`}
+              onClick={() => onPageChange(item)}
             >
-              <a
-                data-cy="pageLink"
-                className="page-link"
-                href={`#${item}`}
-                onClick={() => onPageChange(item)}
-              >
-                {item}
-              </a>
-            </li>
-          ))
+              {item}
+            </a>
+          </li>
+        ))
       }
     </>
   );
