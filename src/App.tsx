@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, MouseEvent } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
@@ -28,11 +28,12 @@ export class App extends React.Component<{}, State> {
   handleNewItems = () => {
     this.setState(state => {
       const { selectedPage, selectedPageItems } = state;
+      const lastElement = selectedPage * selectedPageItems;
 
       return ({
         visibleItems: items.slice(
-          (selectedPage * selectedPageItems) - selectedPageItems,
-          selectedPage * selectedPageItems,
+          lastElement - selectedPageItems,
+          lastElement,
         ),
       });
     });
@@ -55,13 +56,13 @@ export class App extends React.Component<{}, State> {
     this.handleNewItems();
   };
 
-  selectPrevPage = () => {
-    this.setState(state => ({ selectedPage: state.selectedPage - 1 }));
-    this.handleNewItems();
-  };
+  selectPageWithArrow = (event: MouseEvent<HTMLElement>) => {
+    if (event.currentTarget.textContent === '«') {
+      this.setState(state => ({ selectedPage: state.selectedPage - 1 }));
+    } else {
+      this.setState(state => ({ selectedPage: state.selectedPage + 1 }));
+    }
 
-  selectNextPage = () => {
-    this.setState(state => ({ selectedPage: state.selectedPage + 1 }));
     this.handleNewItems();
   };
 
@@ -105,13 +106,11 @@ export class App extends React.Component<{}, State> {
         </div>
 
         <Pagination
-          // total={items.length}
           visibleItems={visibleItems}
           perPage={pageLinks}
           currentPage={selectedPage}
           onPageClick={this.selectPage}
-          toPrevPage={this.selectPrevPage}
-          toNextPage={this.selectNextPage}
+          onArrowClick={this.selectPageWithArrow}
         />
       </div>
     );
