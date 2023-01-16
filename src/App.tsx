@@ -3,8 +3,10 @@ import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42)
+const startNumber = 1;
+const endNumber = 42;
+
+const items = getNumbers(startNumber, endNumber)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
@@ -17,6 +19,13 @@ export const App: React.FC = () => {
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
   };
+
+  const hadleToPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setItemsPerPage(+event.target.value);
+    setPage(1);
+  };
+
+  const slicedItems = items.slice(start - 1, end);
 
   return (
     <div className="container">
@@ -32,10 +41,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            onChange={event => {
-              setItemsPerPage(+event.target.value);
-              setPage(1);
-            }}
+            onChange={hadleToPage}
             value={perPage}
           >
             <option value="3">3</option>
@@ -50,7 +56,6 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
       <Pagination
         total={items.length}
         perPage={perPage}
@@ -58,7 +63,7 @@ export const App: React.FC = () => {
         onPageChange={handlePageChange}
       />
       <ul>
-        {items.slice(start - 1, end).map(item => (
+        {slicedItems.map(item => (
           <li data-cy="item" key={item}>
             {item}
           </li>
