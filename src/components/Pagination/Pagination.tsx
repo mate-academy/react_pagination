@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { MouseEvent } from 'react';
 
 type Props = {
@@ -22,7 +23,7 @@ export const Pagination: React.FC<Props> = ({
   return (
     <>
       <ul className="pagination">
-        <li className={`page-item ${isFirst && 'disabled'}`}>
+        <li className={classNames('page-item', { disabled: isFirst })}>
           <a
             data-cy="prevLink"
             className="page-link"
@@ -57,7 +58,7 @@ export const Pagination: React.FC<Props> = ({
           );
         })}
 
-        <li className={`page-item ${isLast && 'disabled'}`}>
+        <li className={classNames('page-item', { disabled: isLast })}>
           <a
             data-cy="nextLink"
             className="page-link"

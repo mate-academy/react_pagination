@@ -25,6 +25,8 @@ export class App extends React.Component<{}, State> {
 
   total = items.length;
 
+  numberOfVisibleItem = `${this.state.visibleItems[0]} - ${this.state.visibleItems.at(-1)}`;
+
   handleNewItems = () => {
     this.setState(state => {
       const { selectedPage, selectedPageItems } = state;
@@ -80,7 +82,7 @@ export class App extends React.Component<{}, State> {
         <h1>Items with Pagination</h1>
 
         <p className="lead" data-cy="info">
-          {`Page ${selectedPage} (items ${visibleItems[0]} - ${visibleItems.at(-1)} of ${this.total})`}
+          {`Page ${selectedPage} (items ${this.numberOfVisibleItem} of ${this.total})`}
         </p>
 
         <div className="form-group row">
