@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, {
+  useState, memo, useMemo, useCallback,
+} from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -6,23 +8,26 @@ import { Pagination } from './components/Pagination';
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
-export const App: React.FC = () => {
+export const App: React.FC = memo(() => {
   const total = items.length;
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
   const lastItemOnPage = Math.min(perPage * currentPage, total);
   const firstItemOnPage = perPage * (currentPage - 1) + 1;
-  const itemsPerPage = getNumbers(firstItemOnPage, lastItemOnPage);
+  const itemsPerPage = useMemo(
+    () => getNumbers(firstItemOnPage, lastItemOnPage),
+    [firstItemOnPage, lastItemOnPage],
+  );
 
   const handleChangePerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(+event.target.value);
     setCurrentPage(1);
   };
 
-  const handlePageChange = (page: number) => {
+  const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page);
-  };
+  }, []);
 
   return (
     <div className="container">
@@ -69,6 +74,6 @@ export const App: React.FC = () => {
       </ul>
     </div>
   );
-};
+});
 
 export default App;
