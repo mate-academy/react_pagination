@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
@@ -8,27 +8,34 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [page, setPage] = useState(1);
-  const [select, setSelect] = useState(5);
+  const startPage = 1;
+  const startSelect = 5;
+  const countOfItems = 42;
+
+  const [page, setPage] = useState(startPage);
+  const [select, setSelect] = useState(startSelect);
 
   const startItems = page * select - select;
-  const endItems = page * select <= 42 ? page * select : 42;
+
+  const endItems = page * select <= countOfItems
+    ? page * select
+    : countOfItems;
 
   const visibleItems = items.slice(startItems, endItems);
 
-  const handlePageChange = (p: number | string) => {
-    if (typeof p === 'number') {
-      setPage(p);
+  const handlePageChange = useCallback((currentPage: number | string) => {
+    if (typeof currentPage === 'number') {
+      setPage(currentPage);
     }
 
-    if (p === 'prev') {
-      setPage(page - 1);
+    if (currentPage === 'prev') {
+      setPage(prev => prev - 1);
     }
 
-    if (p === 'next') {
-      setPage(page + 1);
+    if (currentPage === 'next') {
+      setPage(prev => prev + 1);
     }
-  };
+  }, []);
 
   return (
     <div className="container">

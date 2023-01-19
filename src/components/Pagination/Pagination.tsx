@@ -1,4 +1,5 @@
 import cn from 'classnames';
+import React from 'react';
 import { getNumbers } from '../../utils';
 
 type Props = {
@@ -8,7 +9,7 @@ type Props = {
   onPageChange: (page: number | string) => void
 };
 
-export const Pagination: React.FC<Props> = ({
+export const Pagination: React.FC<Props> = React.memo(({
   total,
   perPage,
   currentPage,
@@ -80,4 +81,4 @@ export const Pagination: React.FC<Props> = ({
       </li>
     </ul>
   );
-};
+});
