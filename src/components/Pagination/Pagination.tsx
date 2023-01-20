@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useEffect, useState } from 'react';
 import cn from 'classnames';
 
@@ -62,28 +63,32 @@ export const Pagination: React.FC<Props> = ({
         </a>
       </li>
 
-      {[...Array(visiblePages)].map((x, i) => (
-        <li
-          className={cn(
-            'page-item',
-            {
-              active: i === active,
-            },
-          )}
-        >
-          <a
-            data-cy="pageLink"
-            className="page-link"
-            href={`#${i + 1}`}
-            onClick={() => {
-              setActive(i);
-              onPageChange(i + 1);
-            }}
+      {[...Array(visiblePages)].map((x, i) => {
+        console.log(x);
+
+        return (
+          <li
+            className={cn(
+              'page-item',
+              {
+                active: i === active,
+              },
+            )}
           >
-            {i + 1}
-          </a>
-        </li>
-      ))}
+            <a
+              data-cy="pageLink"
+              className="page-link"
+              href={`#${i + 1}`}
+              onClick={() => {
+                setActive(i);
+                onPageChange(i + 1);
+              }}
+            >
+              {i + 1}
+            </a>
+          </li>
+        )
+      })}
 
       <li className={cn(
         'page-item',
