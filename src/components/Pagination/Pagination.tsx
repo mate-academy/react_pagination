@@ -87,7 +87,7 @@ export const Pagination: React.FC<Props> = ({
               {i + 1}
             </a>
           </li>
-        )
+        );
       })}
 
       <li className={cn(

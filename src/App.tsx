@@ -46,7 +46,7 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     remakeList();
-  }, [currentPage]);
+  }, [currentPage, perPage]);
 
   return (
     <div className="container">
