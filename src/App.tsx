@@ -15,17 +15,20 @@ import { getNumbers } from './utils';
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
+const defaultPage = 1;
+
 export const App: FC = () => {
   const [itemsPerPage, setItemsPerPage] = useState(3);
+  const [currentPage, setCurrentPage] = useState(defaultPage);
 
-  const total = items.length;
+  const totalItems = items.length;
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page 1 (items 1 - 5 of ${total})`}
+        {`Page 1 (items 1 - 5 of ${totalItems})`}
       </p>
 
       <div className="form-group row">
@@ -35,7 +38,10 @@ export const App: FC = () => {
             id="perPageSelector"
             className="form-control"
             value={itemsPerPage}
-            onChange={(event) => setItemsPerPage(Number(event.target.value))}
+            onChange={(event) => {
+              setItemsPerPage(Number(event.target.value));
+              setCurrentPage(defaultPage);
+            }}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -48,7 +54,12 @@ export const App: FC = () => {
           items per page
         </label>
       </div>
-      <Pagination />
+      <Pagination
+        total={totalItems}
+        perPage={itemsPerPage}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+      />
     </div>
   );
 };
