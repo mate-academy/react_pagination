@@ -25,7 +25,7 @@ export const Pagination: React.FC<Props> = ({
     <ul className="pagination">
       <li
         className={
-          currentPage === pageList[0]
+          currentPage === firstPage
             ? 'page-item disabled'
             : 'page-item'
         }
