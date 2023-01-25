@@ -3,17 +3,7 @@ import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
 
-//! Required Props on <Pagination /> :
-// * <Pagination
-// * total={42} // total number of items to paginate
-// * perPage={5} // number of items per page
-// * currentPage={1} // optional with 1 by default
-// * onPageChange={(page) => { ... }}
-// * / >
-
 const defaultPage = 1;
-// const items = getNumbers(1, 42)
-//   .map(n => `Item ${n}`);
 const items = getNumbers(1, 42);
 
 export const App: FC = () => {
