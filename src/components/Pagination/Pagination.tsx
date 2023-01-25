@@ -19,16 +19,18 @@ export const Pagination: FC<Props> = (
   const totalPages = Math.ceil(total / perPage);
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
   const isFirstPage = currentPage === pages[0];
-  const isLastPage = currentPage === pages[pages.length - 1];
+  const isLastPage = currentPage === pages.length;
 
   const handleClickPrevNext = (
     event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
   ) => {
-    if (event.currentTarget.href.includes('#next')) {
+    if (event.currentTarget.href.includes('#next')
+    && !isLastPage) {
       setCurrentPage(
         (state) => state + 1,
       );
-    } else {
+    } else if (event.currentTarget.href.includes('#prev')
+    && !isFirstPage) {
       setCurrentPage(
         (state) => state - 1,
       );
@@ -66,7 +68,11 @@ export const Pagination: FC<Props> = (
               data-cy="pageLink"
               className="page-link"
               href={`#${pageNum}`}
-              onClick={() => setCurrentPage(pageNum)}
+              onClick={() => {
+                if (pageNum !== currentPage) {
+                  setCurrentPage(pageNum);
+                }
+              }}
             >
               {pageNum}
             </a>
@@ -83,28 +89,11 @@ export const Pagination: FC<Props> = (
             className="page-link"
             href="#next"
             aria-disabled={isLastPage}
-            onClick={(event) => {
-              if (event.currentTarget.href.includes('#next')) {
-                setCurrentPage(
-                  (state) => state + 1,
-                );
-              } else {
-                setCurrentPage(
-                  (state) => state - 1,
-                );
-              }
-            }}
+            onClick={handleClickPrevNext}
           >
             »
           </a>
         </li>
-      </ul>
-      <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
       </ul>
     </>
   );

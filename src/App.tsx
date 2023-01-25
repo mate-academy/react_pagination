@@ -11,24 +11,33 @@ import { getNumbers } from './utils';
 // * onPageChange={(page) => { ... }}
 // * / >
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42)
-  .map(n => `Item ${n}`);
-
 const defaultPage = 1;
+// const items = getNumbers(1, 42)
+//   .map(n => `Item ${n}`);
+const items = getNumbers(1, 42);
 
 export const App: FC = () => {
-  const [itemsPerPage, setItemsPerPage] = useState(3);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(defaultPage);
 
   const totalItems = items.length;
+  const displayedItems = items.slice(
+    itemsPerPage * (currentPage - 1),
+    itemsPerPage * (currentPage),
+  );
+  const firstItem = displayedItems[0];
+  const lastItem = displayedItems[displayedItems.length - 1];
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page 1 (items 1 - 5 of ${totalItems})`}
+        {displayedItems.length > 1 ? (
+          `Page ${currentPage} (items ${firstItem} - ${lastItem} of ${totalItems})`
+        ) : (
+          `Page ${currentPage} (item ${firstItem} of ${totalItems})`
+        )}
       </p>
 
       <div className="form-group row">
@@ -60,6 +69,14 @@ export const App: FC = () => {
         currentPage={currentPage}
         onPageChange={setCurrentPage}
       />
+
+      <ul>
+        {displayedItems.map(n => (
+          <li data-cy="item" key={`item-${n}`}>
+            {`Item ${n}`}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
