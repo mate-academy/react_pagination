@@ -18,19 +18,37 @@ export const Pagination: FC<Props> = (
 ) => {
   const totalPages = Math.ceil(total / perPage);
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+  const isFirstPage = currentPage === pages[0];
+  const isLastPage = currentPage === pages[pages.length - 1];
 
-  // eslint-disable-next-line no-console
-  console.log(pages);
+  const handleClickPrevNext = (
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+  ) => {
+    if (event.currentTarget.href.includes('#next')) {
+      setCurrentPage(
+        (state) => state + 1,
+      );
+    } else {
+      setCurrentPage(
+        (state) => state - 1,
+      );
+    }
+  };
 
   return (
     <>
       <ul className="pagination">
-        <li className="page-item disabled">
+        <li className={cn(
+          'page-item',
+          { disabled: isFirstPage },
+        )}
+        >
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled="false"
+            aria-disabled={isFirstPage}
+            onClick={handleClickPrevNext}
           >
             «
           </a>
@@ -55,12 +73,27 @@ export const Pagination: FC<Props> = (
           </li>
         ))}
 
-        <li className="page-item">
+        <li className={cn(
+          'page-item',
+          { disabled: isLastPage },
+        )}
+        >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled="false"
+            aria-disabled={isLastPage}
+            onClick={(event) => {
+              if (event.currentTarget.href.includes('#next')) {
+                setCurrentPage(
+                  (state) => state + 1,
+                );
+              } else {
+                setCurrentPage(
+                  (state) => state - 1,
+                );
+              }
+            }}
           >
             »
           </a>
