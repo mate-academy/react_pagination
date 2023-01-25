@@ -16,6 +16,8 @@ export const Pagination: React.FC<Props> = ({
   const requiredPages = Math.ceil(total / perPage);
   const pageList = Array.from({ length: requiredPages }, (_, i) => i + 1);
 
+  const firstPage = pageList[0];
+  const lastPage = pageList[pageList.length - 1];
   const previousPage = currentPage - 1;
   const nextPage = currentPage + 1;
 
@@ -32,9 +34,9 @@ export const Pagination: React.FC<Props> = ({
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === pageList[0]}
+          aria-disabled={currentPage === firstPage}
           onClick={() => {
-            if (currentPage === pageList[0]) {
+            if (currentPage === firstPage) {
               return;
             }
 
@@ -46,7 +48,11 @@ export const Pagination: React.FC<Props> = ({
       </li>
       {pageList.map(page => (
         <li
-          className={page === currentPage ? 'page-item active' : 'page-item'}
+          className={
+            page === currentPage
+              ? 'page-item active'
+              : 'page-item'
+          }
           key={page}
         >
           <a
@@ -61,7 +67,7 @@ export const Pagination: React.FC<Props> = ({
       ))}
       <li
         className={
-          currentPage === pageList[pageList.length - 1]
+          currentPage === lastPage
             ? 'page-item disabled'
             : 'page-item'
         }
@@ -70,9 +76,9 @@ export const Pagination: React.FC<Props> = ({
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === pageList[pageList.length - 1]}
+          aria-disabled={currentPage === lastPage}
           onClick={() => {
-            if (currentPage === pageList[pageList.length - 1]) {
+            if (currentPage === lastPage) {
               return;
             }
 
