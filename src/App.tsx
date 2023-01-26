@@ -16,12 +16,16 @@ export const App: React.FC = () => {
   const endIndex = startIndex + perPage;
   const currentItems = items.slice(startIndex, endIndex);
 
+  const lastItemOfPage = endIndex > total
+    ? total
+    : endIndex;
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${startIndex + 1} - ${endIndex > total ? total : endIndex} of ${total})`}
+        {`Page ${currentPage} (items ${startIndex + 1} - ${lastItemOfPage} of ${total})`}
       </p>
 
       <div className="form-group row">

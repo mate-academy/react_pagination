@@ -1,3 +1,4 @@
+import cn from 'classnames';
 import React from 'react';
 
 type Props = {
@@ -21,38 +22,46 @@ export const Pagination: React.FC<Props> = ({
   const previousPage = currentPage - 1;
   const nextPage = currentPage + 1;
 
+  const handleNextButton = () => {
+    if (currentPage === lastPage) {
+      return;
+    }
+
+    onPageChange(nextPage);
+  };
+
+  const handlePreviousButton = () => {
+    if (currentPage === firstPage) {
+      return;
+    }
+
+    onPageChange(previousPage);
+  };
+
   return (
     <ul className="pagination">
       <li
-        className={
-          currentPage === firstPage
-            ? 'page-item disabled'
-            : 'page-item'
-        }
+        className={cn(
+          'page-item',
+          { disabled: currentPage === firstPage },
+        )}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
           aria-disabled={currentPage === firstPage}
-          onClick={() => {
-            if (currentPage === firstPage) {
-              return;
-            }
-
-            onPageChange(previousPage);
-          }}
+          onClick={handlePreviousButton}
         >
           «
         </a>
       </li>
       {pageList.map(page => (
         <li
-          className={
-            page === currentPage
-              ? 'page-item active'
-              : 'page-item'
-          }
+          className={cn(
+            'page-item',
+            { active: page === currentPage },
+          )}
           key={page}
         >
           <a
@@ -66,24 +75,17 @@ export const Pagination: React.FC<Props> = ({
         </li>
       ))}
       <li
-        className={
-          currentPage === lastPage
-            ? 'page-item disabled'
-            : 'page-item'
-        }
+        className={cn(
+          'page-item',
+          { disabled: currentPage === lastPage },
+        )}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
           aria-disabled={currentPage === lastPage}
-          onClick={() => {
-            if (currentPage === lastPage) {
-              return;
-            }
-
-            onPageChange(nextPage);
-          }}
+          onClick={handleNextButton}
         >
           »
         </a>
