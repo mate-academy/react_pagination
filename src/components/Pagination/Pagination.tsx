@@ -61,6 +61,7 @@ export const Pagination: React.FC<Props> = () => {
         </li>
       </ul>
       <ul>
+        {}
         <li data-cy="item">Item 1</li>
         <li data-cy="item">Item 2</li>
         <li data-cy="item">Item 3</li>

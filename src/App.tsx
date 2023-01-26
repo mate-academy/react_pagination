@@ -7,19 +7,26 @@ import { getNumbers } from './utils';
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
-const pageSelectors = ['3', '5', '10', '20'];
+const pageSelectors = [
+  { itemsPerPage: '3', id: 'select-1' },
+  { itemsPerPage: '5', id: 'select-2' },
+  { itemsPerPage: '10', id: 'select-3' },
+  { itemsPerPage: '20', id: 'select-4' },
+];
 
 export const App: React.FC = () => {
-  // const [selectedTab, setSelectedTab] = useState('#1');
-  // const [visibleItems] = useState(items);
-  const [selectedSelector, setSelectedSelector] = useState(pageSelectors[1]);
+  const [selectedSelectorId, setSelectedSelectorId] = useState('select-2');
+
+  const selectedSelector = pageSelectors.find((selector) => (
+    setSelectedSelectorId(selector.id)
+  ));
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        {`Page 1 (items 1 - ${selectedSelector} of 42)`}
       </p>
 
       <div className="form-group row">
@@ -28,17 +35,17 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            value={selectedSelector}
+            value={selectedSelectorId}
             onChange={((event) => {
-              setSelectedSelector(event.target.value);
+              setSelectedSelectorId(event.target.value);
             })}
           >
             {pageSelectors.map((selector) => (
               <option
-                value={selector.length}
-                key={selector.length}
+                value={selector.id}
+                key={selector.id}
               >
-                {selector}
+                {selector.itemsPerPage}
               </option>
             ))}
           </select>
@@ -52,6 +59,10 @@ export const App: React.FC = () => {
       <Pagination
         items={items}
       />
+      {/* total={42}
+      perPage={5}
+      currentPage={1}
+      onPageChange={() => { }} */}
     </div>
   );
 };
