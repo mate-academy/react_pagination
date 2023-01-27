@@ -23,11 +23,9 @@ export const App: FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {displayedItems.length > 1 ? (
-          `Page ${currentPage} (items ${firstItem} - ${lastItem} of ${totalItems})`
-        ) : (
-          `Page ${currentPage} (item ${firstItem} of ${totalItems})`
-        )}
+        {displayedItems.length > 1
+          ? `Page ${currentPage} (items ${firstItem} - ${lastItem} of ${totalItems})`
+          : `Page ${currentPage} (item ${firstItem} of ${totalItems})`}
       </p>
 
       <div className="form-group row">

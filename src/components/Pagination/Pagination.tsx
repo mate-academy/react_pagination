@@ -32,7 +32,9 @@ export const Pagination: FC<Props> = (
       setCurrentPage(
         (state) => state + 1,
       );
-    } else if (event.currentTarget.href.includes('#prev')
+    }
+
+    if (event.currentTarget.href.includes('#prev')
     && !isFirstPage) {
       setCurrentPage(
         (state) => state - 1,
@@ -58,21 +60,21 @@ export const Pagination: FC<Props> = (
         </a>
       </li>
 
-      {pages.map(pageNum => (
+      {pages.map(page => (
         <li
           className={cn(
             'page-item',
-            { active: pageNum === currentPage },
+            { active: page === currentPage },
           )}
-          key={pageNum}
+          key={page}
         >
           <a
             data-cy="pageLink"
             className="page-link"
-            href={`#${pageNum}`}
-            onClick={() => setCurrentPage(pageNum)}
+            href={`#${page}`}
+            onClick={() => setCurrentPage(page)}
           >
-            {pageNum}
+            {page}
           </a>
         </li>
       ))}
