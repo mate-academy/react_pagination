@@ -33,70 +33,68 @@ export const Pagination: React.FC<Props> = ({
   };
 
   return (
-    <>
-      <ul className="pagination">
-        <li className={
-          classNames(
-            'page-item',
-            {
-              disabled: currentPage === 1,
-            },
-          )
-        }
+    <ul className="pagination">
+      <li className={
+        classNames(
+          'page-item',
+          {
+            disabled: currentPage === 1,
+          },
+        )
+      }
+      >
+        <a
+          data-cy="prevLink"
+          className="page-link"
+          href="#prev"
+          aria-disabled={currentPage === 1}
+          onClick={handlePrevPage}
         >
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled={currentPage === 1}
-            onClick={handlePrevPage}
-          >
-            «
-          </a>
-        </li>
-        {pages.map(page => (
-          <li
-            key={page}
-            className={
-              classNames(
-                'page-item',
-                {
-                  active: page === currentPage,
-                },
-              )
-            }
-          >
-            <a
-              data-cy="pageLink"
-              className="page-link"
-              href={`#${page}`}
-              onClick={() => onPageChange(page)}
-            >
-              {page}
-            </a>
-          </li>
-        ))}
+          «
+        </a>
+      </li>
+      {pages.map(page => (
         <li
+          key={page}
           className={
             classNames(
               'page-item',
               {
-                disabled: currentPage === numberOfPages,
+                active: page === currentPage,
               },
             )
           }
         >
           <a
-            data-cy="nextLink"
+            data-cy="pageLink"
             className="page-link"
-            href="#next"
-            aria-disabled={currentPage === numberOfPages}
-            onClick={handleNextPage}
+            href={`#${page}`}
+            onClick={() => onPageChange(page)}
           >
-            »
+            {page}
           </a>
         </li>
-      </ul>
-    </>
+      ))}
+      <li
+        className={
+          classNames(
+            'page-item',
+            {
+              disabled: currentPage === numberOfPages,
+            },
+          )
+        }
+      >
+        <a
+          data-cy="nextLink"
+          className="page-link"
+          href="#next"
+          aria-disabled={currentPage === numberOfPages}
+          onClick={handleNextPage}
+        >
+          »
+        </a>
+      </li>
+    </ul>
   );
 };
