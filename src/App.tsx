@@ -1,62 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
-import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
+import { getNumbers } from './utils';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [perPage, setPerPage] = useState(5);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
+  const itemsToDisplay = items.slice(0, itemsPerPage);
+  const [visibleItems, setVisibleItems] = useState(itemsToDisplay);
 
-  const visibleItems = perPage * currentPage;
-  const startItemsCount = ((currentPage - 1) * perPage) + 1;
-  const endItemsCount = !(visibleItems > items.length)
-    ? visibleItems
-    : items.length;
+  const totalItems = items.length;
+  const startItem = currentPage * itemsPerPage - itemsPerPage + 1;
+  const endItem = Math.min(totalItems, currentPage * itemsPerPage);
 
-  const handlePerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setPerPage(+event.target.value);
-    setCurrentPage(1);
-  };
+  useEffect(() => {
+    const newItems = items.slice(
+      (currentPage - 1) * itemsPerPage,
+      currentPage * itemsPerPage,
+    );
 
-  const handlePageChange = (
-    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-  ) => {
-    const { textContent } = event.currentTarget;
-
-    if (textContent) {
-      switch (textContent) {
-        case '«':
-          if (currentPage === 1) {
-            return;
-          }
-
-          setCurrentPage(currentPage - 1);
-          break;
-
-        case '»':
-          if (currentPage === Math.ceil(items.length / perPage)) {
-            return;
-          }
-
-          setCurrentPage(currentPage + 1);
-          break;
-
-        default:
-          setCurrentPage(+textContent);
-          break;
-      }
-    }
-  };
+    setVisibleItems(newItems);
+  }, [currentPage, itemsPerPage]);
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${startItemsCount} - ${endItemsCount} of 42)`}
+        {`Page ${currentPage}`}
+        {` (items ${startItem} - ${endItem} `}
+        {`of ${totalItems})`}
       </p>
 
       <div className="form-group row">
@@ -65,8 +42,11 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            value={perPage}
-            onChange={handlePerPage}
+            value={itemsPerPage}
+            onChange={(event) => {
+              setItemsPerPage(+event.target.value);
+              setCurrentPage(1);
+            }}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -81,11 +61,23 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={items}
-        perPage={perPage}
+        total={totalItems}
+        itemsPerPage={itemsPerPage}
         currentPage={currentPage}
-        onPageChange={handlePageChange}
+        onPageChange={(page) => {
+          setCurrentPage(page);
+        }}
       />
+      <ul>
+        {visibleItems.map(item => (
+          <li
+            key={item}
+            data-cy="item"
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
