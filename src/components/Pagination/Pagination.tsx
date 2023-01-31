@@ -19,6 +19,8 @@ export const Pagination: React.FC<Props> = ({
   const maxPageNumber = Math.ceil(items.length / perPage);
   const firstItem = perPage * (currentPage - 1) + 1;
   const lastItem = firstItem + perPage - 1;
+  const isPrevDisabled = currentPage === 1;
+  const isNextDisabled = currentPage === maxPageNumber;
 
   const pageNumbers = getNumbers(1, maxPageNumber);
   const filteredItems = items.filter(item => {
@@ -39,8 +41,8 @@ export const Pagination: React.FC<Props> = ({
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled="true"
-            onClick={() => onPageChange(currentPage - 1)}
+            aria-disabled={isPrevDisabled}
+            onClick={() => !isPrevDisabled && onPageChange(currentPage - 1)}
           >
             «
           </a>
@@ -70,8 +72,8 @@ export const Pagination: React.FC<Props> = ({
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled="true"
-            onClick={() => onPageChange(currentPage + 1)}
+            aria-disabled={isNextDisabled}
+            onClick={() => !isNextDisabled && onPageChange(currentPage + 1)}
           >
             »
           </a>
