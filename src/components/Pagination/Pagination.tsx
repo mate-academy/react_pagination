@@ -17,17 +17,11 @@ export const Pagination: React.FC<Props> = ({
   const totalPages = Math.ceil(total / perPage);
   const pages = getNumbers(1, totalPages);
 
-  const handleChangePrev = () => (
-    currentPage !== 1
-      ? onPageChange(currentPage - 1)
-      : onPageChange(currentPage)
-  );
-
-  const handleChangeNext = () => (
-    currentPage !== totalPages
-      ? onPageChange(currentPage + 1)
-      : onPageChange(currentPage)
-  );
+  const handlePageChange = (page: number) => {
+    if (currentPage !== page && page >= 1 && page <= totalPages) {
+      onPageChange(page);
+    }
+  };
 
   return (
     <ul className="pagination">
@@ -39,7 +33,7 @@ export const Pagination: React.FC<Props> = ({
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          onClick={handleChangePrev}
+          onClick={() => handlePageChange(currentPage - 1)}
           aria-disabled={currentPage === 1}
         >
           «
@@ -69,7 +63,7 @@ export const Pagination: React.FC<Props> = ({
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          onClick={handleChangeNext}
+          onClick={() => handlePageChange(currentPage + 1)}
           aria-disabled={currentPage === totalPages}
         >
           »
