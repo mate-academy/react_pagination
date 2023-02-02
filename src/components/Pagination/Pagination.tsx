@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { MouseEvent } from 'react';
 import { getNumbers } from '../../utils';
 
 type Props = {
@@ -18,6 +19,12 @@ export const Pagination: React.FC<Props> = ({
 }) => {
   const valuePages = getNumbers(1, pages.length);
 
+  const hadlerChangePage = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (event.currentTarget.textContent) {
+      onPageChange(+event.currentTarget.textContent);
+    }
+  };
+
   return (
     <ul
       className="pagination"
@@ -31,11 +38,9 @@ export const Pagination: React.FC<Props> = ({
         <a
           data-cy="prevLink"
           className="page-link"
-          href="#prev"
+          href={`#${currentPage}`}
           aria-disabled={currentPage === 1}
-          onClick={() => {
-            prevPage();
-          }}
+          onClick={prevPage}
         >
           «
         </a>
@@ -53,11 +58,7 @@ export const Pagination: React.FC<Props> = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${page}`}
-            onClick={(event) => {
-              if (event.currentTarget.textContent) {
-                onPageChange(+event.currentTarget.textContent);
-              }
-            }}
+            onClick={(event) => hadlerChangePage(event)}
           >
             {page}
           </a>
@@ -73,11 +74,9 @@ export const Pagination: React.FC<Props> = ({
         <a
           data-cy="nextLink"
           className="page-link"
-          href="#next"
+          href={`#${currentPage}`}
           aria-disabled={currentPage === pages.length}
-          onClick={() => {
-            nextPage();
-          }}
+          onClick={nextPage}
         >
           »
         </a>
