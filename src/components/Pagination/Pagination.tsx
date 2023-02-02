@@ -1,44 +1,64 @@
-import classNames from 'classnames';
+import React, { memo } from 'react';
+import cn from 'classnames';
 import { getNumbers } from '../../utils';
-import { StepButton } from '../SetButton/SetButton';
 
-interface Props {
+type Props = {
   total: number,
-  itemsPerPage: number,
+  perPage: number,
   currentPage: number,
   onPageChange: (page: number) => void,
-}
+};
 
-enum Direction {
-  Prev = 'prev',
-  Next = 'next',
-}
-
-export const Pagination: React.FC<Props> = ({
+export const Pagination: React.FC<Props> = memo(({
+  perPage,
   total,
-  itemsPerPage,
-  currentPage = 1,
+  currentPage,
   onPageChange,
 }) => {
-  const pages = getNumbers(1, Math.ceil(total / itemsPerPage));
+  const lastPage = Math.ceil(total / perPage);
+  const allPages = getNumbers(1, lastPage);
+
+  const handleClickPrevPage = () => {
+    onPageChange(
+      currentPage > 1
+        ? currentPage - 1
+        : currentPage,
+    );
+  };
+
+  const handleClickNextPage = () => {
+    onPageChange(
+      currentPage < lastPage
+        ? currentPage + 1
+        : currentPage,
+    );
+  };
 
   return (
     <ul className="pagination">
-      <StepButton
-        direction={Direction.Prev}
-        currentPage={currentPage}
-        pages={pages}
-        onPageChange={(page) => {
-          onPageChange(page);
-        }}
-      />
-
-      {pages.map(page => (
+      <li
+        className={cn(
+          'page-item',
+          { disabled: currentPage === 1 },
+        )}
+      >
+        <a
+          data-cy="prevLink"
+          className="page-link"
+          href="#prev"
+          aria-disabled={currentPage === 1}
+          onClick={handleClickPrevPage}
+        >
+          «
+        </a>
+      </li>
+      {allPages.map(page => (
         <li
           key={page}
-          className={classNames('page-item', {
-            active: page === currentPage,
-          })}
+          className={cn(
+            'page-item',
+            { active: currentPage === page },
+          )}
         >
           <a
             data-cy="pageLink"
@@ -52,15 +72,22 @@ export const Pagination: React.FC<Props> = ({
           </a>
         </li>
       ))}
-
-      <StepButton
-        direction={Direction.Next}
-        currentPage={currentPage}
-        pages={pages}
-        onPageChange={(page) => {
-          onPageChange(page);
-        }}
-      />
+      <li
+        className={cn(
+          'page-item',
+          { disabled: currentPage === lastPage },
+        )}
+      >
+        <a
+          data-cy="nextLink"
+          className="page-link"
+          href="#next"
+          aria-disabled={currentPage === lastPage}
+          onClick={handleClickNextPage}
+        >
+          »
+        </a>
+      </li>
     </ul>
   );
-};
+});
