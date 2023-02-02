@@ -34,7 +34,15 @@ export const App: React.FC = memo(() => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${firstItemOnPage} - ${lastItemOnPage} of ${total})`}
+        Page
+        {currentPage}
+        (items
+        {firstItemOnPage}
+        -
+        {lastItemOnPage}
+        of
+        {total}
+        )
       </p>
 
       <div className="form-group row">
@@ -68,7 +76,8 @@ export const App: React.FC = memo(() => {
       <ul>
         {itemsPerPage.map(item => (
           <li data-cy="item" key={item}>
-            {`Item ${item}`}
+            Item
+            {item}
           </li>
         ))}
       </ul>
