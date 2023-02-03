@@ -34,6 +34,8 @@ export const Pagination: React.FC<Props> = memo(({
     );
   };
 
+  const onPageChangeHanler = (page: number) => () => onPageChange(page);
+
   return (
     <ul className="pagination">
       <li
@@ -64,7 +66,7 @@ export const Pagination: React.FC<Props> = memo(({
             data-cy="pageLink"
             className="page-link"
             href={`#${page}`}
-            onClick={() => onPageChange(page)}
+            onClick={onPageChangeHanler(page)}
           >
             {page}
           </a>
