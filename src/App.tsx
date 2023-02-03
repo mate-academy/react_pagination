@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import './App.css';
-import { getNumbers } from './utils';
+import { getExtremes, getNumbers, getVisibleItems } from './utils';
 import { Pagination } from './components/Pagination';
 import { ItemList } from './components/ItemList';
 import { PerPageSelector } from './components/PerPageSelector';
@@ -16,21 +16,15 @@ export const App: FC = () => {
   useEffect(() => setPage(1), [perPage]);
 
   const total = items.length;
-
-  const firstVisibleIndex = (page - 1) * perPage;
-  const lastVisibleIndex = firstVisibleIndex + perPage < total
-    ? firstVisibleIndex + perPage
-    : total;
-
-  const visibleItems = items
-    .slice(firstVisibleIndex, lastVisibleIndex);
+  const visibleItems = getVisibleItems(items, page, perPage);
+  const [firstVisible, lastVisible] = getExtremes(total, page, perPage);
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${page} (items ${firstVisibleIndex + 1} - ${lastVisibleIndex} of ${total})`}
+        {`Page ${page} (items ${firstVisible} - ${lastVisible} of ${total})`}
       </p>
 
       <PerPageSelector perPage={perPage} onChange={setPerPage} />

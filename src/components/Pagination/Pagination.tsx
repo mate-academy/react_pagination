@@ -12,7 +12,7 @@ type Props = {
 export const Pagination: FC<Props> = ({
   total,
   perPage,
-  currentPage = 1,
+  currentPage,
   onPageChange,
 }) => {
   const pages = getNumbers(1, Math.ceil(total / perPage));
