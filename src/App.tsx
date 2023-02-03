@@ -7,6 +7,7 @@ import './App.css';
 
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
+const itemsPerPageSelect = [3, 5, 10, 20];
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -47,10 +48,11 @@ export const App: React.FC = () => {
             value={itemsPerPage}
             onChange={onItemsNumChange}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            {itemsPerPageSelect.map(itemsAmount => (
+              <option value={itemsAmount}>
+                {itemsAmount}
+              </option>
+            ))}
           </select>
         </div>
 
