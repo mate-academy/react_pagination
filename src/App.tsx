@@ -7,19 +7,19 @@ import { getNumbers } from './utils';
 const items = getNumbers(1, 42).map((n) => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [option, setOption] = useState<number>(5);
+  const [perPageOption, setPerPageOption] = useState<number>(5);
   const [currentPage, setCurrentPage] = useState(1);
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setOption(+event.target.value);
+    setPerPageOption(+event.target.value);
     setCurrentPage(1);
   };
 
-  // eslint-disable-next-line max-len
-  const itemsSpliced = [...items].splice((currentPage - 1) * option, option);
+  const splicedItems = [...items]
+    .splice((currentPage - 1) * perPageOption, perPageOption);
 
-  const indexLast = itemsSpliced[itemsSpliced.length - 1];
-  const itemStart = parseInt(itemsSpliced[0].replace(/[^\d]/g, ''), 10);
+  const indexLast = splicedItems[splicedItems.length - 1];
+  const itemStart = parseInt(splicedItems[0].replace(/[^\d]/g, ''), 10);
   const itemEnd = parseInt(indexLast.replace(/[^\d]/g, ''), 10);
 
   return (
@@ -37,7 +37,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             onChange={handleSelectChange}
-            value={option}
+            value={perPageOption}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -54,12 +54,12 @@ export const App: React.FC = () => {
       {/* Move this markup to Pagination */}
       <Pagination
         total={42}
-        perPage={option}
+        perPage={perPageOption}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
       />
       <ul>
-        {itemsSpliced.map((item) => (
+        {splicedItems.map((item) => (
           <li data-cy="item">{item}</li>
         ))}
       </ul>
