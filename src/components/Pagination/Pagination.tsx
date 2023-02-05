@@ -43,6 +43,7 @@ export const Pagination: FC<Props> = ({
       </li>
       {pages.map(page => (
         <li
+          key={page}
           className={classNames(
             'page-item',
             { active: page === currentPage },

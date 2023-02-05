@@ -1,5 +1,6 @@
-import { FC, useEffect, useState } from 'react';
+import React from 'react';
 import './App.css';
+import { useSearchParams } from 'react-router-dom';
 import { getExtremes, getNumbers, getVisibleItems } from './utils';
 import { Pagination } from './components/Pagination';
 import { ItemList } from './components/ItemList';
@@ -9,11 +10,22 @@ import { PerPageSelector } from './components/PerPageSelector';
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
-export const App: FC = () => {
-  const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
+export const App: React.FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = +(searchParams.get('page') || 1);
+  const perPage = +(searchParams.get('perPage') || 5);
 
-  useEffect(() => setPage(1), [perPage]);
+  const setPage = (newPage: number) => {
+    searchParams.set('page', `${newPage}`);
+    setSearchParams(searchParams);
+  };
+
+  const setPerPage = (newPerPage: number) => {
+    setSearchParams({
+      page: '1',
+      perPage: `${newPerPage}`,
+    });
+  };
 
   const total = items.length;
   const visibleItems = getVisibleItems(items, page, perPage);
