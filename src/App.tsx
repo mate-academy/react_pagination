@@ -24,15 +24,17 @@ export const App: React.FC = () => {
   };
 
   const startItem = currentPage * perPage - perPage;
-  const endtItem = perPage * currentPage <= 42 ? perPage * currentPage : 42;
-  const itemsOnPage = items.slice(startItem, endtItem);
+  const endItem = perPage * currentPage <= itemsList.length
+    ? perPage * currentPage
+    : itemsList.length;
+  const itemsOnPage = items.slice(startItem, endItem);
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${startItem + 1} - ${endtItem} of ${itemsList.length})`}
+        {`Page ${currentPage} (items ${startItem + 1} - ${endItem} of ${itemsList.length})`}
       </p>
 
       <div className="form-group row">
