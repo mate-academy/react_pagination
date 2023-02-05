@@ -18,7 +18,9 @@ export const Pagination: React.FC<Props> = ({
   const pageItems = new Array(countPageItem).fill(1).map((_, i) => i + 1);
 
   const handlePageChange = (pageNum:number) => {
-    onPageChange(pageNum);
+    if (pageNum !== currentPage && pageNum > 0 && pageNum <= pageItems.length) {
+      onPageChange(pageNum);
+    }
   };
 
   return (
@@ -33,7 +35,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={currentPage === 1}
-          onClick={() => onPageChange(currentPage - 1)}
+          onClick={() => handlePageChange(currentPage - 1)}
         >
           «
         </a>
@@ -66,7 +68,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={currentPage === pageItems.length}
-          onClick={() => onPageChange(currentPage + 1)}
+          onClick={() => handlePageChange(currentPage + 1)}
         >
           »
         </a>
