@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { useCallback } from 'react';
 
 type Props = {
   total: number;
@@ -17,11 +18,11 @@ export const Pagination: React.FC<Props> = ({
 
   const pageItems = new Array(countPageItem).fill(1).map((_, i) => i + 1);
 
-  const handlePageChange = (pageNum:number) => {
+  const handlePageChange = useCallback((pageNum:number) => {
     if (pageNum !== currentPage && pageNum > 0 && pageNum <= pageItems.length) {
       onPageChange(pageNum);
     }
-  };
+  }, [currentPage, pageItems]);
 
   return (
     <ul className="pagination">
