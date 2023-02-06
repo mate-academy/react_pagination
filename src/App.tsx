@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
@@ -10,6 +11,11 @@ const items = getNumbers(1, 42)
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const page = searchParams.get('page') || 1;
+  const perPageSize = searchParams.get('perPageSize') || 5;
 
   const total = items.length;
   const startOfPage = currentPage * perPage - perPage;
@@ -18,9 +24,13 @@ export const App: React.FC = () => {
     : currentPage * perPage;
   const partOfItems = items.slice(startOfPage, endOfPage);
 
+  useEffect(() => {
+    setPerPage(+perPageSize);
+    setCurrentPage(+page);
+  }, [perPageSize, page]);
+
   const onChangePerPage = (pageSize: number) => {
-    setPerPage(pageSize);
-    setCurrentPage(1);
+    navigate(`?page=${1}&perPageSize=${pageSize}`);
   };
 
   return (
@@ -57,8 +67,8 @@ export const App: React.FC = () => {
         total={total}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={setCurrentPage}
       />
+
       <ul>
         {partOfItems.map(item => (
           <li key={item} data-cy="item">{item}</li>

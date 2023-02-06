@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import './Pagination.scss';
 import { getNumbers } from '../../utils';
@@ -7,20 +8,32 @@ type Props = {
   total: number,
   perPage: number,
   currentPage: number,
-  onPageChange: (page: number) => void,
+  // onPageChange: (page: number) => void,
 };
 
 export const Pagination: React.FC<Props> = ({
   total,
   perPage,
   currentPage,
-  onPageChange,
+  // onPageChange,
 }) => {
   const totalPages = Math.ceil(total / perPage);
   const numberOfPages = getNumbers(1, totalPages);
 
   const prevDisabled = currentPage === 1;
   const nextDisabled = currentPage === totalPages;
+
+  const setSearchParams = (nextPage: number) => {
+    if (nextPage < 1) {
+      return `?page=${1}&perPageSize=${perPage}`;
+    }
+
+    if (nextPage > totalPages) {
+      return `?page=${totalPages}&perPageSize=${perPage}`;
+    }
+
+    return `?page=${nextPage}&perPageSize=${perPage}`;
+  };
 
   return (
     <ul className="pagination">
@@ -30,19 +43,14 @@ export const Pagination: React.FC<Props> = ({
           { disabled: prevDisabled },
         )}
       >
-        <a
+        <Link
           data-cy="prevLink"
           className="page-link"
-          href="#prev"
+          to={setSearchParams(currentPage - 1)}
           aria-disabled={prevDisabled}
-          onClick={() => {
-            if (!prevDisabled) {
-              onPageChange(currentPage - 1);
-            }
-          }}
         >
           «
-        </a>
+        </Link>
       </li>
       {numberOfPages.map((page) => (
         <li
@@ -52,14 +60,13 @@ export const Pagination: React.FC<Props> = ({
             { active: page === currentPage },
           )}
         >
-          <a
+          <Link
             data-cy="pageLink"
             className="page-link"
-            href={`#${page}`}
-            onClick={() => onPageChange(page)}
+            to={setSearchParams(page)}
           >
             {page}
-          </a>
+          </Link>
         </li>
       ))}
       <li
@@ -68,19 +75,14 @@ export const Pagination: React.FC<Props> = ({
           { disabled: nextDisabled },
         )}
       >
-        <a
+        <Link
           data-cy="nextLink"
           className="page-link"
-          href="#next"
+          to={setSearchParams(currentPage + 1)}
           aria-disabled={nextDisabled}
-          onClick={() => {
-            if (!nextDisabled) {
-              onPageChange(currentPage + 1);
-            }
-          }}
         >
           »
-        </a>
+        </Link>
       </li>
     </ul>
   );
