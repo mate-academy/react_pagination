@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
 type Props = {
-  path: string,
   total: number, // total number of items to paginate
   perPage: number, // number of items per page
   currentPage: number, /* optional with 1 by default */
@@ -16,7 +15,6 @@ enum MovePage {
 }
 
 export const Pagination: React.FC<Props> = ({
-  path,
   total,
   perPage,
   currentPage,
@@ -32,16 +30,22 @@ export const Pagination: React.FC<Props> = ({
     }
   };
 
+  const getPath = (page: number) => {
+    return `/?page=${page}&perPage=${perPage}`;
+  };
+
   const movePage = (move: MovePage) => {
     let moveTo = 1;
 
     switch (move) {
       case MovePage.Next:
         moveTo = currentPage + 1;
+
         break;
 
       case MovePage.Prev:
         moveTo = currentPage - 1;
+
         break;
 
       default:
@@ -63,7 +67,7 @@ export const Pagination: React.FC<Props> = ({
         <Link
           data-cy="prevLink"
           className="page-link"
-          to={path}
+          to={getPath(currentPage - 1)}
           aria-disabled={prevDisabled}
           onClick={() => {
             if (!prevDisabled) {
@@ -87,7 +91,7 @@ export const Pagination: React.FC<Props> = ({
           <Link
             data-cy="pageLink"
             className="page-link"
-            to={path}
+            to={`/?page=${index + 1}&perPage=${perPage}`}
             onClick={() => {
               handlerClick(index + 1);
             }}
@@ -106,10 +110,12 @@ export const Pagination: React.FC<Props> = ({
         <Link
           data-cy="nextLink"
           className="page-link"
-          to={path}
+          to={getPath(currentPage + 1)}
           aria-disabled={nextDisabled}
           onClick={() => {
             if (!nextDisabled) {
+              // eslint-disable-next-line no-console
+              console.log(!nextDisabled);
               movePage(MovePage.Next);
             }
           }}
