@@ -10,8 +10,8 @@ const items = getNumbers(1, 42)
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-  const [total] = useState(42);
 
+  const total = items.length;
   const startIndex = (currentPage - 1) * perPage;
   const endIndex = startIndex + perPage;
   const itmesOnPage = items.slice(startIndex, endIndex);
