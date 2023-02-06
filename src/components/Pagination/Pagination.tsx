@@ -1,7 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
+import { Link } from 'react-router-dom';
 
 type Props = {
+  path: string,
   total: number, // total number of items to paginate
   perPage: number, // number of items per page
   currentPage: number, /* optional with 1 by default */
@@ -14,6 +16,7 @@ enum MovePage {
 }
 
 export const Pagination: React.FC<Props> = ({
+  path,
   total,
   perPage,
   currentPage,
@@ -57,10 +60,10 @@ export const Pagination: React.FC<Props> = ({
         },
       )}
       >
-        <a
+        <Link
           data-cy="prevLink"
           className="page-link"
-          href="#prev"
+          to={path}
           aria-disabled={prevDisabled}
           onClick={() => {
             if (!prevDisabled) {
@@ -69,7 +72,7 @@ export const Pagination: React.FC<Props> = ({
           }}
         >
           «
-        </a>
+        </Link>
       </li>
       {[...Array(amountOfItems)].map((_, index) => (
         <li
@@ -81,16 +84,16 @@ export const Pagination: React.FC<Props> = ({
             },
           )}
         >
-          <a
+          <Link
             data-cy="pageLink"
             className="page-link"
-            href={`#${index + 1}`}
+            to={path}
             onClick={() => {
               handlerClick(index + 1);
             }}
           >
             {`${index + 1}`}
-          </a>
+          </Link>
         </li>
       ))}
       <li className={classNames(
@@ -100,10 +103,10 @@ export const Pagination: React.FC<Props> = ({
         },
       )}
       >
-        <a
+        <Link
           data-cy="nextLink"
           className="page-link"
-          href="#next"
+          to={path}
           aria-disabled={nextDisabled}
           onClick={() => {
             if (!nextDisabled) {
@@ -112,7 +115,7 @@ export const Pagination: React.FC<Props> = ({
           }}
         >
           »
-        </a>
+        </Link>
       </li>
     </ul>
   );

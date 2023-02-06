@@ -1,7 +1,8 @@
 import React, { ChangeEvent, useState } from 'react';
 import './App.css';
-import { getNumbers } from './utils';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { Pagination } from './components/Pagination';
+import { getNumbers } from './utils';
 
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
@@ -13,6 +14,7 @@ function getRandomDigits() {
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
+  const path = `?page=${currentPage + 1}&perPage=${itemsPerPage}`;
 
   const total = items.length;
   const from = currentPage * itemsPerPage - itemsPerPage;
@@ -27,54 +29,64 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="container">
-      <h1>Items with Pagination</h1>
+    <BrowserRouter>
+      <div className="container">
+        <h1>Items with Pagination</h1>
 
-      <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${from + 1} - ${to} of ${total})` }
-      </p>
+        <p className="lead" data-cy="info">
+          {`Page ${currentPage} (items ${from + 1} - ${to} of ${total})` }
+        </p>
 
-      <div className="form-group row">
-        <div className="col-3 col-sm-2 col-xl-1">
-          <select
-            data-cy="perPageSelector"
-            id="perPageSelector"
-            className="form-control"
-            value={itemsPerPage}
-            onChange={(event) => {
-              handlerItemsPerPage(event);
-            }}
-          >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-          </select>
+        <div className="form-group row">
+          <div className="col-3 col-sm-2 col-xl-1">
+            <select
+              data-cy="perPageSelector"
+              id="perPageSelector"
+              className="form-control"
+              value={itemsPerPage}
+              onChange={(event) => {
+                handlerItemsPerPage(event);
+              }}
+            >
+              <option value="3">3</option>
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+            </select>
+          </div>
+
+          <label htmlFor="perPageSelector" className="col-form-label col">
+            items per page
+          </label>
         </div>
 
-        <label htmlFor="perPageSelector" className="col-form-label col">
-          items per page
-        </label>
+        <Pagination
+          path={path}
+          total={items.length} // total number of items to paginate
+          perPage={itemsPerPage} // number of items per page
+          currentPage={currentPage} /* optional with 1 by default */
+          onPageChange={(page) => {
+            setCurrentPage(page);
+          }}
+        />
+
+        <ul>
+          <Routes>
+            {itemsToShow.map(item => (
+              <Route
+                path={path}
+                key={getRandomDigits()}
+                element={(
+                  <li data-cy="item">
+                    {item}
+                  </li>
+                )}
+              />
+            ))}
+          </Routes>
+        </ul>
+
       </div>
-
-      <Pagination
-        total={items.length} // total number of items to paginate
-        perPage={itemsPerPage} // number of items per page
-        currentPage={currentPage} /* optional with 1 by default */
-        onPageChange={(page) => {
-          setCurrentPage(page);
-        }}
-      />
-
-      <ul>
-        {itemsToShow.map(item => (
-          <li data-cy="item" key={getRandomDigits()}>
-            {item}
-          </li>
-        ))}
-      </ul>
-    </div>
+    </BrowserRouter>
   );
 };
-
-export default App;
