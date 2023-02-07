@@ -17,6 +17,12 @@ export const Pagination: React.FC<Props> = ({
   const quantityPagination = Math.ceil(total / perPage);
   const paginations = getNumbers(1, quantityPagination);
 
+  const onPrevClick = () => (currentPage > 1
+    ? onPageChange(currentPage - 1) : onPageChange(1));
+
+  const onNextClick = () => (currentPage < quantityPagination
+    ? onPageChange(currentPage + 1) : onPageChange(quantityPagination));
+
   return (
     <ul className="pagination">
       <li className={classNames('page-item', { disabled: currentPage === 1 })}>
@@ -25,11 +31,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={currentPage === 1}
-          onClick={() => (
-            currentPage > 1
-              ? onPageChange(currentPage - 1)
-              : onPageChange(1)
-          )}
+          onClick={onPrevClick}
         >
           «
         </a>
@@ -60,11 +62,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={currentPage === quantityPagination}
-          onClick={() => (
-            currentPage < quantityPagination
-              ? onPageChange(currentPage + 1)
-              : onPageChange(quantityPagination)
-          )}
+          onClick={onNextClick}
         >
           »
         </a>
