@@ -30,7 +30,7 @@ export const App: React.FC = () => {
       setCurrentPage(+page);
       setItemsPerPage(+perPage);
     }
-  }, [page, perPage]);
+  }, []);
 
   const handlerItemsPerPage = (event: ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(+event.target.value);

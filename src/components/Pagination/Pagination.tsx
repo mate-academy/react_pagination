@@ -114,8 +114,6 @@ export const Pagination: React.FC<Props> = ({
           aria-disabled={nextDisabled}
           onClick={() => {
             if (!nextDisabled) {
-              // eslint-disable-next-line no-console
-              console.log(!nextDisabled);
               movePage(MovePage.Next);
             }
           }}
