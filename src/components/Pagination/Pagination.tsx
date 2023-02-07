@@ -27,59 +27,57 @@ export const Pagination: React.FC<Props> = (props) => {
   };
 
   return (
-    <>
-      <ul className="pagination">
-        <li className={cn(
-          'page-item',
-          { disabled: currentPage === 1 },
-        )}
+    <ul className="pagination">
+      <li className={cn(
+        'page-item',
+        { disabled: currentPage === 1 },
+      )}
+      >
+        <a
+          data-cy="prevLink"
+          onClick={() => handlerPage(currentPage - 1)}
+          className="page-link"
+          href="#prev"
+          aria-disabled={currentPage === 1 && 'true'}
+        >
+          «
+        </a>
+      </li>
+
+      {visiblePages.map(page => (
+        <li
+          className={cn(
+            'page-item',
+            { active: currentPage === page },
+          )}
+          key={page}
         >
           <a
-            data-cy="prevLink"
-            onClick={() => handlerPage(currentPage - 1)}
+            data-cy="pageLink"
             className="page-link"
-            href="#prev"
-            aria-disabled={currentPage === 1 && 'true'}
+            href={`#${page}`}
+            onClick={() => handlerPage(page)}
           >
-            «
+            {page}
           </a>
         </li>
+      ))}
 
-        {visiblePages.map(page => (
-          <li
-            className={cn(
-              'page-item',
-              { active: currentPage === page },
-            )}
-            key={page}
-          >
-            <a
-              data-cy="pageLink"
-              className="page-link"
-              href={`#${page}`}
-              onClick={() => handlerPage(page)}
-            >
-              {page}
-            </a>
-          </li>
-        ))}
-
-        <li className={cn(
-          'page-item',
-          { disabled: currentPage === totalPages },
-        )}
+      <li className={cn(
+        'page-item',
+        { disabled: currentPage === totalPages },
+      )}
+      >
+        <a
+          data-cy="nextLink"
+          className="page-link"
+          href="#next"
+          aria-disabled={currentPage === totalPages && 'true'}
+          onClick={() => handlerPage(currentPage + 1)}
         >
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled={currentPage === totalPages && 'true'}
-            onClick={() => handlerPage(currentPage + 1)}
-          >
-            »
-          </a>
-        </li>
-      </ul>
-    </>
+          »
+        </a>
+      </li>
+    </ul>
   );
 };

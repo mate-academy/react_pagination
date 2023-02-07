@@ -1,0 +1,2 @@
+export const CURRENT_PAGE_DEFAULT_VALUE = 1;
+export const PER_PAGE_DEFAULT_VALUE = 5;

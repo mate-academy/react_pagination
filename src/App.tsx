@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
+import { CURRENT_PAGE_DEFAULT_VALUE, PER_PAGE_DEFAULT_VALUE } from './constans';
 import { getNumbers } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -8,12 +9,13 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [itemsList] = useState(items);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
+  const itemsList = items;
 
-  const handlerSelect = (event: React.FormEvent<HTMLSelectElement>) => {
-    const { value } = event.currentTarget;
+  const [currentPage, setCurrentPage] = useState(CURRENT_PAGE_DEFAULT_VALUE);
+  const [perPage, setPerPage] = useState(PER_PAGE_DEFAULT_VALUE);
+
+  const handlerSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.target;
 
     setPerPage(+value);
     setCurrentPage(1);
