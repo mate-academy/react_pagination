@@ -11,7 +11,8 @@ export const App: React.FC = () => {
   const [items, setItems] = useState<string[]>([]);
 
   const fromItemValue = currentPage === 1 ? 1 : (currentPage - 1) * perPage + 1;
-  const toItemValue = currentPage * perPage > 42 ? 42 : currentPage * perPage;
+  const toItemValue = currentPage * perPage > arrNums.length
+    ? arrNums.length : currentPage * perPage;
 
   const handlePageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(+event.target.value);
@@ -54,7 +55,7 @@ export const App: React.FC = () => {
       <Pagination
         currentPage={currentPage}
         perPage={perPage}
-        total={42}
+        total={arrNums.length}
         onPageChange={setCurrentPage}
       />
       <ul>
