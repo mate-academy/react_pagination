@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
+import { getNumbers } from '../../utils';
 
 type Props = {
   total: number, // total number of items to paginate
@@ -23,8 +24,9 @@ export const Pagination: React.FC<Props> = ({
   const amountOfItems = Math.ceil(total / perPage);
   const prevDisabled = currentPage === 1;
   const nextDisabled = currentPage === amountOfItems;
+  const visiblePages = getNumbers(1, amountOfItems);
 
-  const handlerClick = (pageId: number) => {
+  const clickHandler = (pageId: number) => {
     if (pageId !== currentPage) {
       onPageChange(pageId);
     }
@@ -78,25 +80,25 @@ export const Pagination: React.FC<Props> = ({
           «
         </Link>
       </li>
-      {[...Array(amountOfItems)].map((_, index) => (
+      {visiblePages.map((page: number) => (
         <li
           key={Math.random()}
           className={classNames(
             'page-item',
             {
-              active: currentPage === index + 1,
+              active: currentPage === page,
             },
           )}
         >
           <Link
             data-cy="pageLink"
             className="page-link"
-            to={`/?page=${index + 1}&perPage=${perPage}`}
+            to={`/?page=${page}&perPage=${perPage}`}
             onClick={() => {
-              handlerClick(index + 1);
+              clickHandler(page);
             }}
           >
-            {`${index + 1}`}
+            {`${page}`}
           </Link>
         </li>
       ))}

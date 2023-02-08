@@ -11,12 +11,15 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
+  const initialPage = 1;
+  const initialAmountPerPage = 5;
   const { search } = useLocation();
-  const page = new URLSearchParams(search).get('page') || 1;
-  const perPage = new URLSearchParams(search).get('perPage') || 5;
+  const page = new URLSearchParams(search).get('page') || initialPage;
+  const perPage = new URLSearchParams(search).get('perPage')
+    || initialAmountPerPage;
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(initialPage);
+  const [itemsPerPage, setItemsPerPage] = useState(initialAmountPerPage);
 
   const total = items.length;
   const from = currentPage * itemsPerPage - itemsPerPage;
@@ -30,7 +33,7 @@ export const App: React.FC = () => {
       setCurrentPage(+page);
       setItemsPerPage(+perPage);
     }
-  }, []);
+  }, [page, perPage]);
 
   const handlerItemsPerPage = (event: ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(+event.target.value);
