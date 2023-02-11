@@ -6,13 +6,15 @@ import { getNumbers } from '../../utils';
 type Props = {
   total: number,
   perPage: number,
-  currentPage: number
+  currentPage: number,
+  onPageChange: (number: number) => void,
 };
 
 export const Pagination: React.FC<Props> = ({
   total,
   perPage,
   currentPage,
+  onPageChange,
 }) => {
   const totalPages = Math.ceil(total / perPage);
   const numberOfPages = getNumbers(1, totalPages);
@@ -27,6 +29,14 @@ export const Pagination: React.FC<Props> = ({
     }
 
     return `?page=${nextPage}&perPageSize=${perPage}`;
+  };
+
+  const pageChangeHandler = (page: number) => {
+    if (page > totalPages || page < 1) {
+      return;
+    }
+
+    onPageChange(page);
   };
 
   return (
@@ -44,6 +54,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           to={setSearchParams(currentPage - 1)}
           aria-disabled={currentPage === 1}
+          onClick={() => pageChangeHandler(currentPage - 1)}
         >
           «
         </Link>
@@ -62,6 +73,7 @@ export const Pagination: React.FC<Props> = ({
             data-cy="pageLink"
             className="page-link"
             to={setSearchParams(page)}
+            onClick={() => pageChangeHandler(page)}
           >
             {page}
           </Link>
@@ -80,6 +92,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           to={setSearchParams(currentPage + 1)}
           aria-disabled={currentPage === totalPages}
+          onClick={() => pageChangeHandler(currentPage - 1)}
         >
           »
         </Link>
