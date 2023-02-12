@@ -11,13 +11,16 @@ export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const totalItems = items.length;
 
-  const renderStart = itemsPerPage * (currentPage - 1) + 1;
-  let renderEnd = 0;
+  const renderStart = itemsPerPage * (currentPage - 1);
+  const renderEnd = renderStart + itemsPerPage;
+  const renderedItems = items.slice(renderStart, renderEnd);
 
-  if (renderStart + itemsPerPage > totalItems) {
-    renderEnd = totalItems;
+  let lastVisibleItem = 0;
+
+  if (renderStart + itemsPerPage + 1 > totalItems) {
+    lastVisibleItem = totalItems;
   } else {
-    renderEnd = renderStart + itemsPerPage - 1;
+    lastVisibleItem = renderStart + itemsPerPage;
   }
 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -32,7 +35,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${renderStart} - ${renderEnd} of ${totalItems})`}
+        {`Page ${currentPage} (items ${renderStart + 1} - ${lastVisibleItem} of ${totalItems})`}
       </p>
 
       <div className="form-group row">
@@ -57,12 +60,22 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        items={items}
         total={totalItems}
         perPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
       />
+
+      <ul>
+        {renderedItems.map(renderedItem => (
+          <li
+            data-cy="item"
+            key={renderedItem}
+          >
+            {renderedItem}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

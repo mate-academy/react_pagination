@@ -2,7 +2,6 @@ import React from 'react';
 import classNames from 'classnames';
 
 type Props = {
-  items: string[];
   total: number;
   perPage: number;
   currentPage: number;
@@ -11,7 +10,6 @@ type Props = {
 
 export const Pagination: React.FC<Props> = (props) => {
   const {
-    items,
     total,
     perPage,
     currentPage,
@@ -28,10 +26,6 @@ export const Pagination: React.FC<Props> = (props) => {
 
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === pageLinkData[pageLinkData.length - 1];
-
-  const renderStart = perPage * (currentPage - 1);
-  const renderEnd = renderStart + perPage;
-  const renderedItems = items.slice(renderStart, renderEnd);
 
   const handlePageClick = (page: number) => {
     if (page !== currentPage) {
@@ -52,78 +46,65 @@ export const Pagination: React.FC<Props> = (props) => {
   };
 
   return (
-    <>
-      <ul className="pagination">
+    <ul className="pagination">
+      <li
+        className={classNames(
+          'page-item',
+          {
+            disabled: isFirstPage,
+          },
+        )}
+      >
+        <a
+          data-cy="prevLink"
+          className="page-link"
+          href="#prev"
+          aria-disabled={isFirstPage}
+          onClick={handlePrevButtonClick}
+        >
+          «
+        </a>
+      </li>
+
+      {pageLinkData.map(pageLink => (
         <li
           className={classNames(
             'page-item',
             {
-              disabled: isFirstPage,
+              active: currentPage === pageLink,
             },
           )}
+          key={pageLink}
         >
           <a
-            data-cy="prevLink"
+            data-cy="pageLink"
             className="page-link"
-            href="#prev"
-            aria-disabled={isFirstPage}
-            onClick={handlePrevButtonClick}
+            href={`#${pageLink}`}
+            onClick={() => handlePageClick(pageLink)}
           >
-            «
+            {pageLink}
           </a>
         </li>
+      ))}
 
-        {pageLinkData.map(pageLink => (
-          <li
-            className={classNames(
-              'page-item',
-              {
-                active: currentPage === pageLink,
-              },
-            )}
-            key={pageLink}
-          >
-            <a
-              data-cy="pageLink"
-              className="page-link"
-              href={`#${pageLink}`}
-              onClick={() => handlePageClick(pageLink)}
-            >
-              {pageLink}
-            </a>
-          </li>
-        ))}
-
-        <li
-          className={classNames(
-            'page-item',
-            {
-              disabled: isLastPage,
-            },
-          )}
+      <li
+        className={classNames(
+          'page-item',
+          {
+            disabled: isLastPage,
+          },
+        )}
+      >
+        <a
+          data-cy="nextLink"
+          className="page-link"
+          href="#next"
+          aria-disabled={isLastPage}
+          onClick={handleNextButtonClick}
         >
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled={isLastPage}
-            onClick={handleNextButtonClick}
-          >
-            »
-          </a>
-        </li>
-      </ul>
-
-      <ul>
-        {renderedItems.map(renderedItem => (
-          <li
-            data-cy="item"
-            key={renderedItem}
-          >
-            {renderedItem}
-          </li>
-        ))}
-      </ul>
-    </>
+          »
+        </a>
+      </li>
+    </ul>
   );
 };
