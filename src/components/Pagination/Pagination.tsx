@@ -19,18 +19,18 @@ export const Pagination: React.FC<PaginationProps> = ({
 
   const pages = getNumbers(1, pageCount);
 
-  const handleChangePrev = () => (
-    (currentPage !== 1)
-      ? onPageChange(currentPage - 1)
-      : onPageChange(currentPage)
-  );
+  const handleChangePrev = () => {
+    if (currentPage !== 1) {
+      onPageChange(currentPage - 1)
+    }
+  }
 
-  const handleChangeNext = () => (
-    (currentPage !== pageCount)
-      ? onPageChange(currentPage + 1)
-      : onPageChange(currentPage)
-  );
-
+  const handleChangeNext = () => {
+    if  (currentPage !== pageCount) {
+      onPageChange(currentPage + 1)
+    }
+  }
+  
   return (
     <ul className="pagination">
       <li className={classNames(
