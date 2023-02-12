@@ -25,7 +25,7 @@ export const Pagination: React.FC<Props> = (props) => {
   }
 
   const isFirstPage = currentPage === 1;
-  const isLastPage = currentPage === pageLinkData[pageLinkData.length - 1];
+  const isLastPage = currentPage === pageLinkCount;
 
   const handlePageClick = (page: number) => {
     if (page !== currentPage) {
