@@ -21,16 +21,16 @@ export const Pagination: React.FC<PaginationProps> = ({
 
   const handleChangePrev = () => {
     if (currentPage !== 1) {
-      onPageChange(currentPage - 1)
+      onPageChange(currentPage - 1);
     }
-  }
+  };
 
   const handleChangeNext = () => {
-    if  (currentPage !== pageCount) {
-      onPageChange(currentPage + 1)
+    if (currentPage !== pageCount) {
+      onPageChange(currentPage + 1);
     }
-  }
-  
+  };
+
   return (
     <ul className="pagination">
       <li className={classNames(
