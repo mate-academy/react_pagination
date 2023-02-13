@@ -20,21 +20,31 @@ export const Pagination: React.FC<Props> = ({
     pageNumbers.push(i);
   }
 
+  const hasFirstPage = currentPage === 1;
+
+  const handlePrevButtonClick = () => {
+    if (!hasFirstPage) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const handleNextButtonClick = () => {
+    if (pageAmount <= total) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
   return (
     <ul className="pagination">
       <li
-        className={classNames('page-item', { disabled: currentPage === 1 })}
+        className={classNames('page-item', { disabled: hasFirstPage })}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled="true"
-          onClick={() => {
-            if (currentPage > 1) {
-              onPageChange(currentPage - 1);
-            }
-          }}
+          aria-disabled={hasFirstPage}
+          onClick={handlePrevButtonClick}
         >
           «
         </a>
@@ -68,11 +78,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled="true"
-          onClick={() => {
-            if (currentPage <= total) {
-              onPageChange(currentPage + 1);
-            }
-          }}
+          onClick={handleNextButtonClick}
         >
           »
         </a>

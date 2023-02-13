@@ -22,7 +22,6 @@ export const App: React.FC = () => {
     setCurrentPage(1);
   };
 
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
   const lastItemDesc = lastItemIndex < items.length
     ? lastItemIndex
     : items.length;
@@ -60,7 +59,7 @@ export const App: React.FC = () => {
         total={items.length}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={paginate}
+        onPageChange={setCurrentPage}
       />
 
       <ul>
