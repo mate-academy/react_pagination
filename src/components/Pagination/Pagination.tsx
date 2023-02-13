@@ -5,7 +5,11 @@ type Props = {
   total: number;
   perPage: number;
   currentPage: number;
-  onPageChange: (currentPage: number, itemsOnPage: number[]) => void;
+  onPageChange: (
+    currentPage: number,
+    startItem: number,
+    lastItem: number,
+  ) => void;
 };
 
 export const Pagination: React.FC<Props> = ({
@@ -19,11 +23,25 @@ export const Pagination: React.FC<Props> = ({
   const items = getNumbers(startItem, endItem);
   const pageCount = Math.ceil(total / perPage);
   const pages = getNumbers(1, pageCount);
-  const getNextItemPage = (nextPage: number) => {
+
+  const getSartItemPage = (nextPage: number) => {
     const nextStartItem = perPage * nextPage - perPage + 1;
+
+    return nextStartItem;
+  };
+
+  const getLastItemPage = (nextPage: number) => {
     const nextEndItem = perPage * nextPage > total ? total : perPage * nextPage;
 
-    return [nextStartItem, nextEndItem];
+    return nextEndItem;
+  };
+
+  const changePage = (page: number) => {
+    onPageChange(
+      page,
+      getSartItemPage(page),
+      getLastItemPage(page),
+    );
   };
 
   return (
@@ -39,24 +57,24 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#prev"
             aria-disabled="true"
-            onClick={() => onPageChange(
-              currentPage - 1, getNextItemPage(currentPage - 1),
-            )}
+            onClick={() => changePage(currentPage - 1)}
           >
             «
           </a>
         </li>
         {pages.map(item => (
-          <li className={cn('page-item', {
+          <li
+            className={cn('page-item', {
             // eslint-disable-next-line
             'active': currentPage === item,
-          })}
+            })}
+            key={item}
           >
             <a
               data-cy="pageLink"
               className="page-link"
               href={`#${item}`}
-              onClick={() => onPageChange(item, getNextItemPage(item))}
+              onClick={() => changePage(item)}
             >
               {item}
             </a>
@@ -72,9 +90,7 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#next"
             aria-disabled="false"
-            onClick={() => onPageChange(
-              currentPage + 1, getNextItemPage(currentPage + 1),
-            )}
+            onClick={() => changePage(currentPage + 1)}
           >
             »
           </a>
@@ -82,7 +98,12 @@ export const Pagination: React.FC<Props> = ({
       </ul>
       <ul>
         {items.map(item => (
-          <li data-cy="item">{`Item ${item}`}</li>
+          <li
+            data-cy="item"
+            key={item}
+          >
+            {`Item ${item}`}
+          </li>
         ))}
       </ul>
     </>

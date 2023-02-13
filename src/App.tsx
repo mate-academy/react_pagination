@@ -11,17 +11,24 @@ export const App: React.FC = () => {
   const [total] = useState(items.length);
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsOnPage, setItemsOnPage] = useState([1, perPage]);
+  const [startItemOnPage, setStartItemOnPage] = useState(1);
+  const [lastItemOnPage, setLastItemOnPage] = useState(perPage);
 
   const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
     setPerPage(+event.target.value);
     setCurrentPage(1);
-    setItemsOnPage([1, +event.target.value]);
+    setStartItemOnPage(1);
+    setLastItemOnPage(+event.target.value);
   };
 
-  const onPageChange = (numberOfPage:number, currentItems: number[]) => {
+  const onPageChange = (
+    numberOfPage:number,
+    startItem: number,
+    lastItem: number,
+  ) => {
     setCurrentPage(numberOfPage);
-    setItemsOnPage(currentItems);
+    setStartItemOnPage(startItem);
+    setLastItemOnPage(lastItem);
   };
 
   return (
@@ -29,7 +36,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${itemsOnPage[0]} - ${itemsOnPage[1]} of ${total})`}
+        {`Page ${currentPage} (items ${startItemOnPage} - ${lastItemOnPage} of ${total})`}
       </p>
 
       <div className="form-group row">

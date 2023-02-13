@@ -1,6 +1,6 @@
 # React Pagination
 
-> Here is the [working version](https://mate-academcdy.github.io/react_pagination/)
+> Here is the [working version](https://mate-academy.github.io/react_pagination/)
 
 You a given a list of items and markup for the `Pagination`. Implement the 
 `Pagination` as a stateless component to show only the items for a current page.
