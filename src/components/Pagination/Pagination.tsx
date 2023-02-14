@@ -32,7 +32,7 @@ export const Pagination: React.FC<Props> = ({
   };
 
   const pageChangeHandler = (page: number) => {
-    if (page > totalPages || page < 1) {
+    if (page > totalPages || page < 1 || page === currentPage) {
       return;
     }
 
