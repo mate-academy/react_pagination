@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import "./App.css";
-import { Pagination } from "./components/Pagination";
-import { getNumbers } from "./utils";
+import React, { useState } from 'react';
+import './App.css';
+import { Pagination } from './components/Pagination';
+import { getNumbers } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map((n) => `Item ${n}`);

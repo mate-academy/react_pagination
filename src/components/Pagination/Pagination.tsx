@@ -24,10 +24,9 @@ export const Pagination: React.FC<Props> = ({
   const nextPage = currentPage + 1;
 
   const pageChangeHandler = (page: number) => {
-    if (page < totalPages || page < 1) {
+    if (page < totalPages || page > 1) {
       onPageChange(page);
     }
-    return;
   };
 
   return (
