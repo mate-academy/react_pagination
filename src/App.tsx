@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import './App.css';
-import { Pagination } from './components/Pagination';
-import { getNumbers } from './utils';
+import React, { useState } from "react";
+import "./App.css";
+import { Pagination } from "./components/Pagination";
+import { getNumbers } from "./utils";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map((n) => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [total] = useState(42);
+  const total = items.length;
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -18,6 +18,11 @@ export const App: React.FC = () => {
   const maxItemOnPage = perPage * currentPage;
   const firstItemOnPage = maxItemOnPage - perPage;
   const lastItemOnPage = maxItemOnPage > total ? total : maxItemOnPage;
+
+  const handleItems = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setPerPage(+event.target.value);
+    setCurrentPage(1);
+  };
 
   return (
     <div className="container">
@@ -36,10 +41,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={(event) => {
-              setPerPage(+event.target.value);
-              setCurrentPage(1);
-            }}
+            onChange={(event) => handleItems(event)}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -53,7 +55,6 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
       <Pagination
         total={total}
         perPage={perPage}

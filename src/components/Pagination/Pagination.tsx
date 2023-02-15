@@ -1,5 +1,5 @@
-import classNames from 'classnames';
-import { getNumbers } from '../../utils';
+import classNames from "classnames";
+import { getNumbers } from "../../utils";
 
 type Props = {
   total: number;
@@ -7,33 +7,33 @@ type Props = {
   currentPage: number;
   onPageChange: (page: number) => void;
 };
+
 export const Pagination: React.FC<Props> = ({
   total,
   perPage,
   currentPage,
   onPageChange,
 }) => {
-  const pagesQnt
-    = total % perPage === 0 ? total / perPage : Math.ceil(total / perPage);
-  const pages = getNumbers(1, pagesQnt);
+  const totalPages =
+    total % perPage === 0 ? total / perPage : Math.ceil(total / perPage);
+  const pages = getNumbers(1, totalPages);
 
-  const lastPage = currentPage === pagesQnt;
+  const lastPage = currentPage === totalPages;
   const firstPage = currentPage === 1;
   const prevPage = currentPage - 1;
   const nextPage = currentPage + 1;
 
   const pageChangeHandler = (page: number) => {
-    if (page > pagesQnt || page < 1) {
-      return;
+    if (page < totalPages || page < 1) {
+      onPageChange(page);
     }
-
-    onPageChange(page);
+    return;
   };
 
   return (
     <>
       <ul className="pagination">
-        <li className={classNames('page-item', { disabled: firstPage })}>
+        <li className={classNames("page-item", { disabled: firstPage })}>
           <a
             data-cy="prevLink"
             className="page-link"
@@ -47,7 +47,7 @@ export const Pagination: React.FC<Props> = ({
         {pages.map((page) => (
           <li
             key={page}
-            className={classNames('page-item', {
+            className={classNames("page-item", {
               active: currentPage === page,
             })}
           >
@@ -61,7 +61,7 @@ export const Pagination: React.FC<Props> = ({
             </a>
           </li>
         ))}
-        <li className={classNames('page-item', { disabled: lastPage })}>
+        <li className={classNames("page-item", { disabled: lastPage })}>
           <a
             data-cy="nextLink"
             className="page-link"
