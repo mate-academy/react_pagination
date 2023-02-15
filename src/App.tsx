@@ -3,11 +3,12 @@ import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
 
+const totalItems = 42;
+
 export const App: React.FC = () => {
   const [selectedPage, setSelectPage] = useState(1);
   const [itemsOnPage, setItemsOnPage] = useState(5);
 
-  const [totalItems] = useState(42);
   const firstItem = (selectedPage - 1) * itemsOnPage + 1;
   const lastItem = (firstItem + itemsOnPage - 1) < totalItems
     ? (firstItem + itemsOnPage - 1)
@@ -60,7 +61,11 @@ export const App: React.FC = () => {
         onPageChange={onPageSelect}
       />
       <ul>
-        {itemsList.map(item => <li data-cy="item" key={item}>{item}</li>)}
+        {itemsList.map((item) => (
+          <li data-cy="item" key={item}>
+            {item}
+          </li>
+        ))}
       </ul>
     </div>
   );
