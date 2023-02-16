@@ -15,9 +15,8 @@ export const App: React.FC = () => {
       <p className="lead" data-cy="info">
         Page
         {currentPage}
-        (
         {' '}
-        items
+        (items
         {' '}
         {perPage * (currentPage - 1) + 1}
         {' '}
