@@ -33,22 +33,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page
-        {' '}
-        {currentPage}
-        {' '}
-        (items
-        {' '}
-        {itemsStart}
-        {' '}
-        -
-        {' '}
-        {itemsEnd}
-        {' '}
-        of
-        {' '}
-        {total}
-        )
+        {`Page ${currentPage} (items ${itemsStart} - ${itemsEnd} of ${total})`}
       </p>
 
       <div className="form-group row">

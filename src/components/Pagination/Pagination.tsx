@@ -27,7 +27,7 @@ export const Pagination: React.FC<Props> = ({
     onPageChange(item);
   };
 
-  //eslint-disable-next-line no-plusplus
+  // eslint-disable-next-line no-plusplus
   for (let i = 1; i <= pagesCount; i++) {
     pageItems.push(i);
   }
