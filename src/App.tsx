@@ -14,6 +14,7 @@ export const App: React.FC = () => {
 
       <p className="lead" data-cy="info">
         Page
+        {' '}
         {currentPage}
         {' '}
         (items
