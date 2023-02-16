@@ -14,8 +14,8 @@ export const App: React.FC = () => {
 
       <p className="lead" data-cy="info">
         Page
-        {' '}
         {currentPage}
+        (
         {' '}
         items
         {' '}
@@ -25,7 +25,7 @@ export const App: React.FC = () => {
         {' '}
         {perPage * currentPage > 42 ? 42 : perPage * currentPage }
         {' '}
-        of 42
+        of 42)
       </p>
 
       <div className="form-group row">
