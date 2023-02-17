@@ -6,14 +6,17 @@ import { Pagination } from './components/Pagination';
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
+const TOTAL_PAGES = 42;
+const SELECT_OPTIONS = [3, 5, 10, 20];
+
 export const App: React.FC = () => {
-  const [total] = useState(42);
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(SELECT_OPTIONS[1]);
   const [currentPage, setCurrentPage] = useState(1);
 
   const maxItemPerPage = perPage * currentPage;
   const firstItemOnPage = maxItemPerPage - perPage;
-  const lastItemOnPage = maxItemPerPage > total ? total : maxItemPerPage;
+  const lastItemOnPage = maxItemPerPage > TOTAL_PAGES
+    ? TOTAL_PAGES : maxItemPerPage;
 
   const onPageChange = (page:number) => {
     setCurrentPage(page);
@@ -29,7 +32,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${firstItemOnPage + 1} - ${lastItemOnPage} of ${total})`}
+        {`Page ${currentPage} (items ${firstItemOnPage + 1} - ${lastItemOnPage} of ${TOTAL_PAGES})`}
       </p>
 
       <div className="form-group row">
@@ -41,10 +44,9 @@ export const App: React.FC = () => {
             value={perPage}
             onChange={onPerPageChange}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            {SELECT_OPTIONS.map(option => (
+              <option value="3" key={option}>{option}</option>
+            ))}
           </select>
         </div>
 
@@ -53,11 +55,10 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
       <Pagination
-        total={total} // total number of items to paginate
-        perPage={perPage} // number of items per page
-        currentPage={currentPage} /* optional with 1 by default */
+        total={TOTAL_PAGES}
+        perPage={perPage}
+        currentPage={currentPage}
         onPageChange={onPageChange}
       />
       <ul>
