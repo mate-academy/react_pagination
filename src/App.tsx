@@ -11,6 +11,7 @@ const SELECT_OPTIONS = [3, 5, 10, 20];
 
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(SELECT_OPTIONS[1]);
+
   const [currentPage, setCurrentPage] = useState(1);
 
   const maxItemPerPage = perPage * currentPage;
@@ -45,7 +46,7 @@ export const App: React.FC = () => {
             onChange={onPerPageChange}
           >
             {SELECT_OPTIONS.map(option => (
-              <option value="3" key={option}>{option}</option>
+              <option value={option} key={option}>{option}</option>
             ))}
           </select>
         </div>
