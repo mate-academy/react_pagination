@@ -16,6 +16,11 @@ export const App: React.FC = () => {
   const lastVisibleItem
     = itemsToDisplay[itemsToDisplay.length - 1].split(' ')[1];
 
+  const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setItemsPerPage(+event.target.value);
+    setCurrentPage(1);
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
@@ -31,10 +36,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={itemsPerPage}
-            onChange={(event) => {
-              setItemsPerPage(+event.target.value);
-              setCurrentPage(1);
-            }}
+            onChange={onChange}
           >
             <option value="3">3</option>
             <option value="5">5</option>
