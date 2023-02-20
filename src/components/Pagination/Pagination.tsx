@@ -17,23 +17,19 @@ export const Pagination: React.FC<Props> = ({
   const pagesToDisplay
     = [...Array(Math.ceil(total / perPage))].map((_, i) => i + 1);
 
-  const currentPageIsFirst = currentPage === 1;
-  const currentPageIsLast = currentPage === pagesToDisplay.length;
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === pagesToDisplay.length;
 
   const prevButtonhandler = () => {
-    if (currentPageIsFirst) {
-      return;
+    if (!isFirstPage) {
+      onPageChange(currentPage - 1);
     }
-
-    onPageChange(currentPage - 1);
   };
 
   const nextButtonHandler = () => {
-    if (currentPageIsLast) {
-      return;
+    if (!isLastPage) {
+      onPageChange(currentPage + 1);
     }
-
-    onPageChange(currentPage + 1);
   };
 
   return (
@@ -41,14 +37,14 @@ export const Pagination: React.FC<Props> = ({
       <li
         className={classNames(
           'page-item',
-          { disabled: currentPageIsFirst },
+          { disabled: isFirstPage },
         )}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPageIsFirst}
+          aria-disabled={isFirstPage}
           onClick={prevButtonhandler}
         >
           «
@@ -77,14 +73,14 @@ export const Pagination: React.FC<Props> = ({
       <li
         className={classNames(
           'page-item',
-          { disabled: currentPageIsLast },
+          { disabled: isLastPage },
         )}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPageIsLast}
+          aria-disabled={isLastPage}
           onClick={nextButtonHandler}
         >
           »
