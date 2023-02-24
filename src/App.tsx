@@ -1,18 +1,45 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
+import { Pagination } from './components/Pagination';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
+  const [itemPerPage, setItemPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [visibleList, setVisibleList] = useState(items.slice(0, itemPerPage));
+
+  const total = items.length;
+  const startItem = currentPage * itemPerPage - itemPerPage + 1;
+  const endItem = currentPage * itemPerPage <= total
+    ? currentPage * itemPerPage
+    : total;
+
+  useEffect(() => {
+    const newListItem = items.slice(
+      (currentPage - 1) * itemPerPage,
+      currentPage * itemPerPage,
+    );
+
+    setVisibleList(newListItem);
+  }, [currentPage, itemPerPage]);
+
+  const pageChenge = (page: number) => {
+    setCurrentPage(page);
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        Page
+        {` ${currentPage} `}
+        {`(items ${startItem} - ${endItem} of`}
+        {` ${total})`}
       </p>
 
       <div className="form-group row">
@@ -21,6 +48,11 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
+            value={itemPerPage}
+            onChange={(event) => {
+              setItemPerPage(+event.target.value);
+              setCurrentPage(1);
+            }}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -33,63 +65,21 @@ export const App: React.FC = () => {
           items per page
         </label>
       </div>
-
-      {/* Move this markup to Pagination */}
-      <ul className="pagination">
-        <li className="page-item disabled">
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled="true"
-          >
-            «
-          </a>
-        </li>
-        <li className="page-item active">
-          <a data-cy="pageLink" className="page-link" href="#1">1</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#2">2</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#3">3</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#4">4</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#5">5</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#6">6</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#7">7</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#8">8</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#9">9</a>
-        </li>
-        <li className="page-item">
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled="false"
-          >
-            »
-          </a>
-        </li>
-      </ul>
+      <Pagination
+        total={total}
+        itemPerPage={itemPerPage}
+        currentPage={currentPage}
+        onPageChange={pageChenge}
+      />
       <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
+        {visibleList.map(item => (
+          <li
+            key={item}
+            data-cy="item"
+          >
+            {item}
+          </li>
+        ))}
       </ul>
     </div>
   );
