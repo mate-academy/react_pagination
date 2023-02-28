@@ -27,11 +27,11 @@ export const Pagination: React.FC<Props> = ({
         disabled: equalFirst,
       })}
       >
-        <a
+        <button
+          type="button"
           data-cy="prevLink"
           className="page-link"
-          href={`#${currentPage}`}
-          aria-disabled={equalFirst}
+          aria-disabled={currentPage === 1}
           onClick={() => {
             if (!equalFirst) {
               onPageChange(currentPage - 1);
@@ -39,7 +39,7 @@ export const Pagination: React.FC<Props> = ({
           }}
         >
           «
-        </a>
+        </button>
       </li>
 
       {pages.map(page => (
@@ -49,14 +49,14 @@ export const Pagination: React.FC<Props> = ({
           })}
           key={page}
         >
-          <a
+          <button
+            type="button"
             data-cy="pageLink"
             className="page-link"
-            href={`#${currentPage}`}
             onClick={() => onPageChange(page)}
           >
             {page}
-          </a>
+          </button>
         </li>
       ))}
 
@@ -64,11 +64,11 @@ export const Pagination: React.FC<Props> = ({
         disabled: equalLast,
       })}
       >
-        <a
+        <button
+          type="button"
           data-cy="nextLink"
           className="page-link"
-          href={`#${currentPage}`}
-          aria-disabled={equalLast}
+          aria-disabled={currentPage === pageAmount}
           onClick={() => {
             if (!equalLast) {
               onPageChange(currentPage + 1);
@@ -76,7 +76,7 @@ export const Pagination: React.FC<Props> = ({
           }}
         >
           »
-        </a>
+        </button>
       </li>
     </ul>
   );
