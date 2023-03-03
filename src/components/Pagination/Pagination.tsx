@@ -35,7 +35,7 @@ export const Pagination: React.FC<Props> = ({
             aria-disabled={currentPage === 1}
             onClick={() => prevButton()}
           >
-            »
+            «
           </a>
         </li>
         {pagesCollection.map((num: number) => (

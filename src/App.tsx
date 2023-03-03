@@ -6,7 +6,7 @@ import { currentItems, numberOfPages } from './utils';
 const itemsNumber = ['3', '5', '10', '20'];
 
 export const App: React.FC = () => {
-  const [itemsPerPage, setItemsPerPage] = useState(itemsNumber[1]);
+  const [itemsPerPage, setItemsPerPage] = useState<string>(itemsNumber[1]);
   const [currentPage, setCurrentPage] = useState(1);
 
   const items = currentItems(42, currentPage, itemsPerPage);
