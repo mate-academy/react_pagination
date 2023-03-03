@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './App.css';
 import { useSearchParams } from 'react-router-dom';
 import { Items } from './components/Items';
@@ -9,31 +9,36 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [perPage, selectPerPage] = useState(5);
-  const [page, setPage] = useState(1);
   const [searchParams, setSearchParams] = useSearchParams({});
+
+  const currentPage = searchParams.get('page') || '1';
+  const currentPerPage = searchParams.get('perPage') || '5';
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
 
-    selectPerPage(+value);
-    setPage(1);
+    searchParams.set('page', `${1}`);
+    searchParams.set('perPage', `${value}`);
+    setSearchParams(searchParams);
   };
 
-  const handlePageChange = (current: number) => setPage(current);
-
-  useEffect(() => {
-    searchParams.set('page', `${page}`);
-    searchParams.set('perPage', `${perPage}`);
+  const handlePageChange = (current: number) => {
+    searchParams.set('page', `${current}`);
     setSearchParams(searchParams);
-  }, [page, perPage]);
+  };
 
-  const handleNextPage = () => setPage(prev => prev + 1);
+  const handleNextPage = () => {
+    searchParams.set('page', `${String(Number(currentPage) + 1)}`);
+    setSearchParams(searchParams);
+  };
 
-  const handlePrevPage = () => setPage(prev => prev - 1);
+  const handlePrevPage = () => {
+    searchParams.set('page', `${String(Number(currentPage) - 1)}`);
+    setSearchParams(searchParams);
+  };
 
-  const indexOfLastItem = +page * perPage;
-  const indexOfFirstitem = indexOfLastItem - perPage;
+  const indexOfLastItem = +currentPage * +currentPerPage;
+  const indexOfFirstitem = indexOfLastItem - +currentPerPage;
   const visibleItems = items.slice(indexOfFirstitem, indexOfLastItem);
 
   const getItem = (index: number) => visibleItems[index].split(' ')[1];
@@ -47,7 +52,7 @@ export const App: React.FC = () => {
 
       <p className="lead" data-cy="info">
         {`
-          Page ${page} 
+          Page ${currentPage} 
           (items ${itemsFrom} - ${itemsTo} of ${items.length})
         `}
       </p>
@@ -58,7 +63,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            value={perPage}
+            value={currentPerPage}
             onChange={handleSelect}
           >
             <option value="3">3</option>
@@ -75,8 +80,8 @@ export const App: React.FC = () => {
 
       <Pagination
         total={42}
-        perPage={perPage}
-        page={page}
+        perPage={currentPerPage}
+        page={currentPage}
         onPageChange={handlePageChange}
         onNextChange={handleNextPage}
         onPrevChange={handlePrevPage}

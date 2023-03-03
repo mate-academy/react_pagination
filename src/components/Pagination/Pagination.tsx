@@ -3,8 +3,8 @@ import classNames from 'classnames';
 
 interface Props {
   total: number;
-  perPage: number;
-  page: number;
+  perPage: string;
+  page: string;
   onPageChange: (page: number) => void;
   onNextChange: () => void;
   onPrevChange: () => void;
@@ -18,7 +18,7 @@ export const Pagination: FC<Props> = ({
   onNextChange,
   onPrevChange,
 }) => {
-  const currentAmountPages = Math.ceil(total / perPage);
+  const currentAmountPages = Math.ceil(total / Number(perPage));
   const pages = Array.from(Array(currentAmountPages)
     .keys())
     .map(i => i + 1);
@@ -27,14 +27,14 @@ export const Pagination: FC<Props> = ({
     <ul className="pagination">
       <li className={classNames(
         'page-item',
-        { disabled: page === 1 },
+        { disabled: page === '1' },
       )}
       >
         <button
           type="button"
           data-cy="prevLink"
           className="page-link"
-          aria-disabled={page === 1}
+          aria-disabled={page === '1'}
           onClick={onPrevChange}
         >
           «
@@ -44,7 +44,7 @@ export const Pagination: FC<Props> = ({
         <li
           key={item}
           className={classNames('page-item', {
-            active: page === item,
+            active: +page === item,
           })}
         >
           <button
@@ -59,14 +59,14 @@ export const Pagination: FC<Props> = ({
       ))}
       <li className={classNames(
         'page-item',
-        { disabled: page === pages.length },
+        { disabled: +page === pages.length },
       )}
       >
         <button
           type="button"
           data-cy="nextLink"
           className="page-link"
-          aria-disabled={page === pages.length}
+          aria-disabled={page ? +page === pages.length : false}
           onClick={onNextChange}
         >
           »
