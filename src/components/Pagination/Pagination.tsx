@@ -73,14 +73,15 @@ export const Pagination: React.FC<Props> = ({
       </ul>
 
       <ul>
-        {currentItems(total, currentPage, perPage).map((number: number) => (
-          <li
-            data-cy="item"
-            key={number}
-          >
-            {`Item ${number}`}
-          </li>
-        ))}
+        {currentItems(total, currentPage, perPage)
+          .map((number: number) => (
+            <li
+              data-cy="item"
+              key={number}
+            >
+              {`Item ${number}`}
+            </li>
+          ))}
       </ul>
     </>
   );

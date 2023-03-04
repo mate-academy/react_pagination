@@ -28,11 +28,11 @@ export const App: React.FC = () => {
 
   const nextButton = () => {
     setCurrentPage(current => Math.min(
-      numberOfPages(42, itemsPerPage), current + 1,
+      numberOfPages(items.length, itemsPerPage), current + 1,
     ));
   };
 
-  const currentInfo = `Page ${currentPage} (items ${items[0]} - ${items.slice(-1)} of 42)`;
+  const currentInfo = `Page ${currentPage} (items ${items[0]} - ${items.slice(-1)} of ${items.length})`;
 
   return (
     <div className="container">
@@ -65,7 +65,7 @@ export const App: React.FC = () => {
         </label>
       </div>
       <Pagination
-        total={42}
+        total={items.length}
         perPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={onPageChange}
