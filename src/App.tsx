@@ -22,7 +22,11 @@ export const App: React.FC = () => {
     setSearchParams(searchParams);
   };
 
-  const handlePageChange = (current: number) => {
+  const handlePageChange = (current: string) => {
+    if (current === currentPage) {
+      return;
+    }
+
     searchParams.set('page', `${current}`);
     setSearchParams(searchParams);
   };

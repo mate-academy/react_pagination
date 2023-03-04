@@ -5,7 +5,7 @@ interface Props {
   total: number;
   perPage: string;
   page: string;
-  onPageChange: (page: number) => void;
+  onPageChange: (page: string) => void;
   onNextChange: () => void;
   onPrevChange: () => void;
 }
@@ -51,7 +51,7 @@ export const Pagination: FC<Props> = ({
             type="button"
             data-cy="pageLink"
             className="page-link"
-            onClick={() => onPageChange(item)}
+            onClick={() => onPageChange(String(item))}
           >
             {item}
           </button>
