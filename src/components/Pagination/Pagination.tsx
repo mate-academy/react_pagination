@@ -1,12 +1,12 @@
 import classNames from 'classnames';
-import { getNumbers, numberOfPages, currentItems } from '../../utils';
+import { getNumbers, numberOfPages, getCurrentItems } from '../../utils';
 
 type Props = {
   total: number,
   perPage: string,
   currentPage: number,
   onPageChange: CallableFunction,
-  prevButton: CallableFunction,
+  prevButton: () => void,
   nextButton: CallableFunction,
 };
 
@@ -33,7 +33,7 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#prev"
             aria-disabled={currentPage === 1}
-            onClick={() => prevButton()}
+            onClick={prevButton}
           >
             «
           </a>
@@ -73,7 +73,7 @@ export const Pagination: React.FC<Props> = ({
       </ul>
 
       <ul>
-        {currentItems(total, currentPage, perPage)
+        {getCurrentItems(total, currentPage, perPage)
           .map((number: number) => (
             <li
               data-cy="item"

@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
-import { currentItems, numberOfPages } from './utils';
+import { getCurrentItems, numberOfPages } from './utils';
 
 const itemsNumber = ['3', '5', '10', '20'];
+const TOTAL_ITEMS = 42;
 
 export const App: React.FC = () => {
   const [itemsPerPage, setItemsPerPage] = useState<string>(itemsNumber[1]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const items = currentItems(42, currentPage, itemsPerPage);
+  const items = getCurrentItems(TOTAL_ITEMS, currentPage, itemsPerPage);
 
   const handleOption = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
@@ -22,7 +23,7 @@ export const App: React.FC = () => {
     setCurrentPage(page);
   };
 
-  const prevButton = () => {
+  const handleClickPrevButton = () => {
     setCurrentPage(current => Math.max(1, current - 1));
   };
 
@@ -32,7 +33,7 @@ export const App: React.FC = () => {
     ));
   };
 
-  const currentInfo = `Page ${currentPage} (items ${items[0]} - ${items.slice(-1)} of ${items.length})`;
+  const currentInfo = `Page ${currentPage} (items ${items[0]} - ${items.slice(-1)} of ${TOTAL_ITEMS})`;
 
   return (
     <div className="container">
@@ -69,7 +70,7 @@ export const App: React.FC = () => {
         perPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={onPageChange}
-        prevButton={prevButton}
+        prevButton={handleClickPrevButton}
         nextButton={nextButton}
       />
     </div>

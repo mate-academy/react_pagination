@@ -12,7 +12,7 @@ export function numberOfPages(total: number, perPage: string): number {
   return Math.ceil(total / Number(perPage));
 }
 
-export function currentItems(
+export function getCurrentItems(
   total: number,
   currentPage: number,
   perPage: string,
