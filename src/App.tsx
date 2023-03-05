@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import './App.css';
 import { useSearchParams } from 'react-router-dom';
 import { Items } from './components/Items';
@@ -9,41 +9,44 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [searchParams, setSearchParams] = useSearchParams({});
+  const [searchParams, setSearchParams] = useSearchParams({
+    page: '1',
+    perPage: '5',
+  });
+  const total = 42;
+  const page = useMemo(() => searchParams.get('page') || '1',
+    [searchParams.get('page')]);
 
-  const currentPage = searchParams.get('page') || '1';
-  const currentPerPage = searchParams.get('perPage') || '5';
+  const perPage = useMemo(() => searchParams.get('perPage') || '5',
+    [searchParams.get('perPage')]);
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
 
-    searchParams.set('page', `${1}`);
-    searchParams.set('perPage', `${value}`);
-    setSearchParams(searchParams);
+    setSearchParams({ page: '1', perPage: value });
   };
 
   const handlePageChange = (current: string) => {
-    if (current === currentPage) {
+    if (current === page) {
       return;
     }
 
-    searchParams.set('page', `${current}`);
-    setSearchParams(searchParams);
+    setSearchParams({ page: current, perPage });
   };
 
-  const handleNextPage = () => {
-    searchParams.set('page', `${String(Number(currentPage) + 1)}`);
-    setSearchParams(searchParams);
-  };
+  const handleNextPage = () => setSearchParams({ page: `${Number(page) + 1}`, perPage });
 
-  const handlePrevPage = () => {
-    searchParams.set('page', `${String(Number(currentPage) - 1)}`);
-    setSearchParams(searchParams);
-  };
+  const handlePrevPage = () => setSearchParams({ page: `${Number(page) - 1}`, perPage });
 
-  const indexOfLastItem = +currentPage * +currentPerPage;
-  const indexOfFirstitem = indexOfLastItem - +currentPerPage;
-  const visibleItems = items.slice(indexOfFirstitem, indexOfLastItem);
+  const indexOfLastItem = useMemo(() => +page * +perPage,
+    [searchParams.get('page'), searchParams.get('perPage')]);
+
+  const indexOfFirstitem = useMemo(() => indexOfLastItem - +perPage,
+    [searchParams.get('perPage'), searchParams.get('page')]);
+
+  const visibleItems = useMemo(() => items
+    .slice(indexOfFirstitem, indexOfLastItem),
+  [perPage, page]);
 
   const getItem = (index: number) => visibleItems[index].split(' ')[1];
 
@@ -55,8 +58,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`
-          Page ${currentPage} 
+        {`Page ${page} 
           (items ${itemsFrom} - ${itemsTo} of ${items.length})
         `}
       </p>
@@ -67,7 +69,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            value={currentPerPage}
+            value={perPage}
             onChange={handleSelect}
           >
             <option value="3">3</option>
@@ -83,12 +85,12 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={42}
-        perPage={currentPerPage}
-        page={currentPage}
-        onPageChange={handlePageChange}
+        page={page}
+        total={total}
+        perPage={perPage}
         onNextChange={handleNextPage}
         onPrevChange={handlePrevPage}
+        onPageChange={handlePageChange}
       />
       <Items items={visibleItems} />
     </div>

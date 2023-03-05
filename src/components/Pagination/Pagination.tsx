@@ -1,27 +1,30 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import classNames from 'classnames';
 
 interface Props {
   total: number;
-  perPage: string;
   page: string;
-  onPageChange: (page: string) => void;
+  perPage: string;
   onNextChange: () => void;
   onPrevChange: () => void;
+  onPageChange: (page: string) => void;
 }
 
 export const Pagination: FC<Props> = ({
+  page,
   total,
   perPage,
-  page,
   onPageChange,
   onNextChange,
   onPrevChange,
 }) => {
-  const currentAmountPages = Math.ceil(total / Number(perPage));
-  const pages = Array.from(Array(currentAmountPages)
-    .keys())
-    .map(i => i + 1);
+  const currentAmountPages = useMemo(() => Math
+    .ceil(total / Number(perPage)),
+  [total, perPage]);
+
+  const pages = useMemo(() => Array
+    .from(Array(currentAmountPages).keys())
+    .map(i => i + 1), [total, perPage]);
 
   return (
     <ul className="pagination">
@@ -51,7 +54,7 @@ export const Pagination: FC<Props> = ({
             type="button"
             data-cy="pageLink"
             className="page-link"
-            onClick={() => onPageChange(String(item))}
+            onClick={() => onPageChange(`${item}`)}
           >
             {item}
           </button>
