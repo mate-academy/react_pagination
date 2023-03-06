@@ -5,8 +5,7 @@ interface Props {
   total: number;
   page: string;
   perPage: string;
-  onNextChange: () => void;
-  onPrevChange: () => void;
+  onNavigate: (page: number) => void;
   onPageChange: (page: string) => void;
 }
 
@@ -14,9 +13,8 @@ export const Pagination: FC<Props> = ({
   page,
   total,
   perPage,
+  onNavigate,
   onPageChange,
-  onNextChange,
-  onPrevChange,
 }) => {
   const currentAmountPages = useMemo(() => Math
     .ceil(total / Number(perPage)),
@@ -24,7 +22,8 @@ export const Pagination: FC<Props> = ({
 
   const pages = useMemo(() => Array
     .from(Array(currentAmountPages).keys())
-    .map(i => i + 1), [total, perPage]);
+    .map(i => i + 1),
+  [total, perPage]);
 
   return (
     <ul className="pagination">
@@ -38,7 +37,7 @@ export const Pagination: FC<Props> = ({
           data-cy="prevLink"
           className="page-link"
           aria-disabled={page === '1'}
-          onClick={onPrevChange}
+          onClick={() => onNavigate(-1)}
         >
           «
         </button>
@@ -70,7 +69,7 @@ export const Pagination: FC<Props> = ({
           data-cy="nextLink"
           className="page-link"
           aria-disabled={page ? +page === pages.length : false}
-          onClick={onNextChange}
+          onClick={() => onNavigate(1)}
         >
           »
         </button>

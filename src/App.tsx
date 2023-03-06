@@ -34,12 +34,10 @@ export const App: React.FC = () => {
     setSearchParams({ page: current, perPage });
   };
 
-  const handleNextPage = () => setSearchParams({ page: `${Number(page) + 1}`, perPage });
-
-  const handlePrevPage = () => setSearchParams({ page: `${Number(page) - 1}`, perPage });
+  const handleNavigate = (path: number) => setSearchParams({ page: `${+page + path}`, perPage });
 
   const indexOfLastItem = useMemo(() => +page * +perPage,
-    [searchParams.get('page'), searchParams.get('perPage')]);
+    [page, perPage]);
 
   const indexOfFirstitem = useMemo(() => indexOfLastItem - +perPage,
     [searchParams.get('perPage'), searchParams.get('page')]);
@@ -88,8 +86,7 @@ export const App: React.FC = () => {
         page={page}
         total={total}
         perPage={perPage}
-        onNextChange={handleNextPage}
-        onPrevChange={handlePrevPage}
+        onNavigate={handleNavigate}
         onPageChange={handlePageChange}
       />
       <Items items={visibleItems} />
