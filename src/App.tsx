@@ -23,13 +23,13 @@ export const App: React.FC = () => {
     setCurrentPage(page);
   };
 
-  const handleClickPrevButton = () => {
+  const prevButton = () => {
     setCurrentPage(current => Math.max(1, current - 1));
   };
 
   const nextButton = () => {
     setCurrentPage(current => Math.min(
-      numberOfPages(items.length, itemsPerPage), current + 1,
+      numberOfPages(TOTAL_ITEMS, itemsPerPage), current + 1,
     ));
   };
 
@@ -66,11 +66,11 @@ export const App: React.FC = () => {
         </label>
       </div>
       <Pagination
-        total={items.length}
+        total={TOTAL_ITEMS}
         perPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={onPageChange}
-        prevButton={handleClickPrevButton}
+        prevButton={prevButton}
         nextButton={nextButton}
       />
     </div>

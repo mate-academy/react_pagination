@@ -7,7 +7,7 @@ type Props = {
   currentPage: number,
   onPageChange: CallableFunction,
   prevButton: () => void,
-  nextButton: CallableFunction,
+  nextButton:() => void,
 };
 
 export const Pagination: React.FC<Props> = ({
@@ -65,7 +65,7 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#next"
             aria-disabled={currentPage === numberOfPages(total, perPage)}
-            onClick={() => nextButton()}
+            onClick={nextButton}
           >
             »
           </a>
