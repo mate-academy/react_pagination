@@ -7,3 +7,18 @@ export function getNumbers(from: number, to: number): number[] {
 
   return numbers;
 }
+
+export function numberOfPages(total: number, perPage: string): number {
+  return Math.ceil(total / Number(perPage));
+}
+
+export function getCurrentItems(
+  total: number,
+  currentPage: number,
+  perPage: string,
+): number[] {
+  const itemNumbers = getNumbers(1, total);
+  const start = (currentPage - 1) * +perPage;
+
+  return itemNumbers.slice(start, start + +perPage);
+}
