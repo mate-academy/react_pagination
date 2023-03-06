@@ -48,8 +48,8 @@ export const App: React.FC = () => {
 
   const getItem = (index: number) => visibleItems[index].split(' ')[1];
 
-  const itemsFrom = getItem(0);
-  const itemsTo = getItem(visibleItems.length - 1);
+  const itemsFrom = useMemo(() => getItem(0), []);
+  const itemsTo = useMemo(() => getItem(visibleItems.length - 1), []);
 
   return (
     <div className="container">
