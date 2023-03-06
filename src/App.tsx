@@ -23,11 +23,11 @@ export const App: React.FC = () => {
     setCurrentPage(page);
   };
 
-  const prevButton = () => {
+  const handleClickPrevButton = () => {
     setCurrentPage(current => Math.max(1, current - 1));
   };
 
-  const nextButton = () => {
+  const handleClickNextButton = () => {
     setCurrentPage(current => Math.min(
       numberOfPages(TOTAL_ITEMS, itemsPerPage), current + 1,
     ));
@@ -70,8 +70,8 @@ export const App: React.FC = () => {
         perPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={onPageChange}
-        prevButton={prevButton}
-        nextButton={nextButton}
+        prevButton={handleClickPrevButton}
+        nextButton={handleClickNextButton}
       />
     </div>
   );
