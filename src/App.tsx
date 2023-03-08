@@ -9,7 +9,7 @@ const items = getNumbers(1, 42)
 
 export const App: React.FC = () => {
   const [total] = useState(items);
-  const [perPage, setPerPage] = useState(3);
+  const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(0);
 
   const getFirstRow = (amount: number, position: number) => (
