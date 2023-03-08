@@ -2,6 +2,10 @@
 
 > Here is the [working version](https://mate-academy.github.io/react_pagination/)
 
+1. Move pagination html to separate file
+2. create props
+3. create splitPages that will return array of array
+
 You a given a list of items and markup for the `Pagination`. Implement the 
 `Pagination` as a stateless component to show only the items for a current page.
 
@@ -31,4 +35,4 @@ You a given a list of items and markup for the `Pagination`. Implement the
 - Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).
 - Use the [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript).
 - Open one more terminal and run tests with `npm test` to ensure your solution is correct.
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_pagination/) and add it to the PR description.
+- Replace `<your_account>` with your Github username in the [DEMO LINK](https://vanyachyzh.github.io/react_pagination/) and add it to the PR description.
