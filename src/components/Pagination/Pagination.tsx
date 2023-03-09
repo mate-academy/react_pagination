@@ -18,9 +18,11 @@ export const Pagination: React.FC<Props> = ({
   const book = splitPages(items, perPage);
   const numOfPages = Object.keys(book);
   const numLastPage = numOfPages.length;
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === numLastPage;
 
   const getNextPage = () => {
-    if (currentPage === items.length - 1) {
+    if (currentPage === numLastPage) {
       return;
     }
 
@@ -28,7 +30,7 @@ export const Pagination: React.FC<Props> = ({
   };
 
   const getPrevPage = () => {
-    if (currentPage === 0) {
+    if (currentPage === 1) {
       return;
     }
 
@@ -43,7 +45,7 @@ export const Pagination: React.FC<Props> = ({
           className={classNames(
             'page-item',
             {
-              disabled: currentPage === 1,
+              disabled: isFirstPage,
             },
           )}
         >
@@ -86,7 +88,7 @@ export const Pagination: React.FC<Props> = ({
           className={classNames(
             'page-item',
             {
-              disabled: currentPage === numLastPage,
+              disabled: isLastPage,
             },
           )}
         >

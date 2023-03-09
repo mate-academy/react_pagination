@@ -7,10 +7,13 @@ import { Pagination } from './components/Pagination';
 const itemsList = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
+const initialPerPage = 5;
+const initialCurrentPage = 1;
+
 export const App: React.FC = () => {
   const [items] = useState(itemsList);
-  const [perPage, setPerPage] = useState(5);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(initialPerPage);
+  const [currentPage, setCurrentPage] = useState(initialCurrentPage);
 
   const changePerPage = (value: string) => {
     setCurrentPage(1);
