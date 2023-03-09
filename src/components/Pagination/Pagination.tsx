@@ -3,22 +3,24 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { splitPages } from '../../utils';
 
 type Props = {
-  total: string[],
+  items: string[],
   perPage: number,
   currentPage: number,
   onPageChange: Dispatch<SetStateAction<number>>,
 };
 
 export const Pagination: React.FC<Props> = ({
-  total,
+  items,
   perPage,
   currentPage,
   onPageChange,
 }) => {
-  const book = splitPages(total, perPage);
+  const book = splitPages(items, perPage);
+  const numOfPages = Object.keys(book);
+  const numLastPage = numOfPages.length;
 
   const getNextPage = () => {
-    if (currentPage === total.length - 1) {
+    if (currentPage === items.length - 1) {
       return;
     }
 
@@ -41,7 +43,7 @@ export const Pagination: React.FC<Props> = ({
           className={classNames(
             'page-item',
             {
-              disabled: currentPage === 0,
+              disabled: currentPage === 1,
             },
           )}
         >
@@ -56,25 +58,25 @@ export const Pagination: React.FC<Props> = ({
           </a>
         </li>
 
-        {book.map((page, index) => (
+        {numOfPages.map((num) => (
           <li
-            key={String(page)}
+            key={num}
             className={classNames(
               'page-item',
               {
-                active: index === currentPage,
+                active: +num === currentPage,
               },
             )}
           >
             <a
               data-cy="pageLink"
               onClick={() => {
-                onPageChange(index);
+                onPageChange(+num);
               }}
               className="page-link"
-              href={`#${index}`}
+              href={`#${num}`}
             >
-              {index + 1}
+              {num}
             </a>
           </li>
         ))}
@@ -84,7 +86,7 @@ export const Pagination: React.FC<Props> = ({
           className={classNames(
             'page-item',
             {
-              disabled: currentPage === book.length - 1,
+              disabled: currentPage === numLastPage,
             },
           )}
         >

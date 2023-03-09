@@ -1,33 +1,19 @@
 import React, { useState } from 'react';
 import './App.css';
-import { getNumbers } from './utils';
+import { getNumbers, getFirstRow, getLastRow } from './utils';
 import { Pagination } from './components/Pagination';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42)
+const itemsList = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [total] = useState(items);
+  const [items] = useState(itemsList);
   const [perPage, setPerPage] = useState(5);
-  const [currentPage, setCurrentPage] = useState(0);
-
-  const getFirstRow = (amount: number, position: number) => (
-    position * amount + 1
-  );
-
-  const getLastRow = (
-    amount: number,
-    currentPag: number,
-    totalAmount: number,
-  ) => {
-    const lastRow = currentPag * amount + amount;
-
-    return lastRow > totalAmount ? totalAmount : lastRow;
-  };
+  const [currentPage, setCurrentPage] = useState(1);
 
   const changePerPage = (value: string) => {
-    setCurrentPage(0);
+    setCurrentPage(1);
     setPerPage(+value);
   };
 
@@ -36,7 +22,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage + 1} (items ${getFirstRow(perPage, currentPage)} - ${getLastRow(perPage, currentPage, total.length)} of ${total.length})`}
+        {`Page ${currentPage} (items ${getFirstRow(perPage, currentPage)} - ${getLastRow(perPage, currentPage, items.length)} of ${items.length})`}
       </p>
 
       <div className="form-group row">
@@ -62,7 +48,7 @@ export const App: React.FC = () => {
         </label>
 
         <Pagination
-          total={total}
+          items={items}
           perPage={perPage}
           currentPage={currentPage}
           onPageChange={setCurrentPage}
