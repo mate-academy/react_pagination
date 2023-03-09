@@ -1,1 +1,15 @@
-/* not empty */
+.container {
+  position: relative;
+}
+
+.pagination {
+  background-color: red;
+  position: absolute;
+  top: 160px;
+  left: 15px;
+}
+
+.page {
+  position: absolute;
+  top: 210px;
+}
