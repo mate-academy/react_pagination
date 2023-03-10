@@ -16,7 +16,6 @@ export const Pagination: FC<Props> = ({
   onPageChange,
 }) => {
   const buttonsCount = Math.ceil(total / perPage);
-
   const labels = getNumbers(1, buttonsCount);
   const prevButtonDisabled = currentPage === 1;
   const nextButtonDisabled = currentPage === buttonsCount;
@@ -68,7 +67,6 @@ export const Pagination: FC<Props> = ({
         </li>
       ))}
 
-      {/* <li className="page-item"> */}
       <li className={classNames(
         'page-item',
         {
