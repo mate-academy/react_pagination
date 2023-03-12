@@ -1,18 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
+import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42)
-  .map(n => `Item ${n}`);
+const items = getNumbers(1, 42).map((n) => (
+  <li data-cy="item" key={n}>{`Item ${n}`}</li>
+));
 
 export const App: React.FC = () => {
+  const [valueItem, setValueItem] = useState(3);
+  const [total] = useState(42);
+  const [selectedPage, setSelectedPage] = useState(1);
+
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setValueItem(+event.target.value);
+  };
+
+  const onPageChange = (
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+  ) => {
+    const pageNow = event.currentTarget.parentElement?.id || '';
+
+    if (pageNow === 'prev') {
+      setSelectedPage((prev) => prev - 1);
+    } else if (pageNow === 'next') {
+      setSelectedPage((prev) => prev + 1);
+    } else {
+      setSelectedPage(+pageNow);
+    }
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        {`Page ${selectedPage} (items 1 - ${valueItem} of ${total})`}
       </p>
 
       <div className="form-group row">
@@ -20,7 +43,9 @@ export const App: React.FC = () => {
           <select
             data-cy="perPageSelector"
             id="perPageSelector"
+            value={`${valueItem}`}
             className="form-control"
+            onChange={handleChange}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -34,62 +59,17 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
-      <ul className="pagination">
-        <li className="page-item disabled">
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled="true"
-          >
-            «
-          </a>
-        </li>
-        <li className="page-item active">
-          <a data-cy="pageLink" className="page-link" href="#1">1</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#2">2</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#3">3</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#4">4</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#5">5</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#6">6</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#7">7</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#8">8</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#9">9</a>
-        </li>
-        <li className="page-item">
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled="false"
-          >
-            »
-          </a>
-        </li>
-      </ul>
+      <Pagination
+        total={total}
+        perPage={valueItem}
+        currentPage={selectedPage}
+        onPageChange={onPageChange}
+      />
       <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
+        {items.slice(
+          valueItem * selectedPage - valueItem,
+          valueItem * selectedPage,
+        )}
       </ul>
     </div>
   );
