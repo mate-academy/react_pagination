@@ -8,12 +8,25 @@ const items = getNumbers(1, 42).map((n) => (
 ));
 
 export const App: React.FC = () => {
+  const total = 42;
   const [valueItem, setValueItem] = useState(3);
-  const [total] = useState(42);
   const [selectedPage, setSelectedPage] = useState(1);
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setValueItem(+event.target.value);
+    setSelectedPage(1);
+  };
+
+  const handleLeft = () => {
+    setSelectedPage((prev) => prev - 1);
+  };
+
+  const handleRight = () => {
+    setSelectedPage((prev) => prev + 1);
+  };
+
+  const handleMove = (pageNow: string) => {
+    setSelectedPage(+pageNow);
   };
 
   const onPageChange = (
@@ -21,12 +34,18 @@ export const App: React.FC = () => {
   ) => {
     const pageNow = event.currentTarget.parentElement?.id || '';
 
-    if (pageNow === 'prev') {
-      setSelectedPage((prev) => prev - 1);
-    } else if (pageNow === 'next') {
-      setSelectedPage((prev) => prev + 1);
-    } else {
-      setSelectedPage(+pageNow);
+    switch (pageNow) {
+      case 'prev':
+        handleLeft();
+        break;
+
+      case 'next':
+        handleRight();
+        break;
+
+      default:
+        handleMove(pageNow);
+        break;
     }
   };
 

@@ -34,7 +34,7 @@ export const Pagination: React.FC<Props> = ({
           aria-disabled={selectedPage === 1}
           onClick={(event) => {
             onPageChange(event);
-            setSelectedPage((prev) => prev - 1);
+            setSelectedPage(currentPage - 1);
           }}
         >
           «
@@ -71,10 +71,10 @@ export const Pagination: React.FC<Props> = ({
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={selectedPage === countPagination}
+          aria-disabled={currentPage === countPagination}
           onClick={(event) => {
             onPageChange(event);
-            setSelectedPage((prev) => prev + 1);
+            setSelectedPage(currentPage + 1);
           }}
         >
           »
