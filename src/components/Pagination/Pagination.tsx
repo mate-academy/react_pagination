@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import classNames from 'classnames';
 import { getNumbers, getPages } from '../../utils';
 
@@ -10,14 +8,12 @@ type Props = {
   onPageChange: (page: number) => void,
 };
 
-export const Pagination: React.FC<Props> = (
-  {
-    total,
-    perPage,
-    currentPage,
-    onPageChange,
-  },
-) => {
+export const Pagination: React.FC<Props> = ({
+  total,
+  perPage,
+  currentPage,
+  onPageChange,
+}) => {
   const pagesCount = getPages(perPage, total);
   const pages = getNumbers(1, pagesCount);
 
@@ -34,65 +30,86 @@ export const Pagination: React.FC<Props> = (
     onPageChange(page);
   };
 
+  // const onKeyUpEnter = (e: React.KeyboardEvent<HTMLLIElement>) => {
+  //   if (e.key === 'Enter') {
+  //     handleArrows(prevPage);
+  //   }
+  // };
+
   return (
     <ul className="pagination">
-      <li
-        className={
-          classNames(
-            'page-item',
-            {
-              disabled: firstPage,
-            },
-          )
-        }
-        onClick={() => handleArrows(prevPage)}
-      >
-        <a
-          data-cy="prevLink"
-          className="page-link"
-          href={`#${prevPage}`}
-          aria-disabled={firstPage}
-        >
-          «
-        </a>
-      </li>
-
-      {pages.map(page => (
-        <li
-          key={page}
+      <li>
+        <button
+          type="button"
           className={
             classNames(
               'page-item',
               {
-                active: currentPage === page,
+                disabled: firstPage,
               },
             )
           }
-          onClick={() => onPageChange(page)}
+          onClick={() => handleArrows(prevPage)}
         >
-          <a data-cy="pageLink" className="page-link" href={`#${page}`}>{page}</a>
+          <a
+            data-cy="prevLink"
+            className="page-link"
+            href={`#${prevPage}`}
+            aria-disabled={firstPage}
+          >
+            «
+          </a>
+        </button>
+      </li>
+
+      {pages.map(page => (
+        <li>
+          <button
+            type="button"
+            key={page}
+            className={
+              classNames(
+                'page-item',
+                {
+                  active: currentPage === page,
+                },
+              )
+            }
+            onClick={() => onPageChange(page)}
+          >
+            <a
+              data-cy="pageLink"
+              className="page-link"
+              href={`#${page}`}
+            >
+              {page}
+            </a>
+          </button>
         </li>
       ))}
 
-      <li
-        className={
-          classNames(
-            'page-item',
-            {
-              disabled: lastPage,
-            },
-          )
-        }
-        onClick={() => handleArrows(nextPage)}
-      >
-        <a
-          data-cy="nextLink"
-          className="page-link"
-          href={`#${nextPage}`}
-          aria-disabled={lastPage}
+      <li>
+        <button
+          type="button"
+          className={
+            classNames(
+              'page-item',
+              {
+                disabled: lastPage,
+              },
+            )
+          }
+          onClick={() => handleArrows(nextPage)}
         >
-          »
-        </a>
+          <a
+            data-cy="nextLink"
+            className="page-link"
+            href={`#${nextPage}`}
+            aria-disabled={lastPage}
+          >
+            »
+          </a>
+        </button>
       </li>
     </ul>
   );

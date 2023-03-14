@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42).map(n => `Item ${n}`);
+const amount = 42;
+const items = getNumbers(1, amount).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [total] = useState(42);
+  const [total] = useState(amount);
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -18,6 +18,13 @@ export const App: React.FC = () => {
   const maxEnd = perPage * currentPage;
   const itemEnd = maxEnd > total ? total : maxEnd;
   const itemStart = maxEnd - perPage;
+
+  const onChangeFunc = (
+    event: ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setPerPage(+event.currentTarget.value);
+    setCurrentPage(1);
+  };
 
   return (
     <div className="container">
@@ -34,10 +41,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={event => {
-              setPerPage(+event.target.value);
-              setCurrentPage(1);
-            }}
+            onChange={onChangeFunc}
           >
             <option value="3">3</option>
             <option value="5">5</option>
