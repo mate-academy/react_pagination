@@ -17,3 +17,16 @@ export function getCurrentAmountPages(max: number) {
 
   return array;
 }
+
+export function getVisibleAmountItems(
+  itemsPerPage: number,
+  currentPage: number,
+  itemsLength = Infinity,
+) {
+  return {
+    start: itemsPerPage * currentPage - itemsPerPage + 1,
+    end: itemsPerPage * currentPage > itemsLength
+      ? itemsLength
+      : itemsPerPage * currentPage,
+  };
+}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Pagination } from './components/Pagination';
 import './App.css';
-import { getNumbers } from './utils';
+import { getNumbers, getVisibleAmountItems } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42)
@@ -10,21 +10,21 @@ const items = getNumbers(1, 42)
 export const App: React.FC = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
-  const [visibleAmountItems, setVisibleAmountItems] = useState({
-    start: itemsPerPage * currentPage - itemsPerPage + 1,
-    end: itemsPerPage * currentPage,
-  });
   const [visibleItems, setVisibleItems] = useState(items
     .slice(0, itemsPerPage));
+  const [
+    visibleAmountItems,
+    setVisibleAmountItems,
+  ] = useState(() => getVisibleAmountItems(10, 1));
 
   const changePage = (pageNumber: number) => {
     setCurrentPage(pageNumber);
-    setVisibleAmountItems({
-      start: itemsPerPage * pageNumber - itemsPerPage + 1,
-      end: itemsPerPage * pageNumber > items.length
-        ? items.length
-        : itemsPerPage * pageNumber,
-    });
+    setVisibleAmountItems(getVisibleAmountItems(
+      itemsPerPage,
+      pageNumber,
+      items.length,
+    ));
+
     setVisibleItems(items.slice(
       itemsPerPage * pageNumber - itemsPerPage,
       itemsPerPage * pageNumber > items.length
@@ -45,10 +45,7 @@ export const App: React.FC = () => {
       initialPage * amountItems - amountItems,
       amountItems,
     ));
-    setVisibleAmountItems({
-      start: amountItems * initialPage - amountItems + 1,
-      end: amountItems * initialPage,
-    });
+    setVisibleAmountItems(getVisibleAmountItems(amountItems, initialPage));
   };
 
   return (
@@ -90,7 +87,7 @@ export const App: React.FC = () => {
 
       <ul>
         {visibleItems.map(item => (
-          <li data-cy="item">{item}</li>
+          <li key={item} data-cy="item">{item}</li>
         ))}
       </ul>
     </div>
