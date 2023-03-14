@@ -18,20 +18,21 @@ export const Pagination: React.FC<Props> = ({
   const [selectedPage, setSelectedPage] = useState(currentPage);
   const countPagination = Math.ceil(total / perPage);
   const countMassive = getNumbers(1, countPagination);
+  const firstPage = selectedPage === 1;
 
   return (
     <ul className="pagination">
       <li
         id="prev"
         className={classNames(
-          'page-item', { disabled: selectedPage === 1 },
+          'page-item', { disabled: firstPage },
         )}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={selectedPage === 1}
+          aria-disabled={firstPage}
           onClick={(event) => {
             onPageChange(event);
             setSelectedPage(currentPage - 1);
