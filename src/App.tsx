@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
@@ -7,18 +7,21 @@ import { getNumbers } from './utils';
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
-function useQuery() {
-  const { search } = useLocation();
+// function useQuery() {
+//   const { search } = useLocation();
 
-  return React.useMemo(() => new URLSearchParams(search), [search]);
-}
+//   return React.useMemo(() => new URLSearchParams(search), [search]);
+// }
 
 export const App: React.FC = () => {
-  const query = useQuery();
-  const [currentPage, setCurrentPage]
-    = useState(Number(query.get('page')) || 1);
-  const [itemsPerPage, setItemsPerPage]
-    = useState(Number(query.get('perPage')) || 5);
+  // const query = useQuery();
+  // const [currentPage, setCurrentPage]
+  //   = useState(Number(query.get('page')) || 1);
+  // const [itemsPerPage, setItemsPerPage]
+  //   = useState(Number(query.get('perPage')) || 5);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
 
   const itemsStart = (currentPage - 1) * itemsPerPage;
   let itemsEnd = currentPage * itemsPerPage;
