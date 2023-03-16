@@ -29,9 +29,11 @@ export const Pagination: FC<Props> = ({
 
   return (
     <ul className="pagination">
-      <li className={classNames(
-        'page-item', { disabled: currentPage === 1 },
-      )}
+      <li
+        className={classNames(
+          'page-item',
+          { disabled: currentPage === 1 },
+        )}
       >
         <a
           data-cy="prevLink"

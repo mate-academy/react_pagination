@@ -8,14 +8,14 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [visibleItems, setVisibleItems] = useState(items
     .slice(0, itemsPerPage));
   const [
     visibleAmountItems,
     setVisibleAmountItems,
-  ] = useState(() => getVisibleAmountItems(10, 1));
+  ] = useState(() => getVisibleAmountItems(itemsPerPage, 1));
 
   const changePage = (pageNumber: number) => {
     setCurrentPage(pageNumber);
