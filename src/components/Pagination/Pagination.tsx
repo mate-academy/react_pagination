@@ -1,10 +1,11 @@
 import classNames from 'classnames';
 import { FC } from 'react';
+import { ItemsPerPage } from '../../types';
 import { getNumbers } from '../../utils';
 
 type Props = {
   total: number,
-  perPage: number,
+  perPage: ItemsPerPage,
   currentPage: number,
   onPageChange: (page: number) => void;
 };
@@ -15,7 +16,7 @@ export const Pagination: FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
-  const buttonsCount = Math.ceil(total / perPage);
+  const buttonsCount = Math.ceil(total / +perPage);
   const labels = getNumbers(1, buttonsCount);
   const prevButtonDisabled = currentPage === 1;
   const nextButtonDisabled = currentPage === buttonsCount;
