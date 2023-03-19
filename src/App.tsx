@@ -3,11 +3,12 @@ import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
+const PER_PAGE_SELECTOR = [3, 5, 10, 20];
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [selectValue, setSelectValue] = useState(5);
+  const [selectValue, setSelectValue] = useState(PER_PAGE_SELECTOR[1]);
   const [currentValue, setCurrentValue] = useState(1);
 
   const total = items.length;
@@ -40,10 +41,11 @@ export const App: React.FC = () => {
             value={selectValue}
             onChange={hendlerSelect}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+
+            <option value={PER_PAGE_SELECTOR[0]}>{PER_PAGE_SELECTOR[0]}</option>
+            <option value={PER_PAGE_SELECTOR[1]}>{PER_PAGE_SELECTOR[1]}</option>
+            <option value={PER_PAGE_SELECTOR[2]}>{PER_PAGE_SELECTOR[2]}</option>
+            <option value={PER_PAGE_SELECTOR[3]}>{PER_PAGE_SELECTOR[3]}</option>
           </select>
         </div>
 
