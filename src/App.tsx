@@ -10,6 +10,12 @@ export const App: React.FC = () => {
   const [currentPage, setPage] = useState(1);
   const [perPage, setPerPages] = useState(5);
   const countVisibleItems = perPage * currentPage;
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.target;
+
+    setPerPages(+value);
+    setPage(1);
+  };
 
   return (
     <div className="container">
@@ -26,10 +32,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={(event) => {
-              setPerPages(+event.target.value);
-              setPage(1);
-            }}
+            onChange={handleChange}
           >
             <option value="3">3</option>
             <option value="5">5</option>

@@ -18,21 +18,23 @@ export const Pagination: FC<Props> = ({
   const pages = Array.from(Array(countPages), (_, index) => index + 1);
   const visiblePages
   = total.slice((currentPage - 1) * perPage, perPage * currentPage);
+  const firstPage = currentPage === 1;
+  const lastPage = currentPage === countPages;
 
   return (
     <>
       <ul className="pagination">
         <li className={classNames(
           'page-item',
-          { disabled: currentPage <= 1 },
+          { disabled: firstPage },
         )}
         >
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled={currentPage === 1}
-            onClick={() => onPageChange(currentPage === 1
+            aria-disabled={firstPage}
+            onClick={() => onPageChange(firstPage
               ? currentPage
               : currentPage - 1)}
           >
@@ -57,15 +59,15 @@ export const Pagination: FC<Props> = ({
         ))}
         <li className={classNames(
           'page-item',
-          { disabled: currentPage === countPages },
+          { disabled: lastPage },
         )}
         >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={currentPage === countPages}
-            onClick={() => onPageChange(currentPage === countPages
+            aria-disabled={lastPage}
+            onClick={() => onPageChange(lastPage
               ? currentPage
               : currentPage + 1)}
           >
