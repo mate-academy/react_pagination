@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
@@ -15,13 +16,7 @@ export const App: React.FC = () => {
     ? totalItems
     : currentPage * perPage;
 
-  const itemsToShow = items.filter((item, index) => {
-    if (index >= firstItemNum - 1 && index <= lastItemNum - 1) {
-      return item;
-    }
-
-    return 0;
-  });
+  const itemsToShow = items.slice(firstItemNum - 1, lastItemNum);
 
   const handlePerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(+event.target.value);
@@ -33,20 +28,10 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page
-        {' '}
-        {currentPage}
-        {' '}
-        (items
-        {' '}
-        {firstItemNum}
-        {' - '}
-        {lastItemNum}
-        {' '}
-        of
-        {' '}
-        {totalItems}
-        )
+        {
+          `Page ${currentPage} `
+          + `(items ${firstItemNum} - ${lastItemNum} of ${totalItems})`
+        }
       </p>
 
       <div className="form-group row">
@@ -74,9 +59,7 @@ export const App: React.FC = () => {
         total={totalItems}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={(page: number) => {
-          setCurrentPage(page);
-        }}
+        onPageChange={setCurrentPage}
         pageItems={itemsToShow}
       />
     </div>
