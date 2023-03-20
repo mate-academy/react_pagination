@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState, FC, ChangeEvent } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
 import { items, itemsCountPerPage } from './utils';
 
-export const App: React.FC = () => {
+export const App: FC = () => {
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -14,8 +14,13 @@ export const App: React.FC = () => {
 
   const shownItems = items.slice(firstItemIndex, lastItemIndex);
 
-  const handlePageChange = (page: number) => {
+  const selectPage = (page: number) => {
     setCurrentPage(page);
+  };
+
+  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1);
   };
 
   return (
@@ -33,10 +38,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={itemsPerPage}
-            onChange={(event) => {
-              setItemsPerPage(Number(event.target.value));
-              setCurrentPage(1);
-            }}
+            onChange={handleChange}
           >
             {itemsCountPerPage.map(itemsNumber => (
               <option
@@ -58,7 +60,7 @@ export const App: React.FC = () => {
         total={items.length}
         perPage={itemsPerPage}
         currentPage={currentPage}
-        onPageChange={handlePageChange}
+        onPageChange={selectPage}
       />
 
       <ul>

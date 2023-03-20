@@ -37,10 +37,9 @@ export const Pagination: FC<Props> = (props) => {
 
   return (
     <ul className="pagination">
-      <li className={cn(
-        'page-item',
-        { disabled: currentPage === 1 },
-      )}
+      <li className={cn('page-item', {
+        disabled: currentPage === 1,
+      })}
       >
         <a
           data-cy="prevLink"
@@ -54,10 +53,9 @@ export const Pagination: FC<Props> = (props) => {
       </li>
 
       {pages.map((page => (
-        <li className={cn(
-          'page-item',
-          { active: page === currentPage },
-        )}
+        <li className={cn('page-item', {
+          active: page === currentPage,
+        })}
         >
           <a
             data-cy="pageLink"
