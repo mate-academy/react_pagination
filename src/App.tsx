@@ -4,29 +4,16 @@ import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42)
-  .map(n => `Item ${n}`);
-
-function takeOnlyNumber(string: string) {
-  return +string.replace(/[^0-9]/g, '');
-}
-
-const numbers = items.map(item => takeOnlyNumber(item));
+const items = getNumbers(1, 42);
 
 export const App: React.FC = () => {
   const [currentPage, changePage] = useState(1);
   const [perPage, changePerPage] = useState(5);
 
-  const visibleItems = [...items]
-    .filter((item, index) => {
-      if (numbers[index] <= currentPage * perPage
-        && numbers[index] > currentPage * perPage - perPage) {
-        return (
-          item
-        );
-      }
-
-      return null;
+  const visibleItems = items
+    .filter((item) => {
+      return item <= currentPage * perPage
+      && item > currentPage * perPage - perPage;
     });
 
   return (
@@ -34,7 +21,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${takeOnlyNumber(visibleItems[0])} - ${takeOnlyNumber(visibleItems[visibleItems.length - 1])} of ${items.length})`}
+        {`Page ${currentPage} (items ${visibleItems[0]} - ${visibleItems[visibleItems.length - 1]} of ${items.length})`}
       </p>
 
       <div className="form-group row">
@@ -66,12 +53,14 @@ export const App: React.FC = () => {
         total={items.length}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={(page) => changePage(page)}
+        onPageChange={changePage}
       />
       <ul>
         {visibleItems
           .map((item) => (
-            <li data-cy="item" key={item}>{item}</li>
+            <li data-cy="item" key={item}>
+              {`Item ${item}`}
+            </li>
           ))}
       </ul>
     </div>
