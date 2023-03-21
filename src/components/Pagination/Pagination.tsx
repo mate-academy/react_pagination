@@ -59,13 +59,11 @@ export const Pagination: React.FC<PaginationProps> = ({
           </a>
         </li>
         {pageItems.map(pageItem => {
-          const isActive = pageItem === currentPage;
-
           return (
             <li
               key={pageItem}
               className={cn('page-item', {
-                active: isActive,
+                active: pageItem === currentPage,
               })}
             >
               <a

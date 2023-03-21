@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import './App.css';
+import { PageInfo } from './components/PageInfo';
 import { Pagination } from './components/Pagination';
 import { PerPageSelector } from './components/PerPageSelector';
 import { ItemsCount } from './types/ItemsCount';
-import { getRangeOfItems, createInfo } from './utils/helper';
+import { getRangeOfItems } from './utils/helper';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
+const total = 42;
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(ItemsCount.Five);
-  const [total] = useState(42);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -28,9 +29,12 @@ export const App: React.FC = () => {
     <div className="container">
       <h1>Items with Pagination</h1>
 
-      <p className="lead" data-cy="info">
-        {createInfo(currentPage, firstItem, lastItem, total)}
-      </p>
+      <PageInfo
+        currentPage={currentPage}
+        firstItem={firstItem}
+        lastItem={lastItem}
+        total={total}
+      />
 
       <PerPageSelector
         currentAmountOfItems={itemsPerPage}
