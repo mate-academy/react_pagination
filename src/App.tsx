@@ -11,17 +11,20 @@ export const App: React.FC = () => {
   const ItemPerPage = [3, 5, 10, 20];
   const [selectedItemPerPage, setSelectedItemPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
+  const [total] = useState(items.length);
 
   const numberOfPages = Math.ceil(items.length / selectedItemPerPage);
   const pages = getNumbers(1, numberOfPages);
 
-  const lastItemIndex = currentPage * selectedItemPerPage;
+  const lastItemIndex = currentPage * selectedItemPerPage <= total
+    ? (currentPage * selectedItemPerPage)
+    : (total);
 
-  const firtItemIndex = lastItemIndex - selectedItemPerPage;
+  const firtItemIndex = currentPage * selectedItemPerPage - selectedItemPerPage;
 
   const visibleItems = getNumbers(1, 42).slice(firtItemIndex, lastItemIndex).map(n => `Item ${n}`);
 
-  const handlePageChange = (number:number) => {
+  const handlePageChange = (number: number) => {
     setCurrentPage(number);
   };
 
@@ -30,7 +33,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page 1 (items 1 - ${selectedItemPerPage} of 42)`}
+        {`Page ${currentPage} (items ${firtItemIndex + 1} - ${lastItemIndex} of 42)`}
       </p>
 
       <div className="form-group row">
@@ -42,10 +45,11 @@ export const App: React.FC = () => {
             value={selectedItemPerPage}
             onChange={(event) => {
               setSelectedItemPerPage(+event.target.value);
+              setCurrentPage(1);
             }}
           >
-            {ItemPerPage.map((I) => (
-              <option value={I}>{I}</option>
+            {ItemPerPage.map((item) => (
+              <option value={item}>{item}</option>
             ))}
           </select>
         </div>

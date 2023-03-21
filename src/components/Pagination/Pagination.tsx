@@ -20,28 +20,12 @@ export const Pagination: React.FC<Props> = ({
   const lastPage = Math.ceil(total / perPage);
   const isLastPage = currentPage === lastPage;
 
-  const handlePrev = () => {
-    onPageChange((current: number) => {
-      return isFirstPage
-        ? (current)
-        : (current - 1);
-    });
-  };
-
-  const handleNext = () => {
-    onPageChange((current: number) => {
-      return isLastPage
-        ? (current)
-        : (current + 1);
-    });
-  };
-
   return (
     <>
       <ul className="pagination">
         <li className={classNames(
           'page-item',
-          { disable: isFirstPage },
+          { disabled: isFirstPage },
         )}
         >
           <a
@@ -49,7 +33,7 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#prev"
             aria-disabled={isFirstPage}
-            onClick={handlePrev}
+            onClick={() => onPageChange((currentPage - 1))}
           >
             «
           </a>
@@ -78,7 +62,7 @@ export const Pagination: React.FC<Props> = ({
         ))}
         <li className={classNames(
           'page-item',
-          { disable: isLastPage },
+          { disabled: isLastPage },
         )}
         >
           <a
@@ -86,7 +70,7 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#next"
             aria-disabled={isLastPage}
-            onClick={handleNext}
+            onClick={() => onPageChange((currentPage + 1))}
           >
             »
           </a>
