@@ -29,22 +29,18 @@ export const App: React.FC = () => {
 
   const visibleItems = getVisibleItems(perPage, currPage);
 
-  const getFirstItem = () => {
-    return (currPage - 1) * perPage + 1;
-  };
+  const firstItem = (currPage - 1) * perPage + 1;
 
-  const getLastItem = () => {
-    const last = currPage * perPage;
-
-    return last > items.length ? items.length : last;
-  };
+  const lastItem = currPage * perPage > items.length
+    ? items.length
+    : currPage * perPage;
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currPage} (items ${getFirstItem()} - ${getLastItem()} of ${total})`}
+        {`Page ${currPage} (items ${firstItem} - ${lastItem} of ${total})`}
       </p>
 
       <div className="form-group row">

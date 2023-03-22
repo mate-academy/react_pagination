@@ -20,6 +20,24 @@ export const Pagination: React.FC<Props> = ({
   const isLastPage = currentPage === pagesCount;
   const pagesButtons = getNumbers(1, pagesCount);
 
+  const handlePrevButton = () => {
+    if (!isFirstPage) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const handleNextButton = () => {
+    if (!isLastPage) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
+  const handlePageChange = (page: number) => {
+    if (currentPage !== page) {
+      onPageChange(page);
+    }
+  };
+
   return (
     <ul className="pagination">
       <li
@@ -33,11 +51,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={isFirstPage}
-          onClick={() => {
-            if (!isFirstPage) {
-              onPageChange(currentPage - 1);
-            }
-          }}
+          onClick={handlePrevButton}
         >
           «
         </a>
@@ -55,11 +69,7 @@ export const Pagination: React.FC<Props> = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${page}`}
-            onClick={() => {
-              if (currentPage !== page) {
-                onPageChange(page);
-              }
-            }}
+            onClick={() => handlePageChange(page)}
           >
             {page}
           </a>
@@ -77,11 +87,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={isLastPage}
-          onClick={() => {
-            if (!isLastPage) {
-              onPageChange(currentPage + 1);
-            }
-          }}
+          onClick={handleNextButton}
         >
           »
         </a>
