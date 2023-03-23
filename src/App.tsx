@@ -7,6 +7,9 @@ import { Pagination } from './components/Pagination';
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
+const FIRST_PAGE = 1;
+const DEFAULT_PER_PAGE = 5;
+
 const getVisibleItems = (perPage: number, currentPage: number) => {
   const lastIndex = perPage * currentPage;
 
@@ -14,13 +17,13 @@ const getVisibleItems = (perPage: number, currentPage: number) => {
 };
 
 export const App: React.FC = () => {
-  const [currPage, setCurrPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
+  const [currPage, setCurrPage] = useState(FIRST_PAGE);
+  const [perPage, setPerPage] = useState(DEFAULT_PER_PAGE);
   const [total] = useState(items.length);
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(Number(event.target.value));
-    setCurrPage(1);
+    setCurrPage(FIRST_PAGE);
   };
 
   const onPageChange = (page: number) => {
@@ -31,8 +34,8 @@ export const App: React.FC = () => {
 
   const firstItem = (currPage - 1) * perPage + 1;
 
-  const lastItem = currPage * perPage > items.length
-    ? items.length
+  const lastItem = currPage * perPage > total
+    ? total
     : currPage * perPage;
 
   return (
