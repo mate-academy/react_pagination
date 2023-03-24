@@ -63,52 +63,52 @@ describe('Page', () => {
       page.prevLink().should('exist');
       page.nextLink().should('exist');
     });
-  
+
     it('should highlight only the 1st page by default', () => {
       page.assertLinkActive(1);
       page.assertLinkNotActive(2);
       page.assertLinkNotActive(9);
     });
-  
+
     it('should have 5 items per page by default', () => {
       page.perPageSelector()
         .should('have.value', 5);
     });
-  
+
     it('should show the default info', () => {
       page.info()
         .should('have.text', 'Page 1 (items 1 - 5 of 42)')
     });
-  
+
     it('should have 9 pages by default', () => {
       page.links()
         .should('have.length', 9);
-  
+
       page.links()
         .first()
         .should('have.text', '1');
-  
+
       page.links()
         .last()
         .should('have.text', '9')
     });
-  
+
     it('should show 5 first items by default', () => {
       page.items()
         .should('have.length', 5);
-  
+
       page.items()
         .first()
         .should('have.text', 'Item 1');
-  
+
       page.items()
         .last()
         .should('have.text', 'Item 5');
     });
-  
+
     it('should highlight the 2nd page after clicking the 2nd link', () => {
       page.link(2).click();
-      
+
       page.assertLinkActive(2);
     });
   });
@@ -128,11 +128,11 @@ describe('Page', () => {
 
       page.items()
         .should('have.length', 5);
-  
+
       page.items()
         .first()
         .should('have.text', 'Item 6');
-  
+
       page.items()
         .last()
         .should('have.text', 'Item 10');
@@ -143,11 +143,11 @@ describe('Page', () => {
 
       page.items()
         .should('have.length', 2);
-  
+
       page.items()
         .first()
         .should('have.text', 'Item 41');
-  
+
       page.items()
         .last()
         .should('have.text', 'Item 42');
@@ -183,7 +183,6 @@ describe('Page', () => {
 
       page.items()
         .should('have.length', 20);
-      
       page.items()
         .first()
         .should('have.text', 'Item 1');
@@ -239,7 +238,7 @@ describe('Page', () => {
       page.link(2).click();
 
       page.assertPrevEnabled();
-      
+
       page.link(9).click();
 
       page.assertPrevEnabled();
@@ -278,36 +277,36 @@ describe('Page', () => {
     it('should be enabled by default', () => {
       page.assertNextEnabled();
     });
-  
+
     it('should be enabled if the last page is not selected', () => {
       page.link(2).click();
       page.assertNextEnabled();
-      
+
       page.link(8).click();
       page.assertNextEnabled();
     });
-  
+
     it('should be disabled when the last page is selected', () => {
       page.link(9).click();
       page.assertNextDisabled();
     });
-  
+
     it('should open next page is current page is not the last', () => {
       page.link(2).click();
-  
+
       page.nextLink().click();
       page.assertLinkActive(3);
-  
+
       page.nextLink().click();
       page.assertLinkActive(4);
-  
+
       page.nextLink().click();
       page.assertLinkActive(5);
     });
-  
+
     it('should not change the page if it is already the last', () => {
       page.link(9).click();
-  
+
       page.nextLink().click({ force: true })
       page.assertLinkActive(9);
     });
