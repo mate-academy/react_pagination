@@ -8,7 +8,7 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const ItemPerPage = [3, 5, 10, 20];
+  const ITEMS_PER_PAGE = [3, 5, 10, 20];
   const [selectedItemPerPage, setSelectedItemPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [total] = useState(items.length);
@@ -23,10 +23,6 @@ export const App: React.FC = () => {
   const firtItemIndex = currentPage * selectedItemPerPage - selectedItemPerPage;
 
   const visibleItems = getNumbers(1, 42).slice(firtItemIndex, lastItemIndex).map(n => `Item ${n}`);
-
-  const handlePageChange = (number: number) => {
-    setCurrentPage(number);
-  };
 
   return (
     <div className="container">
@@ -48,8 +44,8 @@ export const App: React.FC = () => {
               setCurrentPage(1);
             }}
           >
-            {ItemPerPage.map((item) => (
-              <option value={item}>{item}</option>
+            {ITEMS_PER_PAGE.map((item) => (
+              <option key={item} value={item}>{item}</option>
             ))}
           </select>
         </div>
@@ -63,7 +59,7 @@ export const App: React.FC = () => {
         perPage={selectedItemPerPage}
         total={items.length}
         currentPage={currentPage}
-        onPageChange={handlePageChange}
+        onPageChange={(number) => setCurrentPage(number)}
         pages={pages}
       />
       <ul>
