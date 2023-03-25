@@ -32,8 +32,8 @@ export const App: React.FC = () => {
             className="form-control"
             value={perPage}
             onChange={(event) => {
-              setCurrentPage(1)
-              setPerPage(+event.target.value)
+              setCurrentPage(1);
+              setPerPage(+event.target.value);
             }}
           >
             <option value="3">3</option>
