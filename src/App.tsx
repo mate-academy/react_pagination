@@ -33,7 +33,8 @@ export const App: React.FC = () => {
     return arrayOfItems;
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+  const handleAmountOfItems
+  = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     const { value } = event.target;
 
     setState({
@@ -55,16 +56,16 @@ export const App: React.FC = () => {
 
   const currentItems = arrOfItemsForCurrPage(42, perPage, currentPage);
 
-  const start = currentItems[0];
+  const startPos = currentItems[0];
 
-  const end = currentItems[(currentItems.length - 1)];
+  const endPos = currentItems[(currentItems.length - 1)];
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${start} - ${end} of 42)`}
+        {`Page ${currentPage} (items ${startPos} - ${endPos} of 42)`}
       </p>
 
       <div className="form-group row">
@@ -75,7 +76,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            onChange={handleChange}
+            onChange={handleAmountOfItems}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -90,9 +91,9 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={42} // total number of items to paginate
-        perPage={perPage} // number of items per page
-        currentPage={currentPage} /* optional with 1 by default */
+        total={42}
+        perPage={perPage}
+        currentPage={currentPage}
         arrOfItems={currentItems}
         onPageChange={handlePage}
       // onPageChange={(page) => { ... }}

@@ -2,9 +2,9 @@ import classNames from 'classnames';
 import { getNumbers } from '../../utils';
 
 type Props = {
-  total: number // total number of items to paginate
-  perPage: number // number of items per page
-  currentPage: number /* optional with 1 by default */
+  total: number
+  perPage: number
+  currentPage: number
   arrOfItems: number[]
   onPageChange: (event: React.MouseEvent<HTMLAnchorElement>) => void
   // onPageChange: () => void
