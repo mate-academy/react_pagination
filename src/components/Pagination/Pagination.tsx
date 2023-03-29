@@ -1,6 +1,6 @@
-import React from "react";
-import classNames from "classnames";
-import { getNumbers } from "../../utils";
+import React from 'react';
+import classNames from 'classnames';
+import { getNumbers } from '../../utils';
 
 type Props = {
   total: number;
