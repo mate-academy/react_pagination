@@ -2,10 +2,10 @@ import React from 'react';
 import classNames from 'classnames';
 
 type Props = {
-  total: string;
-  perPage: string;
-  currentPage: string;
-  onPageChange: (page: string) => void;
+  total: number;
+  perPage: number;
+  currentPage: number;
+  onPageChange: (page: number) => void;
 };
 
 export const Pagination: React.FC<Props> = (
@@ -16,38 +16,36 @@ export const Pagination: React.FC<Props> = (
     onPageChange,
   },
 ) => {
-  const pageNumbers = [];
-
-  for (let i = 1; i <= Math.ceil(+total / +perPage); i += 1) {
-    pageNumbers.push(i);
-  }
+  const pageNumbers = new Array(
+    Math.ceil(total / perPage),
+  ).fill(1).map((_, idx) => idx + 1);
 
   return (
     <ul className="pagination">
       <li className={classNames('page-item', {
-        disabled: +currentPage === pageNumbers[0],
+        disabled: currentPage === pageNumbers[0],
       })}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={+currentPage === pageNumbers[0] ? 'true' : 'false'}
-          onClick={() => onPageChange(String(+currentPage - 1))}
+          aria-disabled={currentPage === pageNumbers[0]}
+          onClick={() => onPageChange(currentPage - 1)}
         >
           «
         </a>
       </li>
       {pageNumbers.map(page => (
         <li
-          className={classNames('page-item', { active: +currentPage === page })}
+          className={classNames('page-item', { active: currentPage === page })}
           key={page}
         >
           <a
             data-cy="pageLink"
             className="page-link"
             href={`#${page}`}
-            onClick={() => onPageChange(String(page))}
+            onClick={() => onPageChange(page)}
           >
             {page}
           </a>
@@ -62,8 +60,8 @@ export const Pagination: React.FC<Props> = (
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={+currentPage === pageNumbers.length ? 'true' : 'false'}
-          onClick={() => onPageChange(String(+currentPage + 1))}
+          aria-disabled={currentPage === pageNumbers.length}
+          onClick={() => onPageChange(currentPage + 1)}
         >
           »
         </a>

@@ -8,20 +8,31 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [total] = useState('42');
-  const [perPage, setPerPage] = useState('5');
-  const [currentPage, setCurrentPage] = useState('1');
+  const [total] = useState(42);
+  const [perPage, setPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const lastItemIndex = +currentPage * +perPage;
-  const firstItemIndex = +lastItemIndex - +perPage;
+  const lastItemIndex = currentPage * perPage;
+  const firstItemIndex = lastItemIndex - perPage;
   const currentPages = items.slice(firstItemIndex, lastItemIndex);
+
+  const setNewPage = (page: number) => {
+    if (currentPage !== page) {
+      setCurrentPage(page);
+    }
+  };
+
+  const changeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setPerPage(+event.target.value);
+    setCurrentPage(1);
+  };
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${firstItemIndex + 1} - ${lastItemIndex} of ${total})`}
+        {`Page ${currentPage} (items ${firstItemIndex + 1} - ${lastItemIndex > 42 ? 42 : lastItemIndex} of ${total})`}
       </p>
 
       <div className="form-group row">
@@ -32,8 +43,7 @@ export const App: React.FC = () => {
             className="form-control"
             value={perPage}
             onChange={event => {
-              setPerPage(event.target.value);
-              setCurrentPage('1');
+              changeSelect(event);
             }}
           >
             <option value="3">3</option>
@@ -53,9 +63,7 @@ export const App: React.FC = () => {
         perPage={perPage}
         currentPage={currentPage}
         onPageChange={(page) => {
-          if (currentPage !== page) {
-            setCurrentPage(page);
-          }
+          setNewPage(page);
         }}
       />
 
