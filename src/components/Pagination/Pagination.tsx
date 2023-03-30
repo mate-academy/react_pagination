@@ -7,7 +7,6 @@ type Props = {
   currentPage: number
   arrOfItems: number[]
   onPageChange: (event: React.MouseEvent<HTMLAnchorElement>) => void
-  // onPageChange: () => void
 };
 
 export const Pagination: React.FC<Props> = ({
