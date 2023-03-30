@@ -4,15 +4,12 @@ import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
 const total = 42;
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, total)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-  const pageAmount = Math.ceil(+(items[items.length - 1].slice(5)) / perPage);
   const itemsPerPage = [...items].slice(
     (perPage * currentPage) - perPage, (perPage * currentPage),
   );
@@ -53,8 +50,9 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={pageAmount}
-        perPage={itemsPerPage}
+        total={total}
+        perPage={perPage}
+        itemsPerPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={onPageChange}
       />
