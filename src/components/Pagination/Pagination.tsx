@@ -17,7 +17,17 @@ export const Pagination: React.FC<Props> = ({
   currentPage = 1,
   onPageChange,
 }) => {
-  const pageAmount = Math.ceil(total / perPage);
+  const moveLeft = () => (
+    currentPage >= 2 && (
+      onPageChange(currentPage - 1)
+    )
+  );
+
+  const moveRight = () => (
+    currentPage <= (Math.ceil(total / perPage) - 1) && (
+      onPageChange(currentPage + 1)
+    )
+  );
 
   return (
     <>
@@ -28,16 +38,12 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#prev"
             aria-disabled={currentPage < 2 ? 'true' : 'false'}
-            onClick={() => (
-              currentPage >= 2 && (
-                onPageChange(currentPage - 1)
-              )
-            )}
+            onClick={moveLeft}
           >
             «
           </a>
         </li>
-        {getNumbers(1, pageAmount).map(item => (
+        {getNumbers(1, Math.ceil(total / perPage)).map(item => (
           <li
             className={
               classNames('page-item', { active: currentPage === item })
@@ -56,19 +62,19 @@ export const Pagination: React.FC<Props> = ({
         ))}
 
         <li className={classNames(
-          'page-item', { disabled: currentPage > (pageAmount - 1) },
+          'page-item', {
+            disabled: currentPage > (Math.ceil(total / perPage) - 1),
+          },
         )}
         >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={currentPage > (pageAmount - 1) ? 'true' : 'false'}
-            onClick={() => (
-              currentPage <= (pageAmount - 1) && (
-                onPageChange(currentPage + 1)
-              )
-            )}
+            aria-disabled={
+              currentPage > (Math.ceil(total / perPage) - 1) ? 'true' : 'false'
+            }
+            onClick={moveRight}
           >
             »
           </a>
