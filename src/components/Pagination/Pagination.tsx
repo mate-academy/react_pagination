@@ -19,6 +19,7 @@ export const Pagination: FC<PaginationProps> = ({
   const isFirstPageIndex = currentPage === 1;
   const isLastPageIndex = currentPage === totalPageCount;
   const paginationRange = getNumbers(1, totalPageCount);
+
   const handlePreviousPageClick = () => {
     return !isFirstPageIndex
       && onPageChange(currentPage - 1);
@@ -79,6 +80,5 @@ export const Pagination: FC<PaginationProps> = ({
         </a>
       </li>
     </ul>
-
   );
 };

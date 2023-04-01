@@ -2,12 +2,12 @@ import { FC } from 'react';
 import './App.css';
 
 import { Pagination } from './components/Pagination';
-import { optionsValue } from './utils/constants';
+import { items, optionsValue } from './utils/constants';
 import { usePagination } from './hooks/usePagination';
 
 export const App: FC = () => {
   const {
-    total,
+    elements,
     onPageChange,
     itemsPerPage,
     selectedItems,
@@ -15,14 +15,18 @@ export const App: FC = () => {
     onSelectChange,
     lastItemIndex,
     firstItemIndex,
-  } = usePagination();
+  } = usePagination<string>({
+    defaultCurrentPage: 1,
+    defaultItemsPerPage: 5,
+    elements: items,
+  });
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${firstItemIndex + 1} - ${lastItemIndex} of ${total})`}
+        {`Page ${currentPage} (items ${firstItemIndex + 1} - ${lastItemIndex} of ${elements.length})`}
       </p>
 
       <div className="form-group row">
@@ -46,7 +50,7 @@ export const App: FC = () => {
       </div>
 
       <Pagination
-        total={total}
+        total={elements.length}
         perPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={onPageChange}
