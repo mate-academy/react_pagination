@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 
-interface UsePaginationProps<T extends unknown> {
+interface UsePaginationProps<T> {
   defaultCurrentPage: number;
   defaultItemsPerPage: number;
   elements: T[];
