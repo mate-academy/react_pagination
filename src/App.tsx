@@ -4,12 +4,10 @@ import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
 export const App: React.FC = () => {
-  const [state, setState] = useState({
-    perPage: 5,
-    currentPage: 1,
-  });
+  const [perPage, setPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const arrOfItemsForCurrPage = (
+  const getArrOfItemsForCurrPage = (
     sum: number,
     sumOfPosPerPage: number,
     currPage: number,
@@ -18,39 +16,31 @@ export const App: React.FC = () => {
       ? 1
       : sumOfPosPerPage * currPage - sumOfPosPerPage + 1;
 
-    let finalPosition = sumOfPosPerPage * currPage;
-
-    if (finalPosition > sum) {
-      finalPosition = sum;
-    }
+    const finalPosition = sumOfPosPerPage * currPage > sum
+      ? sum
+      : sumOfPosPerPage * currPage;
 
     const arrayOfItems = getNumbers(startPosition, finalPosition);
 
     return arrayOfItems;
   };
 
-  const handleAmountOfItems
-  = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+  const handleAmountOfItems = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ): void => {
     const { value } = event.target;
 
-    setState({
-      perPage: +value,
-      currentPage: 1,
-    });
+    setCurrentPage(1);
+    setPerPage(+value);
   };
 
   const handlePage = (event: React.MouseEvent<HTMLAnchorElement>): void => {
     const { dataset } = event.currentTarget;
 
-    setState({
-      ...state,
-      currentPage: Number(dataset.value),
-    });
+    setCurrentPage(Number(dataset.value));
   };
 
-  const { perPage, currentPage } = state;
-
-  const currentItems = arrOfItemsForCurrPage(42, perPage, currentPage);
+  const currentItems = getArrOfItemsForCurrPage(42, perPage, currentPage);
 
   const startPos = currentItems[0];
 
