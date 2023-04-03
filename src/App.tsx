@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
@@ -12,9 +11,8 @@ const items = numbersArr
 export const App: React.FC = () => {
   const [numItemsPerPage, setNumItemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-  // const numOfPages = Math.round(maxNum / numItemsPerPage);
   const [itemsPerPage, setItemsPerPage] = useState(
-    [...items].splice(currentPage * numItemsPerPage - numItemsPerPage,
+    [...items].slice(currentPage * numItemsPerPage - numItemsPerPage,
       currentPage * numItemsPerPage),
   );
 
@@ -22,16 +20,16 @@ export const App: React.FC = () => {
     setNumItemsPerPage(+event.target.value);
     setCurrentPage(1);
     setItemsPerPage(
-      [...items].splice(currentPage * numItemsPerPage - numItemsPerPage,
-        currentPage * numItemsPerPage),
+      [...items].slice(0,
+        +event.target.value),
     );
   }
 
   const onPageChange = (page:number) => {
     setCurrentPage(page);
     setItemsPerPage(
-      [...items].splice(currentPage * numItemsPerPage - numItemsPerPage,
-        currentPage * numItemsPerPage),
+      [...items].slice(page * numItemsPerPage - numItemsPerPage,
+        page * numItemsPerPage),
     );
   };
 
