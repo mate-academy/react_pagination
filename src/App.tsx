@@ -33,12 +33,19 @@ export const App: React.FC = () => {
     );
   };
 
+  const firstItem = currentPage * numItemsPerPage - numItemsPerPage + 1;
+  let lastItem = currentPage * numItemsPerPage;
+
+  if (lastItem > items.length) {
+    lastItem = items.length;
+  }
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${currentPage * numItemsPerPage - numItemsPerPage + 1} - ${currentPage * numItemsPerPage} of ${maxNum})`}
+        {`Page ${currentPage} (items ${firstItem} - ${lastItem} of ${maxNum})`}
       </p>
 
       <div className="form-group row">
