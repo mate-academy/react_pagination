@@ -1,21 +1,25 @@
 import React, { useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
+import { defaultPerPage, total } from './constants';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const App: React.FC = () => {
-  const value = 5;
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(value);
-  const [total] = useState(42);
-
+  const [itemsPerPage, setItemsPerPage] = useState(defaultPerPage);
   const itemsFrom = itemsPerPage * currentPage - (itemsPerPage - 1);
-  const itemsTo = itemsPerPage * currentPage > total
+  const itemsTo = (itemsPerPage * currentPage) > total
     ? total
     : itemsPerPage * currentPage;
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+  };
+
+  const handleChangePerPageValue = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setItemsPerPage(Number(event.target.value));
+    handlePageChange(1);
   };
 
   return (
@@ -32,11 +36,8 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            defaultValue={value}
-            onChange={(event) => {
-              setItemsPerPage(Number(event.target.value));
-              handlePageChange(1);
-            }}
+            defaultValue={defaultPerPage}
+            onChange={handleChangePerPageValue}
           >
             <option value="3">3</option>
             <option value="5">5</option>

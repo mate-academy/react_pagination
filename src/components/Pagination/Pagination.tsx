@@ -23,6 +23,14 @@ export const Pagination: React.FC<Props> = ({
   const isLastPage = currentPage === lastPage;
   const isFirstPage = currentPage === 1;
 
+  const handleMoveToNextPage = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+  ) => (isLastPage ? event.preventDefault() : onPageChange(currentPage + 1));
+
+  const handleMoveToPrevPage = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+  ) => (isFirstPage ? event.preventDefault() : onPageChange(currentPage - 1));
+
   const items = getNumbers(itemsFrom, itemsTo)
     .map(item => (
       <li
@@ -65,11 +73,7 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href={`#${currentPage}`}
             aria-disabled={isFirstPage}
-            onClick={(event) => (
-              isFirstPage
-                ? event.preventDefault()
-                : onPageChange(currentPage - 1)
-            )}
+            onClick={handleMoveToPrevPage}
           >
             «
           </a>
@@ -85,11 +89,7 @@ export const Pagination: React.FC<Props> = ({
             data-cy="nextLink"
             href={`#${currentPage}`}
             aria-disabled={isLastPage}
-            onClick={(event) => (
-              isLastPage
-                ? event.preventDefault()
-                : onPageChange(currentPage + 1)
-            )}
+            onClick={handleMoveToNextPage}
           >
             »
           </a>
