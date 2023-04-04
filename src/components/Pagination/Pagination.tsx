@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import cn from 'classnames';
-import { getNumbers } from '../../utils';
+import { getNumbers } from '../../helpers';
 
 interface Props {
   total: number,
@@ -21,14 +21,19 @@ export const Pagination: FC<Props> = (props) => {
   const pagesCount = Math.ceil(total / perPage);
   const pages = getNumbers(1, pagesCount);
 
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === pagesCount;
+
   const handleNext = () => {
-    if (currentPage !== pagesCount) {
-      onPageChange(currentPage + 1);
+    if (isLastPage) {
+      return;
     }
+
+    onPageChange(currentPage + 1);
   };
 
   const handlePrev = () => {
-    if (currentPage === 1) {
+    if (isFirstPage) {
       return;
     }
 
@@ -38,14 +43,14 @@ export const Pagination: FC<Props> = (props) => {
   return (
     <ul className="pagination">
       <li className={cn('page-item', {
-        disabled: currentPage === 1,
+        disabled: isFirstPage,
       })}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === 1}
+          aria-disabled={isFirstPage}
           onClick={handlePrev}
         >
           «
@@ -70,14 +75,14 @@ export const Pagination: FC<Props> = (props) => {
 
       <li className={cn(
         'page-item',
-        { disabled: currentPage === pagesCount },
+        { disabled: isLastPage },
       )}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === pagesCount}
+          aria-disabled={isLastPage}
           onClick={handleNext}
         >
           »

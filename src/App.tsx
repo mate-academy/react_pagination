@@ -1,16 +1,23 @@
 import { useState, FC, ChangeEvent } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
-import { items, itemsCountPerPage } from './utils';
+import {
+  items,
+  pageByDefault,
+  itemsCountPerPage,
+  itemsCountByDefault,
+} from './constants';
 
 export const App: FC = () => {
-  const [itemsPerPage, setItemsPerPage] = useState(5);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(itemsCountByDefault);
+  const [currentPage, setCurrentPage] = useState(pageByDefault);
 
   const firstItemIndex = itemsPerPage * (currentPage - 1);
-  const lastItemIndex = firstItemIndex + itemsPerPage <= items.length
-    ? firstItemIndex + itemsPerPage
-    : items.length;
+  const lastItemNumber = firstItemIndex + itemsPerPage;
+  const numbersCount = items.length;
+  const lastItemIndex = lastItemNumber <= numbersCount
+    ? lastItemNumber
+    : numbersCount;
 
   const shownItems = items.slice(firstItemIndex, lastItemIndex);
 
@@ -20,7 +27,7 @@ export const App: FC = () => {
 
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(Number(event.target.value));
-    setCurrentPage(1);
+    setCurrentPage(pageByDefault);
   };
 
   return (
