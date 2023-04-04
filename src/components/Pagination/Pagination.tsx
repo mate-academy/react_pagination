@@ -1,13 +1,12 @@
 import classNames from 'classnames';
 import React from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { getNumbers } from '../../utils';
 
 type Props = {
   total: number,
   perPage: number
   currentPage: number
   onPageChange: (page: number) => void
-  visibleItems: string[]
 };
 
 export const Pagination: React.FC<Props> = ({
@@ -15,38 +14,34 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
   total,
-  visibleItems,
 }) => {
   const isFirstPage = currentPage === 1;
   const numbersOfPage = Math.ceil(total / perPage);
   const isLastPage = currentPage === numbersOfPage;
 
-  const listItem = [];
-
-  for (let i = 1; i <= numbersOfPage; i += 1) {
-    listItem.push(
+  const listItem = getNumbers(1, numbersOfPage)
+    .map(item => (
       <li
         className={classNames(
           'page-item',
-          { active: currentPage === i },
+          { active: currentPage === item },
         )}
-        key={i}
+        key={item}
       >
         <a
           data-cy="pageLink"
           className="page-link"
-          href={`#${i}`}
+          href={`#${item}`}
           onClick={() => {
-            if (currentPage !== i) {
-              onPageChange(i);
+            if (currentPage !== item) {
+              onPageChange(item);
             }
           }}
         >
-          {i}
+          {item}
         </a>
-      </li>,
-    );
-  }
+      </li>
+    ));
 
   return (
     <>
@@ -69,7 +64,11 @@ export const Pagination: React.FC<Props> = ({
 
         {listItem}
 
-        <li className={classNames('page-item', { disabled: isLastPage })}>
+        <li className={classNames(
+          'page-item',
+          { disabled: isLastPage },
+        )}
+        >
           <a
             data-cy="nextLink"
             className="page-link"
@@ -84,16 +83,6 @@ export const Pagination: React.FC<Props> = ({
             »
           </a>
         </li>
-      </ul>
-      <ul>
-        {visibleItems.map(item => (
-          <li
-            data-cy="item"
-            key={uuidv4()}
-          >
-            {item}
-          </li>
-        ))}
       </ul>
     </>
   );

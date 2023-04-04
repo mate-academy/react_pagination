@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination/Pagination';
@@ -49,12 +50,22 @@ export const App: React.FC = () => {
         </label>
       </div>
       <Pagination
-        total={42}
+        total={items.length}
         perPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
-        visibleItems={visibleItems}
       />
+
+      <ul>
+        {visibleItems.map(item => (
+          <li
+            data-cy="item"
+            key={uuidv4()}
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
