@@ -15,8 +15,9 @@ export const usePagination = <T>({
   const [currentPage, setCurrentPage] = useState(defaultCurrentPage);
 
   const firstItemIndex = (currentPage - 1) * itemsPerPage;
-  const lastItemIndex = currentPage * itemsPerPage < elements.length
-    ? currentPage * itemsPerPage
+  const lastItemOnPageIndex = currentPage * itemsPerPage;
+  const lastItemIndex = lastItemOnPageIndex < elements.length
+    ? lastItemOnPageIndex
     : elements.length;
   const selectedItems = elements.slice(firstItemIndex, lastItemIndex);
 

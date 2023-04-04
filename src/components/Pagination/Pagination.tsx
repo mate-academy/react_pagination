@@ -21,13 +21,15 @@ export const Pagination: FC<PaginationProps> = ({
   const paginationRange = getNumbers(1, totalPageCount);
 
   const handlePreviousPageClick = () => {
-    return !isFirstPageIndex
-      && onPageChange(currentPage - 1);
+    if (!isFirstPageIndex) {
+      onPageChange(currentPage - 1);
+    }
   };
 
   const handleNextPageClick = () => {
-    return !isLastPageIndex
-      && onPageChange(currentPage + 1);
+    if (!isLastPageIndex) {
+      onPageChange(currentPage + 1);
+    }
   };
 
   return (
@@ -47,6 +49,7 @@ export const Pagination: FC<PaginationProps> = ({
           «
         </a>
       </li>
+
       {paginationRange.map(page => (
         <li
           key={page}
@@ -64,6 +67,7 @@ export const Pagination: FC<PaginationProps> = ({
           </a>
         </li>
       ))}
+
       <li className={classNames(
         'page-item',
         { disabled: isLastPageIndex },

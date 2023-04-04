@@ -2,7 +2,12 @@ import { FC } from 'react';
 import './App.css';
 
 import { Pagination } from './components/Pagination';
-import { items, optionsValue } from './utils/constants';
+import {
+  items,
+  itemsByDefault,
+  itemsPerPageOptions,
+  pageByDefault,
+} from './utils/constants';
 import { usePagination } from './hooks/usePagination';
 
 export const App: FC = () => {
@@ -16,8 +21,8 @@ export const App: FC = () => {
     lastItemIndex,
     firstItemIndex,
   } = usePagination<string>({
-    defaultCurrentPage: 1,
-    defaultItemsPerPage: 5,
+    defaultCurrentPage: pageByDefault,
+    defaultItemsPerPage: itemsByDefault,
     elements: items,
   });
 
@@ -38,7 +43,7 @@ export const App: FC = () => {
             value={itemsPerPage}
             onChange={onSelectChange}
           >
-            {optionsValue.map(itemSize => (
+            {itemsPerPageOptions.map(itemSize => (
               <option key={itemSize} value={itemSize}>{itemSize}</option>
             ))}
           </select>
@@ -58,7 +63,12 @@ export const App: FC = () => {
 
       <ul>
         {selectedItems.map(item => (
-          <li key={item} data-cy="item">{item}</li>
+          <li
+            key={item}
+            data-cy="item"
+          >
+            {item}
+          </li>
         ))}
       </ul>
     </div>
