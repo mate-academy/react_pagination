@@ -4,10 +4,15 @@ import { getNumbers } from './utils';
 
 import { Pagination } from './components/Pagination';
 
-import { items, itemsPerPageMap, totalItemsCount } from './constants';
+import {
+  items,
+  itemsPerPageList,
+  totalItemsCount,
+  defaultItemsPerPage,
+} from './constants';
 
 export const App: React.FC = () => {
-  const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageMap[1]);
+  const [itemsPerPage, setItemsPerPage] = useState(defaultItemsPerPage);
   const [currentPage, setCurrentPage] = useState(1);
 
   let endItem = currentPage * itemsPerPage;
@@ -47,8 +52,10 @@ export const App: React.FC = () => {
             value={itemsPerPage}
             onChange={handleItemsPerPageChange}
           >
-            {itemsPerPageMap.map(item => (
-              <option value={item}>{item}</option>
+            {itemsPerPageList.map(item => (
+              <option value={item}>
+                {item}
+              </option>
             ))}
           </select>
         </div>
@@ -59,7 +66,7 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        totalItemsCount={totalItemsCount}
+        total={totalItemsCount}
         perPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={handlePageChange}

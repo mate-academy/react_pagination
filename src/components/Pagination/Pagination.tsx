@@ -2,19 +2,19 @@ import classNames from 'classnames';
 import { getNumbers } from '../../utils';
 
 type Props = {
-  totalItemsCount: number;
+  total: number;
   perPage: number;
   currentPage: number;
   onPageChange: (page: number) => void
 };
 
 export const Pagination: React.FC<Props> = ({
-  totalItemsCount,
+  total,
   perPage,
   currentPage,
   onPageChange,
 }) => {
-  const pagesCount = getNumbers(1, Math.ceil(totalItemsCount / perPage));
+  const pagesCount = getNumbers(1, Math.ceil(total / perPage));
   const isFirstPage = currentPage === 1;
   const isLastPage = pagesCount.length === currentPage;
 
@@ -33,7 +33,7 @@ export const Pagination: React.FC<Props> = ({
           href="#prev"
           aria-disabled={isFirstPage}
           onClick={() => {
-            if (currentPage !== 1) {
+            if (!isFirstPage) {
               onPageChange(currentPage - 1);
             }
           }}
@@ -76,7 +76,7 @@ export const Pagination: React.FC<Props> = ({
           href="#next"
           aria-disabled={isLastPage}
           onClick={() => {
-            if (currentPage !== pagesCount.length) {
+            if (!isLastPage) {
               onPageChange(currentPage + 1);
             }
           }}
