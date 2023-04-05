@@ -2,26 +2,28 @@ import classNames from 'classnames';
 import { getNumbers } from '../../utils';
 
 type Props = {
-  total: number;
+  totalItemsCount: number;
   perPage: number;
   currentPage: number;
   onPageChange: (page: number) => void
 };
 
 export const Pagination: React.FC<Props> = ({
-  total,
+  totalItemsCount,
   perPage,
   currentPage,
   onPageChange,
 }) => {
-  const pagesCount = getNumbers(1, Math.ceil(total / perPage));
+  const pagesCount = getNumbers(1, Math.ceil(totalItemsCount / perPage));
+  const isFirstPage = currentPage === 1;
+  const isLastPage = pagesCount.length === currentPage;
 
   return (
     <ul className="pagination">
       <li className={classNames(
         'page-item',
         {
-          disabled: currentPage === 1,
+          disabled: isFirstPage,
         },
       )}
       >
@@ -29,7 +31,7 @@ export const Pagination: React.FC<Props> = ({
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === 1}
+          aria-disabled={isFirstPage}
           onClick={() => {
             if (currentPage !== 1) {
               onPageChange(currentPage - 1);
@@ -39,6 +41,7 @@ export const Pagination: React.FC<Props> = ({
           «
         </a>
       </li>
+
       {pagesCount.map(page => (
         <li
           className={classNames(
@@ -59,10 +62,11 @@ export const Pagination: React.FC<Props> = ({
           </a>
         </li>
       ))}
+
       <li className={classNames(
         'page-item',
         {
-          disabled: pagesCount.length === currentPage,
+          disabled: isLastPage,
         },
       )}
       >
@@ -70,7 +74,7 @@ export const Pagination: React.FC<Props> = ({
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={pagesCount.length === currentPage}
+          aria-disabled={isLastPage}
           onClick={() => {
             if (currentPage !== pagesCount.length) {
               onPageChange(currentPage + 1);
