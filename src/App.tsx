@@ -1,5 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import './App.css';
+import { useSearchParams } from 'react-router-dom';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
@@ -7,8 +8,9 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [page, setPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = Number(searchParams.get('page')) || 1;
+  const itemsPerPage = Number(searchParams.get('perPage')) || 5;
   const startIndex = useMemo(() => itemsPerPage * (page - 1) + 1,
     [itemsPerPage, page]);
   const endIndex = useMemo(() => (itemsPerPage * page > items.length
@@ -32,8 +34,9 @@ export const App: React.FC = () => {
             id="perPageSelector"
             value={itemsPerPage}
             onChange={(e) => {
-              setPage(1);
-              setItemsPerPage(+e.target.value);
+              searchParams.set('page', '1');
+              searchParams.set('perPage', e.target.value);
+              setSearchParams(searchParams);
             }}
             className="form-control"
           >
@@ -53,11 +56,10 @@ export const App: React.FC = () => {
         total={items.length}
         perPage={itemsPerPage}
         currentPage={page}
-        onPageChange={setPage}
       />
       <ul>
         {visibleItems.map(item => (
-          <li data-cy="item">{item}</li>
+          <li data-cy="item" key={item}>{item}</li>
         ))}
       </ul>
     </div>
