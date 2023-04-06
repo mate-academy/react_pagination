@@ -2,26 +2,21 @@ import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import './App.css';
 import { Pagination } from './components/Pagination/Pagination';
-import { getNumbers } from './utils';
-import { ItemsPerPage } from './types.ts/ItemsPerPage';
-import { totalItems } from './constants';
-
-const items = getNumbers(1, totalItems)
-  .map(n => `Item ${n}`);
+import { items, itemsPerPageConstant, totalItems } from './constants';
 
 export const App: React.FC = () => {
-  const [itemsPerPage, setPerPage] = useState<ItemsPerPage>(ItemsPerPage.FIVE);
+  const [itemsPerPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const visibleItemsCount = +itemsPerPage * currentPage - +itemsPerPage + 1;
+  const visibleItemsCount = itemsPerPage * currentPage - itemsPerPage + 1;
 
   const visibleItems = items
-    .slice(visibleItemsCount - 1, +itemsPerPage * currentPage);
+    .slice(visibleItemsCount - 1, itemsPerPage * currentPage);
 
   const lastVisibleItem = visibleItemsCount + visibleItems.length - 1;
 
   const handleSetPerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setPerPage(event.target.value as ItemsPerPage);
+    setPerPage(Number(event.target.value));
     setCurrentPage(1);
   };
 
@@ -42,7 +37,7 @@ export const App: React.FC = () => {
             value={itemsPerPage}
             onChange={handleSetPerPage}
           >
-            {Object.values(ItemsPerPage).map(item => (
+            {itemsPerPageConstant.map(item => (
               <option
                 value={item}
                 key={item}

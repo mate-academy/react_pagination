@@ -1,11 +1,10 @@
 import classNames from 'classnames';
 import React from 'react';
 import { getNumbers } from '../../utils';
-import { ItemsPerPage } from '../../types.ts/ItemsPerPage';
 
 type Props = {
   total: number,
-  perPage: ItemsPerPage
+  perPage: number,
   currentPage: number
   onPageChange: (page: number) => void
 };
