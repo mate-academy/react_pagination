@@ -1,29 +1,10 @@
 import React, { useState } from 'react';
 import './App.css';
-import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-
-  const getArrOfItemsForCurrPage = (
-    sum: number,
-    sumOfPosPerPage: number,
-    currPage: number,
-  ) => {
-    const startPosition = currPage === 1
-      ? 1
-      : sumOfPosPerPage * currPage - sumOfPosPerPage + 1;
-
-    const finalPosition = sumOfPosPerPage * currPage > sum
-      ? sum
-      : sumOfPosPerPage * currPage;
-
-    const arrayOfItems = getNumbers(startPosition, finalPosition);
-
-    return arrayOfItems;
-  };
 
   const handleAmountOfItems = (
     event: React.ChangeEvent<HTMLSelectElement>,
@@ -40,11 +21,11 @@ export const App: React.FC = () => {
     setCurrentPage(Number(dataset.value));
   };
 
-  const currentItems = getArrOfItemsForCurrPage(42, perPage, currentPage);
+  const startPos = perPage * currentPage - perPage + 1;
 
-  const startPos = currentItems[0];
-
-  const endPos = currentItems[(currentItems.length - 1)];
+  const endPos = perPage * currentPage > 42
+    ? 42
+    : perPage * currentPage;
 
   return (
     <div className="container">
@@ -80,7 +61,6 @@ export const App: React.FC = () => {
         total={42}
         perPage={perPage}
         currentPage={currentPage}
-        arrOfItems={currentItems}
         onPageChange={handlePage}
       />
     </div>
