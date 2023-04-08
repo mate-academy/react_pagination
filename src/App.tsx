@@ -7,10 +7,15 @@ import { Pagination } from './components/Pagination';
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
+enum Params {
+  Page = 'page',
+  PerPage = 'perPage',
+}
+
 export const App: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const page = Number(searchParams.get('page')) || 1;
-  const itemsPerPage = Number(searchParams.get('perPage')) || 5;
+  const page = Number(searchParams.get(Params.Page)) || 1;
+  const itemsPerPage = Number(searchParams.get(Params.PerPage)) || 5;
   const startIndex = useMemo(() => itemsPerPage * (page - 1) + 1,
     [itemsPerPage, page]);
   const endIndex = useMemo(() => (itemsPerPage * page > items.length
@@ -18,6 +23,11 @@ export const App: React.FC = () => {
     : itemsPerPage * page), [itemsPerPage, page]);
   const visibleItems = useMemo(() => items.slice(startIndex - 1, endIndex),
     [items, startIndex, endIndex]);
+  const handlePerPageSelector = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    searchParams.set(Params.Page, '1');
+    searchParams.set(Params.PerPage, e.target.value);
+    setSearchParams(searchParams);
+  };
 
   return (
     <div className="container">
@@ -33,11 +43,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             value={itemsPerPage}
-            onChange={(e) => {
-              searchParams.set('page', '1');
-              searchParams.set('perPage', e.target.value);
-              setSearchParams(searchParams);
-            }}
+            onChange={handlePerPageSelector}
             className="form-control"
           >
             <option value="3">3</option>
