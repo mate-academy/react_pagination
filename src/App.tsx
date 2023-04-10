@@ -8,7 +8,7 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [total] = useState(42);
+  const total = 42;
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -49,11 +49,12 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             onChange={handleChangePerPage}
+            value={perPage}
           >
-            <option value="3">3</option>
-            <option selected value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            <option value={3}>3</option>
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+            <option value={20}>20</option>
           </select>
         </div>
 
