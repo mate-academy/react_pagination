@@ -6,7 +6,6 @@ type Props = {
   currentPage: number;
   totalPages: number;
   perPage: number;
-  items: string[];
   onPageChange: (page: number) => void;
 };
 
@@ -14,7 +13,6 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   totalPages,
   perPage,
-  items,
   onPageChange,
 }) => {
   const handleArrowClick = (direction: string, condition: boolean) => {
@@ -58,7 +56,9 @@ export const Pagination: React.FC<Props> = ({
                 className="page-link"
                 href={`#${page}`}
                 onClick={() => {
-                  onPageChange(page);
+                  if (currentPage !== page) {
+                    onPageChange(page);
+                  }
                 }}
               >
                 {page}
@@ -78,20 +78,6 @@ export const Pagination: React.FC<Props> = ({
             »
           </a>
         </li>
-      </ul>
-      <ul>
-        {items.map((item, index) => {
-          const hasfirstItem = index >= (currentPage - 1) * perPage;
-          const haslastItem = index < currentPage * perPage;
-
-          if (hasfirstItem && haslastItem) {
-            return (
-              <li key={item} data-cy="item">{item}</li>
-            );
-          }
-
-          return false;
-        })}
       </ul>
     </>
   );

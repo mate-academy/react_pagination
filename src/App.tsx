@@ -9,7 +9,7 @@ const items = getNumbers(1, 42)
 
 export const App: React.FC = () => {
   const totalPages = 42;
-  const [perPage, setPerPage] = useState(3);
+  const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
   const firstItem = 1 + (currentPage - 1) * perPage;
@@ -37,12 +37,10 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            onChange={(event) => {
-              handlePerPage(event);
-            }}
+            onChange={handlePerPage}
           >
             <option value="3">3</option>
-            <option value="5">5</option>
+            <option value="5" selected>5</option>
             <option value="10">10</option>
             <option value="20">20</option>
           </select>
@@ -58,10 +56,23 @@ export const App: React.FC = () => {
         currentPage={currentPage}
         totalPages={totalPages}
         perPage={perPage}
-        items={items}
         onPageChange={setCurrentPage}
 
       />
+      <ul>
+        {items.map((item, index) => {
+          const hasfirstItem = index >= (currentPage - 1) * perPage;
+          const haslastItem = index < currentPage * perPage;
+
+          if (hasfirstItem && haslastItem) {
+            return (
+              <li key={item} data-cy="item">{item}</li>
+            );
+          }
+
+          return false;
+        })}
+      </ul>
     </div>
   );
 };
