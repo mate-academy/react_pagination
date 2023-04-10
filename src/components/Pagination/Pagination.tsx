@@ -41,52 +41,50 @@ export const Pagination: React.FC<Props> = ({
   }
 
   return (
-    <>
-      <ul className="pagination">
-        <li
-          className={classNames('page-item', {
-            disabled: currentPage === 1,
-          })}
-        >
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled={currentPage === 1 ? 'true' : 'false'}
-            onClick={event => {
-              event.preventDefault();
+    <ul className="pagination">
+      <li
+        className={classNames('page-item', {
+          disabled: currentPage === 1,
+        })}
+      >
+        <a
+          data-cy="prevLink"
+          className="page-link"
+          href="#prev"
+          aria-disabled={currentPage === 1 ? 'true' : 'false'}
+          onClick={event => {
+            event.preventDefault();
 
-              if (currentPage !== 1) {
-                onPageChange(currentPage - 1);
-              }
-            }}
-          >
-            «
-          </a>
-        </li>
-        {pageItems}
-        <li
-          className={classNames('page-item', {
-            disabled: currentPage === numberOfPages,
-          })}
+            if (currentPage !== 1) {
+              onPageChange(currentPage - 1);
+            }
+          }}
         >
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled={currentPage === numberOfPages ? 'true' : 'false'}
-            onClick={event => {
-              event.preventDefault();
+          «
+        </a>
+      </li>
+      {pageItems}
+      <li
+        className={classNames('page-item', {
+          disabled: currentPage === numberOfPages,
+        })}
+      >
+        <a
+          data-cy="nextLink"
+          className="page-link"
+          href="#next"
+          aria-disabled={currentPage === numberOfPages ? 'true' : 'false'}
+          onClick={event => {
+            event.preventDefault();
 
-              if (currentPage !== numberOfPages) {
-                onPageChange(currentPage + 1);
-              }
-            }}
-          >
-            »
-          </a>
-        </li>
-      </ul>
-    </>
+            if (currentPage !== numberOfPages) {
+              onPageChange(currentPage + 1);
+            }
+          }}
+        >
+          »
+        </a>
+      </li>
+    </ul>
   );
 };
