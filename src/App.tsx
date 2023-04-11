@@ -24,17 +24,17 @@ export const App: React.FC = () => {
   const firstItem = (currentPage - 1) * perPage + 1;
   const lastItem = Math.min(currentPage * perPage, total);
 
-  // const calculatePaginationInfo = () => {
-  //   return `Page ${currentPage} (items ${firstItem} - ${lastItem} of ${total})`;
-  // };
-
   const itemsPerPage = items.slice(firstItem - 1, lastItem);
 
-  // eslint-disable-next-line max-len
-  const paginationInfo = calculatePaginationInfo(currentPage, firstItem, lastItem, total);
+  const paginationInfo = calculatePaginationInfo(
+    currentPage,
+    firstItem,
+    lastItem,
+    total,
+  );
 
   const handleChangePerPage = (event: ChangeEvent<HTMLSelectElement>) => {
-    const newPerPage = parseInt(event.target.value, 10);
+    const newPerPage = +event.target.value;
 
     setPerPage(newPerPage);
     setCurrentPage(1);

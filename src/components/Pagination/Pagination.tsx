@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { MouseEvent } from 'react';
+import { MouseEvent, useMemo } from 'react';
 
 type Props = {
   total: number,
@@ -14,34 +14,40 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
-  const numberOfPages = Math.ceil(total / perPage);
-  const pageItems = [];
+  const numberOfPages = useMemo(() => {
+    return Math.ceil(total / perPage);
+  }, [total, perPage]);
 
-  for (let pageNumber = 1; pageNumber <= numberOfPages; pageNumber += 1) {
-    const handlePageClick = (event: MouseEvent) => {
-      event.preventDefault();
+  const pageItems = useMemo(() => {
+    const items = [];
 
-      onPageChange(pageNumber);
-    };
+    for (let pageNumber = 1; pageNumber <= numberOfPages; pageNumber += 1) {
+      const handlePageClick = (event: MouseEvent) => {
+        event.preventDefault();
+        onPageChange(pageNumber);
+      };
 
-    pageItems.push(
-      <li
-        key={pageNumber}
-        className={classNames('page-item', {
-          active: currentPage === pageNumber,
-        })}
-      >
-        <a
-          data-cy="pageLink"
-          className="page-link"
-          href={`#${pageNumber}`}
-          onClick={handlePageClick}
+      items.push(
+        <li
+          key={pageNumber}
+          className={classNames('page-item', {
+            active: currentPage === pageNumber,
+          })}
         >
-          {pageNumber}
-        </a>
-      </li>,
-    );
-  }
+          <a
+            data-cy="pageLink"
+            className="page-link"
+            href={`#${pageNumber}`}
+            onClick={handlePageClick}
+          >
+            {pageNumber}
+          </a>
+        </li>,
+      );
+    }
+
+    return items;
+  }, [total, perPage, currentPage]);
 
   const handlePrevClick = (event: MouseEvent) => {
     event.preventDefault();
