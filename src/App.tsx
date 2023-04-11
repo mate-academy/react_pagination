@@ -7,6 +7,15 @@ import { Pagination } from './components/Pagination';
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
+const calculatePaginationInfo = (
+  currentPage: number,
+  firstItem: number,
+  lastItem: number,
+  total: number,
+) => {
+  return `Page ${currentPage} (items ${firstItem} - ${lastItem} of ${total})`;
+};
+
 export const App: React.FC = () => {
   const total = 42;
   const [perPage, setPerPage] = useState(5);
@@ -15,13 +24,14 @@ export const App: React.FC = () => {
   const firstItem = (currentPage - 1) * perPage + 1;
   const lastItem = Math.min(currentPage * perPage, total);
 
-  const calculatePaginationInfo = () => {
-    return `Page ${currentPage} (items ${firstItem} - ${lastItem} of ${total})`;
-  };
+  // const calculatePaginationInfo = () => {
+  //   return `Page ${currentPage} (items ${firstItem} - ${lastItem} of ${total})`;
+  // };
 
   const itemsPerPage = items.slice(firstItem - 1, lastItem);
 
-  const paginationInfo = calculatePaginationInfo();
+  // eslint-disable-next-line max-len
+  const paginationInfo = calculatePaginationInfo(currentPage, firstItem, lastItem, total);
 
   const handleChangePerPage = (event: ChangeEvent<HTMLSelectElement>) => {
     const newPerPage = parseInt(event.target.value, 10);

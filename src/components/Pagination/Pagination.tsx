@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { MouseEvent } from 'react';
 
 type Props = {
   total: number,
@@ -17,6 +18,12 @@ export const Pagination: React.FC<Props> = ({
   const pageItems = [];
 
   for (let pageNumber = 1; pageNumber <= numberOfPages; pageNumber += 1) {
+    const handlePageClick = (event: MouseEvent) => {
+      event.preventDefault();
+
+      onPageChange(pageNumber);
+    };
+
     pageItems.push(
       <li
         key={pageNumber}
@@ -28,17 +35,29 @@ export const Pagination: React.FC<Props> = ({
           data-cy="pageLink"
           className="page-link"
           href={`#${pageNumber}`}
-          onClick={event => {
-            event.preventDefault();
-
-            onPageChange(pageNumber);
-          }}
+          onClick={handlePageClick}
         >
           {pageNumber}
         </a>
       </li>,
     );
   }
+
+  const handlePrevClick = (event: MouseEvent) => {
+    event.preventDefault();
+
+    if (currentPage !== 1) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const handleNextClick = (event: MouseEvent) => {
+    event.preventDefault();
+
+    if (currentPage !== numberOfPages) {
+      onPageChange(currentPage + 1);
+    }
+  };
 
   return (
     <ul className="pagination">
@@ -52,13 +71,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={currentPage === 1 ? 'true' : 'false'}
-          onClick={event => {
-            event.preventDefault();
-
-            if (currentPage !== 1) {
-              onPageChange(currentPage - 1);
-            }
-          }}
+          onClick={handlePrevClick}
         >
           «
         </a>
@@ -74,13 +87,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={currentPage === numberOfPages ? 'true' : 'false'}
-          onClick={event => {
-            event.preventDefault();
-
-            if (currentPage !== numberOfPages) {
-              onPageChange(currentPage + 1);
-            }
-          }}
+          onClick={handleNextClick}
         >
           »
         </a>
