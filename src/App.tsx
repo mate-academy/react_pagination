@@ -8,7 +8,7 @@ import { ItemsList } from './components/ItemsList';
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
-const calculatePaginationInfo = (
+const generatePaginationInfo = (
   currentPage: number,
   firstItem: number,
   lastItem: number,
@@ -27,8 +27,9 @@ export const App: React.FC = () => {
   const lastItem = Math.min(currentPage * perPage, total);
 
   const itemsPerPage = items.slice(firstItem - 1, lastItem);
+  const itemsOnPageSelecting = [3, 5, 10, 20];
 
-  const paginationInfo = calculatePaginationInfo(
+  const paginationInfo = generatePaginationInfo(
     currentPage,
     firstItem,
     lastItem,
@@ -63,10 +64,14 @@ export const App: React.FC = () => {
             onChange={handleChangePerPage}
             value={perPage}
           >
-            <option value={3}>3</option>
-            <option value={5}>5</option>
-            <option value={10}>10</option>
-            <option value={20}>20</option>
+            {itemsOnPageSelecting.map(item => (
+              <option
+                value={item}
+                key={item}
+              >
+                {item}
+              </option>
+            ))}
           </select>
         </div>
 

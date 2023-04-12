@@ -27,32 +27,7 @@ export const Pagination: React.FC<Props> = ({
     onPageChange(pageNumber);
   };
 
-  const pageItems = useMemo(() => {
-    const items = [];
-
-    for (let pageNumber = 1; pageNumber <= numberOfPages; pageNumber += 1) {
-      items.push(
-        <li
-          key={pageNumber}
-          className={classNames('page-item', {
-            active: currentPage === pageNumber,
-          })}
-        >
-          <a
-            data-cy="pageLink"
-            className="page-link"
-            href={`#${pageNumber}`}
-            data-page-number={pageNumber}
-            onClick={handlePageClick}
-          >
-            {pageNumber}
-          </a>
-        </li>,
-      );
-    }
-
-    return items;
-  }, [total, perPage, currentPage]);
+  const pageNumbers = Array.from({ length: numberOfPages }, (_, i) => i + 1);
 
   const handlePrevClick = (event: MouseEvent) => {
     event.preventDefault();
@@ -87,7 +62,24 @@ export const Pagination: React.FC<Props> = ({
           «
         </a>
       </li>
-      {pageItems}
+      {pageNumbers.map(pageNumber => (
+        <li
+          key={pageNumber}
+          className={classNames('page-item', {
+            active: currentPage === pageNumber,
+          })}
+        >
+          <a
+            data-cy="pageLink"
+            className="page-link"
+            href={`#${pageNumber}`}
+            data-page-number={pageNumber}
+            onClick={handlePageClick}
+          >
+            {pageNumber}
+          </a>
+        </li>
+      ))}
       <li
         className={classNames('page-item', {
           disabled: currentPage === numberOfPages,
