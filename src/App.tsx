@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
+import { ItemsList } from './components/ItemsList';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42)
@@ -80,16 +81,8 @@ export const App: React.FC = () => {
         currentPage={currentPage}
         onPageChange={handlePageChange}
       />
-      <ul>
-        {itemsPerPage.map((item) => (
-          <li
-            data-cy="item"
-            key={item}
-          >
-            {`${item}`}
-          </li>
-        ))}
-      </ul>
+
+      <ItemsList itemsPerPage={itemsPerPage} />
     </div>
   );
 };
