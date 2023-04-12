@@ -9,13 +9,15 @@ type Props = {
   onPageChange: (page: number) => void;
 };
 
+type Direction = 'prev' | 'next';
+
 export const Pagination: React.FC<Props> = ({
   currentPage,
   totalPages,
   perPage,
   onPageChange,
 }) => {
-  const handleArrowClick = (direction: string, condition: boolean) => {
+  const handleArrowClick = (direction: Direction, condition: boolean) => {
     const newPage = direction === 'prev'
       ? currentPage - 1
       : currentPage + 1;

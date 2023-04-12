@@ -38,9 +38,10 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             onChange={handlePerPage}
+            value={perPage}
           >
             <option value="3">3</option>
-            <option value="5" selected>5</option>
+            <option value="5">5</option>
             <option value="10">10</option>
             <option value="20">20</option>
           </select>
@@ -70,7 +71,7 @@ export const App: React.FC = () => {
             );
           }
 
-          return false;
+          return null;
         })}
       </ul>
     </div>
