@@ -18,15 +18,19 @@ export const Pagination: React.FC<Props> = ({
     return Math.ceil(total / perPage);
   }, [total, perPage]);
 
+  const handlePageClick = (event: MouseEvent) => {
+    event.preventDefault();
+    const target = event.target as HTMLElement;
+    const pageNumberAttr = target.getAttribute('data-page-number');
+    const pageNumber = pageNumberAttr ? +pageNumberAttr : 1;
+
+    onPageChange(pageNumber);
+  };
+
   const pageItems = useMemo(() => {
     const items = [];
 
     for (let pageNumber = 1; pageNumber <= numberOfPages; pageNumber += 1) {
-      const handlePageClick = (event: MouseEvent) => {
-        event.preventDefault();
-        onPageChange(pageNumber);
-      };
-
       items.push(
         <li
           key={pageNumber}
@@ -38,6 +42,7 @@ export const Pagination: React.FC<Props> = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${pageNumber}`}
+            data-page-number={pageNumber}
             onClick={handlePageClick}
           >
             {pageNumber}

@@ -16,8 +16,9 @@ const calculatePaginationInfo = (
   return `Page ${currentPage} (items ${firstItem} - ${lastItem} of ${total})`;
 };
 
+const total = 42;
+
 export const App: React.FC = () => {
-  const total = 42;
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
