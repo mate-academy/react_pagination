@@ -16,22 +16,26 @@ export const Pagination: FC<Props> = ({
   onPageChange,
 }) => {
   const pagesCount = getNumbers(1, Math.ceil(total / itemsInPage));
+  const isFirstPage = currentPage === 1;
+  const isLastPage = pagesCount.length === currentPage;
 
   return (
     <ul className="pagination">
       <li
         className={classNames(
           'page-item',
-          { disabled: currentPage === 1 },
+          { disabled: isFirstPage },
         )}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === 1}
+          aria-disabled={isFirstPage}
           onClick={() => {
-            onPageChange(currentPage - 1);
+            if (!isFirstPage) {
+              onPageChange(currentPage - 1);
+            }
           }}
         >
           «
@@ -60,16 +64,18 @@ export const Pagination: FC<Props> = ({
       <li
         className={classNames(
           'page-item',
-          { disabled: pagesCount.length === currentPage },
+          { disabled: isLastPage },
         )}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={pagesCount.length === currentPage}
+          aria-disabled={isLastPage}
           onClick={() => {
-            onPageChange(currentPage + 1);
+            if (!isLastPage) {
+              onPageChange(currentPage + 1);
+            }
           }}
         >
           »
