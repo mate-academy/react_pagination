@@ -16,18 +16,8 @@ export const App: React.FC = () => {
     setCurrentPage(1);
   };
 
-  const handleChangePage = (page: number | string) => {
-    if (typeof page === 'number') {
-      setCurrentPage(page);
-    }
-
-    if (page === 'next') {
-      setCurrentPage(current => current + 1);
-    }
-
-    if (page === 'prev') {
-      setCurrentPage(current => current - 1);
-    }
+  const handleChangePage = (page: number) => {
+    setCurrentPage(page);
   };
 
   return (

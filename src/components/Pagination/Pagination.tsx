@@ -6,7 +6,7 @@ type Props = {
   total: number,
   perPage: number,
   currentPage: number,
-  onPageChange: (page: number | string) => void;
+  onPageChange: (page: number) => void;
 };
 
 export const Pagination: React.FC<Props> = ({
@@ -34,7 +34,7 @@ export const Pagination: React.FC<Props> = ({
             aria-disabled={currentPage === 1}
             onClick={() => {
               if (currentPage !== 1) {
-                onPageChange('prev');
+                onPageChange(currentPage - 1);
               }
             }}
           >
@@ -75,7 +75,7 @@ export const Pagination: React.FC<Props> = ({
             aria-disabled={currentPage === lastPage}
             onClick={() => {
               if (currentPage !== lastPage) {
-                onPageChange('next');
+                onPageChange(currentPage + 1);
               }
             }}
           >
