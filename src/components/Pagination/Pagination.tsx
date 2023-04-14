@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import classNames from 'classnames';
 
 type Props = {
@@ -14,26 +14,42 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
-  const pageNumbers = [];
+  const pageNumbers = useMemo(() => {
+    const numbers = [];
 
-  for (let i = 1; i <= Math.ceil(total / perPage); i += 1) {
-    pageNumbers.push(i);
-  }
+    for (let i = 1; i <= Math.ceil(total / perPage); i += 1) {
+      numbers.push(i);
+    }
 
-  const handlePrevClick = () => {
+    return numbers;
+  }, [total, perPage]);
+
+  const handlePrevClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     const page = currentPage - 1;
+
+    event.preventDefault();
 
     if (page > 0) {
       onPageChange(page);
     }
   };
 
-  const handleNextClick = () => {
+  const handleNextClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     const page = currentPage + 1;
+
+    event.preventDefault();
 
     if (page <= pageNumbers.length) {
       onPageChange(page);
     }
+  };
+
+  const handleNumberClick = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    pageNumber: number,
+  ) => {
+    event.preventDefault();
+    onPageChange(pageNumber);
   };
 
   return (
@@ -72,7 +88,7 @@ export const Pagination: React.FC<Props> = ({
               data-cy="pageLink"
               className="page-link"
               href={`#${pageNumber}`}
-              onClick={() => onPageChange(pageNumber)}
+              onClick={(event) => handleNumberClick(event, pageNumber)}
             >
               {pageNumber}
             </a>

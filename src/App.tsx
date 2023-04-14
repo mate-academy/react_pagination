@@ -7,8 +7,9 @@ import { Pagination } from './components/Pagination';
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
+const total = items.length;
+
 export const App: React.FC = () => {
-  const [total] = useState(items.length);
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
