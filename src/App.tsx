@@ -3,16 +3,20 @@ import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination/Pagination';
 import './App.css';
 
+const items = getNumbers(1, 42)
+  .map(n => `Item ${n}`);
+
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const total = 42;
+  const total = items.length;
   const firstLiItem = perPage * (currentPage - 1) + 1;
   const lastLiItem = perPage * currentPage < total
     ? perPage * currentPage
     : total;
   const itemsPerPage = getNumbers(firstLiItem, lastLiItem);
+  const options = [3, 5, 10, 20];
 
   const onSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(+event.target.value);
@@ -40,10 +44,9 @@ export const App: React.FC = () => {
             value={perPage}
             onChange={onSelect}
           >
-            <option value={3}>3</option>
-            <option value={5}>5</option>
-            <option value={10}>10</option>
-            <option value={20}>20</option>
+            {options.map(option => (
+              <option value={option} key={option}>{option}</option>
+            ))}
           </select>
         </div>
 

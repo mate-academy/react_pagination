@@ -5,7 +5,7 @@ import { getNumbers } from '../../utils';
 type Props = {
   total: number,
   perPage: number,
-  currentPage: number,
+  currentPage?: number,
   onPageChange: (page: number) => void,
 };
 
@@ -19,6 +19,20 @@ export const Pagination: React.FC<Props> = ({
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === lastPage;
 
+  const handleClickPrev = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    if (currentPage !== 1) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const handleClickNext = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    if (currentPage !== lastPage) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
   return (
     <ul className="pagination">
       <li className={classNames('page-item', { disabled: isFirstPage })}>
@@ -27,11 +41,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={isFirstPage}
-          onClick={() => {
-            if (currentPage !== 1) {
-              onPageChange(currentPage - 1);
-            }
-          }}
+          onClick={handleClickPrev}
         >
           «
         </a>
@@ -49,7 +59,10 @@ export const Pagination: React.FC<Props> = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${page}`}
-            onClick={() => onPageChange(page)}
+            onClick={(event) => {
+              event.preventDefault();
+              onPageChange(page);
+            }}
           >
             {page}
           </a>
@@ -66,15 +79,15 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={isLastPage}
-          onClick={() => {
-            if (currentPage !== lastPage) {
-              onPageChange(currentPage + 1);
-            }
-          }}
+          onClick={handleClickNext}
         >
           »
         </a>
       </li>
     </ul>
   );
+};
+
+Pagination.defaultProps = {
+  currentPage: 1,
 };
