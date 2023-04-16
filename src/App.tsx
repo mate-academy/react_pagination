@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
+import { useSearchParams } from 'react-router-dom';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
-export const App: React.FC = () => {
-  const total = 42;
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [perPage, setPerPage] = useState<number>(5);
-  const perPageSelector = [3, 5, 10, 20];
-  const arrItems = Array.from({ length: total }, (_, i) => i + 1);
-  const items = getNumbers(1, total)
-    .map(n => `Item ${n}`);
+const total = 42;
+const perPageSelector = [3, 5, 10, 20];
+const items = getNumbers(1, total)
+  .map(n => `Item ${n}`);
 
+export const App: React.FC = () => {
+  const arrItems = Array.from({ length: total }, (_, i) => i + 1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = parseInt(searchParams.get('page') || '1', 10);
+  const perPage = parseInt(searchParams.get('perPage') || '5', 10);
   const getPageItems = (
     array: string[] | number[],
     perNum: number,
@@ -32,26 +34,31 @@ export const App: React.FC = () => {
   const lastItem = selectedItemsFromTo[selectedItemsFromTo.length - 1];
   const onPageChange = (event:React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    const content = event.currentTarget.textContent;
+    const content = event.currentTarget.textContent || '';
     const currentTargetPage = parseInt(content || '0', 10);
 
-    if (currentPage !== currentTargetPage) {
-      setCurrentPage(currentTargetPage);
+    if (!Number.isNaN(currentTargetPage) && currentPage !== currentTargetPage) {
+      setSearchParams({ page: content, perPage: perPage.toString() });
     }
 
     if (content === '«' && currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+      setSearchParams({
+        page: (currentPage - 1).toString(),
+        perPage: perPage.toString(),
+      });
     }
 
     if (content === '»' && currentPage < totalPagesNum) {
-      setCurrentPage(currentPage + 1);
+      setSearchParams({
+        page: (currentPage + 1).toString(),
+        perPage: perPage.toString(),
+      });
     }
   };
 
   const handleChangePer = (event: React.ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault();
-    setPerPage(+event.target.value);
-    setCurrentPage(1);
+    setSearchParams({ page: '1', perPage: event.target.value });
   };
 
   return (
@@ -71,10 +78,9 @@ export const App: React.FC = () => {
             className="form-control"
             onChange={handleChangePer}
           >
-            {perPageSelector.map((num) => {
-              // eslint-disable-next-line max-len
-              return <option key={num} value={num}>{num}</option>;
-            })}
+            {perPageSelector.map((num) => (
+              <option key={num} value={num}>{num}</option>
+            ))}
           </select>
         </div>
 

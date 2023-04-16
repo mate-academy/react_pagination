@@ -39,25 +39,24 @@ export const Pagination: React.FC<Props> = ({
           </a>
         </li>
 
-        {pagesCount.map((page) => {
-          return (
-            <li
-              key={page}
-              className={classNames('page-item', {
-                active: currentPage === page,
-              })}
+        {pagesCount.map((page) => (
+          <li
+            key={page}
+            className={classNames('page-item', {
+              active: currentPage === page,
+            })}
+          >
+            <a
+              data-cy="pageLink"
+              className="page-link"
+              href={`#${page}`}
+              onClick={onPageChange}
             >
-              <a
-                data-cy="pageLink"
-                className="page-link"
-                href={`#${page}`}
-                onClick={onPageChange}
-              >
-                {page}
-              </a>
-            </li>
-          );
-        })}
+              {page}
+            </a>
+          </li>
+        ))}
+
         <li
           className={classNames('page-item', {
             disabled: currentPage === totalPagesNum,
@@ -75,9 +74,9 @@ export const Pagination: React.FC<Props> = ({
         </li>
       </ul>
       <ul>
-        {itemsOnPage.map((item) => {
-          return <li key={item} data-cy="item">{item}</li>;
-        })}
+        {itemsOnPage.map((item) => (
+          <li key={item} data-cy="item">{item}</li>
+        ))}
       </ul>
     </>
   );
