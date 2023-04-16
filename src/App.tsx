@@ -1,18 +1,72 @@
 import React from 'react';
 import './App.css';
+import { useSearchParams } from 'react-router-dom';
 import { getNumbers } from './utils';
+import { Pagination } from './components/Pagination';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42)
+const total = 42;
+const perPageSelector = [3, 5, 10, 20];
+const items = getNumbers(1, total)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
+  const arrItems = Array.from({ length: total }, (_, i) => i + 1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = parseInt(searchParams.get('page') || '1', 10);
+  const perPage = parseInt(searchParams.get('perPage') || '5', 10);
+  const getPageItems = (
+    array: string[] | number[],
+    perNum: number,
+    currentNum: number,
+  ): string[] | number[] => {
+    const startIndex = (currentNum - 1) * perNum;
+    const endIndex = Math.min(startIndex + perNum, array.length);
+
+    const pageItems = array.slice(startIndex, endIndex);
+
+    return pageItems;
+  };
+
+  const selectedItemsFromTo = getPageItems(arrItems, perPage, currentPage);
+  const itemsOnPage = getPageItems(items, perPage, currentPage);
+  const totalPagesNum: number = Math.ceil(total / perPage);
+  const firstItem = selectedItemsFromTo[0];
+  const lastItem = selectedItemsFromTo[selectedItemsFromTo.length - 1];
+  const onPageChange = (event:React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    const content = event.currentTarget.textContent || '';
+    const currentTargetPage = parseInt(content || '0', 10);
+
+    if (!Number.isNaN(currentTargetPage) && currentPage !== currentTargetPage) {
+      setSearchParams({ page: content, perPage: perPage.toString() });
+    }
+
+    if (content === '«' && currentPage > 1) {
+      setSearchParams({
+        page: (currentPage - 1).toString(),
+        perPage: perPage.toString(),
+      });
+    }
+
+    if (content === '»' && currentPage < totalPagesNum) {
+      setSearchParams({
+        page: (currentPage + 1).toString(),
+        perPage: perPage.toString(),
+      });
+    }
+  };
+
+  const handleChangePer = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    event.preventDefault();
+    setSearchParams({ page: '1', perPage: event.target.value });
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        {`Page ${currentPage} (items ${firstItem} - ${lastItem} of ${total})`}
       </p>
 
       <div className="form-group row">
@@ -20,12 +74,13 @@ export const App: React.FC = () => {
           <select
             data-cy="perPageSelector"
             id="perPageSelector"
+            value={perPage}
             className="form-control"
+            onChange={handleChangePer}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            {perPageSelector.map((num) => (
+              <option key={num} value={num}>{num}</option>
+            ))}
           </select>
         </div>
 
@@ -34,65 +89,13 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
-      <ul className="pagination">
-        <li className="page-item disabled">
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled="true"
-          >
-            «
-          </a>
-        </li>
-        <li className="page-item active">
-          <a data-cy="pageLink" className="page-link" href="#1">1</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#2">2</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#3">3</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#4">4</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#5">5</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#6">6</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#7">7</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#8">8</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#9">9</a>
-        </li>
-        <li className="page-item">
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled="false"
-          >
-            »
-          </a>
-        </li>
-      </ul>
-      <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
-      </ul>
+      <Pagination
+        total={total}
+        perPage={perPage}
+        currentPage={currentPage}
+        itemsOnPage={itemsOnPage}
+        onPageChange={onPageChange}
+      />
     </div>
   );
 };
-
-export default App;
