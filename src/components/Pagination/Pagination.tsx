@@ -1,45 +1,40 @@
-import { useCallback } from 'react';
-
 import cn from 'classnames';
 
 type Props = {
-  total: string[],
+  items: string[],
   currentPage: number,
   perPage: number,
-  onPageChange: (value: number) => void | number,
+  onPageChange: (value: number) => void,
 };
 
 export const Pagination: React.FC<Props> = ({
-  total, currentPage, perPage, onPageChange,
+  items, currentPage, perPage, onPageChange,
 }) => {
-  const end = Math.ceil(total.length / perPage);
+  const lastPage = Math.ceil(items.length / perPage);
 
-  const displayPagination = useCallback((units: string[], currPage: number) => {
-    const pages = [];
-
-    // eslint-disable-next-line no-plusplus
-    for (let i = 1; i <= end; i++) {
-      pages.push(
-        <li
-          key={units[i]}
-          className={cn('page-item', { active: currPage === i })}
+  const displayPagination = Array.from({ length: lastPage }, (_, i) => i + 1)
+    .map(page => (
+      <li
+        key={page}
+        className={
+          cn(
+            'page-item',
+            { active: currentPage === page },
+          )
+        }
+      >
+        <a
+          href={`#${page}`}
+          data-cy="pageLink"
+          className="page-link"
+          onClick={() => onPageChange(page)}
         >
-          <a
-            href={`#${i}`}
-            data-cy="pageLink"
-            className="page-link"
-            onClick={() => onPageChange(i)}
-          >
-            {i}
-          </a>
-        </li>,
-      );
-    }
+          {page}
+        </a>
+      </li>
+    ));
 
-    return pages;
-  }, [end, onPageChange, total]);
-
-  const displayItems = useCallback((
+  const filteredItems = (
     units: string[], forPage: number, currPage: number,
   ) => {
     const startIndex = (currPage - 1) * forPage;
@@ -50,20 +45,26 @@ export const Pagination: React.FC<Props> = ({
         {unit}
       </li>
     ));
-  }, []);
+  };
 
-  const handleMoveBack = useCallback((currPage) => {
+  const handleMoveBack = ((currPage: number) => {
     onPageChange(currPage > 1 ? currPage - 1 : 1);
-  }, []);
+  });
 
-  const handleMoveForward = useCallback((currPage) => {
-    onPageChange(currPage < end ? currPage + 1 : end);
-  }, []);
+  const handleMoveForward = ((currPage: number) => {
+    onPageChange(currPage < lastPage ? currPage + 1 : lastPage);
+  });
 
   return (
     <>
       <ul className="pagination">
-        <li className={cn('page-item', { disabled: currentPage === 1 })}>
+        <li className={
+          cn(
+            'page-item',
+            { disabled: currentPage === 1 },
+          )
+        }
+        >
           <a
             data-cy="prevLink"
             className="page-link"
@@ -75,14 +76,20 @@ export const Pagination: React.FC<Props> = ({
           </a>
         </li>
 
-        {displayPagination(total, currentPage)}
+        {displayPagination}
 
-        <li className={cn('page-item', { disabled: currentPage === end })}>
+        <li className={
+          cn(
+            'page-item',
+            { disabled: currentPage === lastPage },
+          )
+        }
+        >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={currentPage === end}
+            aria-disabled={currentPage === lastPage}
             onClick={() => handleMoveForward(currentPage)}
           >
             »
@@ -91,7 +98,7 @@ export const Pagination: React.FC<Props> = ({
       </ul>
 
       <ul>
-        {displayItems(total, perPage, currentPage)}
+        {filteredItems(items, perPage, currentPage)}
       </ul>
     </>
   );

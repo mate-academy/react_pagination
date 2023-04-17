@@ -5,16 +5,16 @@ import { Pagination } from './components/Pagination';
 
 import { getNumbers } from './utils';
 
-const units = getNumbers(1, 42)
+const itemsList = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-  const [items] = useState(units);
+  const [items] = useState(itemsList);
 
   const handleSelect = (e: React.BaseSyntheticEvent) => {
-    setPerPage(parseFloat(e.target.value));
+    setPerPage(parseInt(e.target.value, 10));
     setCurrentPage(1);
   };
 
@@ -51,10 +51,10 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={items}
+        items={items}
         currentPage={currentPage}
         perPage={perPage}
-        onPageChange={(value) => setCurrentPage(value)}
+        onPageChange={setCurrentPage}
       />
     </div>
   );
