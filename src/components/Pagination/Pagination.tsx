@@ -1,16 +1,29 @@
+import { useState } from 'react';
+
 import cn from 'classnames';
 
+import { getNumbers } from '../../utils';
+
 type Props = {
-  items: string[],
+  total: number,
   currentPage: number,
   perPage: number,
   onPageChange: (value: number) => void,
 };
 
 export const Pagination: React.FC<Props> = ({
-  items, currentPage, perPage, onPageChange,
+  currentPage, perPage, onPageChange, total,
 }) => {
+  const [items] = useState(getNumbers(1, total));
   const lastPage = Math.ceil(items.length / perPage);
+
+  const handleClick = (page: number) => {
+    if (page === currentPage) {
+      return;
+    }
+
+    onPageChange(page);
+  };
 
   const displayPagination = Array.from({ length: lastPage }, (_, i) => i + 1)
     .map(page => (
@@ -27,7 +40,7 @@ export const Pagination: React.FC<Props> = ({
           href={`#${page}`}
           data-cy="pageLink"
           className="page-link"
-          onClick={() => onPageChange(page)}
+          onClick={() => handleClick(page)}
         >
           {page}
         </a>
@@ -35,16 +48,18 @@ export const Pagination: React.FC<Props> = ({
     ));
 
   const filteredItems = (
-    units: string[], forPage: number, currPage: number,
+    itemsList: number[], forPage: number, currPage: number,
   ) => {
     const startIndex = (currPage - 1) * forPage;
     const endIndex = startIndex + forPage;
 
-    return units.slice(startIndex, endIndex).map(unit => (
-      <li key={unit} data-cy="item">
-        {unit}
-      </li>
-    ));
+    return itemsList
+      .map(n => `Item ${n}`)
+      .slice(startIndex, endIndex).map(unit => (
+        <li key={unit} data-cy="item">
+          {unit}
+        </li>
+      ));
   };
 
   const handleMoveBack = ((currPage: number) => {

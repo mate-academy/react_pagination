@@ -3,15 +3,13 @@ import './App.css';
 
 import { Pagination } from './components/Pagination';
 
-import { getNumbers } from './utils';
-
-const itemsList = getNumbers(1, 42)
-  .map(n => `Item ${n}`);
+const PER_PAGE = 5;
+const TOTAL = 42;
 
 export const App: React.FC = () => {
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(PER_PAGE);
   const [currentPage, setCurrentPage] = useState(1);
-  const [items] = useState(itemsList);
+  const [total] = useState(TOTAL);
 
   const handleSelect = (e: React.BaseSyntheticEvent) => {
     setPerPage(parseInt(e.target.value, 10));
@@ -19,14 +17,14 @@ export const App: React.FC = () => {
   };
 
   const from = (currentPage - 1) * perPage;
-  const to = Math.min(from + perPage, items.length);
+  const to = Math.min(from + perPage, total);
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${from + 1} - ${to} of ${items.length})`}
+        {`Page ${currentPage} (items ${from + 1} - ${to} of ${total})`}
       </p>
 
       <div className="form-group row">
@@ -51,7 +49,7 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        items={items}
+        total={total}
         currentPage={currentPage}
         perPage={perPage}
         onPageChange={setCurrentPage}
