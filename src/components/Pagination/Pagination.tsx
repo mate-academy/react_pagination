@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable no-plusplus */
 import React from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
 import classNames from 'classnames';
 
 type Props = {
@@ -19,7 +18,6 @@ export const Pagination: React.FC<Props> = React.memo(({
 }) => {
   const pageNumbers = Math.ceil(total / perPage);
   const pageArr = [];
-  const [url, setUrl] = useSearchParams();
 
   for (let i = 1; i <= pageNumbers; i++) {
     pageArr.push(i);
@@ -32,14 +30,17 @@ export const Pagination: React.FC<Props> = React.memo(({
             disabled: currentPage === 1,
           })}
         >
-          <Link
+          <a
             data-cy="pageLink"
             className="page-link"
-            to="/"
-            onClick={() => onPageChange(currentPage - 1)}
+            href="/"
+            onClick={(event) => {
+              event.preventDefault();
+              onPageChange(currentPage - 1);
+            }}
           >
             «
-          </Link>
+          </a>
         </li>
 
         {pageArr.map(page => {
@@ -50,27 +51,13 @@ export const Pagination: React.FC<Props> = React.memo(({
             })}
               key={page}
             >
-              {/* <Link
-                data-cy="pageLink"
-                className="page-link"
-                to="/"
-                onClick={() => {
-                  onPageChange(page);
-                  setUrl({ page: `${page}`, perPage: `${perPage}` });
-                  window.console.log(url.get('page'));
-                }}
-              >
-                {page}
-              </Link> */}
-
               <a
                 data-cy="pageLink"
                 className="page-link"
-                href={`/?${url}`}
-                onClick={() => {
+                href="/"
+                onClick={(event) => {
+                  event.preventDefault();
                   onPageChange(page);
-                  setUrl({ page: `${page}`, perPage: `${perPage}` });
-                  window.console.log(url.get('page'));
                 }}
               >
                 {page}
@@ -83,15 +70,18 @@ export const Pagination: React.FC<Props> = React.memo(({
             disabled: currentPage === pageNumbers,
           })}
         >
-          <Link
+          <a
             data-cy="nextLink"
             className="page-link"
-            to={`?page=${currentPage + 1}&perPage=${perPage}`}
+            href="/"
             aria-disabled={currentPage === pageNumbers ? 'true' : 'false'}
-            onClick={() => onPageChange(currentPage + 1)}
+            onClick={(event) => {
+              event.preventDefault();
+              onPageChange(currentPage + 1);
+            }}
           >
             »
-          </Link>
+          </a>
         </li>
       </ul>
     </>
