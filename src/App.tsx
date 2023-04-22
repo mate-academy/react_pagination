@@ -13,9 +13,9 @@ export const App: React.FC = () => {
   const total = Math.ceil(items.length / itemsPerPage);
 
   const handleItemsPerPageChange = (
-    event: React.ChangeEvent<HTMLSelectElement>,
+    { target: { value } }: React.ChangeEvent<HTMLSelectElement>,
   ) => {
-    setItemsPerPage(+event.target.value);
+    setItemsPerPage(+value);
     setCurrentPage(1);
   };
 
