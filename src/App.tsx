@@ -1,29 +1,27 @@
-import { useState, useEffect, useCallback } from 'react';
-import './App.css';
-import { getNumbers } from './utils';
+import { useState } from 'react';
 import { Pagination } from './components/Pagination';
+import { getNumbers } from './utils';
+import './App.css';
 
 export const App: React.FC = () => {
-  const [items, setItems] = useState<string[]>([]);
+  const [items] = useState<string[]>(getNumbers(1, 42).map((n) => `Item ${n}`));
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
-
-  useEffect(() => {
-    setItems(getNumbers(1, 42).map((n) => `Item ${n}`));
-  }, []);
-
-  const handleItemsPerPageChange = useCallback((event) => {
-    setItemsPerPage(Number(event.target.value));
-    setCurrentPage(1);
-  }, []);
-
-  const handlePageChange = useCallback((page) => {
-    setCurrentPage(page);
-  }, []);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = Math.min(startIndex + itemsPerPage, items.length);
   const total = Math.ceil(items.length / itemsPerPage);
+
+  const handleItemsPerPageChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setItemsPerPage(+event.target.value);
+    setCurrentPage(1);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
     <>
