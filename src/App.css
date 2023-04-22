@@ -1,1 +1,22 @@
-/* not empty */
+/* Set default font family, font size and left margin */
+body {
+  margin-left: 15%;
+}
+
+.page-item a {
+  display: block;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  color: #333;
+}
+
+.page-item.active a {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.page-item.disabled a {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
