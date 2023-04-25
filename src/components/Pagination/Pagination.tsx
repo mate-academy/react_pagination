@@ -31,7 +31,7 @@ export const Pagination: React.FC<Props> = ({
           aria-disabled="true"
           onClick={() => {
             if (currentPage !== 1) {
-              onPageChange(1);
+              onPageChange(currentPage - 1);
             }
           }}
         >
@@ -78,7 +78,7 @@ export const Pagination: React.FC<Props> = ({
           aria-disabled="false"
           onClick={() => {
             if (currentPage !== Math.ceil(total / perPage)) {
-              onPageChange(Math.ceil(total / perPage));
+              onPageChange(currentPage + 1);
             }
           }}
         >
