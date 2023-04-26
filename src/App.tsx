@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -7,9 +7,16 @@ import { Pagination } from './components/Pagination';
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
+enum PerPage {
+  Three = 3,
+  Five = 5,
+  Ten = 10,
+  Twenty = 20,
+}
+
 export const App: React.FC = () => {
   const [total] = useState(items.length);
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(PerPage.Five);
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageChange = (page: number) => {
@@ -23,6 +30,13 @@ export const App: React.FC = () => {
   const minPageIndex = maxPageIndex !== total || total % perPage === 0
     ? maxPageIndex - perPage
     : maxPageIndex - (total % perPage);
+
+  const visibleItems = getNumbers(minPageIndex, maxPageIndex - 1);
+
+  function handleChangePerPage(e: ChangeEvent<HTMLSelectElement>) {
+    setPerPage(+e.target.value);
+    setCurrentPage(1);
+  }
 
   return (
     <div className="container">
@@ -39,15 +53,12 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={(e) => {
-              setPerPage(+e.target.value);
-              setCurrentPage(1);
-            }}
+            onChange={handleChangePerPage}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            <option value={PerPage.Three}>{PerPage.Three}</option>
+            <option value={PerPage.Five}>{PerPage.Five}</option>
+            <option value={PerPage.Ten}>{PerPage.Ten}</option>
+            <option value={PerPage.Twenty}>{PerPage.Twenty}</option>
           </select>
         </div>
 
@@ -64,7 +75,7 @@ export const App: React.FC = () => {
       />
 
       <ul>
-        {getNumbers(minPageIndex, maxPageIndex - 1).map(index => (
+        {visibleItems.map(index => (
           <li data-cy="item" key={index}>{items[index]}</li>
         ))}
       </ul>

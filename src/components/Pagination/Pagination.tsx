@@ -14,6 +14,14 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
+  const visiblePages = getNumbers(1, Math.ceil(total / perPage));
+
+  function handlePageChange(condition: number, page: number) {
+    if (currentPage !== condition) {
+      onPageChange(page);
+    }
+  }
+
   return (
     <ul className="pagination">
       <li
@@ -29,16 +37,12 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href={`#${currentPage}`}
           aria-disabled="true"
-          onClick={() => {
-            if (currentPage !== 1) {
-              onPageChange(currentPage - 1);
-            }
-          }}
+          onClick={() => handlePageChange(1, currentPage - 1)}
         >
           «
         </a>
       </li>
-      {getNumbers(1, Math.ceil(total / perPage)).map(number => (
+      {visiblePages.map(number => (
         <li
           className={classNames(
             'page-item',
@@ -52,11 +56,7 @@ export const Pagination: React.FC<Props> = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${number}`}
-            onClick={() => {
-              if (number !== currentPage) {
-                onPageChange(number);
-              }
-            }}
+            onClick={() => handlePageChange(number, number)}
           >
             {number}
           </a>
@@ -76,11 +76,9 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href={`#${currentPage}`}
           aria-disabled="false"
-          onClick={() => {
-            if (currentPage !== Math.ceil(total / perPage)) {
-              onPageChange(currentPage + 1);
-            }
-          }}
+          onClick={() => (
+            handlePageChange(Math.ceil(total / perPage), currentPage + 1)
+          )}
         >
           »
         </a>
