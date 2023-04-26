@@ -3,26 +3,27 @@ import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
 
+const total = 42;
+const initialCurrentPage = 1;
+const initialItemsPerPage = 5;
+
 export const App: React.FC = () => {
-  const initialCurrentPage = 1;
-  const initialItemsPerPage = 5;
   const [itemsPerPage, setItemsPerPage] = useState(initialItemsPerPage);
   const [currentPage, setCurrentPage] = useState(initialCurrentPage);
   const onPageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  const total = 42;
   const secondItem = currentPage * itemsPerPage;
   const firstItem = secondItem - itemsPerPage + 1;
-  const getCorrectedFirstItem = firstItem === 0 ? firstItem + 1 : firstItem;
-  const getCorrectSecondItem = secondItem > total ? total : secondItem;
+  const correctedFirstItem = firstItem === 0 ? firstItem + 1 : firstItem;
+  const correctedSecondItem = secondItem > total ? total : secondItem;
 
-  const items = getNumbers(getCorrectedFirstItem, getCorrectSecondItem)
+  const items = getNumbers(correctedFirstItem, correctedSecondItem)
     .map(n => `Item ${n}`);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setItemsPerPage(+e.target.value);
+    setItemsPerPage(parseInt(e.target.value, 10));
     setCurrentPage(initialCurrentPage);
   };
 
@@ -31,22 +32,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page
-        {' '}
-        {currentPage}
-        {' '}
-        (items
-        {' '}
-        {firstItem}
-        {' '}
-        -
-        {' '}
-        {getCorrectSecondItem}
-        {' '}
-        of
-        {' '}
-        {total}
-        )
+        {`Page ${currentPage} (items ${firstItem} - ${correctedSecondItem} of ${total})`}
       </p>
 
       <div className="form-group row">

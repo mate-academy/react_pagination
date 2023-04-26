@@ -20,7 +20,9 @@ export const Pagination: React.FC<Props> = (props) => {
   const tabs = getNumbers(1, amountOfTabs);
 
   const handlePageChange = (tab: number) => {
-    onPageChange(tab);
+    if (currentPage !== tab) {
+      onPageChange(tab);
+    }
   };
 
   const handleLeftCLick = () => {
@@ -33,8 +35,7 @@ export const Pagination: React.FC<Props> = (props) => {
 
   return (
     <ul className="pagination">
-      <li className={classNames({
-        'page-item': true,
+      <li className={classNames('page-item', {
         disabled: currentPage === 1,
       })}
       >
@@ -50,8 +51,7 @@ export const Pagination: React.FC<Props> = (props) => {
       </li>
       {tabs.map(tab => (
         <li
-          className={classNames({
-            'page-item': true,
+          className={classNames('page-item', {
             active: currentPage === tab,
           })}
           key={tab}
@@ -66,8 +66,7 @@ export const Pagination: React.FC<Props> = (props) => {
           </a>
         </li>
       ))}
-      <li className={classNames({
-        'page-item': true,
+      <li className={classNames('page-item', {
         disabled: currentPage === amountOfTabs,
       })}
       >
