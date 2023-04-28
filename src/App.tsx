@@ -37,6 +37,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
+            value={itemPerPage}
             onChange={handleChangeItemsPerPage}
           >
             {selectOptions.map(option => (
