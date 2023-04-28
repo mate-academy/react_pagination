@@ -2,13 +2,13 @@ import { Dispatch, SetStateAction } from 'react';
 import classNames from 'classnames';
 import { getNumbers } from '../../utils';
 // eslint-disable-next-line import/no-cycle
-import { items } from '../../App';
 
 interface Props {
   total: number,
   perPage: number,
   currentPage: number,
   onPageChange: Dispatch<SetStateAction<number>>,
+  items: string[]
   firstItemIndex: number,
   lastItemIndex: number
 }
@@ -18,11 +18,31 @@ export const Pagination: React.FC<Props> = ({
   perPage,
   currentPage,
   onPageChange,
+  items,
   firstItemIndex,
   lastItemIndex,
 }) => {
   const pageQuantity = Math.ceil(total / perPage);
   const pages = getNumbers(1, pageQuantity);
+  const onArrowChange = (ev: React.MouseEvent<HTMLAnchorElement>) => {
+    const arrow = ev.currentTarget.href.slice(-5);
+
+    if (arrow === '#prev') {
+      onPageChange(currentPage - 1);
+
+      return;
+    }
+
+    onPageChange(currentPage + 1);
+  };
+
+  const onNumberChange = (ev: React.MouseEvent<HTMLAnchorElement>) => {
+    const { textContent } = ev.currentTarget;
+
+    if (textContent && +textContent !== currentPage) {
+      onPageChange(+textContent);
+    }
+  };
 
   return (
     <>
@@ -40,7 +60,7 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#prev"
             aria-disabled="true"
-            onClick={() => onPageChange(currentPage - 1)}
+            onClick={onArrowChange}
           >
             «
           </a>
@@ -53,17 +73,13 @@ export const Pagination: React.FC<Props> = ({
                 active: page === currentPage,
               },
             )}
+            key={page}
           >
             <a
               data-cy="pageLink"
               className="page-link"
               href={`#${page}`}
-              onClick={(ev) => {
-                if (ev.currentTarget.textContent
-                  && +ev.currentTarget.textContent !== currentPage) {
-                  onPageChange(+ev.currentTarget.textContent);
-                }
-              }}
+              onClick={onNumberChange}
             >
               {page}
             </a>
@@ -82,7 +98,7 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#next"
             aria-disabled="false"
-            onClick={() => onPageChange(currentPage + 1)}
+            onClick={onArrowChange}
           >
             »
           </a>
@@ -90,7 +106,7 @@ export const Pagination: React.FC<Props> = ({
       </ul>
       <ul>
         {items.slice(firstItemIndex, lastItemIndex).map(item => (
-          <li data-cy="item">{item}</li>
+          <li data-cy="item" key={item}>{item}</li>
         ))}
       </ul>
     </>

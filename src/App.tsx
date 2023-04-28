@@ -62,6 +62,7 @@ export const App: React.FC = () => {
         perPage={itemPerPage}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
+        items={items}
         firstItemIndex={firstIndex}
         lastItemIndex={lastItemIndex}
       />
