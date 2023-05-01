@@ -26,10 +26,11 @@ export const Pagination: React.FC<Props> = ({
           })}
         >
           <button
+            data-cy="prevLink"
             type="button"
             data-testid="prevButton"
             className="page-link"
-            disabled={currentPage === 1}
+            aria-disabled={currentPage === 1}
             onClick={() => {
               if (currentPage !== 1) {
                 onPageChange(currentPage - 1);
@@ -47,6 +48,7 @@ export const Pagination: React.FC<Props> = ({
             })}
           >
             <button
+              data-cy="pageLink"
               type="button"
               data-testid={`pageButton-${page}`}
               className="page-link"
@@ -66,10 +68,11 @@ export const Pagination: React.FC<Props> = ({
           })}
         >
           <button
+            data-cy="nextLink"
             type="button"
             data-testid="nextButton"
             className="page-link"
-            disabled={currentPage === lastPage}
+            aria-disabled={currentPage === lastPage}
             onClick={() => {
               if (currentPage !== lastPage) {
                 onPageChange(currentPage + 1);
