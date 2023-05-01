@@ -37,6 +37,7 @@ export const Pagination: React.FC<Props> = ({
       {itemsLengthArray.map((_, i) => (
         <li
           className={`${(currentPage - 1) === i ? 'active' : ''} page-item`}
+          key={Math.floor((1 + Math.random()) * 0x10000)}
         >
           <a
             data-cy="pageLink"
