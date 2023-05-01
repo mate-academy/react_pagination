@@ -7,3 +7,14 @@ export function getNumbers(from: number, to: number): number[] {
 
   return numbers;
 }
+
+export function calculateStartAndEnd(
+  items: string[],
+  page: number,
+  itemsPerPage: number,
+) {
+  const start = Math.max((page - 1) * itemsPerPage, 0);
+  const end = Math.min(start + itemsPerPage, items.length);
+
+  return { start, end };
+}
