@@ -12,9 +12,10 @@ export const App: React.FC = () => {
 
   const handleItemsPerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(parseInt(event.currentTarget.value, 10));
+    setCurrentPage(1);
   };
 
-  const onChangePage = (pageSelector: number) => {
+  const onPageChange = (pageSelector: number) => {
     setCurrentPage(pageSelector);
   };
 
@@ -32,7 +33,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        {`Page ${currentPage} (items ${firstItemIndex + 1} - ${lastItemIndex} of 42)`}
       </p>
 
       <div className="form-group row">
@@ -69,7 +70,7 @@ export const App: React.FC = () => {
 
       <Pagination
         totalPages={totalPageSelectors}
-        onChangePage={onChangePage}
+        onPageChange={onPageChange}
         currentPage={currentPage}
       />
     </div>

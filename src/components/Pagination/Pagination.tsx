@@ -3,13 +3,13 @@ import { getNumbers } from '../../utils';
 
 type Props = {
   totalPages: number;
-  onChangePage: (number: number) => void;
+  onPageChange: (number: number) => void;
   currentPage: number;
 };
 
 export const Pagination: React.FC<Props> = ({
   totalPages,
-  onChangePage: handleChangePage,
+  onPageChange: handleChangePage,
   currentPage,
 }) => {
   const pageSelectors = getNumbers(1, totalPages);
@@ -45,7 +45,6 @@ export const Pagination: React.FC<Props> = ({
           </a>
         </li>
       ))}
-      ;
       <li className="page-item">
         <a
           data-cy="nextLink"
