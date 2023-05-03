@@ -35,7 +35,7 @@ export const Pagination: React.FC<Props> = ({
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={isPrevEnabled}
+          aria-disabled={!isPrevEnabled}
           onClick={() => !isFirstPage && handleChangePage(currentPage - 1)}
         >
           «
