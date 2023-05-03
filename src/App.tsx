@@ -8,8 +8,6 @@ export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [total] = useState(42);
 
-  const totalPageSelectors = Math.ceil(total / itemsPerPage);
-
   const handleItemsPerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(parseInt(event.currentTarget.value, 10));
     setCurrentPage(1);
@@ -69,7 +67,8 @@ export const App: React.FC = () => {
       </ul>
 
       <Pagination
-        totalPages={totalPageSelectors}
+        total={total}
+        perPage={itemsPerPage}
         onPageChange={onPageChange}
         currentPage={currentPage}
       />

@@ -2,26 +2,41 @@ import classNames from 'classnames';
 import { getNumbers } from '../../utils';
 
 type Props = {
-  totalPages: number;
+  total: number;
   onPageChange: (number: number) => void;
   currentPage: number;
+  perPage: number;
 };
 
 export const Pagination: React.FC<Props> = ({
-  totalPages,
+  total,
   onPageChange: handleChangePage,
   currentPage,
+  perPage,
 }) => {
-  const pageSelectors = getNumbers(1, totalPages);
+  const totalPageSelectors = Math.ceil(total / perPage);
+  const pageSelectors = getNumbers(1, totalPageSelectors);
+
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === totalPageSelectors;
+
+  const isPrevEnabled = currentPage > 1;
+  const isNextEnabled = !isLastPage;
 
   return (
     <ul className="pagination">
-      <li className="page-item disabled">
+      <li
+        className={classNames('page-item',
+          {
+            disabled: !isPrevEnabled,
+          })}
+      >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled="true"
+          aria-disabled={isPrevEnabled}
+          onClick={() => !isFirstPage && handleChangePage(currentPage - 1)}
         >
           «
         </a>
@@ -45,12 +60,17 @@ export const Pagination: React.FC<Props> = ({
           </a>
         </li>
       ))}
-      <li className="page-item">
+      <li
+        className={classNames('page-item', {
+          disabled: !isNextEnabled,
+        })}
+      >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled="false"
+          aria-disabled={!isNextEnabled}
+          onClick={() => !isLastPage && handleChangePage(currentPage + 1)}
         >
           »
         </a>
