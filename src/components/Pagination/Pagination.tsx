@@ -34,19 +34,18 @@ export const Pagination: React.FC<Props> = ({
         </a>
       </li>
 
-      {itemsLengthArray.map((_, i) => (
+      {itemsLengthArray.map((item, index) => (
         <li
-          // eslint-disable-next-line react/no-array-index-key
-          key={i}
-          className={`${(currentPage - 1) === i ? 'active' : ''} page-item`}
+          key={item}
+          className={`${(currentPage - 1) === index ? 'active' : ''} page-item`}
         >
           <a
             data-cy="pageLink"
             className="page-link"
-            href={`#${i + 1}`}
-            onClick={() => onPageLinkClick(i + 1)}
+            href={`#${index + 1}`}
+            onClick={() => onPageLinkClick(index + 1)}
           >
-            {i + 1}
+            {item}
           </a>
         </li>
       ))}
