@@ -45,7 +45,7 @@ export const Pagination: React.FC<Props> = ({
             href={`#${index + 1}`}
             onClick={() => onPageLinkClick(index + 1)}
           >
-            {item}
+            {index}
           </a>
         </li>
       ))}
