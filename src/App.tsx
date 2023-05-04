@@ -20,9 +20,7 @@ export const App: React.FC = () => {
 
   const handlePerPageChange = (value: number) => {
     setPerPage(value);
-    setCurrentPage(() => {
-      return 1;
-    });
+    setCurrentPage(1);
   };
 
   useEffect(() => {
