@@ -14,11 +14,11 @@ export const App: React.FC = () => {
   const [leadNumbers, setLeadNumbers] = useState('');
   const total = items.length;
 
-  const onPageChange = (page: number) => {
+  const handlePageChange = (page: number) => {
     setCurrentPage(() => page);
   };
 
-  const onPerPageChange = (value: number) => {
+  const handlePerPageChange = (value: number) => {
     setPerPage(value);
     setCurrentPage(() => {
       return 1;
@@ -26,11 +26,11 @@ export const App: React.FC = () => {
   };
 
   useEffect(() => {
-    const value1 = (currentPage - 1) * perPage + 1;
-    const value2 = value1 + perPage - 1;
+    const startIndex = (currentPage - 1) * perPage + 1;
+    const endIndex = startIndex + perPage - 1;
 
-    setItemsToRender(items.slice(value1 - 1, value2));
-    setLeadNumbers(`${value1} - ${value2 > total ? total : value2}`);
+    setItemsToRender(items.slice(startIndex - 1, endIndex));
+    setLeadNumbers(`${startIndex} - ${endIndex > total ? total : endIndex}`);
   }, [currentPage, perPage]);
 
   return (
@@ -48,7 +48,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={(e) => onPerPageChange(+e.target.value)}
+            onChange={(e) => handlePerPageChange(+e.target.value)}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -66,7 +66,7 @@ export const App: React.FC = () => {
         total={total}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={onPageChange}
+        onPageChange={handlePageChange}
       />
 
       <ul>

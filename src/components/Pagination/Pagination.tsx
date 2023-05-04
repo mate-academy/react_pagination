@@ -36,6 +36,8 @@ export const Pagination: React.FC<Props> = ({
 
       {itemsLengthArray.map((_, i) => (
         <li
+          // {eslint-disable-next-line react/no-array-index-key}
+          key={i}
           className={`${(currentPage - 1) === i ? 'active' : ''} page-item`}
         >
           <a
