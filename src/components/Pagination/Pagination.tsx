@@ -20,6 +20,9 @@ export const Pagination: React.FC<Props> = ({
     (_, index) => index + 1,
   );
 
+  const isPrevDisabled = currentPage === 1;
+  const isNextDisabled = currentPage === pagesCount;
+
   const hanlePrevPage = () => {
     if (currentPage > 1) {
       onPageChange(currentPage - 1);
@@ -37,14 +40,14 @@ export const Pagination: React.FC<Props> = ({
       <li
         className={classNames(
           'page-item',
-          { disabled: currentPage === 1 },
+          { disabled: isPrevDisabled },
         )}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === 1}
+          aria-disabled={isPrevDisabled}
           onClick={hanlePrevPage}
         >
           «
@@ -67,14 +70,14 @@ export const Pagination: React.FC<Props> = ({
       <li
         className={classNames(
           'page-item',
-          { disabled: currentPage === pagesCount },
+          { disabled: isNextDisabled },
         )}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === pagesCount}
+          aria-disabled={isNextDisabled}
           onClick={hanleNextPage}
         >
           »
