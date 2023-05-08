@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
@@ -14,12 +15,7 @@ type Props = {
 };
 
 export const Pagination: React.FC<Props> = ({
-  total,
-  perPage,
-  page,
-  onPageChange,
-  onPrevPage,
-  onNextPage,
+  total, perPage, page, onPageChange, onPrevPage, onNextPage,
 }) => {
   const [withInfo, setWithInfo] = useState('');
   const [searchParams] = useSearchParams();
@@ -92,11 +88,12 @@ export const Pagination: React.FC<Props> = ({
         <li className="pagination-item">
           <Link
             to={`/?${searchParams.toString()}`}
-            className={classNames('pagination-link',
-              { disabled: page === pages })}
+            className={classNames('pagination-link', { disabled: page === pages })}
             onClick={onNextPage}
           >
-            <span>&raquo;</span>
+            <span>
+              &raquo;
+            </span>
           </Link>
         </li>
       </ul>

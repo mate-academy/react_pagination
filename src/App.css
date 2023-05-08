@@ -1,7 +1,7 @@
 .pagination {
   display: flex;
   flex-direction: column;
-  text-align: center;
+  justify-content: center;
   align-items: center;
-  gap: 15;
+  gap: 10px;
 }
