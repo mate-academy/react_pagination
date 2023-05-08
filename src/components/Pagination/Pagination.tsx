@@ -20,22 +20,22 @@ export const Pagination: React.FC<Props> = ({
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === totalPageSelectors;
 
-  const isPrevEnabled = currentPage > 1;
-  const isNextEnabled = !isLastPage;
+  const isPrevDisabled = isFirstPage;
+  const isNextDisabled = isLastPage;
 
   return (
     <ul className="pagination">
       <li
         className={classNames('page-item',
           {
-            disabled: !isPrevEnabled,
+            disabled: isPrevDisabled,
           })}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={!isPrevEnabled}
+          aria-disabled={!isPrevDisabled}
           onClick={() => !isFirstPage && handleChangePage(currentPage - 1)}
         >
           «
@@ -62,14 +62,14 @@ export const Pagination: React.FC<Props> = ({
       ))}
       <li
         className={classNames('page-item', {
-          disabled: !isNextEnabled,
+          disabled: isNextDisabled,
         })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={!isNextEnabled}
+          aria-disabled={isNextDisabled}
           onClick={() => !isLastPage && handleChangePage(currentPage + 1)}
         >
           »

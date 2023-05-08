@@ -6,7 +6,16 @@ import { getNumbers } from './utils';
 export const App: React.FC = () => {
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-  const [total] = useState(42);
+
+  const items = getNumbers(1, 42).map(n => `Item ${n}`);
+
+  const itemsCount = items.length;
+
+  const firstItemIndex = currentPage * itemsPerPage - itemsPerPage;
+  const lastItemIndex = currentPage * itemsPerPage <= itemsCount
+    ? currentPage * itemsPerPage
+    : itemsCount;
+  const currentItems = items.slice(firstItemIndex, lastItemIndex);
 
   const handleItemsPerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(parseInt(event.currentTarget.value, 10));
@@ -17,21 +26,12 @@ export const App: React.FC = () => {
     setCurrentPage(pageSelector);
   };
 
-  const items = getNumbers(1, total).map(n => `Item ${n}`);
-
-  const firstItemIndex = currentPage * itemsPerPage - itemsPerPage;
-  const lastItemIndex = currentPage * itemsPerPage <= total
-    ? currentPage * itemsPerPage
-    : total;
-
-  const currentItems = items.slice(firstItemIndex, lastItemIndex);
-
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${firstItemIndex + 1} - ${lastItemIndex} of 42)`}
+        {`Page ${currentPage} (items ${firstItemIndex + 1} - ${lastItemIndex} of ${itemsCount})`}
       </p>
 
       <div className="form-group row">
@@ -67,7 +67,7 @@ export const App: React.FC = () => {
       </ul>
 
       <Pagination
-        total={total}
+        total={itemsCount}
         perPage={itemsPerPage}
         onPageChange={onPageChange}
         currentPage={currentPage}
