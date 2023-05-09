@@ -1,5 +1,4 @@
 /* eslint-disable max-len */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import classNames from 'classnames';
@@ -18,6 +17,7 @@ export const Pagination: React.FC<Props> = ({
   total, perPage, page, onPageChange, onPrevPage, onNextPage,
 }) => {
   const [withInfo, setWithInfo] = useState('');
+
   const [searchParams] = useSearchParams();
 
   const pages: number = useMemo(() => {
@@ -28,8 +28,8 @@ export const Pagination: React.FC<Props> = ({
     const start = (page === 1) ? page : (page - 1) * perPage + 1;
     const end = (page === pages) ? total : page * perPage;
 
-    setWithInfo(`${start} - ${end} of ${total}`);
-  }, [page, pages]);
+    setWithInfo(`Page ${page} (items ${start} - ${end} of ${total})`);
+  }, [page, pages, total, perPage]);
 
   const getVisiblePageNumbers = () => {
     const pageNumbers: number[] = Array.from(Array(pages)).map((_, i) => i + 1);
@@ -56,7 +56,7 @@ export const Pagination: React.FC<Props> = ({
 
   return (
     <>
-      <div className="pagination-withInfo">{withInfo}</div>
+      <div className="pagination-info" data-cy="info">{withInfo}</div>
 
       <ul className="pagination-list">
         <li className="pagination-item">
@@ -65,7 +65,9 @@ export const Pagination: React.FC<Props> = ({
             className={classNames('pagination-link', { disabled: page === 1 })}
             onClick={onPrevPage}
           >
-            <span>&laquo;</span>
+            <span>
+              &laquo;
+            </span>
           </Link>
         </li>
         {visiblePageNumbers.map(number => (
