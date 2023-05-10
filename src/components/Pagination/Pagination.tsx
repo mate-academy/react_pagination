@@ -22,7 +22,7 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#prev"
             aria-disabled={active === 1}
-            onClick={() => setActive(active - 1)}
+            onClick={() => active !== 1 && setActive(active - 1)}
           >
             «
           </a>
@@ -36,7 +36,7 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#next"
             aria-disabled={active === pageList.length}
-            onClick={() => setActive(active + 1)}
+            onClick={() => active !== pageList.length && setActive(active + 1)}
           >
             »
           </a>

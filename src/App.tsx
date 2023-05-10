@@ -53,8 +53,8 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${active}`}
-        {`(${sliceItems[0].replace('m', 'ms')} - ${sliceItems[sliceItems.length - 1].split(' ')[1]} of ${items.length})`}
+        {`Page ${active} `}
+        {`(${sliceItems[0].replace('m', 'ms').replace('I', 'i')} - ${sliceItems[sliceItems.length - 1].split(' ')[1]} of ${items.length})`}
       </p>
 
       <div className="form-group row">
