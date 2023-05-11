@@ -7,11 +7,11 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [selectedValue, setSelectedValue] = useState('5');
+  const [selectedValue, setSelectedValue] = useState(5);
   const [active, setActive] = useState(1);
-  const optionValue = ['3', '5', '10', '20'];
+  const optionValue = [3, 5, 10, 20];
   const sliceItems = items.slice(
-    +selectedValue * active - +selectedValue, +selectedValue * active,
+    selectedValue * active - selectedValue, selectedValue * active,
   );
 
   return (
@@ -31,7 +31,7 @@ export const App: React.FC = () => {
             className="form-control"
             defaultValue={selectedValue}
             onChange={(e) => {
-              setSelectedValue(e.currentTarget.value);
+              setSelectedValue(+e.currentTarget.value);
               setActive(1);
             }}
           >
@@ -52,7 +52,7 @@ export const App: React.FC = () => {
       </div>
       <Pagination
         total={items.length}
-        perPage={+selectedValue}
+        perPage={selectedValue}
         currentPage={active}
         onPageChange={setActive}
       />

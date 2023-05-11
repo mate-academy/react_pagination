@@ -39,32 +39,35 @@ export const Pagination: React.FC<Props> = ({
     return result;
   };
 
+  const minLeftPosition = currentPage === 1;
+  const maxRightPosition = currentPage >= pagesLength;
+  const pagesList = createPageList();
+
   return (
     <ul className="pagination">
       <li
-        className={cn('page-item', { disabled: currentPage === 1 })}
+        className={cn('page-item', { disabled: minLeftPosition })}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
           aria-disabled={currentPage === 1}
-          onClick={() => currentPage !== 1 && onPageChange(currentPage - 1)}
+          onClick={() => onPageChange(currentPage - 1)}
         >
           «
         </a>
       </li>
-      {createPageList()}
+      {pagesList}
       <li
-        className={cn('page-item', { disabled: currentPage >= pagesLength })}
+        className={cn('page-item', { disabled: maxRightPosition })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage >= pagesLength}
-          onClick={() => currentPage < pagesLength
-              && onPageChange(currentPage + 1)}
+          aria-disabled={maxRightPosition}
+          onClick={() => onPageChange(currentPage + 1)}
         >
           »
         </a>
