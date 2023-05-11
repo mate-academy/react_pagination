@@ -1,51 +1,74 @@
 type Props = {
-  pageList: JSX.Element[]
-  itemList: JSX.Element[]
-  active: number
-  setActive: (number : number) => void
+  total: number
+  perPage: number
+  currentPage: number
+  onPageChange:(number: number) => void
 };
 
 export const Pagination: React.FC<Props> = ({
-  pageList,
-  itemList,
-  active,
-  setActive,
+  total,
+  perPage,
+  currentPage,
+  onPageChange,
 }) => {
+  const pagesLength = total / +perPage;
+
+  const createPageList = () => {
+    const result = [];
+
+    for (let i = 0; i < pagesLength; i += 1) {
+      result.push(
+        <li
+          key={`#${i + 1}`}
+          className={`page-item ${i + 1 === currentPage ? 'active' : ''}`}
+        >
+          <a
+            data-cy="pageLink"
+            onClick={() => onPageChange(i + 1)}
+            className="page-link"
+            href={`#${i + 1}`}
+          >
+            {i + 1}
+          </a>
+        </li>,
+      );
+    }
+
+    return result;
+  };
+
   return (
     <>
       <ul className="pagination">
         <li
-          className={`page-item ${active === 1 ? 'disabled' : ''}`}
+          className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}
         >
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled={active === 1}
-            onClick={() => active !== 1 && setActive(active - 1)}
+            aria-disabled={currentPage === 1}
+            onClick={() => currentPage !== 1 && onPageChange(currentPage - 1)}
           >
             «
           </a>
         </li>
-        {pageList}
+        {createPageList()}
         <li
-          className={`page-item ${active === pageList.length ? 'disabled' : ''}`}
+          className={`page-item ${currentPage >= pagesLength ? 'disabled' : ''}`}
         >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={active === pageList.length}
-            onClick={() => active !== pageList.length && setActive(active + 1)}
+            aria-disabled={currentPage >= pagesLength}
+            onClick={() => currentPage < pagesLength
+              && onPageChange(currentPage + 1)}
           >
             »
           </a>
         </li>
       </ul>
-      <ul>
-        {itemList}
-      </ul>
-
     </>
   );
 };

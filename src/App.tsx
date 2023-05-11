@@ -3,7 +3,6 @@ import { Pagination } from './components/Pagination';
 import './App.css';
 import { getNumbers } from './utils';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
@@ -11,42 +10,9 @@ export const App: React.FC = () => {
   const [selectedValue, setSelectedValue] = useState('5');
   const [active, setActive] = useState(1);
   const optionValue = ['3', '5', '10', '20'];
-  const pagesLength = items.length / +selectedValue;
   const sliceItems = items.slice(
     +selectedValue * active - +selectedValue, +selectedValue * active,
   );
-
-  const createPageList = () => {
-    const result = [];
-
-    for (let i = 0; i < pagesLength; i += 1) {
-      result.push(
-        <li
-          key={`#${i + 1}`}
-          className={`page-item ${i + 1 === active ? 'active' : ''}`}
-        >
-          <a
-            data-cy="pageLink"
-            onClick={() => setActive(i + 1)}
-            className="page-link"
-            href={`#${i + 1}`}
-          >
-            {i + 1}
-          </a>
-        </li>,
-      );
-    }
-
-    return result;
-  };
-
-  const itemList = sliceItems.map(item => (
-    <li key={item} data-cy="item">
-      {item}
-    </li>
-  ));
-
-  const pageList = createPageList();
 
   return (
     <div className="container">
@@ -85,11 +51,19 @@ export const App: React.FC = () => {
         </label>
       </div>
       <Pagination
-        pageList={pageList}
-        itemList={itemList}
-        active={active}
-        setActive={setActive}
+        total={items.length}
+        perPage={+selectedValue}
+        currentPage={active}
+        onPageChange={setActive}
       />
+
+      <ul>
+        {sliceItems.map(item => (
+          <li key={item} data-cy="item">
+            {item}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
