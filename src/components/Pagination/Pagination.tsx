@@ -1,3 +1,5 @@
+import cn from 'classnames';
+
 type Props = {
   total: number
   perPage: number
@@ -20,7 +22,7 @@ export const Pagination: React.FC<Props> = ({
       result.push(
         <li
           key={`#${i + 1}`}
-          className={`page-item ${i + 1 === currentPage ? 'active' : ''}`}
+          className={cn('page-item', { active: currentPage === i + 1 })}
         >
           <a
             data-cy="pageLink"
@@ -38,37 +40,35 @@ export const Pagination: React.FC<Props> = ({
   };
 
   return (
-    <>
-      <ul className="pagination">
-        <li
-          className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}
+    <ul className="pagination">
+      <li
+        className={cn('page-item', { disabled: currentPage === 1 })}
+      >
+        <a
+          data-cy="prevLink"
+          className="page-link"
+          href="#prev"
+          aria-disabled={currentPage === 1}
+          onClick={() => currentPage !== 1 && onPageChange(currentPage - 1)}
         >
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled={currentPage === 1}
-            onClick={() => currentPage !== 1 && onPageChange(currentPage - 1)}
-          >
-            «
-          </a>
-        </li>
-        {createPageList()}
-        <li
-          className={`page-item ${currentPage >= pagesLength ? 'disabled' : ''}`}
-        >
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled={currentPage >= pagesLength}
-            onClick={() => currentPage < pagesLength
+          «
+        </a>
+      </li>
+      {createPageList()}
+      <li
+        className={cn('page-item', { disabled: currentPage >= pagesLength })}
+      >
+        <a
+          data-cy="nextLink"
+          className="page-link"
+          href="#next"
+          aria-disabled={currentPage >= pagesLength}
+          onClick={() => currentPage < pagesLength
               && onPageChange(currentPage + 1)}
-          >
-            »
-          </a>
-        </li>
-      </ul>
-    </>
+        >
+          »
+        </a>
+      </li>
+    </ul>
   );
 };
