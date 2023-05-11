@@ -17,32 +17,21 @@ export const Pagination: React.FC<Props> = ({
   const getNumberOfPages = Math.ceil(total / perPage);
   const arrayOfPages = getNumbers(1, getNumberOfPages);
 
-  const activePage = (
-    firstPage: number,
-    currentP: number,
-    lastPage: number,
-  ) => {
-    if (currentP <= firstPage) {
-      return firstPage;
-    }
-
-    if (currentP >= lastPage) {
-      return lastPage;
-    }
-
-    return currentP;
-  };
-
   const onChangePageBtn = (page: number, mod: 'next' | 'prev') => {
     switch (mod) {
       case 'next':
-        onPageChange(page + 1);
-        break;
+        if (page !== getNumberOfPages) {
+          onPageChange(page + 1);
+        }
+
+        return;
       case 'prev':
-        onPageChange(page - 1);
+        if (page !== 1) {
+          onPageChange(page - 1);
+        }
+
         break;
       default:
-        break;
     }
   };
 
@@ -69,7 +58,7 @@ export const Pagination: React.FC<Props> = ({
             classNames(
               'page-item',
               {
-                active: activePage(1, currentPage, getNumberOfPages) === page,
+                active: currentPage === page,
               },
             )
           }
