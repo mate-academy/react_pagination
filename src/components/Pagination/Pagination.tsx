@@ -14,13 +14,13 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
-  const getNumberOfPages = Math.ceil(total / perPage);
-  const arrayOfPages = getNumbers(1, getNumberOfPages);
+  const numberOfPages = Math.ceil(total / perPage);
+  const arrayOfPages = getNumbers(1, numberOfPages);
 
   const onChangePageBtn = (page: number, mod: 'next' | 'prev') => {
     switch (mod) {
       case 'next':
-        if (page !== getNumberOfPages) {
+        if (page !== numberOfPages) {
           onPageChange(page + 1);
         }
 
@@ -76,7 +76,7 @@ export const Pagination: React.FC<Props> = ({
       <li className={
         classNames(
           'page-item',
-          { disabled: currentPage === getNumberOfPages },
+          { disabled: currentPage === numberOfPages },
         )
       }
       >
@@ -84,7 +84,7 @@ export const Pagination: React.FC<Props> = ({
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === getNumberOfPages}
+          aria-disabled={currentPage === numberOfPages}
           onClick={() => onChangePageBtn(currentPage, 'next')}
         >
           »

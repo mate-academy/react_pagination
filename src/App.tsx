@@ -44,7 +44,7 @@ export const App: React.FC = () => {
           <select
             data-cy="perPageSelector"
             value={perPage}
-            onChange={(event) => setItemsPerPage(event)}
+            onChange={setItemsPerPage}
             id="perPageSelector"
             className="form-control"
           >
