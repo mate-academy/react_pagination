@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { MouseEvent } from 'react';
 
 type Props = {
   total: number,
@@ -17,6 +18,26 @@ export const Pagination = ({
   const pages = Array.from({ length: pagesLength }, (_, index) => index + 1);
   const items = Array.from({ length: total }, (_, index) => index + 1);
 
+  const setPreviousPage = () => {
+    if (currentPage === 1) {
+      return;
+    }
+
+    onPageChange(currentPage - 1);
+  };
+
+  const setNextPage = () => {
+    if (currentPage === pagesLength) {
+      return;
+    }
+
+    onPageChange(currentPage + 1);
+  };
+
+  const setClickedPage = (event: MouseEvent<HTMLAnchorElement>) => {
+    onPageChange(+event.currentTarget.innerHTML);
+  };
+
   return (
     <>
       <ul className="pagination">
@@ -31,13 +52,7 @@ export const Pagination = ({
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            onClick={() => {
-              if (currentPage === 1) {
-                return;
-              }
-
-              onPageChange(currentPage - 1);
-            }}
+            onClick={setPreviousPage}
             aria-disabled={currentPage === 1}
           >
             «
@@ -56,9 +71,7 @@ export const Pagination = ({
             >
 
               <a
-                onClick={(event) => (
-                  onPageChange(+event.currentTarget.innerHTML)
-                )}
+                onClick={setClickedPage}
                 data-cy="pageLink"
                 className="page-link"
                 href={`#${page}`}
@@ -80,13 +93,7 @@ export const Pagination = ({
             className="page-link"
             href="#next"
             aria-disabled={currentPage === pagesLength}
-            onClick={() => {
-              if (currentPage === pagesLength) {
-                return;
-              }
-
-              onPageChange(currentPage + 1);
-            }}
+            onClick={setNextPage}
           >
             »
           </a>
