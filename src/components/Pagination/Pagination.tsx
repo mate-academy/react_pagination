@@ -14,13 +14,11 @@ export const Pagination: React.FC<Props> = ({
   onPageChange,
 }) => {
   const pagesAmount = Math.ceil(total / perPage);
-  const pages: number[] = [];
+  const pages: number[] = Array.from(
+    { length: pagesAmount }, (_, index) => index + 1,
+  );
   const isPageFirst = currentPage === 1;
   const isPageLast = currentPage === pagesAmount;
-
-  for (let i = 1; i <= pagesAmount; i += 1) {
-    pages.push(i);
-  }
 
   const handlePrevPage = () => {
     if (!isPageFirst) {
@@ -28,7 +26,7 @@ export const Pagination: React.FC<Props> = ({
     }
   };
 
-  const handlelastPage = () => {
+  const handleNextPage = () => {
     if (!isPageLast) {
       onPageChange(currentPage + 1);
     }
@@ -74,7 +72,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={isPageLast}
-          onClick={handlelastPage}
+          onClick={handleNextPage}
         >
           »
         </a>

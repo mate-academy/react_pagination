@@ -3,9 +3,8 @@ import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42)
-  .map(n => `${n}`);
+  .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   const [itemsPerPage, setItemsPerPage] = useState(5);
@@ -23,12 +22,14 @@ export const App: React.FC = () => {
     setCurrentPage(1);
   };
 
+  const options = [3, 5, 10, 20];
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${firstItem} - ${lastItem} of ${items.length})`}
+        {`Page ${currentPage} (items ${firstItem.split(' ').slice(1)} - ${lastItem.split(' ').slice(1)} of ${items.length})`}
       </p>
 
       <div className="form-group row">
@@ -40,10 +41,18 @@ export const App: React.FC = () => {
             value={itemsPerPage}
             onChange={handleItemsAmountPerPage}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            {options.map((option) => {
+              return (
+                <option
+                  value={option}
+                  key={option}
+                  selected={option === itemsPerPage}
+                >
+                  {option}
+                </option>
+              );
+            })}
+            ;
           </select>
         </div>
 
@@ -63,7 +72,7 @@ export const App: React.FC = () => {
             data-cy="item"
             key={`${n}`}
           >
-            {`Item ${n}`}
+            {`${n}`}
           </li>
         ))}
       </ul>
