@@ -6,8 +6,10 @@ import { Pagination } from './components/Pagination';
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
+const options = [3, 5, 10, 20];
+
 export const App: React.FC = () => {
-  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [itemsPerPage, setItemsPerPage] = useState(options[1]);
   const [currentPage, setCurrentPage] = useState(1);
 
   const displayedItems = items.slice(
@@ -21,8 +23,6 @@ export const App: React.FC = () => {
     setItemsPerPage(Number(event.target.value));
     setCurrentPage(1);
   };
-
-  const options = [3, 5, 10, 20];
 
   return (
     <div className="container">
@@ -46,13 +46,11 @@ export const App: React.FC = () => {
                 <option
                   value={option}
                   key={option}
-                  selected={option === itemsPerPage}
                 >
                   {option}
                 </option>
               );
             })}
-            ;
           </select>
         </div>
 
@@ -67,12 +65,12 @@ export const App: React.FC = () => {
         onPageChange={setCurrentPage}
       />
       <ul>
-        {displayedItems.map(n => (
+        {displayedItems.map(item => (
           <li
             data-cy="item"
-            key={`${n}`}
+            key={item}
           >
-            {`${n}`}
+            {item}
           </li>
         ))}
       </ul>
