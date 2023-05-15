@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { getNumbers } from '../../utils';
 
 interface PropsPagination {
@@ -13,8 +14,11 @@ export const Pagination = ({
   const numberOfPages = Math.ceil(total / perPage);
   const firstPage = currentPage === 1;
   const lastPage = currentPage === numberOfPages;
+  const listOfPages = getNumbers(1, numberOfPages);
+  const pageNaming = `?page=${currentPage}&perPage=${perPage}`;
 
   return (
+
     <ul className="pagination">
       <li className={`page-item ${firstPage && 'disabled'}`}>
         <a
@@ -27,9 +31,16 @@ export const Pagination = ({
           «
         </a>
       </li>
-      {getNumbers(1, numberOfPages).map(page => (
+      {listOfPages.map(page => (
         <li className={`page-item ${currentPage === page && 'active'}`}>
-          <a data-cy="pageLink" className="page-link" href={`#${page}`}>{page}</a>
+          <Link
+            to={pageNaming}
+            onClick={() => onPageChange(page)}
+            data-cy="pageLink"
+            className="page-link"
+          >
+            {page}
+          </Link>
         </li>
       ))}
 
@@ -45,5 +56,6 @@ export const Pagination = ({
         </a>
       </li>
     </ul>
+
   );
 };
