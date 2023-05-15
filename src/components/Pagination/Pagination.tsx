@@ -14,24 +14,21 @@ export const Pagination = ({
   const numberOfPages = Math.ceil(total / perPage);
   const firstPage = currentPage === 1;
   const lastPage = currentPage === numberOfPages;
-  const listOfPages = getNumbers(1, numberOfPages);
-  const pageNaming = `?page=${currentPage}&perPage=${perPage}`;
+  const pageNaming = `/?page=${currentPage}&perPage=${perPage}`;
 
   return (
-
     <ul className="pagination">
       <li className={`page-item ${firstPage && 'disabled'}`}>
-        <a
+        <Link
           data-cy="prevLink"
           className="page-link"
-          href="#prev"
-          aria-disabled={firstPage}
+          to={pageNaming}
           onClick={() => onPageChange(currentPage - 1)}
         >
           «
-        </a>
+        </Link>
       </li>
-      {listOfPages.map(page => (
+      {getNumbers(1, numberOfPages).map(page => (
         <li className={`page-item ${currentPage === page && 'active'}`}>
           <Link
             to={pageNaming}
@@ -45,15 +42,15 @@ export const Pagination = ({
       ))}
 
       <li className={`page-item ${lastPage && 'disabled'}`}>
-        <a
+        <Link
           data-cy="nextLink"
           className="page-link"
-          href="#next"
+          to={pageNaming}
           aria-disabled={lastPage}
           onClick={() => onPageChange(currentPage + 1)}
         >
           »
-        </a>
+        </Link>
       </li>
     </ul>
 
