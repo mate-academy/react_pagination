@@ -19,14 +19,14 @@ export const Pagination = ({
   return (
     <ul className="pagination">
       <li className={`page-item ${firstPage && 'disabled'}`}>
-        <Link
+        <a
+          href="prev"
           data-cy="prevLink"
           className="page-link"
-          to={pageNaming}
           onClick={() => onPageChange(currentPage - 1)}
         >
           «
-        </Link>
+        </a>
       </li>
       {getNumbers(1, numberOfPages).map(page => (
         <li className={`page-item ${currentPage === page && 'active'}`}>
@@ -42,15 +42,15 @@ export const Pagination = ({
       ))}
 
       <li className={`page-item ${lastPage && 'disabled'}`}>
-        <Link
+        <a
           data-cy="nextLink"
           className="page-link"
-          to={pageNaming}
+          href="next"
           aria-disabled={lastPage}
           onClick={() => onPageChange(currentPage + 1)}
         >
           »
-        </Link>
+        </a>
       </li>
     </ul>
 
