@@ -38,8 +38,7 @@ export const Pagination: FC<Props> = ({
             className="page-link"
             href="#prev"
             aria-disabled={isFirstPage}
-            onClick={({ preventDefault }) => {
-              preventDefault();
+            onClick={() => {
               if (currentPage > 1) {
                 onPageChange(currentPage - 1);
               }
@@ -58,10 +57,7 @@ export const Pagination: FC<Props> = ({
               data-cy="pageLink"
               className="page-link"
               href={`#${page}`}
-              onClick={({ preventDefault }) => {
-                preventDefault();
-                onPageChange(page);
-              }}
+              onClick={() => onPageChange(page)}
             >
               {page}
             </a>
@@ -75,8 +71,7 @@ export const Pagination: FC<Props> = ({
             className="page-link"
             href="#next"
             aria-disabled={isLastPage}
-            onClick={({ preventDefault }) => {
-              preventDefault();
+            onClick={() => {
               if (currentPage < pageCounts.length) {
                 onPageChange(currentPage + 1);
               }
