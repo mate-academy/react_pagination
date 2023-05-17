@@ -20,6 +20,7 @@ export const App: React.FC = () => {
 
   const handlePageChange:
   React.ChangeEventHandler<HTMLSelectElement> = (event) => {
+    event.preventDefault();
     setItemsPerPage(+event.target.value);
     setCurrentPage(1);
   };
