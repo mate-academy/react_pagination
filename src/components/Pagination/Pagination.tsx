@@ -5,21 +5,24 @@ interface Props {
   total: number,
   perPage: number,
   currentPage: number,
-  onPageChanger: (page: number) => void,
+  onPageChange: (page: number) => void,
 }
 
 export const Pagination: FC<Props> = ({
   total,
   perPage,
   currentPage = 1,
-  onPageChanger,
+  onPageChange,
 }) => {
   const limitOfPageCount = Math.ceil(total / perPage);
   const pageCounts = [];
 
-  for (let i = 1; i <= limitOfPageCount; i += 1) {
+  // eslint-disable-next-line no-plusplus
+  for (let i = 1; i <= limitOfPageCount; i++) {
     pageCounts.push(i);
   }
+
+  const obj = [1, 2, 3, 4, 5];
 
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === pageCounts.length;
@@ -35,9 +38,10 @@ export const Pagination: FC<Props> = ({
             className="page-link"
             href="#prev"
             aria-disabled={isFirstPage}
-            onClick={() => {
+            onClick={({ preventDefault }) => {
+              preventDefault();
               if (currentPage > 1) {
-                onPageChanger(currentPage - 1);
+                onPageChange(currentPage - 1);
               }
             }}
           >
@@ -54,7 +58,10 @@ export const Pagination: FC<Props> = ({
               data-cy="pageLink"
               className="page-link"
               href={`#${page}`}
-              onClick={() => onPageChanger(page)}
+              onClick={({ preventDefault }) => {
+                preventDefault();
+                onPageChange(page);
+              }}
             >
               {page}
             </a>
@@ -68,13 +75,15 @@ export const Pagination: FC<Props> = ({
             className="page-link"
             href="#next"
             aria-disabled={isLastPage}
-            onClick={() => {
+            onClick={({ preventDefault }) => {
+              preventDefault();
               if (currentPage < pageCounts.length) {
-                onPageChanger(currentPage + 1);
+                onPageChange(currentPage + 1);
               }
             }}
           >
             »
+            {obj}
           </a>
         </li>
       </ul>
