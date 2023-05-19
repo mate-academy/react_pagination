@@ -1,7 +1,7 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import './App.css';
-import { getNumbers } from './utils';
-import { Pagination } from './components/Pagination';
+import React, { useCallback, useMemo, useState } from "react";
+import "./App.css";
+import { getNumbers } from "./utils";
+import { Pagination } from "./components/Pagination";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map((n) => `Item ${n}`);
@@ -21,17 +21,17 @@ export const App: React.FC = () => {
       setPerPage(+event.target.value);
       setCurrent(1);
     },
-    [],
+    []
   );
 
   const lastVisibleItemIndex = useMemo(
     () => current * perPage,
-    [current, perPage],
+    [current, perPage]
   );
 
   const firstVisibleItemIndex = useMemo(
     () => lastVisibleItemIndex - perPage,
-    [lastVisibleItemIndex, perPage],
+    [lastVisibleItemIndex, perPage]
   );
 
   const itemsLength = useMemo(() => items.length, [items]);
@@ -41,14 +41,10 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page
-        {' '}
-        {current}
-        {' '}
-        (
-        {`items ${firstVisibleItemIndex} - ${Math.min(lastVisibleItemIndex, itemsLength)} of ${itemsLength}`}
-        )
-
+        {`Page ${current} (items ${firstVisibleItemIndex} - ${Math.min(
+          lastVisibleItemIndex,
+          itemsLength
+        )} of ${itemsLength})`}
       </p>
 
       <div className="form-group row">
@@ -84,9 +80,8 @@ export const App: React.FC = () => {
         {items
           .slice(firstVisibleItemIndex, lastVisibleItemIndex)
           .map((item) => (
-            <li data-cy="item">
-              Item
-              {item}
+            <li data-cy="item" key={item}>
+              Item {item}
             </li>
           ))}
       </ul>
