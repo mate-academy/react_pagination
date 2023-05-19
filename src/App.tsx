@@ -41,7 +41,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${current} (items ${firstVisibleItemIndex} - ${Math.min(
+        {`Page ${current} (items ${firstVisibleItemIndex + 1} - ${Math.min(
           lastVisibleItemIndex,
           itemsLength,
         )} of ${itemsLength})`}
@@ -81,8 +81,6 @@ export const App: React.FC = () => {
           .slice(firstVisibleItemIndex, lastVisibleItemIndex)
           .map((item) => (
             <li data-cy="item" key={item}>
-              Item
-              {' '}
               {item}
             </li>
           ))}

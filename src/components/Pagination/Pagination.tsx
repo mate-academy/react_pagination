@@ -35,27 +35,28 @@ export const Pagination: React.FC<Props> = ({
     [current, pagesAmount],
   );
 
-  const handleChange = useCallback(() => {
-    setCurrent((prevState) => {
-      onChange(prevState);
-
-      return prevState;
-    });
+  const handleSelect = useCallback((page: number) => {
+    setCurrent(page);
+    onChange(page);
   }, [onChange]);
 
   const handleLeftButtonClick = useCallback(() => {
     if (!leftButtonDisabled) {
-      setCurrent(current - 1);
-
-      handleChange();
+      setCurrent((prevState) => {
+        onChange(prevState - 1);
+  
+        return prevState - 1;
+      });
     }
   }, [current, leftButtonDisabled]);
 
   const handleRightButtonCLick = useCallback(() => {
     if (!rightButtonDisabled) {
-      setCurrent(current + 1);
-
-      handleChange();
+      setCurrent((prevState) => {
+        onChange(prevState + 1);
+  
+        return prevState + 1;
+      });
     }
   }, [current, rightButtonDisabled]);
 
@@ -81,10 +82,7 @@ export const Pagination: React.FC<Props> = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${page}`}
-            onClick={() => {
-              setCurrent(page);
-              handleChange();
-            }}
+            onClick={() => handleSelect(page)}
           >
             {page}
           </a>
