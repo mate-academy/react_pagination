@@ -27,6 +27,26 @@ export const Pagination: React.FC<Props> = (
     visibleItems.push(i + perPage * (currentPage - 1));
   }
 
+  const prevPagetHandler = () => {
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const nextPageHandler = () => {
+    if (currentPage < pages) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
+  const switchPage = (newPage: number) => {
+    if (newPage === currentPage) {
+      return;
+    }
+
+    onPageChange(newPage);
+  };
+
   return (
     <>
       <ul className="pagination">
@@ -40,11 +60,7 @@ export const Pagination: React.FC<Props> = (
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            onClick={() => {
-              if (currentPage > 1) {
-                onPageChange(currentPage - 1);
-              }
-            }}
+            onClick={prevPagetHandler}
             aria-disabled={currentPage === 1}
           >
             «
@@ -63,12 +79,8 @@ export const Pagination: React.FC<Props> = (
                 data-cy="pageLink"
                 className="page-link"
                 href={`#${page}`}
-                onClick={(event) => {
-                  if (+event.currentTarget.innerHTML === currentPage) {
-                    return;
-                  }
-
-                  onPageChange(+event.currentTarget.innerHTML);
+                onClick={() => {
+                  switchPage(page);
                 }}
               >
                 {page}
@@ -86,11 +98,7 @@ export const Pagination: React.FC<Props> = (
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            onClick={() => {
-              if (currentPage < pages) {
-                onPageChange(currentPage + 1);
-              }
-            }}
+            onClick={nextPageHandler}
             aria-disabled={currentPage === pages}
           >
             »

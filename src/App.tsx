@@ -23,6 +23,11 @@ export const App: React.FC = () => {
     return `Page ${currentPage} (items ${firstItem} - ${lastItem} of ${items.length})`;
   };
 
+  const selectHandler = (newPerPage: number) => {
+    setPerPage(newPerPage);
+    setCurrentPage(1);
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
@@ -39,8 +44,7 @@ export const App: React.FC = () => {
             value={perPage}
             className="form-control"
             onChange={(event) => {
-              setPerPage(+event.target.value);
-              setCurrentPage(1);
+              selectHandler(+event.target.value);
             }}
           >
             <option value="3">3</option>
