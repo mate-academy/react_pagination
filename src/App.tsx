@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -17,7 +17,6 @@ export const App: React.FC = () => {
   );
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    event.preventDefault();
     setPerPage(+event.target.value);
     setCurrentPage(1);
   };
@@ -25,8 +24,12 @@ export const App: React.FC = () => {
   const lastItem = currentPage * perPage > total
     ? total
     : currentPage * perPage;
+
   const firstItem = (currentPage * perPage) - perPage + 1;
-  const itemsToShow = items.slice(firstItem - 1, lastItem);
+
+  const itemsToShow = useMemo(() => (
+    items.slice(firstItem - 1, lastItem)
+  ), [firstItem, lastItem]);
 
   return (
     <div className="container">

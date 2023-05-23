@@ -1,15 +1,14 @@
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
 
-type Props = {
+type PaginationProps = {
   total: number;
   perPage: number;
   currentPage: number;
   onPageChange: (page: number) => void;
-
 };
 
-export const Pagination: React.FC<Props> = ({
+export const Pagination: React.FC<PaginationProps> = ({
   total,
   perPage,
   currentPage,
@@ -25,32 +24,23 @@ export const Pagination: React.FC<Props> = ({
     return numbers;
   }, [total, perPage]);
 
-  const handlePrevClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+  const handlePrevClick = () => {
     const page = currentPage - 1;
-
-    event.preventDefault();
 
     if (page > 0) {
       onPageChange(page);
     }
   };
 
-  const handleNextClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleNextClick = () => {
     const page = currentPage + 1;
 
-    event.preventDefault();
-
-    if (page <= pageNumbers.length) {
+    if (page && page <= pageNumbers.length) {
       onPageChange(page);
     }
   };
 
-  const handleNumberClick = (
-    event:
-    React.MouseEvent<HTMLAnchorElement>,
-    pageNumber: number,
-  ) => {
-    event.preventDefault();
+  const handleNumberClick = (pageNumber: number) => {
     onPageChange(pageNumber);
   };
 
@@ -64,15 +54,15 @@ export const Pagination: React.FC<Props> = ({
           },
         )}
       >
-        <a
+        <button
+          type="button"
           data-cy="prevLink"
           className="page-link"
-          href="#prev"
           aria-disabled={currentPage === 1}
           onClick={handlePrevClick}
         >
           «
-        </a>
+        </button>
       </li>
 
       {pageNumbers.map(pageNumber => (
@@ -85,14 +75,14 @@ export const Pagination: React.FC<Props> = ({
           )}
           key={pageNumber}
         >
-          <a
+          <button
+            type="button"
             data-cy="pageLink"
             className="page-link"
-            href={`#${pageNumber}`}
-            onClick={(event) => handleNumberClick(event, pageNumber)}
+            onClick={() => handleNumberClick(pageNumber)}
           >
             {pageNumber}
-          </a>
+          </button>
         </li>
       ))}
       <li className={classNames(
@@ -102,17 +92,15 @@ export const Pagination: React.FC<Props> = ({
         },
       )}
       >
-        <a
+        <button
+          type="button"
           data-cy="nextLink"
           className="page-link"
-          href="#next"
-          aria-disabled={
-            currentPage === pageNumbers.length ? 'true' : 'false'
-          }
+          aria-disabled={currentPage === pageNumbers.length}
           onClick={handleNextClick}
         >
           »
-        </a>
+        </button>
       </li>
     </ul>
   );
