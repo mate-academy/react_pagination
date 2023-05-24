@@ -41,7 +41,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage + 1} (items ${fromItem} - ${toItem} of ${items.length})`}
+        {`Page ${currentPage + 1} (items ${fromItem} - ${toItem > items.length ? items.length : toItem} of ${items.length})`}
       </p>
 
       <div className="form-group row">
