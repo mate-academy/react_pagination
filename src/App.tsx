@@ -13,6 +13,8 @@ export const App: React.FC = () => {
   const [perPage, setPerPage] = useState<string>(options[1]);
   const [currentPage, setCurrentPage] = useState(0);
   const countPage = Math.ceil(items.length / Number(perPage));
+  const fromItem = Number(perPage) * currentPage + 1;
+  const toItem = fromItem + Number(perPage) - 1;
 
   const handleChangCountItem = (
     { target }: React.ChangeEvent<HTMLSelectElement>,
@@ -39,7 +41,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage + 1} (items 1 - ${perPage} of ${items.length})`}
+        {`Page ${currentPage + 1} (items ${fromItem} - ${toItem} of ${items.length})`}
       </p>
 
       <div className="form-group row">
