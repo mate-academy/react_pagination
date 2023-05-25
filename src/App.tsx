@@ -16,9 +16,7 @@ export const App: React.FC = () => {
 
   const itemsFrom = itemsPerPage * currentPage - (itemsPerPage - 1);
 
-  const itemsTo = itemsPerPage * currentPage > totalItemsCount
-    ? totalItemsCount
-    : itemsPerPage * currentPage;
+  const itemsTo = Math.min(itemsPerPage * currentPage, totalItemsCount);
 
   const handleItemsPerPageChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
