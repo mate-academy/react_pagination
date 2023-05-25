@@ -32,14 +32,14 @@ export const Pagination: React.FC<PaginationProps>
           className="page-link"
           href="#prev"
           // eslint-disable-next-line jsx-a11y/aria-proptypes
-          aria-disabled={`${currentPage === 1 ? 'true' : 'false'}`}
+          aria-disabled={currentPage === 1}
           onClick={handlePreviousClick}
         >
           «
         </a>
       </li>
       {
-        [...Array(Math.ceil(total / perPage))].map((_e, i) => (
+        Array(Math.ceil(total / perPage)).map((_e, i) => (
           // eslint-disable-next-line react/no-array-index-key, jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
           <li
             // eslint-disable-next-line react/no-array-index-key
