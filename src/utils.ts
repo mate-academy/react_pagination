@@ -7,3 +7,19 @@ export function getNumbers(from: number, to: number): number[] {
 
   return numbers;
 }
+
+export function pagesAmount(total: number, perPage: number): number {
+  return Math.ceil(total / perPage);
+}
+
+export function fromPageNumber(perPage: number, currentPage: number): number {
+  return perPage * (currentPage - 1) + 1;
+}
+
+export function toPageNumber(
+  total: number,
+  perPage: number,
+  currentPage: number,
+) : number {
+  return (currentPage * perPage) < total ? (currentPage * perPage) : total;
+}
