@@ -5,9 +5,9 @@ import { Pagination } from './components/Pagination/Pagination';
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [total] = useState(42);
   const [perPage, setPerPage] = useState(5);
 
+  const total = 42;
   const pages = Math.ceil(total / perPage);
   const isLastPage = pages === currentPage;
   const firstElement = currentPage * perPage - perPage + 1;
