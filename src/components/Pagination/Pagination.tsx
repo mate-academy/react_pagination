@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 import {
   getNumbers,
@@ -42,7 +43,9 @@ export const Pagination: React.FC<Props> = ({
             key={n}
             value={n}
             role="presentation"
-            className={`page-item ${n === currentPage ? 'active' : ''}`}
+            className={classNames('page-item', {
+              active: n === currentPage,
+            })}
             onClick={(event) => onPageChange(+event.currentTarget.value)}
           >
             <a data-cy="pageLink" className="page-link" href={`#${n}`}>{n}</a>
@@ -51,7 +54,9 @@ export const Pagination: React.FC<Props> = ({
 
         <li
           role="presentation"
-          className={`page-item ${currentPage === pagesAmount(total, perPage) ? 'disabled' : ''}`}
+          className={classNames('page-item', {
+            disabled: currentPage === pagesAmount(total, perPage),
+          })}
           onClick={() => onPageChange(currentPage + 1)}
         >
           <a

@@ -19,7 +19,7 @@ export const App: React.FC = () => {
     }
   };
 
-  useEffect(() => {}, [perPage, currentPage]);
+  useEffect(() => {});
 
   return (
     <div className="container">
