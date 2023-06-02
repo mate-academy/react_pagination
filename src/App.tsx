@@ -25,22 +25,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page
-        {' '}
-        {currentPage}
-        {' '}
-        (items
-        {' '}
-        {startItem}
-        {' '}
-        -
-        {' '}
-        {endItem > items.length ? items.length : endItem}
-        {' '}
-        of
-        {' '}
-        {items.length}
-        )
+        {`Page ${currentPage} (items ${startItem} - ${endItem > items.length ? items.length : endItem} of ${items.length})`}
       </p>
 
       <div className="form-group row">
@@ -67,7 +52,6 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
       <Pagination
         total={items.length}
         perPage={+perPage}
