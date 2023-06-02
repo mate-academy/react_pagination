@@ -30,13 +30,16 @@ export const Pagination: React.FC<Props> = ({
     }
   };
 
+  const isSelectedPageFirst = currentPage === 1;
+  const isSelectedPageLast = currentPage === pageCount;
+
   return (
     <ul className="pagination">
       <li
         className={cn(
           'page-item',
           {
-            disabled: currentPage === 1,
+            disabled: isSelectedPageFirst,
           },
         )}
       >
@@ -44,7 +47,7 @@ export const Pagination: React.FC<Props> = ({
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === 1}
+          aria-disabled={isSelectedPageFirst}
           onClick={handlePrevOnClick}
         >
           «
@@ -74,7 +77,7 @@ export const Pagination: React.FC<Props> = ({
         className={cn(
           'page-item',
           {
-            disabled: currentPage === pageCount,
+            disabled: isSelectedPageLast,
           },
         )}
       >
@@ -82,7 +85,7 @@ export const Pagination: React.FC<Props> = ({
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === pageCount}
+          aria-disabled={isSelectedPageLast}
           onClick={handleNextOnClick}
         >
           »

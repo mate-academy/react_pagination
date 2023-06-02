@@ -23,10 +23,11 @@ export const App: React.FC = () => {
     setCurrentPage(page);
   };
 
+  const total = items.length;
   const max = currentPage * limit;
 
   const firstItem = max - limit;
-  const lastItem = max > items.length
+  const lastItem = max > total
     ? items.length
     : max;
 
@@ -62,7 +63,7 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={items.length}
+        total={total}
         perPage={limit}
         currentPage={currentPage}
         onPageChange={changePage}
