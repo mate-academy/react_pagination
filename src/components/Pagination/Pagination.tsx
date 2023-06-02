@@ -39,7 +39,7 @@ export const Pagination: React.FC<PaginationProps>
         </a>
       </li>
       {
-      //  [...Array(Math.ceil(total / perPage))].map((_e, i) => (
+
         Array.from({ length: Math.ceil(total / perPage) }).map((_e, i) => (
           // eslint-disable-next-line react/no-array-index-key, jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
           <li
