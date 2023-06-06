@@ -12,7 +12,7 @@ interface Props {
 export const Pagination: React.FC<Props> = ({
   total,
   perPage,
-  currentPage = 1,
+  currentPage,
   onPageChange,
 }) => {
   const pageCount = Math.ceil(total / perPage);
@@ -25,8 +25,8 @@ export const Pagination: React.FC<Props> = ({
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled="true"
-          onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
+          aria-disabled={currentPage === 1}
+          onClick={() => onPageChange(currentPage - 1)}
         >
           «
         </a>
@@ -46,12 +46,16 @@ export const Pagination: React.FC<Props> = ({
           </a>
         </li>
       ))}
-      <li className="page-item">
+      <li
+        className={classNames(
+          'page-item', { disabled: currentPage >= pageCount },
+        )}
+      >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled="false"
+          aria-disabled={currentPage >= pageCount}
           onClick={() => (
             currentPage < pageCount && onPageChange(currentPage + 1)
           )}
