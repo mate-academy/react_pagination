@@ -48,16 +48,16 @@ export const Pagination: React.FC<Props> = ({
       ))}
       <li
         className={classNames(
-          'page-item', { disabled: currentPage >= pageCount },
+          'page-item', { disabled: currentPage === pageCount },
         )}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage >= pageCount}
+          aria-disabled={currentPage === pageCount}
           onClick={() => (
-            currentPage < pageCount && onPageChange(currentPage + 1)
+            currentPage !== pageCount && onPageChange(currentPage + 1)
           )}
         >
           »
