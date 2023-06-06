@@ -9,24 +9,20 @@ const items = getNumbers(1, totalNumberOfItems);
 
 export const PaginationPage: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const page = searchParams.get('page') || '';
-  const perPage = searchParams.get('perPage') || '';
+  const page = searchParams.get('page') || '1';
+  const perPage = searchParams.get('perPage') || '5';
 
   useEffect(() => {
     setSearchParams(
-      getSearchWith(searchParams, { page: '1', perPage: '5' }),
+      getSearchWith(searchParams, { page, perPage }),
     );
   }, []);
 
-  useEffect(() => {
-    setSearchParams(
-      getSearchWith(searchParams, { page: '1' }),
-    );
-  }, [perPage]);
-
   const handleSelectChange = useCallback(
     ({ target: { value } }: React.ChangeEvent<HTMLSelectElement>) => {
-      setSearchParams(getSearchWith(searchParams, { perPage: value }));
+      setSearchParams(
+        getSearchWith(searchParams, { page: '1', perPage: value }),
+      );
     }, [searchParams],
   );
 
