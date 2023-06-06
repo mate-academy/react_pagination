@@ -1,10 +1,9 @@
-import { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { PaginationPage } from './Pages/PaginationPage';
 
 import './App.css';
 
-export const App: FC = () => {
+export const App = () => {
   return (
     <div className="container">
       <Routes>
@@ -13,5 +12,3 @@ export const App: FC = () => {
     </div>
   );
 };
-
-export default App;
