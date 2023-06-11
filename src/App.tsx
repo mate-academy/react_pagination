@@ -4,11 +4,12 @@ import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
 export const App: React.FC = () => {
-  const [total] = useState(42);
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const topItem = currentPage * perPage < 42 ? currentPage * perPage : 42;
+  const total = 42;
+
+  const topItem = currentPage * perPage < total ? currentPage * perPage : total;
   const bottomItem = currentPage * perPage - perPage + 1;
 
   const items = getNumbers(bottomItem, topItem)
@@ -16,6 +17,11 @@ export const App: React.FC = () => {
 
   const onPageChange = (page: number) => {
     setCurrentPage(page);
+  };
+
+  const getSelectValue = (event: { target: { value: string; }; }) => {
+    setPerPage(+event.target.value);
+    setCurrentPage(1);
   };
 
   return (
@@ -29,10 +35,7 @@ export const App: React.FC = () => {
       <div className="form-group row">
         <div className="col-3 col-sm-2 col-xl-1">
           <select
-            onChange={(event) => {
-              setPerPage(+event.target.value);
-              setCurrentPage(1);
-            }}
+            onChange={getSelectValue}
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
