@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import './App.css';
-import { getNumbers } from './utils';
+import { getNumbers, total } from './utils';
 import { Pagination } from './components/Pagination';
 
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-
-  const total = 42;
-
   const topItem = currentPage * perPage < total ? currentPage * perPage : total;
   const bottomItem = currentPage * perPage - perPage + 1;
 

@@ -7,3 +7,5 @@ export function getNumbers(from: number, to: number): number[] {
 
   return numbers;
 }
+
+export const total = 42;
