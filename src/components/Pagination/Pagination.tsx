@@ -48,12 +48,9 @@ export const Pagination: React.FC<Props> = ({
   return (
     <>
       <ul className="pagination">
-        <li className={cn(
-          'page-item',
-          {
+        <li className={cn('page-item', {
             disabled: isSelectedPageFirst,
-          },
-        )}
+          })}
         >
           <a
             data-cy="prevLink"
