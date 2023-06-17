@@ -12,8 +12,8 @@ export const App: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = +(searchParams.get('page') || 1);
   const itemsPerPage = +(searchParams.get('perPage') || 3);
-  const startIndex = (currentPage - 1) * +itemsPerPage;
-  const endIndex = startIndex + +itemsPerPage;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
   const visibleItems = items.slice(startIndex, endIndex);
 
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
