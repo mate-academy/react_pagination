@@ -26,7 +26,7 @@ export const App: React.FC = () => {
     setCurrentPage(1);
   };
 
-   const handlePageChange = (page: number) => {
+  const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
@@ -86,16 +86,16 @@ export const App: React.FC = () => {
         onPageChange={handlePageChange}
       />
       <ul>
-         {items
+        {items
           .slice(firstItem, lastItem)
           .map(item => (
-          <li
-            data-cy="item"
-            key={item}
-          >
-            {item}
-          </li>
-        ))}
+            <li
+              data-cy="item"
+              key={item}
+            >
+              {item}
+            </li>
+          ))}
       </ul>
     </div>
   );
