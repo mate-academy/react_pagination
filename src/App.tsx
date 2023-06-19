@@ -13,13 +13,10 @@ export const App: React.FC = () => {
 
   const lastCurrentItem = currentItem + perPage - 1;
 
-  const itemQuantityHandler = (count: number) => {
-    setPerPage(count);
+  const itemQuantityHandler = (event: { target: { value: string } }) => {
     setCurrentItem(1);
-  };
-
-  const arrowHandler = (num: number) => {
-    setCurrentPage(currentPage + num);
+    setCurrentPage(1);
+    setPerPage(+event.target.value);
   };
 
   const changeHandler = (numberOfPage: number) => {
@@ -41,8 +38,8 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            defaultValue={perPage}
-            onChange={e => itemQuantityHandler(+e.target.value)}
+            value={perPage}
+            onChange={itemQuantityHandler}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -61,11 +58,10 @@ export const App: React.FC = () => {
         perPage={perPage}
         currentPage={currentPage}
         onPageChange={changeHandler}
-        onArrowClick={arrowHandler}
       />
       <ul>
         {items.slice(currentItem - 1, lastCurrentItem).map(item => (
-          <li key={item}>{item}</li>
+          <li data-cy="item" key={item}>{item}</li>
         ))}
       </ul>
     </div>
