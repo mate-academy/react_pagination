@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
-import { Pagination } from './components/Pagination/Pagination';
+import { Pagination } from './components/Pagination';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42)
@@ -13,10 +13,10 @@ export const App: React.FC = () => {
 
   const amountOfItems = items.length;
 
-  const currentInfo = () => {
-    const firstItem = perPage * (currentPage - 1) + 1;
-    let lastItem = perPage * currentPage;
+  const firstItem = limitPerPage * (currentPage - 1);
+  let lastItem = limitPerPage * currentPage;
 
+  const currentInfo = () => {
     if (lastItem > amountOfItems) {
       lastItem = amountOfItems;
     }
@@ -25,9 +25,11 @@ export const App: React.FC = () => {
   };
 
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setPerPage(Number(event.target.value));
+    setLimitPerPage(Number(event.target.value));
     setCurrentPage(1);
   };
+
+  const visibleItems = items.slice(firstItem, lastItem);
 
   return (
     <div className="container">
@@ -43,7 +45,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            value={perPage}
+            value={limitPerPage}
             onChange={handleSelect}
           >
             <option value="3">3</option>
@@ -60,10 +62,18 @@ export const App: React.FC = () => {
 
       <Pagination
         total={amountOfItems}
-        perPage={perPage}
+        perPage={limitPerPage}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
       />
+
+      <ul>
+        {visibleItems.map(item => (
+          <li data-cy="item" key={item}>
+            {item}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

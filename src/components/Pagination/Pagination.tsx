@@ -1,5 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
+import { getNumbers } from '../../utils';
 
 interface Props {
   total: number;
@@ -16,19 +17,7 @@ export const Pagination: React.FC<Props> = ({
 }) => {
   const pagesAmount = Math.ceil(total / perPage);
 
-  const visibleItems = [];
-  const visiblePages = [];
-
-  for (let i = 1; i <= pagesAmount; i += 1) {
-    visiblePages.push(i);
-  }
-
-  for (let i = 1; i <= perPage; i += 1) {
-    visibleItems.push(`Item ${i + perPage * (currentPage - 1)}`);
-  }
-
-  const validVisibleItems = visibleItems.filter(item => (
-    Number(item.replace(/\D/g, '')) <= total));
+  const visiblePages = getNumbers(1, pagesAmount);
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
@@ -46,68 +35,54 @@ export const Pagination: React.FC<Props> = ({
   const isSelectedPageLast = currentPage === pagesAmount;
 
   return (
-    <>
-      <ul className="pagination">
-        <li className={cn('page-item', {
-            disabled: isSelectedPageFirst,
-          })}
+    <ul className="pagination">
+      <li
+        className={cn('page-item', {
+          disabled: isSelectedPageFirst,
+        })}
+      >
+        <a
+          data-cy="prevLink"
+          className="page-link"
+          href="#prev"
+          aria-disabled={isSelectedPageFirst}
+          onClick={handlePrevPage}
         >
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled={isSelectedPageFirst}
-            onClick={handlePrevPage}
-          >
-            «
-          </a>
-        </li>
-        {visiblePages.map(page => (
-          <li
-            className={cn(
-              'page-item',
-              {
-                active: currentPage === page,
-              },
-            )}
-            key={page}
-          >
-            <a
-              data-cy="pageLink"
-              className="page-link"
-              href={`#${page}`}
-              onClick={() => onPageChange(page)}
-            >
-              {page}
-            </a>
-          </li>
-        ))}
+          «
+        </a>
+      </li>
+      {visiblePages.map((page) => (
         <li
-          className={cn(
-            'page-item',
-            {
-              disabled: isSelectedPageLast,
-            },
-          )}
+          className={cn('page-item', {
+            active: currentPage === page,
+          })}
+          key={page}
         >
           <a
-            data-cy="nextLink"
+            data-cy="pageLink"
             className="page-link"
-            href="#next"
-            aria-disabled={isSelectedPageLast}
-            onClick={handleNextPage}
+            href={`#${page}`}
+            onClick={() => onPageChange(page)}
           >
-            »
+            {page}
           </a>
         </li>
-      </ul>
-      <ul>
-        {validVisibleItems.map(item => (
-          <li data-cy="item" key={item}>
-            {item}
-          </li>
-        ))}
-      </ul>
-    </>
+      ))}
+      <li
+        className={cn('page-item', {
+          disabled: isSelectedPageLast,
+        })}
+      >
+        <a
+          data-cy="nextLink"
+          className="page-link"
+          href="#next"
+          aria-disabled={isSelectedPageLast}
+          onClick={handleNextPage}
+        >
+          »
+        </a>
+      </li>
+    </ul>
   );
 };
