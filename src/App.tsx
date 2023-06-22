@@ -21,7 +21,7 @@ export const App: React.FC = () => {
       lastItem = amountOfItems;
     }
 
-    return `Page ${currentPage} (items ${firstItem} - ${lastItem} of ${amountOfItems})`;
+    return `Page ${currentPage} (items ${firstItem + 1} - ${lastItem} of ${amountOfItems})`;
   };
 
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
