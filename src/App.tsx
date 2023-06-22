@@ -14,7 +14,7 @@ export const App: React.FC = () => {
   const amountOfItems = items.length;
 
   const firstItem = limitPerPage * (currentPage - 1);
-  let lastItem = limitPerPage * currentPage;
+  const lastItem = limitPerPage * currentPage > amountOfItems ? amountOfItems  : limitPerPage * currentPage;
 
   const currentInfo = () => {
     if (lastItem > amountOfItems) {
