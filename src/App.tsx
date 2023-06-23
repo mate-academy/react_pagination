@@ -4,6 +4,8 @@ import { getNumbers } from './utils';
 import { PaginationForm } from './components/PaginationForm/PaginartionForm';
 import { Pagination } from './components/Pagination';
 import { ContentWindow } from './components/ContentWindow/ContentWindow';
+import { getVisibleItems } from './helpers/getVisibleItems';
+import { getDiapason } from './helpers/getDiapason';
 
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
@@ -13,13 +15,12 @@ export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const total = items.length;
-  const start = ((currentPage - 1) * itemsPerPage);
-  const end = currentPage * itemsPerPage > total
-    ? total
-    : currentPage * itemsPerPage;
-  const visibleItems = items.slice(start, end);
+  const [start, end] = getDiapason(total, currentPage, itemsPerPage);
+  const visibleItems = getVisibleItems(items, start, end);
 
-  const changeSettings = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleItemsPerPageChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
     setItemsPerPage(+event.target.value);
     setCurrentPage(1);
   };
@@ -38,7 +39,7 @@ export const App: React.FC = () => {
 
       <PaginationForm
         itemsPerPage={itemsPerPage}
-        onSettingsChage={changeSettings}
+        onSettingsChange={handleItemsPerPageChange}
       />
 
       <Pagination
@@ -52,5 +53,3 @@ export const App: React.FC = () => {
     </div>
   );
 };
-
-export default App;

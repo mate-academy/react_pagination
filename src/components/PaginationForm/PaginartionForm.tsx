@@ -2,12 +2,12 @@ import React from 'react';
 
 type Props = {
   itemsPerPage: number,
-  onSettingsChage: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  onSettingsChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
 export const PaginationForm: React.FC<Props> = ({
   itemsPerPage,
-  onSettingsChage,
+  onSettingsChange,
 }) => {
   return (
     <div className="form-group row">
@@ -17,7 +17,7 @@ export const PaginationForm: React.FC<Props> = ({
           id="perPageSelector"
           className="form-control"
           value={itemsPerPage}
-          onChange={onSettingsChage}
+          onChange={onSettingsChange}
         >
           <option value="3">3</option>
           <option value="5">5</option>

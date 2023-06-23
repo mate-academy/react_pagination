@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import { getPagesArray } from '../../helpers/getPagesArray';
 
 type Props = {
   total: number,
@@ -15,7 +16,7 @@ export const Pagination: React.FC<Props> = ({
   onPageChange,
 }) => {
   const numberOfPages = Math.ceil(total / perPage);
-  const pages = Array.from({ length: numberOfPages }, (_, i) => i + 1);
+  const pages = getPagesArray(numberOfPages);
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === numberOfPages;
   const prevPage = currentPage - 1;
