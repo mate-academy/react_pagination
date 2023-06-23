@@ -33,7 +33,9 @@ export const Pagination: React.FC<Props> = ({
           href="#prev"
           aria-disabled={isFirstPage}
           onClick={() => {
-            onPageChange(prevPage);
+            if (!isFirstPage) {
+              onPageChange(prevPage);
+            }
           }}
         >
           «
@@ -71,7 +73,9 @@ export const Pagination: React.FC<Props> = ({
           href="#next"
           aria-disabled={isLastPage}
           onClick={() => {
-            onPageChange(nexPage);
+            if (!isLastPage) {
+              onPageChange(nexPage);
+            }
           }}
         >
           »
