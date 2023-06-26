@@ -9,13 +9,18 @@ const items = getNumbers(1, 42)
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(3);
+  const [perPage, setPerPage] = useState(5);
 
   const totalItems = items.length;
   const firstItem = (currentPage - 1) * perPage;
   const lastItem = firstItem + perPage > items.length
     ? items.length
     : firstItem + perPage;
+
+  const onSelect = (value: number) => {
+    setPerPage(value);
+    setCurrentPage(1);
+  };
 
   const currentPageItems = items.slice(firstItem, lastItem);
 
@@ -33,7 +38,8 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            onChange={(e) => setPerPage(+e.target.value)}
+            value={perPage}
+            onChange={(e) => onSelect(+e.target.value)}
           >
             <option value="3">3</option>
             <option value="5">5</option>
