@@ -8,9 +8,9 @@ export const App: React.FC = () => {
   const firstPage = 1;
 
   const [itemsOnPage, setItemsOnPage] = useState(5);
-  const [initialPage, setInitialPage] = useState(firstPage);
+  const [page, setPage] = useState(firstPage);
 
-  const maxItems = initialPage * itemsOnPage;
+  const maxItems = page * itemsOnPage;
   const startVisibleItems = maxItems - itemsOnPage;
   const endVisibleItems = maxItems > totalItems
     ? totalItems
@@ -20,10 +20,11 @@ export const App: React.FC = () => {
     event: ChangeEvent<HTMLSelectElement>,
   ) => {
     setItemsOnPage(+event.target.value);
+    setPage(firstPage);
   };
 
-  const changedPage = (page: number) => {
-    setInitialPage(page);
+  const changedPage = (newPage: number) => {
+    setPage(newPage);
   };
 
   return (
@@ -31,7 +32,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${initialPage} (items ${startVisibleItems + 1} - ${endVisibleItems} of ${totalItems})`}
+        {`Page ${page} (items ${startVisibleItems + 1} - ${endVisibleItems} of ${totalItems})`}
       </p>
 
       <div className="form-group row">
@@ -56,10 +57,10 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={totalItems}
-        perPage={itemsOnPage}
-        currentPage={firstPage}
-        onPageChange={changedPage}
+        totalItems={totalItems}
+        itemsOnPage={itemsOnPage}
+        selectedPage={page}
+        changedPage={changedPage}
       />
 
       <ul>

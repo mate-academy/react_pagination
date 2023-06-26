@@ -1,52 +1,42 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import cn from 'classnames';
 import { getNumbers } from '../../utils';
 
 interface Props {
-  total: number,
-  perPage: number,
-  currentPage: number,
-  onPageChange: (page: number) => void,
+  totalItems: number,
+  itemsOnPage: number,
+  selectedPage: number,
+  changedPage: (page: number) => void,
 }
 
 export const Pagination: FC<Props> = ({
-  total,
-  perPage,
-  currentPage,
-  onPageChange,
+  totalItems,
+  itemsOnPage,
+  selectedPage,
+  changedPage,
 }) => {
-  const [chosenPage, setChosenPage] = useState(currentPage);
-
-  useEffect(() => {
-    setChosenPage(currentPage);
-  }, [perPage]);
-
-  useEffect(() => {
-    onPageChange(chosenPage);
-  }, [chosenPage]);
-
-  const totalTabs = Math.ceil(total / perPage);
+  const totalTabs = Math.ceil(totalItems / itemsOnPage);
 
   const selectPrevPage = () => {
-    if (currentPage !== chosenPage) {
-      setChosenPage((prevPage) => prevPage - 1);
+    if (selectedPage !== 1) {
+      changedPage(selectedPage - 1);
     }
   };
 
   const selectNextPage = () => {
-    if (chosenPage !== totalTabs) {
-      setChosenPage((nextPage) => nextPage + 1);
+    if (selectedPage !== totalTabs) {
+      changedPage(selectedPage + 1);
     }
   };
 
   const selectPageOnTab = (item: number) => {
-    setChosenPage(item);
+    changedPage(item);
   };
 
   return (
     <ul className="pagination">
       <li className={cn('page-item', {
-        disabled: chosenPage === 1,
+        disabled: selectedPage === 1,
       })}
       >
         <a
@@ -54,7 +44,7 @@ export const Pagination: FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={
-            chosenPage === 1
+            selectedPage === 1
               ? 'true'
               : 'false'
           }
@@ -63,10 +53,10 @@ export const Pagination: FC<Props> = ({
           «
         </a>
       </li>
-      {getNumbers(currentPage, totalTabs).map(item => (
+      {getNumbers(1, totalTabs).map(item => (
         <li
           className={cn('page-item', {
-            active: chosenPage === item,
+            active: selectedPage === item,
           })}
           key={item}
         >
@@ -81,7 +71,7 @@ export const Pagination: FC<Props> = ({
         </li>
       ))}
       <li className={cn('page-item', {
-        disabled: chosenPage === totalTabs,
+        disabled: selectedPage === totalTabs,
       })}
       >
         <a
@@ -89,7 +79,7 @@ export const Pagination: FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={
-            chosenPage === totalTabs
+            selectedPage === totalTabs
               ? 'true'
               : 'false'
           }
