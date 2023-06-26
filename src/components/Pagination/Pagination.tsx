@@ -11,8 +11,9 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
+  const lastPage = Math.ceil(total / perPage);
   const arrOfPages = Array.from({
-    length: Math.ceil(total / perPage),
+    length: lastPage,
   }, (_v, k) => k + 1);
   const arrOfItems = Array.from({
     length: total,
@@ -30,7 +31,9 @@ export const Pagination: React.FC<Props> = ({
             href="#prev"
             aria-disabled={currentPage === 1}
             onClick={() => {
-              onPageChange(currentPage - 1);
+              if (currentPage !== 1) {
+                onPageChange(currentPage - 1);
+              }
             }}
           >
             «
@@ -55,7 +58,7 @@ export const Pagination: React.FC<Props> = ({
         ))}
         <li
           className={
-            currentPage === Math.ceil(total / perPage)
+            currentPage === lastPage
               ? 'page-item disabled'
               : 'page-item'
           }
@@ -64,9 +67,11 @@ export const Pagination: React.FC<Props> = ({
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={currentPage === Math.ceil(total / perPage)}
+            aria-disabled={currentPage === lastPage}
             onClick={() => {
-              onPageChange(currentPage + 1);
+              if (currentPage !== lastPage) {
+                onPageChange(currentPage + 1);
+              }
             }}
           >
             »

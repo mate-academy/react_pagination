@@ -41,7 +41,7 @@ export class App extends React.Component {
         <h1>Items with Pagination</h1>
 
         <p className="lead" data-cy="info">
-          {`Page ${currentPage} (items ${(perPage * (currentPage - 1)) + 1} - ${currentPage * perPage} of ${total})`}
+          {`Page ${currentPage} (items ${(perPage * (currentPage - 1)) + 1} - ${currentPage * perPage > total ? total : currentPage * perPage} of ${total})`}
         </p>
 
         <div className="form-group row">
