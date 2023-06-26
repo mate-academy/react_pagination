@@ -64,7 +64,7 @@ export const App: React.FC = () => {
 
       <ul>
         {items.slice(firstContentIndex, lastContentIndex).map(el => (
-          <li data-cy="item">{`Item ${el}`}</li>
+          <li key={el} data-cy="item">{`Item ${el}`}</li>
         ))}
       </ul>
     </div>

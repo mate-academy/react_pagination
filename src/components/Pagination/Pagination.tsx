@@ -35,11 +35,14 @@ export const Pagination: React.FC<Props> = ({
       </li>
 
       {buttons.map(el => (
-        <li className={classNames('page-item', { active: page === el })}>
+        <li
+          key={el}
+          className={classNames('page-item', { active: page === el })}
+        >
           <a
             data-cy="pageLink"
             className="page-link"
-            href={`#${el}${page === el} `}
+            href={`#${el}`}
             onClick={() => setPage(el)}
           >
             {el}
