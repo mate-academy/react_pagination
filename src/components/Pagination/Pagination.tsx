@@ -6,31 +6,31 @@ interface Props {
   totalItems: number,
   itemsOnPage: number,
   selectedPage: number,
-  changedPage: (page: number) => void,
+  changePage: (page: number) => void,
 }
 
 export const Pagination: FC<Props> = ({
   totalItems,
   itemsOnPage,
   selectedPage,
-  changedPage,
+  changePage,
 }) => {
   const totalTabs = Math.ceil(totalItems / itemsOnPage);
 
   const selectPrevPage = () => {
     if (selectedPage !== 1) {
-      changedPage(selectedPage - 1);
+      changePage(selectedPage - 1);
     }
   };
 
   const selectNextPage = () => {
     if (selectedPage !== totalTabs) {
-      changedPage(selectedPage + 1);
+      changePage(selectedPage + 1);
     }
   };
 
   const selectPageOnTab = (item: number) => {
-    changedPage(item);
+    changePage(item);
   };
 
   return (

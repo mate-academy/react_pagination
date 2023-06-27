@@ -16,16 +16,19 @@ export const App: React.FC = () => {
     ? totalItems
     : maxItems;
 
-  const selectedItems = (
+  const selectItemsPerPage = (
     event: ChangeEvent<HTMLSelectElement>,
   ) => {
     setItemsOnPage(+event.target.value);
     setPage(firstPage);
   };
 
-  const changedPage = (newPage: number) => {
+  const changePage = (newPage: number) => {
     setPage(newPage);
   };
+
+  const visibleItems = getNumbers(firstPage, totalItems)
+    .slice(startVisibleItems, endVisibleItems);
 
   return (
     <div className="container">
@@ -42,7 +45,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={itemsOnPage}
-            onChange={selectedItems}
+            onChange={selectItemsPerPage}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -60,18 +63,18 @@ export const App: React.FC = () => {
         totalItems={totalItems}
         itemsOnPage={itemsOnPage}
         selectedPage={page}
-        changedPage={changedPage}
+        changePage={changePage}
       />
 
       <ul>
-        {getNumbers(firstPage, totalItems).map(item => (
+        {visibleItems.map(item => (
           <li
             data-cy="item"
             key={item}
           >
             {`Item ${item}`}
           </li>
-        )).slice(startVisibleItems, endVisibleItems)}
+        ))}
       </ul>
     </div>
   );
