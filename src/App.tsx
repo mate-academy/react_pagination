@@ -31,12 +31,17 @@ export class App extends React.Component {
       total,
     } = this.state;
 
+    const startWithItem = (perPage * (currentPage - 1)) + 1;
+    const endWithItem = currentPage * perPage > total
+      ? total
+      : currentPage * perPage;
+
     return (
       <div className="container">
         <h1>Items with Pagination</h1>
 
         <p className="lead" data-cy="info">
-          {`Page ${currentPage} (items ${(perPage * (currentPage - 1)) + 1} - ${currentPage * perPage > total ? total : currentPage * perPage} of ${total})`}
+          {`Page ${currentPage} (items ${startWithItem} - ${endWithItem} of ${total})`}
         </p>
 
         <div className="form-group row">
@@ -52,7 +57,10 @@ export class App extends React.Component {
             >
 
               {itemsPerPageOptions.map(item => (
-                <option value={item}>
+                <option
+                  key={item}
+                  value={item}
+                >
                   {item}
                 </option>
               ))}

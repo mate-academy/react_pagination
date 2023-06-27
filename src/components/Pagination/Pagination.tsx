@@ -1,3 +1,5 @@
+import { getNumbers } from '../../utils';
+
 type Props = {
   total: number,
   perPage: number,
@@ -12,12 +14,17 @@ export const Pagination: React.FC<Props> = ({
   onPageChange,
 }) => {
   const lastPage = Math.ceil(total / perPage);
-  const arrOfPages = Array.from({
-    length: lastPage,
-  }, (_v, k) => k + 1);
-  const arrOfItems = Array.from({
-    length: total,
-  }, (_v, k) => k + 1);
+  const pagesArray = getNumbers(1, lastPage);
+  const itemsArray = getNumbers(1, total);
+
+  const itemSeparationForPages = itemsArray.filter(item => {
+    if (currentPage === 1) {
+      return item <= perPage;
+    }
+
+    return item <= perPage * currentPage
+    && item > perPage * (currentPage - 1);
+  });
 
   return (
     <>
@@ -39,7 +46,7 @@ export const Pagination: React.FC<Props> = ({
             «
           </a>
         </li>
-        {arrOfPages.map(page => (
+        {pagesArray.map(page => (
           <li
             className={page === currentPage ? 'page-item active' : 'page-item'}
             key={page}
@@ -79,18 +86,11 @@ export const Pagination: React.FC<Props> = ({
         </li>
       </ul>
       <ul>
-        {arrOfItems.filter(item => {
-          if (currentPage === 1) {
-            return item <= perPage;
-          }
-
-          return item <= perPage * currentPage
-          && item > perPage * (currentPage - 1);
-        }).map(itemFilter => (
+        { itemSeparationForPages.map(item => (
           <li
             data-cy="item"
           >
-            {`Item ${itemFilter}`}
+            {`Item ${item}`}
           </li>
         ))}
       </ul>
