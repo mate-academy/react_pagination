@@ -3,7 +3,6 @@ import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items: string[] = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
@@ -33,15 +32,13 @@ export const App: React.FC = () => {
     )));
   };
 
-  const pageContent = [];
+  const firstItemIndex = selectedPage * perPage - perPage;
+  const lastItemIndex = selectedPage * perPage;
 
-  for (let i = 0; i < items.length; i += perPage) {
-    pageContent.push(items.slice(i, i + perPage));
-  }
+  const selectedPageContent = items.slice(firstItemIndex, lastItemIndex);
 
-  const currentItemsRange = pageContent[selectedPage - 1];
-  const itemsFrom = currentItemsRange[0].split(' ')[1];
-  const itemsTo = currentItemsRange[currentItemsRange.length - 1].split(' ')[1];
+  const itemsFrom = firstItemIndex + 1;
+  const itemsTo = firstItemIndex + selectedPageContent.length;
 
   return (
     <div className="container">
@@ -83,7 +80,7 @@ export const App: React.FC = () => {
       />
 
       <ul>
-        {pageContent[selectedPage - 1].map(item => (
+        {selectedPageContent.map(item => (
           <li key={item} data-cy="item">{item}</li>
         ))}
       </ul>
