@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import cn from 'classnames';
+import { getNumbers } from '../../utils';
 
 interface Props {
   total: number;
@@ -20,15 +21,22 @@ export const Pagination: FC<Props> = ({
   visibleItems,
   onPageChange,
 }) => {
-  const pageNumbers = [];
-
-  // eslint-disable-next-line no-plusplus
-  for (let i = 1; i < Math.ceil(total / perPage) + 1; i++) {
-    pageNumbers.push(i);
-  }
+  const pages = getNumbers(1, (total / perPage) + 1);
 
   const isPrevActive = currentPage === 1;
-  const isNextActive = currentPage === pageNumbers[pageNumbers.length - 1];
+  const isNextActive = currentPage === pages[pages.length - 1];
+
+  const handlePrevArrowButton = () => {
+    if (!isPrevActive) {
+      prevPage();
+    }
+  };
+
+  const handleNextArrowButton = () => {
+    if (!isNextActive) {
+      nextPage();
+    }
+  };
 
   return (
     <>
@@ -42,16 +50,12 @@ export const Pagination: FC<Props> = ({
             href="#prev"
             tabIndex={isPrevActive ? -1 : 0}
             aria-disabled={isPrevActive}
-            onClick={() => {
-              if (!isPrevActive) {
-                prevPage();
-              }
-            }}
+            onClick={handlePrevArrowButton}
           >
             «
           </a>
         </li>
-        {pageNumbers.map((page) => (
+        {pages.map((page) => (
           <li
             className={cn('page-item',
               { active: page === currentPage })}
@@ -76,11 +80,7 @@ export const Pagination: FC<Props> = ({
             href="#next"
             tabIndex={isNextActive ? -1 : 0}
             aria-disabled={isNextActive}
-            onClick={() => {
-              if (!isNextActive) {
-                nextPage();
-              }
-            }}
+            onClick={handleNextArrowButton}
           >
             »
           </a>
