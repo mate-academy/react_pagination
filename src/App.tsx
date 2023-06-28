@@ -22,7 +22,7 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     if (Math.ceil(total / perPage) < currentPage) {
-      setCurrentPage(1);
+      setCurrentPage(Math.ceil(total / perPage));
     }
   }, [perPage]);
 
