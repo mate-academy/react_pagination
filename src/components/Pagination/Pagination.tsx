@@ -16,6 +16,7 @@ export const Pagination: React.FC<Props> = ({
 }) => {
   const numberOfPages = Math.ceil(total / perPage);
   const pages = getNumbers(1, numberOfPages);
+
   const onClickPrevButton = (event: React.MouseEvent) => {
     event.preventDefault();
 
@@ -36,6 +37,11 @@ export const Pagination: React.FC<Props> = ({
     }
   };
 
+  const onPageClick = (event: React.MouseEvent, page: number) => {
+    event.preventDefault();
+    onPageChange(page);
+  };
+
   return (
     <ul className="pagination">
       <li className={classNames('page-item', {
@@ -49,13 +55,14 @@ export const Pagination: React.FC<Props> = ({
           aria-disabled={currentPage === 1
             ? 'true'
             : 'false'}
-          onClick={(event) => onClickPrevButton(event)}
+          onClick={onClickPrevButton}
         >
           «
         </a>
       </li>
       {pages.map(page => (
         <li
+          key={page}
           className={classNames(
             'page-item', { active: currentPage === page },
           )}
@@ -64,11 +71,7 @@ export const Pagination: React.FC<Props> = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${page}`}
-            key={page}
-            onClick={(event) => {
-              event.preventDefault();
-              onPageChange(page);
-            }}
+            onClick={(event) => onPageClick(event, page)}
           >
             {page}
           </a>
@@ -86,7 +89,7 @@ export const Pagination: React.FC<Props> = ({
           aria-disabled={currentPage === numberOfPages
             ? 'true'
             : 'false'}
-          onClick={(event) => onClickNextButton(event)}
+          onClick={onClickNextButton}
         >
           »
         </a>
