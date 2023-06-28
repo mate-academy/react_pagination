@@ -40,11 +40,11 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             onChange={(event) => handleChangePerPage(event)}
+            value={perPage}
           >
-            <option value={3}>3</option>
-            <option selected value={5}>5</option>
-            <option value={10}>10</option>
-            <option value={20}>20</option>
+            {[3, 5, 10, 20].map(option => (
+              <option key={option} value={option}>{option}</option>
+            ))}
           </select>
         </div>
 
