@@ -7,3 +7,7 @@ export function getNumbers(from: number, to: number): number[] {
 
   return numbers;
 }
+
+export function getMaxOfArray(numArray: number[]) {
+  return Math.max.apply(null, numArray);
+}

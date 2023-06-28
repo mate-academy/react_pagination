@@ -1,49 +1,22 @@
 import classNames from 'classnames';
+import { getMaxOfArray } from '../../utils';
+import { GetPages } from './Pages';
 
-interface Props {
+type Props = {
   items: string[],
   pageNumber: number[],
   paginate: (page: number) => void,
   makeStep: (direction: string) => void,
   pageNumberBack: number,
-}
+};
 
 export const Pagination: React.FC<Props> = ({
   items,
   pageNumber,
-  paginate,
   pageNumberBack,
   makeStep,
+  paginate,
 }) => {
-  function getMaxOfArray(numArray: number[]) {
-    return Math.max.apply(null, numArray);
-  }
-
-  function getPages(pageNumberRender: number[]) {
-    return (
-      pageNumberRender.map(page => {
-        return (
-          <li
-            className={classNames('page-item', {
-              active: page === pageNumberBack,
-            })}
-            key={page}
-          >
-            <a
-              data-cy="pageLink"
-              className="page-link"
-              href={`#${page}`}
-              key={page}
-              onClick={() => paginate(page)}
-            >
-              {page}
-            </a>
-          </li>
-        );
-      })
-    );
-  }
-
   return (
     <>
       <ul className="pagination">
@@ -63,7 +36,11 @@ export const Pagination: React.FC<Props> = ({
           </a>
         </li>
 
-        {getPages(pageNumber)}
+        <GetPages
+          paginate={paginate}
+          pageNumber={pageNumber}
+          pageNumberBack={pageNumberBack}
+        />
 
         <li
           className={classNames('page-item', {

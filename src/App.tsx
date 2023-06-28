@@ -31,7 +31,7 @@ export const App: React.FC = () => {
   };
 
   function handleSelect(event: React.ChangeEvent<HTMLSelectElement>) {
-    setItemPerPage(+event.currentTarget.value);
+    setItemPerPage(Number(event.currentTarget.value));
   }
 
   return (
@@ -44,7 +44,9 @@ export const App: React.FC = () => {
         (
         {currentItems[0]}
         -
-        {currentItems.length * currentPage}
+        {currentPage !== pageNumber.length
+          ? currentItems.length * currentPage
+          : items.length}
         of
         {items.length}
         )
