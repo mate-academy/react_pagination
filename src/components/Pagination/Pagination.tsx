@@ -29,7 +29,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={isPrevLinkDisabled}
-          onClick={() => onPageChange(perPage)}
+          onClick={() => onPageChange(currentPage - 1)}
         >
           «
         </a>
