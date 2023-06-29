@@ -19,71 +19,65 @@ export const Pagination: React.FC<Props> = ({
   const arrayOfPages = getNumbers(1, pagesQuantity);
 
   return (
-    <>
-      <ul
-        className="pagination"
+    <ul
+      className="pagination"
+    >
+      <li
+        className={classNames('page-item', {
+          disabled: currentPage <= 1,
+        })}
       >
-        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */}
-        <li
-          className={classNames('page-item', {
-            disabled: currentPage <= 1,
-          })}
+        <a
+          data-cy="prevLink"
+          className="page-link"
+          href="#prev"
+          aria-disabled={currentPage === 1}
           onClick={() => {
             if (currentPage > 1) {
               onPageChange((currentPage - 1));
             }
           }}
         >
+          «
+        </a>
+      </li>
+      {arrayOfPages.map(page => (
+        <li
+          className={classNames('page-item', {
+            active: page === currentPage,
+          })}
+        >
           <a
-            data-cy="prevLink"
+            data-cy="pageLink"
             className="page-link"
-            href="#prev"
-            aria-disabled={currentPage === 1}
-          >
-            «
-          </a>
-        </li>
-        {arrayOfPages.map(page => (
-          // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events
-          <li
-            className={classNames('page-item', {
-              active: page === currentPage,
-            })}
+            href="#1"
             onClick={() => {
               onPageChange(page);
             }}
           >
-            <a
-              data-cy="pageLink"
-              className="page-link"
-              href="#1"
-            >
-              {page}
-            </a>
-          </li>
-        ))}
-        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */}
-        <li
-          className={classNames('page-item', {
-            disabled: currentPage >= pagesQuantity,
-          })}
+            {page}
+          </a>
+        </li>
+      ))}
+      <li
+        className={classNames('page-item', {
+          disabled: currentPage >= pagesQuantity,
+        })}
+      >
+        <a
+          data-cy="nextLink"
+          className="page-link"
+          href="#next"
+          aria-disabled={currentPage === pagesQuantity}
           onClick={() => {
             if (currentPage < pagesQuantity) {
               onPageChange((currentPage + 1));
             }
           }}
         >
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled={currentPage === pagesQuantity}
-
-          >
-            »
-          </a>
-        </li>
-      </ul>
-    </>
+          »
+        </a>
+      </li>
+    </ul>
   );
 };
