@@ -18,6 +18,7 @@ export const Pagination: React.FC<Props> = ({
 }) => {
   const paginateItemsCount = Math.ceil(total / PerPage);
   const paginateItemsArray = getNumbers(1, paginateItemsCount);
+  const makeOnPageChange = (page: number) => () => onPageChange(page);
 
   return (
     <ul className="pagination">
@@ -34,9 +35,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={currentPage === 1 ? 'true' : 'false'}
-          onClick={() => {
-            onPageChange(currentPage - 1);
-          }}
+          onClick={makeOnPageChange(currentPage - 1)}
         >
           «
         </a>
@@ -54,7 +53,7 @@ export const Pagination: React.FC<Props> = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${item}`}
-            onClick={() => onPageChange(item)}
+            onClick={makeOnPageChange(item)}
           >
             {item}
           </a>
@@ -74,9 +73,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={currentPage === paginateItemsCount ? 'true' : 'false'}
-          onClick={() => {
-            onPageChange(currentPage + 1);
-          }}
+          onClick={makeOnPageChange(currentPage + 1)}
         >
           »
         </a>

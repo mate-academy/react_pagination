@@ -39,12 +39,14 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={itemsPerPageValue}
+            onChange={(event) => {
+              setItemsPerPage(+event.target.value);
+            }}
           >
             {selectValues.map((value: number) => (
               <option
                 key={value}
                 value={value}
-                onClick={() => setItemsPerPage(value)}
               >
                 {value}
               </option>
