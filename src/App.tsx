@@ -10,19 +10,24 @@ const items = getNumbers(1, 42)
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [curentPage, setCurentPage] = useState(1);
-  // const onPageChange = {(page) => { ... }}
 
   const total = items.length;
-  const firstPage = perPage * curentPage - perPage;
-  const lastPage = perPage * curentPage;
-  const visibleItems = items.slice(firstPage, lastPage);
+  const visibleItemStartIndex = perPage * curentPage - perPage;
+  const visibleItemEndIndex = perPage * curentPage;
+  const visibleItems = items.slice(visibleItemStartIndex, visibleItemEndIndex);
+  const paginationInfo = `Page ${curentPage} (${perPage * curentPage
+    - perPage + 1} - ${perPage * curentPage < total ? perPage * curentPage : total} of ${total})`;
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setPerPage(+event.target.value);
+    setCurentPage(1);
+  };
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${curentPage} (${perPage * curentPage - perPage + 1} - ${perPage * curentPage < total ? perPage * curentPage : total} of ${total})`}
+        {paginationInfo}
       </p>
 
       <div className="form-group row">
@@ -32,10 +37,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={event => {
-              setPerPage(+event.target.value);
-              setCurentPage(1);
-            }}
+            onChange={handleChange}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -57,7 +59,9 @@ export const App: React.FC = () => {
       />
 
       <ul>
-        {visibleItems.map(item => (<li data-cy="item" key={item}>{item}</li>))}
+        {visibleItems.map(item => (
+          <li data-cy="item" key={item}>{item}</li>
+        ))}
       </ul>
 
     </div>
