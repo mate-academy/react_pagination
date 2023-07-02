@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import './App.css';
 
 import { Pagination } from './components/Pagination';
+import { getNumbers } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-// const items = getNumbers(1, 42)
-//   .map(n => `Item ${n}`);
+const items = getNumbers(1, 42)
+  .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const total = 42;
+  const total = items.length;
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -23,7 +24,7 @@ export const App: React.FC = () => {
   const numberOfItemsOnLastPage = total - (
     Math.ceil(total / perPage) - 1) * perPage;
 
-  const currentItemsStart = ((currentPage - 1) * perPage) + 1;
+  const currentItemsStart = ((currentPage - 1) * perPage);
   const currentItemsEnd = () => {
     if (currentPage === Math.ceil(total / perPage)) {
       return ((currentPage - 1) * perPage) + numberOfItemsOnLastPage;
@@ -32,7 +33,10 @@ export const App: React.FC = () => {
     return currentPage * perPage;
   };
 
-  const pageInfo = `Page ${currentPage} (items ${currentItemsStart} - ${currentItemsEnd()} of ${total})`;
+  const visibleItems = items.slice(currentItemsStart, currentItemsEnd());
+
+  const pageInfo = `Page ${currentPage} (items ${
+    currentItemsStart + 1} - ${currentItemsEnd()} of ${total})`;
 
   return (
 
@@ -72,6 +76,20 @@ export const App: React.FC = () => {
           setCurrentPage(page);
         }}
       />
+
+      <ul>
+        {
+          visibleItems.map(item => (
+            <li
+              data-cy="item"
+              key={item}
+            >
+              {item}
+            </li>
+          ))
+        }
+
+      </ul>
     </div>
   );
 };
