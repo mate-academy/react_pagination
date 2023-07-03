@@ -25,6 +25,22 @@ export const Pagination: React.FC<Props> = ({
     }
   };
 
+  const handlePrevPage = () => {
+    const prevPage = currentPage - 1;
+
+    if (prevPage >= 1) {
+      handlePageChange(prevPage);
+    }
+  };
+
+  const handleNextPage = () => {
+    const nextPage = currentPage + 1;
+
+    if (nextPage <= totalPages) {
+      handlePageChange(nextPage);
+    }
+  };
+
   return (
     <ul className="pagination">
       <li className={cn('page-item', {
@@ -36,15 +52,17 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={currentPage === 1}
-          onClick={() => handlePageChange(currentPage - 1)}
+          onClick={handlePrevPage}
         >
           «
         </a>
       </li>
       {visiblePages.map(page => (
-        <li className={cn('page-item', {
-          active: currentPage === page,
-        })}
+        <li
+          className={cn('page-item', {
+            active: currentPage === page,
+          })}
+          key={page}
         >
           <a
             data-cy="pageLink"
@@ -66,7 +84,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={currentPage === totalPages}
-          onClick={() => handlePageChange(currentPage + 1)}
+          onClick={handleNextPage}
         >
           »
         </a>

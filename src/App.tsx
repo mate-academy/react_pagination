@@ -7,6 +7,8 @@ import { Pagination } from './components/Pagination';
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
+const itemsPerPage = [3, 5, 10, 20];
+
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
@@ -19,8 +21,6 @@ export const App: React.FC = () => {
   const onPageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
-
-  const itemsPerPage = [3, 5, 10, 20];
 
   const start = perPage * currentPage - perPage;
   const end = perPage * currentPage <= items.length
@@ -47,7 +47,12 @@ export const App: React.FC = () => {
             onChange={handlePerPage}
           >
             {itemsPerPage.map(quantity => (
-              <option value={quantity}>{quantity}</option>
+              <option
+                value={quantity}
+                key={quantity}
+              >
+                {quantity}
+              </option>
             ))}
           </select>
         </div>
@@ -66,7 +71,7 @@ export const App: React.FC = () => {
       <ul>
         {
           itemsToShow.map(item => (
-            <li data-cy="item" key="item">{item}</li>
+            <li data-cy="item" key={item}>{item}</li>
           ))
         }
       </ul>
