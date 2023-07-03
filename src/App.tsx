@@ -11,7 +11,10 @@ export const App: React.FC = () => {
   const pageNumber: number[] = [];
   const [itemPerPage, setItemPerPage] = useState(3);
   const [currentPage, setCurrentPage] = useState(1);
-  const pageNow = (page: number) => setCurrentPage(page);
+  const pageNow = (page: number) => {
+    setCurrentPage(page);
+  };
+
   const lastIndex = currentPage * itemPerPage;
   const firstIndex = lastIndex - itemPerPage;
   const currentItems = items.slice(firstIndex, lastIndex);
@@ -19,16 +22,6 @@ export const App: React.FC = () => {
   for (let i = 1; i <= Math.ceil(items.length / itemPerPage); i += 1) {
     pageNumber.push(i);
   }
-
-  const makeSTep = (direction: string) => {
-    if (direction === 'back' && currentPage > 1) {
-      setCurrentPage(prevState => prevState - 1);
-    }
-
-    if (direction === 'forward' && currentPage < pageNumber.length) {
-      setCurrentPage(prevState => prevState + 1);
-    }
-  };
 
   function handleSelect(event: React.ChangeEvent<HTMLSelectElement>) {
     setItemPerPage(Number(event.currentTarget.value));
@@ -47,7 +40,9 @@ export const App: React.FC = () => {
         {currentPage !== pageNumber.length
           ? currentItems.length * currentPage
           : items.length}
+          &nbsp;
         of
+        &nbsp;
         {items.length}
         )
       </p>
@@ -76,8 +71,7 @@ export const App: React.FC = () => {
         items={currentItems}
         pageNumber={pageNumber}
         paginate={pageNow}
-        pageNumberBack={currentPage}
-        makeStep={makeSTep}
+        currentPage={currentPage}
       />
     </div>
   );

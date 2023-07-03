@@ -3,13 +3,13 @@ import classNames from 'classnames';
 type Props = {
   pageNumber: number[],
   paginate: (page: number) => void,
-  pageNumberBack: number,
+  currentPage: number,
 };
 
 export const GetPages: React.FC<Props> = ({
   pageNumber,
   paginate,
-  pageNumberBack,
+  currentPage,
 }) => {
   return (
     <>
@@ -17,7 +17,7 @@ export const GetPages: React.FC<Props> = ({
         return (
           <li
             className={classNames('page-item', {
-              active: page === pageNumberBack,
+              active: page === currentPage,
             })}
             key={page}
           >
