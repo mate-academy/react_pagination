@@ -9,7 +9,7 @@ const items = getNumbers(1, 42)
 
 export const App: React.FC = () => {
   const pageNumber: number[] = [];
-  const [itemPerPage, setItemPerPage] = useState(3);
+  const [itemPerPage, setItemPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const pageNow = (page: number) => {
     setCurrentPage(page);
