@@ -3,8 +3,10 @@ import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
+const items = getNumbers(1, 42);
+
 export const App: React.FC = () => {
-  const total = 42;
+  const total = items.length;
 
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
@@ -12,7 +14,7 @@ export const App: React.FC = () => {
   const fromItem = (currentPage - 1) * perPage + 1;
   const toItem = currentPage * perPage > total ? total : currentPage * perPage;
 
-  const items = getNumbers(fromItem, toItem);
+  const visibleItems = getNumbers(fromItem, toItem);
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(Number(e.target.value));
@@ -60,7 +62,7 @@ export const App: React.FC = () => {
       />
       <ul>
 
-        {items.map((item) => (
+        {visibleItems.map((item) => (
           <li key={item} data-cy="item">
             {`Item ${item}`}
           </li>
