@@ -1,15 +1,15 @@
 type Props = {
   selectValue: number,
   setOptionPage: (value: number) => void,
-  ressetPage: (page: number) => void,
+  resetPage: (page: number) => void,
 };
 
-const selectOption = [3, 5, 10, 20];
+const selectOptions = [3, 5, 10, 20];
 
 export const Select: React.FC<Props> = ({
   selectValue,
   setOptionPage,
-  ressetPage,
+  resetPage,
 }) => (
   <div className="form-group row">
     <div className="col-3 col-sm-2 col-xl-1">
@@ -20,10 +20,10 @@ export const Select: React.FC<Props> = ({
         value={selectValue}
         onChange={(event) => {
           setOptionPage(+event.target.value);
-          ressetPage(1);
+          resetPage(1);
         }}
       >
-        {selectOption.map((option: number) => (
+        {selectOptions.map((option: number) => (
           <option
             value={option}
             key={option}

@@ -9,11 +9,13 @@ const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 function itemsPerPage(perPageNum: number) {
   const newItems = [...items];
-  const resultItems = [];
+  const resultItems: Array<string>[] = [];
 
-  for (let i = 0; i < newItems.length; i += perPageNum) {
-    resultItems.push(newItems.slice(i, (i + perPageNum)));
-  }
+  newItems.map((_item, i) => {
+    return i % perPageNum === 0
+      ? resultItems.push([...items].slice(i, (i + perPageNum)))
+      : null;
+  });
 
   return resultItems;
 }
@@ -37,7 +39,7 @@ export const App: React.FC = () => {
       <Select
         selectValue={perPage}
         setOptionPage={setPerPage}
-        ressetPage={setPage}
+        resetPage={setPage}
       />
 
       <Pagination

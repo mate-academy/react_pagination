@@ -87,16 +87,18 @@ export const Pagination = ({
           </a>
         </li>
       </ul>
-      <ul>
-        {itemsToDisplay[currentPage - 1].map(item => (
-          <li
-            data-cy="item"
-            key={item}
-          >
-            {item}
-          </li>
-        ))}
-      </ul>
+      {itemsToDisplay[currentPage - 1] !== undefined && (
+        <ul>
+          {itemsToDisplay[currentPage - 1].map(item => (
+            <li
+              data-cy="item"
+              key={item}
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+      )}
     </>
   );
 };
