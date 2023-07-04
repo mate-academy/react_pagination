@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
+// eslint-disable-next-line import/no-cycle
+import Routes from './Routes';
 
 const numberOfItems = 42;
-
 const items: string[] = getNumbers(1, numberOfItems)
   .map(n => `Item ${n}`);
 
@@ -12,7 +14,7 @@ export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const numberOfPages
-    = Math.ceil(numberOfItems / perPage);
+  = Math.ceil(numberOfItems / perPage);
 
   const firstItemIndex = (currentPage - 1) * perPage;
 
@@ -22,8 +24,23 @@ export const App: React.FC = () => {
     return items.slice(firstItemIndex, lastItemIndex);
   };
 
+  const location = useLocation();
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const pageParam = searchParams.get('page');
+    const perPageParam = searchParams.get('perPage');
+
+    const parsedPage = pageParam ? parseInt(pageParam, 10) : 1;
+    const parsedPerPage = perPageParam ? parseInt(perPageParam, 10) : 10;
+
+    setCurrentPage(parsedPage);
+    setPerPage(parsedPerPage);
+  }, [location]);
+
   return (
     <div className="container">
+      <Routes />
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
