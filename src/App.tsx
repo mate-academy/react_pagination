@@ -51,13 +51,7 @@ export const App: React.FC = () => {
         perPage={perPage}
         currentPage={currentPage}
         onPageChange={(page) => {
-          if (page <= 0) {
-            setcurrentPage(1);
-          } else if (currentPage >= 9) {
-            setcurrentPage(9);
-          } else {
-            setcurrentPage(page);
-          }
+          setcurrentPage(page);
         }}
       />
       <ul>
