@@ -18,29 +18,23 @@ export const Pagination:React.FC<Props> = ({
   const prevPage = currentPage > 1 ? currentPage - 1 : 1;
   const nextPage = currentPage < pages.length ? currentPage + 1 : pages.length;
 
-  const handlePrevClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-    onPageChange(prevPage);
-  };
-
-  const handleNextClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-    onPageChange(nextPage);
+  const isDisabled = (page: number) => {
+    return !page || page === currentPage;
   };
 
   return (
     <ul className="pagination">
       <li className={cn(
         'page-item',
-        { disabled: !prevPage || prevPage === currentPage },
+        { disabled: isDisabled(prevPage) },
       )}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={!prevPage || prevPage === currentPage}
-          onClick={handlePrevClick}
+          aria-disabled={isDisabled(prevPage)}
+          onClick={() => onPageChange(prevPage)}
         >
           «
         </a>
@@ -67,15 +61,15 @@ export const Pagination:React.FC<Props> = ({
       }
       <li className={cn(
         'page-item',
-        { disabled: !nextPage || nextPage === currentPage },
+        { disabled: isDisabled(nextPage) },
       )}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={!nextPage || nextPage === currentPage}
-          onClick={handleNextClick}
+          aria-disabled={isDisabled(nextPage)}
+          onClick={() => onPageChange(nextPage)}
         >
           »
         </a>

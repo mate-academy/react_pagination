@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -7,6 +8,8 @@ const items = getNumbers(1, 42);
 
 export const App: React.FC = () => {
   const total = items.length;
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
@@ -19,10 +22,20 @@ export const App: React.FC = () => {
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(Number(e.target.value));
     setCurrentPage(1);
+
+    searchParams.set('page', '1');
+    searchParams.set('perPage', e.target.value);
+
+    setSearchParams(searchParams);
   };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+
+    searchParams.set('page', page.toString());
+    searchParams.set('perPage', perPage.toString());
+
+    setSearchParams(searchParams);
   };
 
   return (
@@ -42,10 +55,11 @@ export const App: React.FC = () => {
             onChange={handleSelect}
             defaultValue={perPage}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            {[3, 5, 10, 20].map(option => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
           </select>
         </div>
 
