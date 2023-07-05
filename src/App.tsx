@@ -51,12 +51,13 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
+            value={perPage}
             onChange={(e) => changePerPage(+e.target.value)}
           >
-            { perPageArray.map(value => (
+            { perPageArray.map((value) => (
               <option
-                selected={value === perPage}
                 value={value}
+                key={value}
               >
                 {value}
               </option>
@@ -80,7 +81,7 @@ export const App: React.FC = () => {
 
       <ul>
         { visibleItems.map(item => (
-          <li data-cy="item">{item}</li>
+          <li data-cy="item" key={item}>{item}</li>
         ))}
       </ul>
     </div>
