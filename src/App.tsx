@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import './App.css';
+import React, { useState, useMemo, ChangeEvent } from 'react';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
+import './App.css';
 
 const numberOfItems = 42;
 
@@ -18,9 +18,14 @@ export const App: React.FC = () => {
 
   const lastItemIndex = Math.min((currentPage * perPage), numberOfItems);
 
-  const visibleItems = () => {
+  const visibleItems = useMemo(() => {
     return items.slice(firstItemIndex, lastItemIndex);
-  };
+  }, [firstItemIndex, lastItemIndex]);
+
+  function handlePerPageSelection(event: ChangeEvent<HTMLSelectElement>) {
+    setPerPage(+event.target.value);
+    setCurrentPage(1);
+  }
 
   return (
     <div className="container">
@@ -37,10 +42,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            onChange={(e) => {
-              setPerPage(+e.target.value);
-              setCurrentPage(1);
-            }}
+            onChange={handlePerPageSelection}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -61,7 +63,7 @@ export const App: React.FC = () => {
       />
 
       <ul>
-        {visibleItems().map(item => (
+        {visibleItems.map(item => (
           <li data-cy="item" key={item}>
             {item}
           </li>

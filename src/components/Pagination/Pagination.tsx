@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { useMemo } from 'react';
 
 type Props = {
   total: number,
@@ -11,11 +12,15 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
-  const arrayOfPages = [];
+  const arrayOfPages: number[] = useMemo(() => {
+    const pages = [];
 
-  for (let i = 1; i <= total; i += 1) {
-    arrayOfPages.push(i);
-  }
+    for (let i = 1; i <= total; i += 1) {
+      pages.push(i);
+    }
+
+    return pages;
+  }, [total]);
 
   function handlePageSelection(page: number) {
     if (page !== currentPage) {
