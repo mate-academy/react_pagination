@@ -22,22 +22,24 @@ export const Pagination: React.FC<Props> = ({
     }
   };
 
+  const lastPage = Math.ceil(total / perPage);
+
   const handleClickRight = () => {
-    if (currentPage !== 0) {
+    if (currentPage !== lastPage) {
       onPageChange(currentPage + 1);
     }
   };
 
   const handleClickLeft = () => {
-    if (currentPage !== Math.ceil(total / perPage) + 1) {
+    if (currentPage !== 1) {
       onPageChange(currentPage - 1);
     }
   };
 
   const leftDisabled = currentPage === 1;
-  const rightDisabled = currentPage === Math.ceil(total / perPage);
+  const rightDisabled = currentPage === lastPage;
 
-  const arrOfPages = items.slice(0, Math.ceil(total / perPage));
+  const arrOfPages = items.slice(0, lastPage);
 
   return (
     <>
@@ -56,13 +58,14 @@ export const Pagination: React.FC<Props> = ({
 
         {arrOfPages.map((page, i) => {
           return (
-            <li className={classNames('page-item',
-              { active: currentPage === i + 1 })}
+            <li
+              className={classNames('page-item',
+                { active: currentPage === i + 1 })}
+              key={page.slice(5)}
             >
               <a
                 data-cy="pageLink"
                 className="page-link"
-                key={page.slice(5)}
                 href={`#${page.slice(5)}`}
                 onClick={() => handleSelectPage(i + 1)}
               >
