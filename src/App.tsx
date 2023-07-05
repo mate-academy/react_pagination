@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import './App.css';
 import { getEdgeIndexes, getNumbers, getVisibleItems } from './utils';
 import { Pagination } from './components/Pagination';
+import { Selector } from './components/Selector';
 
 const TOTAL_PAGES = 42;
+const VALUES = [3, 5, 10, 20];
 
 const items = getNumbers(1, TOTAL_PAGES)
   .map(n => `Item ${n}`);
@@ -31,26 +33,11 @@ export const App: React.FC = () => {
         {`Page ${currentPage} (items ${firstItemIndex + 1} - ${lastItemIndex + 1} of 42)`}
       </p>
 
-      <div className="form-group row">
-        <div className="col-3 col-sm-2 col-xl-1">
-          <select
-            data-cy="perPageSelector"
-            id="perPageSelector"
-            className="form-control"
-            value={perPage}
-            onChange={perPageHandle}
-          >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-          </select>
-        </div>
-
-        <label htmlFor="perPageSelector" className="col-form-label col">
-          items per page
-        </label>
-      </div>
+      <Selector
+        values={VALUES}
+        perPage={perPage}
+        onPerPageChange={perPageHandle}
+      />
 
       {/* Move this markup to Pagination */}
       <Pagination
