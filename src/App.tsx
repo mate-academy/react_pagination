@@ -58,7 +58,6 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        items={items}
         total={items.length}
         perPage={perPage}
         currentPage={currentPage}
