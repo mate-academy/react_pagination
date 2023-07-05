@@ -44,10 +44,12 @@ export const Pagination: React.FC<Props> = ({
       </li>
 
       {pages.map(page => (
-        <li className={classNames(
-          'page-item',
-          { active: ifCur(page) },
-        )}
+        <li
+          key={page}
+          className={classNames(
+            'page-item',
+            { active: ifCur(page) },
+          )}
         >
           <a
             onClick={() => {
