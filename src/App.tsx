@@ -1,21 +1,26 @@
 import React, { useState } from 'react';
 import './App.css';
-// import { getNumbers } from './utils';
+import { getEdgeIndexes, getNumbers, getVisibleItems } from './utils';
 import { Pagination } from './components/Pagination';
 
 const TOTAL_PAGES = 42;
 
-// const items = getNumbers(1, TOTAL_PAGES)
-//   .map(n => `Item ${n}`);
+const items = getNumbers(1, TOTAL_PAGES)
+  .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  // const [perPage, setPerPage] = useState(3);
+  const [perPage, setPerPage] = useState(5);
 
-  const changePage = (page: number) => {
-    if (page !== currentPage) {
-      setCurrentPage(page);
-    }
+  const [firstItemIndex, lastItemIndex] = getEdgeIndexes(
+    TOTAL_PAGES,
+    currentPage,
+    perPage,
+  );
+
+  const perPageHandle = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setPerPage(Number(event.target.value));
+    setCurrentPage(1);
   };
 
   return (
@@ -23,7 +28,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        {`Page ${currentPage} (items ${firstItemIndex + 1} - ${lastItemIndex + 1} of 42)`}
       </p>
 
       <div className="form-group row">
@@ -32,6 +37,8 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
+            value={perPage}
+            onChange={perPageHandle}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -50,14 +57,12 @@ export const App: React.FC = () => {
         total={TOTAL_PAGES}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={changePage}
+        onPageChange={setCurrentPage}
       />
       <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
+        {getVisibleItems(items, firstItemIndex, lastItemIndex).map(item => (
+          <li data-cy="item">{item}</li>
+        ))}
       </ul>
     </div>
   );
