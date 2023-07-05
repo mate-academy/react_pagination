@@ -27,11 +27,11 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     setRenderItems(() => itemsPerPage(perPage));
-  }, [items]);
+  }, [items, perPage]);
 
   useEffect(() => {
     setQntyOfCells(() => getNumbers(1, renderItems.length));
-  }, [renderItems]);
+  }, [renderItems, perPage]);
 
   const totalItems = items.length;
 
