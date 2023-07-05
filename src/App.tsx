@@ -39,6 +39,14 @@ export const App: React.FC = () => {
     }
   };
 
+  const changeStep = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newStep: Steps = +event.target.value;
+
+    setStep(newStep);
+    setCurrentPage(DEF_PAGE_CURRENT);
+    setLastPointOnPage(newStep);
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
@@ -55,13 +63,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             defaultValue={DEF_PAGE_STEP}
-            onChange={(event) => {
-              const newStep: Steps = +event.target.value;
-
-              setStep(newStep);
-              setCurrentPage(DEF_PAGE_CURRENT);
-              setLastPointOnPage(newStep);
-            }}
+            onChange={event => changeStep(event)}
           >
             {allSteps.map((s) => <option key={s} value={s}>{s}</option>)}
           </select>
