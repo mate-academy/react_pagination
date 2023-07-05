@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 import { Select } from './components/Select';
