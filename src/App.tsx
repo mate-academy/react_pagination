@@ -11,6 +11,9 @@ export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [page, setPage] = useState(1);
   const startItem = (page - 1) * perPage;
+  const endItem = startItem + perPage > items.length
+    ? items.length
+    : startItem + perPage;
 
   function hanlePerPage(newPerPage: number) {
     setPage(1);
@@ -22,7 +25,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${page} (items 1 - ${perPage} of 42)`}
+        {`Page ${page} (items ${startItem + 1} - ${endItem} of 42)`}
       </p>
 
       <div className="form-group row">
@@ -32,6 +35,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             onChange={(event) => hanlePerPage(+event.target.value)}
+            defaultValue={5}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -52,7 +56,7 @@ export const App: React.FC = () => {
         onPageChange={(number: number) => setPage(number)}
       />
       <ul>
-        {items.slice(startItem, startItem + perPage).map(item => (
+        {items.slice(startItem, endItem).map(item => (
           <li data-cy="item" key={item}>
             {item}
           </li>

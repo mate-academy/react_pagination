@@ -15,10 +15,25 @@ export const Pagination: React.FC<Props> = ({
   onPageChange,
 }) => {
   const numberOfPages = Math.ceil(total / perPage);
-  const pages: number[] = [];
+  const pageNumbers: number[] = [];
 
   for (let i = 0; i < numberOfPages; i += 1) {
-    pages.push(i + 1);
+    pageNumbers.push(i + 1);
+  }
+
+  function handleMoveButtons(
+    currentPageNumber: number,
+    isPrevButtons: boolean,
+  ) {
+    if (isPrevButtons && currentPageNumber > 1) {
+      return onPageChange(currentPageNumber - 1);
+    }
+
+    if (!isPrevButtons && currentPageNumber < numberOfPages) {
+      return onPageChange(currentPageNumber + 1);
+    }
+
+    return 0;
   }
 
   const prevButton = (
@@ -30,8 +45,8 @@ export const Pagination: React.FC<Props> = ({
         data-cy="prevLink"
         className="page-link"
         href="#prev"
-        aria-disabled="true"
-        onClick={() => onPageChange(currentPage - 1)}
+        aria-disabled={currentPage === 1}
+        onClick={() => handleMoveButtons(currentPage, true)}
       >
         «
       </a>
@@ -47,8 +62,8 @@ export const Pagination: React.FC<Props> = ({
         data-cy="nextLink"
         className="page-link"
         href="#next"
-        aria-disabled="false"
-        onClick={() => onPageChange(currentPage + 1)}
+        aria-disabled={currentPage === numberOfPages}
+        onClick={() => handleMoveButtons(currentPage, false)}
       >
         »
       </a>
@@ -58,7 +73,7 @@ export const Pagination: React.FC<Props> = ({
   return (
     <ul className="pagination">
       {prevButton}
-      {pages.map(pageNum => (
+      {pageNumbers.map(pageNum => (
         <li
           className={cn('page-item', {
             active: pageNum === currentPage,
