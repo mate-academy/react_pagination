@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import './App.css';
-import { getEdgeIndexes, getNumbers, getVisibleItems } from './utils';
+import { getEdgeIndexes, getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 import { Selector } from './components/Selector';
+import { ItemsList } from './components/ItemsList/ItemsList';
 
 const TOTAL_PAGES = 42;
 const VALUES = [3, 5, 10, 20];
@@ -46,11 +47,11 @@ export const App: React.FC = () => {
         currentPage={currentPage}
         onPageChange={setCurrentPage}
       />
-      <ul>
-        {getVisibleItems(items, firstItemIndex, lastItemIndex).map(item => (
-          <li data-cy="item">{item}</li>
-        ))}
-      </ul>
+      <ItemsList
+        items={items}
+        firstElementIndex={firstItemIndex}
+        lastElementIndex={lastItemIndex}
+      />
     </div>
   );
 };
