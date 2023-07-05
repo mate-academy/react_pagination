@@ -1,4 +1,5 @@
 import cn from 'classnames';
+import React from 'react';
 
 interface Props {
   total: number,
@@ -14,7 +15,7 @@ export const Pagination: React.FC<Props> = ({
   onPageChange,
 }) => {
   const numberOfPages = Math.ceil(total / perPage);
-  const pages = [];
+  const pages: number[] = [];
 
   for (let i = 0; i < numberOfPages; i += 1) {
     pages.push(i + 1);
@@ -46,7 +47,7 @@ export const Pagination: React.FC<Props> = ({
         data-cy="nextLink"
         className="page-link"
         href="#next"
-        aria-disabled="true"
+        aria-disabled="false"
         onClick={() => onPageChange(currentPage + 1)}
       >
         »

@@ -8,7 +8,7 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [perPage, setPerPage] = useState(3);
+  const [perPage, setPerPage] = useState(5);
   const [page, setPage] = useState(1);
   const startItem = (page - 1) * perPage;
 
@@ -22,7 +22,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page 1 (items 1 - ${perPage} of 42)`}
+        {`Page ${page} (items 1 - ${perPage} of 42)`}
       </p>
 
       <div className="form-group row">
