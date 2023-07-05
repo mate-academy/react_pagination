@@ -1,3 +1,4 @@
+//  eslint-disable-next-line
 export function getNumbers(from: number, to: number): number[] {
   const numbers = [];
 
