@@ -1,36 +1,39 @@
 import cn from 'classnames';
 
-import { getNumbers } from '../../utils';
-
 type Props = {
+  total: Array<string>[],
+  qntyOfCells: number[]
   currentPage: number,
-  itemsToDisplay: Array<string>[],
   onPageChange: (page: number) => void,
 };
 
 export const Pagination = ({
   currentPage,
-  itemsToDisplay,
+  qntyOfCells,
+  total,
   onPageChange,
 }: Props) => {
-  const qntyOfCells = getNumbers(1, itemsToDisplay.length);
   const leftArrowDisable = currentPage === 1;
-  const rightArrowDisable = currentPage === itemsToDisplay.length;
+  const rightArrowDisable = currentPage === total.length;
+
+  const handleLeftArrow = () => {
+    return currentPage > 1
+      ? onPageChange(currentPage - 1)
+      : null;
+  };
+
+  const handleRightArrow = () => {
+    return currentPage < total.length
+      ? onPageChange(currentPage + 1)
+      : null;
+  };
 
   const handleCellClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    const leftRightArrow = event.currentTarget.getAttribute('href');
-
-    if (leftRightArrow === '#prev') {
-      return onPageChange(currentPage - 1);
-    }
-
-    if (leftRightArrow === '#next') {
-      return onPageChange(currentPage + 1);
-    }
-
     const cellValue = +event.currentTarget.innerText;
 
-    return cellValue !== currentPage && onPageChange(cellValue);
+    return cellValue !== currentPage
+      ? onPageChange(cellValue)
+      : null;
   };
 
   return (
@@ -47,7 +50,7 @@ export const Pagination = ({
             className="page-link"
             href="#prev"
             aria-disabled={leftArrowDisable}
-            onClick={handleCellClick}
+            onClick={handleLeftArrow}
           >
             «
           </a>
@@ -81,15 +84,15 @@ export const Pagination = ({
             className="page-link"
             href="#next"
             aria-disabled={rightArrowDisable}
-            onClick={handleCellClick}
+            onClick={handleRightArrow}
           >
             »
           </a>
         </li>
       </ul>
-      {itemsToDisplay[currentPage - 1] !== undefined && (
+      {total[currentPage - 1] !== undefined && (
         <ul>
-          {itemsToDisplay[currentPage - 1].map(item => (
+          {total[currentPage - 1].map(item => (
             <li
               data-cy="item"
               key={item}

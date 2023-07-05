@@ -1,12 +1,12 @@
 type Props = {
+  selectOptions: number[],
   selectValue: number,
   setOptionPage: (value: number) => void,
   resetPage: (page: number) => void,
 };
 
-const selectOptions = [3, 5, 10, 20];
-
 export const Select: React.FC<Props> = ({
+  selectOptions,
   selectValue,
   setOptionPage,
   resetPage,
