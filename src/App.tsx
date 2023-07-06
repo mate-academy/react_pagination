@@ -29,7 +29,7 @@ export const App: React.FC<Props> = () => {
   const perPageHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(+event.target.value);
     setCurrentPage(1);
-  }
+  };
 
   return (
     <div className="container">
