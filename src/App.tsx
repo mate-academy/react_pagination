@@ -72,8 +72,7 @@ export const App: React.FC<Props> = () => {
       <ul>
         {partOfItems.map(item => (
           <li data-cy="item" key={item}>
-            Item
-            {item}
+            {`Item ${item}`}
           </li>
         ))}
       </ul>
