@@ -24,7 +24,7 @@ export const Pagination: React.FC<Props> = ({
     }
 
     onPageChange(page);
-  }
+  };
 
   const nextButtonHandler = (page: number) => {
     if (page > total) {
@@ -32,7 +32,7 @@ export const Pagination: React.FC<Props> = ({
     }
 
     onPageChange(page);
-  }
+  };
 
   return (
     <ul className="pagination">
