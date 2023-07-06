@@ -8,18 +8,14 @@ const items: string[] = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 function getPartOfItems(page: number, count: number): number[] {
-  const partOfItems: number[] = [];
-  let currentPage: number = page;
+  const start = (page - 1) * count + 1;
+  let end = (page - 1) * count + count;
 
-  while (page % count !== 0) {
-    currentPage -= 1;
+  if (end > items.length) {
+    end = items.length;
   }
 
-  for (let i = currentPage + 1; i <= currentPage + 1 + count; i += 1) {
-    partOfItems.push(i);
-  }
-
-  return partOfItems;
+  return getNumbers(start, end);
 }
 
 type Props = {};
@@ -83,7 +79,7 @@ export const App: React.FC<Props> = () => {
 
       <ul>
         {partOfItems.map(item => (
-          <li data-cy="item">
+          <li data-cy="item" key={item}>
             Item
             {item}
           </li>
