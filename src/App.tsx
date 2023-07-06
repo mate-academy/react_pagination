@@ -31,22 +31,14 @@ export const App: React.FC<Props> = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page
-        {' '}
-        {currentPage}
-        {' '}
-        (items
-        {' '}
-        {partOfItems[0]}
-        {' '}
-        -
-        {' '}
-        {partOfItems[partOfItems.length - 1]}
-        {' '}
-        of
-        {' '}
-        {items.length}
-        )
+        {
+          `
+            Page ${currentPage} 
+            (items ${partOfItems[0]} - 
+            ${partOfItems[partOfItems.length - 1]} 
+            of ${items.length})
+          `
+        }
       </p>
 
       <div className="form-group row">
