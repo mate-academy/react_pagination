@@ -17,27 +17,27 @@ export const Pagination: React.FC<Props> = ({
 }) => {
   const pagesNumber = Math.ceil(total / perPage);
   const pages = getNumbers(1, pagesNumber);
-  const ifFirst = () => currentPage === 1;
-  const ifCur = (thisPage: number) => currentPage === thisPage;
-  const ifLast = () => currentPage === pagesNumber;
+  const isFirst = currentPage === 1;
+  const isCur = (thisPage: number) => currentPage === thisPage;
+  const isLast = currentPage === pagesNumber;
 
   return (
     <ul className="pagination">
       <li className={classNames(
         'page-item',
-        { disabled: ifFirst() },
+        { disabled: isFirst },
       )}
       >
         <a
           onClick={() => {
-            if (!ifFirst()) {
+            if (!isFirst) {
               onPageChange(currentPage - 1);
             }
           }}
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={ifFirst()}
+          aria-disabled={isFirst}
         >
           «
         </a>
@@ -48,12 +48,12 @@ export const Pagination: React.FC<Props> = ({
           key={page}
           className={classNames(
             'page-item',
-            { active: ifCur(page) },
+            { active: isCur(page) },
           )}
         >
           <a
             onClick={() => {
-              if (!ifCur(page)) {
+              if (!isCur(page)) {
                 onPageChange(page);
               }
             }}
@@ -68,12 +68,12 @@ export const Pagination: React.FC<Props> = ({
 
       <li className={classNames(
         'page-item',
-        { disabled: ifLast() },
+        { disabled: isLast },
       )}
       >
         <a
           onClick={() => {
-            if (!ifLast()) {
+            if (!isLast) {
               onPageChange(currentPage + 1);
             }
           }}

@@ -8,8 +8,26 @@ import { Pagination } from './components/Pagination';
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
+const total = 42;
+
+type Props = {
+  pagesPerPage: string[],
+};
+
+const List: React.FC<Props> = ({ pagesPerPage }) => (
+  <ul>
+    {pagesPerPage.map(item => (
+      <li
+        data-cy="item"
+        key={item}
+      >
+        {item}
+      </li>
+    ))}
+  </ul>
+);
+
 export const App: React.FC = () => {
-  const total = 42;
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const startValue = perPage * currentPage - (perPage - 1);
@@ -58,16 +76,7 @@ export const App: React.FC = () => {
         }}
       />
 
-      <ul>
-        {pagesPerPage.map(item => (
-          <li
-            data-cy="item"
-            key={item}
-          >
-            {item}
-          </li>
-        ))}
-      </ul>
+      <List pagesPerPage={pagesPerPage} />
     </div>
   );
 };
