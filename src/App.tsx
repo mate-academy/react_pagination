@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
-import { getNumbers } from './utils';
 import cn from 'classnames';
+import { getNumbers } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
@@ -22,19 +22,27 @@ export const App: React.FC = () => {
   const amountOfPages = calculateTotalPages(itemsOnPage);
 
   function createContent() {
-    const content = items.slice(startValue - 1, endValue);
+    return items.slice(startValue - 1, endValue);
+  }
 
-    return content;
+  function changePages(event: React.ChangeEvent<HTMLSelectElement>) {
+    setitemsOnPage(+event.target.value);
+    setActivePage(1);
+    setEndvalue(+event.target.value);
+    setStartValue(1);
   }
 
   const currentContent = createContent();
+
+  const currentFromValue = currentContent[0];
+  const currentToValue = currentContent[currentContent.length - 1];
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 5 (items 1 - 5 of 42)
+        {`Page ${activePage} (items ${currentFromValue} - ${currentToValue} of 42)`}
       </p>
 
       <div className="form-group row">
@@ -43,9 +51,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            onChange={(
-              event: React.ChangeEvent<HTMLSelectElement>,
-            ) => setitemsOnPage(+event.target.value)}
+            onChange={changePages}
             value={itemsOnPage}
           >
             <option value="3">3</option>
@@ -61,12 +67,21 @@ export const App: React.FC = () => {
       </div>
 
       <ul className="pagination">
-        <li className="page-item disabled">
+        <li className={cn('page-item', { disabled: activePage === 1 })}>
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled="true"
+            aria-disabled={activePage !== 1
+              ? 'false'
+              : 'true'}
+            onClick={() => {
+              if (activePage !== 1) {
+                setActivePage(activePage - 1);
+                setStartValue((activePage - 1) * itemsOnPage - itemsOnPage + 1);
+                setEndvalue((activePage - 1) * itemsOnPage);
+              }
+            }}
           >
             «
           </a>
@@ -91,19 +106,31 @@ export const App: React.FC = () => {
           </li>
         ))}
 
-        <li className="page-item">
+        <li className={cn('page-item', {
+          disabled: activePage === amountOfPages.length,
+        })}
+        >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled="false"
+            aria-disabled={activePage !== amountOfPages.length
+              ? 'false'
+              : 'true'}
+            onClick={() => {
+              if (activePage !== amountOfPages.length) {
+                setActivePage(activePage + 1);
+                setStartValue((activePage + 1) * itemsOnPage - itemsOnPage + 1);
+                setEndvalue((activePage + 1) * itemsOnPage);
+              }
+            }}
           >
             »
           </a>
         </li>
       </ul>
       <ul>
-        {currentContent.map(item =>(
+        {currentContent.map(item => (
           <li
             data-cy="item"
             key={item}
