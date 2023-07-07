@@ -17,14 +17,29 @@ export const Pagination: React.FC<PaginationProps> = ({
   const pageNumbers = Array.from({ length: totalPages },
     (_, index) => index + 1);
 
+  const handlePrevPage = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    if (currentPage < totalPages) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
   return (
     <ul className="pagination">
-      <li className="page-item disabled">
+      <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled="true"
+          onClick={handlePrevPage}
+          aria-disabled={currentPage === 1}
         >
           «
         </a>
@@ -46,12 +61,13 @@ export const Pagination: React.FC<PaginationProps> = ({
         </li>
       ))}
 
-      <li className="page-item">
+      <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled="false"
+          onClick={handleNextPage}
+          aria-disabled={currentPage === totalPages}
         >
           »
         </a>
