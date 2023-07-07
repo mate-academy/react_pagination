@@ -8,15 +8,12 @@ interface Props {
   onPageChange: (value: React.SetStateAction<number>) => void,
 }
 
-export const Pagination: React.FC<Props> = (
-  {
-    total,
-    perPage,
-    currentPage,
-    onPageChange,
-  },
-
-) => {
+export const Pagination: React.FC<Props> = ({
+  total,
+  perPage,
+  currentPage,
+  onPageChange,
+}) => {
   const numberOfPages = Math.ceil(total / perPage);
   const pages = getNumbers(1, numberOfPages);
 
@@ -28,9 +25,7 @@ export const Pagination: React.FC<Props> = (
       return;
     }
 
-    onPageChange(
-      (prevState) => prevState - 1,
-    );
+    onPageChange((prevState) => prevState - 1);
   };
 
   const handleMoveToNextPage = () => {
@@ -38,9 +33,7 @@ export const Pagination: React.FC<Props> = (
       return;
     }
 
-    onPageChange(
-      (prevState) => prevState + 1,
-    );
+    onPageChange((prevState) => prevState + 1);
   };
 
   return (
@@ -54,7 +47,7 @@ export const Pagination: React.FC<Props> = (
           className="page-link"
           href="#prev"
           aria-disabled={isFirstPage}
-          onClick={() => handleMoveToPreviousPage()}
+          onClick={handleMoveToPreviousPage}
         >
           «
         </a>
@@ -90,7 +83,7 @@ export const Pagination: React.FC<Props> = (
           className="page-link"
           href="#next"
           aria-disabled={isLastPage}
-          onClick={() => handleMoveToNextPage()}
+          onClick={handleMoveToNextPage}
         >
           »
         </a>
