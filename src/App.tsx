@@ -15,6 +15,11 @@ export const App: React.FC = () => {
     setCurrentPage(page);
   };
 
+  const hendleChangeOption = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setQuantityItem(+event.target.value);
+    setCurrentPage(1);
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
@@ -30,10 +35,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={quantityItem}
-            onChange={(event) => {
-              setQuantityItem(+event.target.value);
-              setCurrentPage(1);
-            }}
+            onChange={(event) => hendleChangeOption(event)}
           >
             <option value="3">3</option>
             <option value="5">5</option>
