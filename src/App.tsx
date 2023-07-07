@@ -59,12 +59,17 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        currentItems={currentItems}
-        totalItems={items}
+        totalItems={items.length}
         currentPage={currentPage}
         onPageChange={onPageChange}
         itemPerPage={itemsPerPage}
       />
+
+      <ul>
+        {currentItems.map(item => (
+          <li data-cy="item" key={item}>{item}</li>
+        ))}
+      </ul>
     </div>
   );
 };

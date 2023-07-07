@@ -2,8 +2,7 @@ import classNames from 'classnames';
 import { getNumbers } from '../../utils';
 
 type Props = {
-  totalItems: string[];
-  currentItems: string[];
+  totalItems: number;
   currentPage: number;
   onPageChange: (page: number) => void;
   itemPerPage: number;
@@ -14,9 +13,8 @@ export const Pagination: React.FC<Props> = ({
   itemPerPage,
   onPageChange,
   currentPage,
-  currentItems,
 }) => {
-  const totalPages = Math.ceil(totalItems.length / +itemPerPage);
+  const totalPages = Math.ceil(totalItems / +itemPerPage);
   const pageNumbers = getNumbers(1, totalPages);
 
   return (
@@ -66,12 +64,6 @@ export const Pagination: React.FC<Props> = ({
             </a>
           </li>
         </>
-      </ul>
-
-      <ul>
-        {currentItems.map(item => (
-          <li data-cy="item" key={item}>{item}</li>
-        ))}
       </ul>
     </>
   );
