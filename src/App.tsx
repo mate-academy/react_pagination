@@ -1,5 +1,4 @@
-import React from 'react';
-import { useSearchParams } from 'react-router-dom';
+import React, { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -9,74 +8,33 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  // const [totalItems] = useState<string[]>(items);
-  // const [itemsPerPage, setItemsPerPage] = useState(5);
-  // const [currentPage, setCurrentPage] = useState(0);
-  const [isSearchParams, setSearchParams] = useSearchParams();
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(0);
 
-  const page = Number(isSearchParams.get('page'));
-  const perPage = Number(isSearchParams.get('perPage') || 5);
+  const firstItem = itemsPerPage * currentPage;
 
-  const getSearchWith = (
-    searchParams: URLSearchParams,
-    params: { [key: string]: string[] | string | null },
-  ) => {
-    Object.entries(params).forEach(([key, value]) => {
-      if (value === null) {
-        searchParams.delete(key);
-      } else if (Array.isArray(value)) {
-        searchParams.delete(key);
-
-        value.forEach(el => {
-          searchParams.append(key, el);
-        });
-      } else {
-        searchParams.set(key, value);
-      }
-    });
-
-    return searchParams.toString();
-  };
-
-  // const firstItem = itemsPerPage * currentPage;
-  const firstItem = perPage * page;
-  // const lastItem = Math.min(
-  //   (currentPage + 1) * itemsPerPage,
-  //   totalItems.length,
-  // );
   const lastItem = Math.min(
-    (page + 1) * perPage,
+    (currentPage + 1) * itemsPerPage,
     items.length,
   );
 
   const currentItems = items.slice(firstItem, lastItem);
 
-  const onPageChange = ((currPage: number) => {
-    // setCurrentPage(currPage);
-    setSearchParams(
-      getSearchWith(isSearchParams, { page: currPage.toString() || null }),
-    );
+  const onPageChange = ((page: number) => {
+    setCurrentPage(page);
   });
 
-  const changeItemPerPage = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    // updateSearchParams({ perPage: e.target.value || null });
-    // setItemsPerPage(+e.target.value);
-    // setCurrentPage(0);
-    setSearchParams(
-      getSearchWith(isSearchParams, {
-        perPage: e.target.value || null,
-        page: '0',
-      }),
-    );
-    // updateSearchParams({ page: 0 || null });
-  };
+  const changeItemPerPage = ((e: React.ChangeEvent<HTMLSelectElement>) => {
+    setItemsPerPage(+e.target.value);
+    setCurrentPage(0);
+  });
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${page + 1} (items ${(firstItem) + 1} - ${lastItem} of ${items.length})`}
+        {`Page ${currentPage + 1} (items ${(firstItem) + 1} - ${lastItem} of ${items.length})`}
       </p>
 
       <div className="form-group row">
@@ -85,7 +43,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            value={perPage}
+            value={itemsPerPage}
             onChange={changeItemPerPage}
           >
             <option value="3">3</option>
@@ -103,9 +61,9 @@ export const App: React.FC = () => {
       <Pagination
         currentItems={currentItems}
         totalItems={items}
-        currentPage={page}
+        currentPage={currentPage}
         onPageChange={onPageChange}
-        itemPerPage={perPage}
+        itemPerPage={itemsPerPage}
       />
     </div>
   );

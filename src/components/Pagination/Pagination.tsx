@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import { Link, useLocation } from 'react-router-dom';
 import { getNumbers } from '../../utils';
 
 type Props = {
@@ -17,7 +16,6 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   currentItems,
 }) => {
-  const location = useLocation();
   const totalPages = Math.ceil(totalItems.length / +itemPerPage);
   const pageNumbers = getNumbers(1, totalPages);
 
@@ -28,15 +26,15 @@ export const Pagination: React.FC<Props> = ({
           <li className={classNames('page-item',
             { disabled: currentPage <= 0 })}
           >
-            <Link
+            <a
               data-cy="prevLink"
               className="page-link"
-              to={{ pathname: '/prev' }}
+              href="#prev"
               aria-disabled={currentPage <= 0}
               onClick={() => onPageChange(currentPage - 1)}
             >
               «
-            </Link>
+            </a>
           </li>
           {pageNumbers.map(number => (
             <li
@@ -44,28 +42,28 @@ export const Pagination: React.FC<Props> = ({
               className={classNames('page-item',
                 { active: currentPage === (number - 1) })}
             >
-              <Link
+              <a
                 data-cy="pageLink"
                 className="page-link"
-                to={{ pathname: `/${number + 1}`, search: location.search }}
+                href={`#${number}`}
                 onClick={() => onPageChange(number - 1)}
               >
                 {number}
-              </Link>
+              </a>
             </li>
           ))}
           <li className={classNames('page-item',
             { disabled: currentPage >= totalPages - 1 })}
           >
-            <Link
+            <a
               data-cy="nextLink"
               className="page-link"
-              to="next"
+              href="#next"
               aria-disabled={currentPage >= totalPages - 1}
               onClick={() => onPageChange(currentPage + 1)}
             >
               »
-            </Link>
+            </a>
           </li>
         </>
       </ul>
