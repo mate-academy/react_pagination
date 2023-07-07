@@ -5,14 +5,14 @@ type Props = {
   total: number,
   perPage: number,
   currentPage: number
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>
+  onPageChange: (page: number) => void
 };
 
 export const Pagination = ({
   total,
   perPage,
   currentPage,
-  setCurrentPage,
+  onPageChange,
 }: Props) => {
   const countPage = Math.ceil(total / perPage);
 
@@ -23,8 +23,8 @@ export const Pagination = ({
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage <= 1 ? 'true' : 'false'}
-          onClick={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
+          aria-disabled={currentPage <= 1}
+          onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
         >
           «
         </a>
@@ -41,7 +41,8 @@ export const Pagination = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${numberPage}`}
-            onClick={() => setCurrentPage(numberPage)}
+            onClick={() => numberPage !== currentPage
+              && onPageChange(numberPage)}
           >
             {numberPage}
           </a>
@@ -56,9 +57,9 @@ export const Pagination = ({
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === countPage ? 'true' : 'false'}
+          aria-disabled={currentPage === countPage}
           onClick={() => currentPage !== countPage
-            && setCurrentPage(currentPage + 1)}
+            && onPageChange(currentPage + 1)}
         >
           »
         </a>

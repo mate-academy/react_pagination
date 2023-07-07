@@ -11,6 +11,7 @@ export const App: React.FC = () => {
   const itemEnd = itemStart + perPage - 1 <= total
     ? itemStart + perPage - 1
     : total;
+  const optionValues = [3, 5, 10, 20];
 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setPerPage(+event.target.value);
@@ -34,10 +35,9 @@ export const App: React.FC = () => {
             value={perPage}
             onChange={handleSelectChange}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            {optionValues.map(value => (
+              <option key={value} value={value}>{value}</option>
+            ))}
           </select>
         </div>
 
@@ -50,7 +50,7 @@ export const App: React.FC = () => {
         total={total}
         perPage={perPage}
         currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
+        onPageChange={setCurrentPage}
       />
 
       <ul>
