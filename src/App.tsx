@@ -20,6 +20,8 @@ export const App: React.FC = () => {
     return lastItemFinde;
   };
 
+  const options = [3, 5, 10, 20];
+
   function changePages(event: React.ChangeEvent<HTMLSelectElement>) {
     setItemsPerPage(+event.target.value);
     setSelectedPage(1);
@@ -42,10 +44,9 @@ export const App: React.FC = () => {
             onChange={changePages}
             value={itemsPerPage}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            {options.map(option => (
+              <option key={option} value={option}>{option}</option>
+            ))}
           </select>
         </div>
 

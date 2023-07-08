@@ -1,5 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
+import { getNumbers } from '../../utils';
 
 type Props = {
   pagesCount: number
@@ -17,14 +18,12 @@ export const Pagination: React.FC<Props> = ({
   lastItem,
 }) => {
   const totalPages = [];
-  const itemsOnPage = [];
+  const itemsOnPage = getNumbers(firstItem, lastItem);
+  const nextIsDisabled = selectedPage === pagesCount;
+  const prevIsDisabled = selectedPage === 1;
 
   for (let i = 1; i <= pagesCount; i += 1) {
     totalPages.push(i);
-  }
-
-  for (let i = firstItem; i <= lastItem; i += 1) {
-    itemsOnPage.push(i);
   }
 
   const previosPage = () => {
@@ -42,13 +41,13 @@ export const Pagination: React.FC<Props> = ({
   return (
     <>
       <ul className="pagination">
-        <li className={cn('page-item', { disabled: selectedPage === 1 })}>
+        <li className={cn('page-item', { disabled: prevIsDisabled })}>
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled={selectedPage === 1}
-            onClick={() => previosPage()}
+            aria-disabled={prevIsDisabled}
+            onClick={previosPage}
           >
             «
           </a>
@@ -70,14 +69,14 @@ export const Pagination: React.FC<Props> = ({
         ))}
 
         <li
-          className={cn('page-item', { disabled: selectedPage === pagesCount })}
+          className={cn('page-item', { disabled: nextIsDisabled })}
         >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={selectedPage === pagesCount}
-            onClick={() => nextPage()}
+            aria-disabled={nextIsDisabled}
+            onClick={nextPage}
           >
             »
           </a>
