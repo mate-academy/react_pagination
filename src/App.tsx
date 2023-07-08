@@ -1,15 +1,13 @@
 import { useState } from 'react';
-import { getNumbers } from './utils';
+import { getNumbers, pagination, selectValues } from './utils';
 import { Pagination } from './components/Pagination';
 import './App.css';
 
 const items = getNumbers(1, 42);
 
-const selectValues = [3, 5, 10, 20];
-
 export const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(pagination.page);
+  const [itemsPerPage, setItemsPerPage] = useState(pagination.items);
 
   const totalItems = items.length;
   const firstItem = itemsPerPage * (currentPage - 1) + 1;
@@ -42,12 +40,12 @@ export const App: React.FC = () => {
             value={itemsPerPage}
             onChange={handleChangeSelect}
           >
-            {selectValues.map((value: number) => (
+            {Object.keys(selectValues).map((key) => (
               <option
-                key={value}
-                value={value}
+                key={key}
+                value={selectValues[key]}
               >
-                {value}
+                {selectValues[key]}
               </option>
             ))}
           </select>
