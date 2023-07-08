@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 interface PaginationProps {
   total: number;
@@ -8,7 +9,7 @@ interface PaginationProps {
 }
 
 export const Pagination: React.FC<PaginationProps> = ({
-  total = 42,
+  total,
   currentPage,
   perPage,
   onPageChange,
@@ -33,7 +34,7 @@ export const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <ul className="pagination">
-      <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+      <li className={classNames('page-item', { disabled: currentPage === 1 })}>
         <a
           data-cy="prevLink"
           className="page-link"
@@ -48,7 +49,8 @@ export const Pagination: React.FC<PaginationProps> = ({
       {pageNumbers.map((pageNumber) => (
         <li
           key={pageNumber}
-          className={`page-item ${pageNumber === currentPage ? 'active' : ''}`}
+          className={classNames('page-item',
+            { active: pageNumber === currentPage })}
         >
           <a
             data-cy="pageLink"
@@ -61,7 +63,9 @@ export const Pagination: React.FC<PaginationProps> = ({
         </li>
       ))}
 
-      <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+      <li className={classNames('page-item',
+        { disabled: currentPage === totalPages })}
+      >
         <a
           data-cy="nextLink"
           className="page-link"
