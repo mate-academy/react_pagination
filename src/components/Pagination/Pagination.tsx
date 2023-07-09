@@ -17,9 +17,7 @@ export const Pagination: React.FC<Props> = ({
   const totalPages = Math.ceil(total / perPage);
 
   const handlePageChange = (page: number) => {
-    if (onPageChange) {
-      onPageChange(page);
-    }
+    onPageChange(page);
   };
 
   const handlePrevPage = () => {
