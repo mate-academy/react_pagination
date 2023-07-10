@@ -1,53 +1,51 @@
 import cn from 'classnames';
 import { getNumbers } from '../../utils';
 
-type PaginationType = {
+type Props = {
   total: number,
   perPage: number,
   currentPage: number,
-  onPageChange: (arg0: number) => void,
+  onPageChange: (page: number) => void,
 };
 
-export const Pagination: React.FC<PaginationType> = ({
+export const Pagination: React.FC<Props> = ({
   total,
   perPage,
   currentPage,
   onPageChange,
 }) => {
-  const NUMBER_OF_PAGES = Math.ceil(total / perPage);
-  const IF_CURRENT_PAGE_IS_FIRST = currentPage === 1;
-  const IF_CURRENT_PAGE_IS_LAST = currentPage === NUMBER_OF_PAGES;
+  const numbersOfPages = Math.ceil(total / perPage);
+  const isCurrentPageFirst = currentPage === 1;
+  const isCurrentPageLast = currentPage === numbersOfPages;
 
-  const ifPageChange = (page: number) => {
+  const handlePageChange = (page: number) => {
     if (
       page !== currentPage
       && page > 0
-      && page <= NUMBER_OF_PAGES
+      && page <= numbersOfPages
     ) {
-      return onPageChange(page);
+      onPageChange(page);
     }
-
-    return undefined;
   };
 
   return (
     <ul className="pagination">
       <li className={cn('page-item', {
-        disabled: IF_CURRENT_PAGE_IS_FIRST,
+        disabled: isCurrentPageFirst,
       })}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={IF_CURRENT_PAGE_IS_FIRST}
-          onClick={() => ifPageChange(currentPage - 1)}
+          aria-disabled={isCurrentPageFirst}
+          onClick={() => handlePageChange(currentPage - 1)}
         >
           «
         </a>
       </li>
 
-      {getNumbers(1, NUMBER_OF_PAGES).map(page => (
+      {getNumbers(1, numbersOfPages).map(page => (
         <li
           className={cn('page-item', {
             active: page === currentPage,
@@ -58,7 +56,7 @@ export const Pagination: React.FC<PaginationType> = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${page}`}
-            onClick={() => ifPageChange(page)}
+            onClick={() => handlePageChange(page)}
           >
             {page}
           </a>
@@ -67,15 +65,15 @@ export const Pagination: React.FC<PaginationType> = ({
 
       <li
         className={cn('page-item', {
-          disabled: IF_CURRENT_PAGE_IS_LAST,
+          disabled: isCurrentPageLast,
         })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={IF_CURRENT_PAGE_IS_LAST}
-          onClick={() => ifPageChange(currentPage + 1)}
+          aria-disabled={isCurrentPageLast}
+          onClick={() => handlePageChange(currentPage + 1)}
         >
           »
         </a>
