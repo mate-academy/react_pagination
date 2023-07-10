@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import { getNumbers, getVisisibleItems } from './utils';
+import { getNumbers, getVisibleItems } from './utils';
 import { Pagination } from './components/Pagination';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -22,7 +22,7 @@ export const App: React.FC = () => {
     setCurrentPage(1);
   };
 
-  const visibleItems = getVisisibleItems(
+  const visibleItems = getVisibleItems(
     itemsPerPage,
     currentPage,
     items.length,
@@ -73,6 +73,7 @@ export const App: React.FC = () => {
         {visibleItems.map(item => (
           <li
             data-cy="item"
+            key={item}
           >
             {item}
           </li>

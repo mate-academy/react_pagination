@@ -8,15 +8,14 @@ export function getNumbers(from: number, to: number): number[] {
   return numbers;
 }
 
-export const getVisisibleItems = (
+export const getVisibleItems = (
   itemsPerPage: number,
   currentPage: number,
   total: number,
 ) => {
   const lastVisibleItem = currentPage * itemsPerPage;
+  const indexFrom = lastVisibleItem - itemsPerPage + 1;
+  const indexTo = lastVisibleItem > total ? total : lastVisibleItem;
 
-  return getNumbers(
-    lastVisibleItem - itemsPerPage + 1,
-    (lastVisibleItem > total ? total : lastVisibleItem),
-  ).map(n => `Item ${n}`);
+  return getNumbers(indexFrom, indexTo).map(number => `Item ${number}`);
 };
