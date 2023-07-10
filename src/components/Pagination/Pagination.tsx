@@ -51,8 +51,7 @@ export const Pagination: React.FC<Props> = ({
           key={`page-${pageIndex + 1}`}
           className={cn(
             'page-item',
-            // eslint-disable-next-line quote-props
-            { 'active': currentPage === pageIndex + 1 },
+            { active: currentPage === pageIndex + 1 },
           )}
         >
           <a
@@ -68,8 +67,7 @@ export const Pagination: React.FC<Props> = ({
 
       <li className={cn(
         'page-item',
-        // eslint-disable-next-line quote-props
-        { 'disabled': currentPage === totalPages },
+        { disabled: currentPage === totalPages },
       )}
       >
         <a
