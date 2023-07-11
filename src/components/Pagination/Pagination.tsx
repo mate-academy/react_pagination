@@ -39,18 +39,14 @@ export const Pagination: React.FC<Props> = ({
 
   const setPrevPage = () => {
     if (!isFirstPage) {
-      return onPageChange(currentPage - 1);
+      onPageChange(currentPage - 1);
     }
-
-    return () => {};
   };
 
   const setNextPage = () => {
     if (!isLastPage) {
-      return onPageChange(currentPage + 1);
+      onPageChange(currentPage + 1);
     }
-
-    return () => {};
   };
 
   return (

@@ -15,7 +15,7 @@ function getIndexes(
   start: number,
   end: number,
 ): string[] {
-  return [...array].slice(start, end);
+  return array.slice(start, end);
 }
 
 export const App: React.FC = () => {
