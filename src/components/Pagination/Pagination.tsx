@@ -35,7 +35,7 @@ export const Pagination: React.FC<Props> = ({
     ));
 
   const isFirstPage = currentPage === 1;
-  const isLastPage = currentPage === 9;
+  const isLastPage = currentPage === Math.ceil(total / perPage);
 
   const setPrevPage = () => {
     if (!isFirstPage) {
