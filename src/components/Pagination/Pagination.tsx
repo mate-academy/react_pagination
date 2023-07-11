@@ -8,7 +8,6 @@ type Props = {
   perPage: number,
   currentPage: number,
   onPageChange: (page: number | Callback) => void,
-  currentItems: string[]
 };
 
 export const Pagination: React.FC<Props> = ({
@@ -16,7 +15,6 @@ export const Pagination: React.FC<Props> = ({
   perPage,
   currentPage = 1,
   onPageChange,
-  currentItems,
 }) => {
   const totalPages: number = Math.ceil(total / perPage);
   const pagesArray = Array.from(
@@ -41,66 +39,56 @@ export const Pagination: React.FC<Props> = ({
   }
 
   return (
-    <>
-      <ul className="pagination">
+    <ul className="pagination">
+      <li
+        className={classNames('page-item', {
+          disabled: currentPage === 1,
+        })}
+      >
+        <a
+          data-cy="prevLink"
+          className="page-link"
+          href="#prev"
+          aria-disabled={currentPage === 1}
+          onClick={moveToPreviousPage}
+        >
+          «
+        </a>
+      </li>
+
+      {pagesArray.map((pageNo: number) => (
         <li
+          key={pageNo}
           className={classNames('page-item', {
-            disabled: currentPage === 1,
+            active: pageNo === currentPage,
           })}
         >
           <a
-            data-cy="prevLink"
+            data-cy="pageLink"
             className="page-link"
-            href="#prev"
-            aria-disabled={currentPage === 1}
-            onClick={moveToPreviousPage}
+            href={`#${pageNo}`}
+            onClick={() => onPageChange(pageNo)}
           >
-            «
+            {pageNo}
           </a>
         </li>
+      ))}
 
-        {pagesArray.map((pageNo: number) => (
-          <li
-            key={pageNo}
-            className={classNames('page-item', {
-              active: pageNo === currentPage,
-            })}
-          >
-            <a
-              data-cy="pageLink"
-              className="page-link"
-              href={`#${pageNo}`}
-              onClick={() => onPageChange(pageNo)}
-            >
-              {pageNo}
-            </a>
-          </li>
-        ))}
-
-        <li
-          className={classNames('page-item', {
-            disabled: currentPage === totalPages,
-          })}
+      <li
+        className={classNames('page-item', {
+          disabled: currentPage === totalPages,
+        })}
+      >
+        <a
+          data-cy="nextLink"
+          className="page-link"
+          href="#next"
+          aria-disabled={currentPage === totalPages}
+          onClick={moveToNextPage}
         >
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled={currentPage === totalPages}
-            onClick={moveToNextPage}
-          >
-            »
-          </a>
-        </li>
-      </ul>
-
-      <ul>
-        {currentItems.map(item => (
-          <li data-cy="item" key={item}>
-            {item}
-          </li>
-        ))}
-      </ul>
-    </>
+          »
+        </a>
+      </li>
+    </ul>
   );
 };

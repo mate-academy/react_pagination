@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
+import { ItemsList } from './components/ItemsList';
 
 const totalItems = 42;
 const items = getNumbers(1, totalItems)
@@ -54,8 +55,9 @@ export const App: React.FC = () => {
         perPage={perPage}
         currentPage={page}
         onPageChange={setPage}
-        currentItems={currentItems}
       />
+
+      <ItemsList currentItems={currentItems} />
     </div>
   );
 };
