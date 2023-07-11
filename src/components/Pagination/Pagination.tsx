@@ -56,10 +56,12 @@ export const Pagination: React.FC<Props> = ({
         const isPageSelected = currentPage === number;
 
         return (
-          <li className={cn(
-            'page-item',
-            { active: isPageSelected },
-          )}
+          <li
+            key={number}
+            className={cn(
+              'page-item',
+              { active: isPageSelected },
+            )}
           >
             <a
               data-cy="pageLink"
