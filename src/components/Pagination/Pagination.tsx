@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import { useState } from 'react';
 import { getNumbers } from '../../utils';
 
 type Props = {
@@ -15,10 +14,9 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
-  const [selectedPage, setSelectedPage] = useState(currentPage);
   const countPagination = Math.ceil(total / perPage);
   const countMassive = getNumbers(1, countPagination);
-  const firstPage = selectedPage === 1;
+  const firstPage = currentPage === 1;
 
   return (
     <ul className="pagination">
@@ -35,7 +33,6 @@ export const Pagination: React.FC<Props> = ({
           aria-disabled={firstPage}
           onClick={(event) => {
             onPageChange(event);
-            setSelectedPage(currentPage - 1);
           }}
         >
           «
@@ -55,7 +52,6 @@ export const Pagination: React.FC<Props> = ({
             href={`#${number}`}
             onClick={(event) => {
               onPageChange(event);
-              setSelectedPage(number);
             }}
           >
             {number}
@@ -65,7 +61,7 @@ export const Pagination: React.FC<Props> = ({
       <li
         id="next"
         className={classNames(
-          'page-item', { disabled: selectedPage === countPagination },
+          'page-item', { disabled: currentPage === countPagination },
         )}
       >
         <a
@@ -75,7 +71,6 @@ export const Pagination: React.FC<Props> = ({
           aria-disabled={currentPage === countPagination}
           onClick={(event) => {
             onPageChange(event);
-            setSelectedPage(currentPage + 1);
           }}
         >
           »
