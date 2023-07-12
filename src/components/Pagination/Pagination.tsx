@@ -17,11 +17,7 @@ export const Pagination: React.FC<Props> = ({
 }) => {
   const pages = getNumbers(1, Math.ceil(total / perPage)).map(page => page);
   const handlePageChange = (page: number) => {
-    if (
-      page !== currentPage
-      && page > 0
-      && page <= pages.length
-    ) {
+    if (page !== currentPage && page > 0 && page <= pages.length) {
       onPageChange(page);
     }
   };
