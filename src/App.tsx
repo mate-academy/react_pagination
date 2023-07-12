@@ -19,17 +19,17 @@ export const App: React.FC = () => {
     setEndvalue(selectedPage * itemsOnPage);
   };
 
-  const changePageByArrow = (direction: string, selectedPage: number) => {
-    if (direction === 'back') {
-      setActivePage(selectedPage - 1);
-      setStartValue((selectedPage - 1) * itemsOnPage - itemsOnPage + 1);
-      setEndvalue((selectedPage - 1) * itemsOnPage);
-    } else {
-      setActivePage(selectedPage + 1);
-      setStartValue((selectedPage + 1) * itemsOnPage - itemsOnPage + 1);
-      setEndvalue((selectedPage + 1) * itemsOnPage);
-    }
-  };
+  // const changePageByArrow = (direction: string, selectedPage: number) => {
+  //   if (direction === 'back') {
+  //     setActivePage(selectedPage - 1);
+  //     setStartValue((selectedPage - 1) * itemsOnPage - itemsOnPage + 1);
+  //     setEndvalue((selectedPage - 1) * itemsOnPage);
+  //   } else {
+  //     setActivePage(selectedPage + 1);
+  //     setStartValue((selectedPage + 1) * itemsOnPage - itemsOnPage + 1);
+  //     setEndvalue((selectedPage + 1) * itemsOnPage);
+  //   }
+  // };
 
   const calculateTotalPages = (allItems: number) => {
     const amount = Math.ceil(totalAmount / allItems);
@@ -88,11 +88,6 @@ export const App: React.FC = () => {
         currentPage={activePage}
         totalPages={amountOfPages}
         onPageChange={(selectedPage) => changeCurrentPage(selectedPage)}
-        onChahgeByArrow={
-          (direction, selectedPage) => (
-            changePageByArrow(direction, selectedPage)
-          )
-        }
       />
       <ul>
         {currentContent.map(item => (

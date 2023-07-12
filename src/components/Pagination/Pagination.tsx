@@ -4,11 +4,10 @@ interface Props{
   currentPage: number,
   totalPages: number[],
   onPageChange: (item: number) => void,
-  onChahgeByArrow: (back: string, currentPage: number) => void,
 }
 
 export const Pagination = ({
-  currentPage, totalPages, onPageChange, onChahgeByArrow,
+  currentPage, totalPages, onPageChange,
 }: Props) => {
   return (
     <ul className="pagination">
@@ -19,7 +18,7 @@ export const Pagination = ({
           href="#prev"
           aria-disabled={currentPage !== 1 ? 'false' : 'true'}
           onClick={() => (
-            currentPage !== 1 && onChahgeByArrow('back', currentPage)
+            currentPage !== 1 && onPageChange(currentPage - 1)
           )}
         >
           «
@@ -53,7 +52,7 @@ export const Pagination = ({
           aria-disabled={currentPage !== totalPages.length ? 'false' : 'true'}
           onClick={() => (
             currentPage !== totalPages.length
-              && onChahgeByArrow('forward', currentPage)
+              && onPageChange(currentPage + 1)
           )}
         >
           »
