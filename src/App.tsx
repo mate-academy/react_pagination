@@ -1,11 +1,9 @@
-import {
-  FC, useState, useEffect, ChangeEvent,
-} from 'react';
+import { FC, useState, ChangeEvent } from 'react';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 import { PageItems } from './components/PageItems';
-import './App.scss';
 import { PerPageSelector } from './components/PerPageSelector';
+import './App.scss';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42)
@@ -30,12 +28,8 @@ const getNewPages = (itemsPerPage: number) => {
 export const App: FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemsPerPage] = useState<number>(5);
-  const [firstItem, setFirstItem] = useState<number>(1);
-  const [lastItem, setLastItem] = useState<number>(5);
-  const [pageItems, setPageItems] = useState<string[][]>(
-    getNewPages(itemsPerPage),
-  );
 
+  const pageItems = getNewPages(itemsPerPage);
   const currentPageItems = pageItems[currentPage - 1];
 
   const handlePageChange = (page: number) => {
@@ -43,28 +37,17 @@ export const App: FC = () => {
   };
 
   const handleChangeItemsPerPage = (event: ChangeEvent<HTMLSelectElement>) => {
+    setCurrentPage(1);
     setItemsPerPage(+event.target.value);
   };
 
-  useEffect(() => {
-    const newPages = getNewPages(itemsPerPage);
+  const currLastItem = currentPage * itemsPerPage;
 
-    setPageItems(newPages);
-    setCurrentPage(1);
-  }, [itemsPerPage]);
+  const lastItem = currLastItem > items.length
+    ? (currLastItem - (currLastItem % items.length))
+    : currLastItem;
 
-  useEffect(() => {
-    const currLastItem = currentPage * itemsPerPage;
-
-    const newLastItem = currLastItem > items.length
-      ? (currLastItem - (currLastItem % items.length))
-      : currLastItem;
-
-    const newFirstItem = newLastItem - (pageItems[currentPage - 1].length) + 1;
-
-    setFirstItem(newFirstItem);
-    setLastItem(newLastItem);
-  }, [currentPage, itemsPerPage, pageItems]);
+  const firstItem = lastItem - (pageItems[currentPage - 1].length) + 1;
 
   return (
     <div className="container">

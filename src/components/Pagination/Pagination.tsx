@@ -8,7 +8,10 @@ type Props = {
   onPageChange: (page: number) => void;
 };
 
-type Button = 'prev' | 'next';
+enum Button {
+  Prev = 'prev',
+  Next = 'next',
+}
 
 export const Pagination: FC<Props> = (props) => {
   const {
@@ -28,47 +31,42 @@ export const Pagination: FC<Props> = (props) => {
   };
 
   const setPageButtonsClassNames = (type: Button) => {
-    const isPrevButtonDisabled = type === 'prev' && currentPage === 1;
-    const isNextButtonDisabled = type === 'next' && currentPage === pageCount;
+    const isPrevButtonDisabled = type === Button.Prev
+      && currentPage === 1;
+
+    const isNextButtonDisabled = type === Button.Next
+      && currentPage === pageCount;
 
     return classNames('page-item', {
       disabled: isPrevButtonDisabled || isNextButtonDisabled,
     });
   };
 
-  const handleSelectNewPage = (type: Button) => {
+  const handlePrevSlide = () => {
     const prevPage = currentPage - 1;
+
+    if (prevPage > 0) {
+      onPageChange(prevPage);
+    }
+  };
+
+  const handleNextSlide = () => {
     const nextPage = currentPage + 1;
 
-    switch (type) {
-      case 'prev':
-        if (prevPage > 0) {
-          onPageChange(prevPage);
-        }
-
-        break;
-
-      case 'next':
-        if (nextPage < pageCount + 1) {
-          onPageChange(nextPage);
-        }
-
-        break;
-
-      default:
-        break;
+    if (nextPage < pageCount + 1) {
+      onPageChange(nextPage);
     }
   };
 
   return (
     <ul className="pagination">
-      <li className={setPageButtonsClassNames('prev')}>
+      <li className={setPageButtonsClassNames(Button.Prev)}>
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
           aria-disabled={currentPage === 1}
-          onClick={() => handleSelectNewPage('prev')}
+          onClick={handlePrevSlide}
         >
           «
         </a>
@@ -94,13 +92,13 @@ export const Pagination: FC<Props> = (props) => {
         );
       })}
 
-      <li className={setPageButtonsClassNames('next')}>
+      <li className={setPageButtonsClassNames(Button.Next)}>
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
           aria-disabled={currentPage === pageCount}
-          onClick={() => handleSelectNewPage('next')}
+          onClick={handleNextSlide}
         >
           »
         </a>
