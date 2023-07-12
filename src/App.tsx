@@ -15,8 +15,15 @@ export const App: React.FC = () => {
   const visibleItemStartIndex = perPage * curentPage - perPage;
   const visibleItemEndIndex = perPage * curentPage;
   const visibleItems = items.slice(visibleItemStartIndex, visibleItemEndIndex);
-  const paginationInfo = `Page ${curentPage} (${perPage * curentPage
-    - perPage + 1} - ${perPage * curentPage < total ? perPage * curentPage : total} of ${total})`;
+
+  const firstItemOnVisibilePage = perPage * curentPage - perPage + 1;
+  const lastItemOnVisibilePage = perPage * curentPage < total
+    ? perPage * curentPage
+    : total;
+
+  const visibleItemsOnPage = `${firstItemOnVisibilePage} - ${lastItemOnVisibilePage}`;
+
+  const paginationInfo = `Page ${curentPage} (${visibleItemsOnPage} of ${total})`;
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(+event.target.value);
     setCurentPage(1);

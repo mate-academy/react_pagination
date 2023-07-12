@@ -15,16 +15,16 @@ export const Pagination: React.FC<Props> = ({
   curentPage,
   onPageChange,
 }) => {
-  const pageTotal = Math.ceil(total / perPage);
-  const visiblePages = getNumbers(1, pageTotal);
-  const isLastPage = curentPage === pageTotal;
-  const prevPage = () => {
+  const visiblePageCount = Math.ceil(total / perPage);
+  const visiblePages = getNumbers(1, visiblePageCount);
+  const isLastPage = curentPage === visiblePageCount;
+  const nextPageClickHandler = () => {
     if (!isLastPage) {
       onPageChange(curentPage + 1);
     }
   };
 
-  const nextPage = () => {
+  const prevPageClickHandler = () => {
     if (curentPage !== 1) {
       onPageChange(curentPage - 1);
     }
@@ -38,7 +38,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={curentPage === 1}
-          onClick={nextPage}
+          onClick={prevPageClickHandler}
         >
           «
         </a>
@@ -60,13 +60,16 @@ export const Pagination: React.FC<Props> = ({
           </a>
         </li>
       ))}
-      <li className={cn('page-item', { disabled: curentPage === pageTotal })}>
+      <li className={cn('page-item', {
+        disabled: curentPage === visiblePageCount,
+      })}
+      >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
           aria-disabled={isLastPage}
-          onClick={prevPage}
+          onClick={nextPageClickHandler}
         >
           »
         </a>
