@@ -3,9 +3,7 @@ import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42)
-  .map(n => `Item ${n}`);
+const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
@@ -15,9 +13,7 @@ export const App: React.FC = () => {
     ? currentPage * perPage
     : items.length;
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const preparedItems = items.filter((item, index) => (
+  const preparedItems = items.filter((_, index) => (
     index >= firstItemNum - 1 && index < lastItemNum));
 
   const handlePerPageClick = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -55,7 +51,6 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        items={items}
         total={items.length}
         perPage={perPage}
         currentPage={currentPage}

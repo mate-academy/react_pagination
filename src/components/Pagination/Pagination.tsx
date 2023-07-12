@@ -1,8 +1,8 @@
 import cn from 'classnames';
 import React from 'react';
+import { getNumbers } from '../../utils';
 
 interface Props {
-  items: string[],
   total: number,
   perPage: number,
   currentPage: number,
@@ -10,13 +10,13 @@ interface Props {
 }
 
 export const Pagination: React.FC<Props> = ({
-  items,
   total,
   perPage,
   currentPage,
   onPageChange,
 }) => {
-  const countTabs = Math.ceil(total / perPage);
+  const countTabs: number = Math.ceil(total / perPage);
+  const tabNums = getNumbers(1, total);
 
   const handlePageChange = (tabNum: number) => {
     if (tabNum !== currentPage && tabNum > 0 && tabNum <= countTabs) {
@@ -41,7 +41,7 @@ export const Pagination: React.FC<Props> = ({
           «
         </a>
       </li>
-      {items.slice(0, countTabs).map((item, index) => (
+      {tabNums.slice(0, countTabs).map((item, index) => (
         <li
           className={cn('page-item', {
             active: index + 1 === currentPage,
