@@ -3,7 +3,6 @@ import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
@@ -12,12 +11,15 @@ export const App: React.FC = () => {
   const [currentPage, setСurrentPage] = useState(1);
   const lastTotalIndex = currentPage * perPage;
   const firstTotalIndex = lastTotalIndex - perPage;
+  const visibleItems = items.slice(firstTotalIndex, lastTotalIndex);
   const totalIndex = currentPage * perPage >= 42
     ? 42 : currentPage * perPage;
-  const handleValueChange = (value: React.SetStateAction<number>) => {
-    setPerPage(value);
+  const handleValueChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setPerPage(+event.target.value);
     setСurrentPage(1);
   };
+
+  const options = [3, 5, 10, 20];
 
   return (
     <div className="container">
@@ -25,7 +27,6 @@ export const App: React.FC = () => {
       <p className="lead" data-cy="info">
         {`Page ${currentPage} (items ${firstTotalIndex + 1} - ${totalIndex} of 42)`}
       </p>
-
       <div className="form-group row">
         <div className="col-3 col-sm-2 col-xl-1">
           <select
@@ -33,14 +34,11 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={event => {
-              handleValueChange(+event.target.value);
-            }}
+            onChange={handleValueChange}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            {options.map(
+              value => <option key={value} value={value}>{value}</option>,
+            )}
           </select>
         </div>
 
@@ -56,7 +54,7 @@ export const App: React.FC = () => {
       />
 
       <ul>
-        {items.slice(firstTotalIndex, lastTotalIndex).map((item) => (
+        {visibleItems.map((item) => (
           <li
             data-cy="item"
             key={item}
