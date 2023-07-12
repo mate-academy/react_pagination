@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import './App.css';
 import { getNumbers } from './utils';
@@ -8,11 +8,19 @@ const items = getNumbers(1, 42);
 
 export const App: React.FC = () => {
   const total = items.length;
+  const countOptions = [3, 5, 10, 20];
 
   const [searchParams, setSearchParams] = useSearchParams();
-
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    searchParams.set('page', '2');
+    searchParams.set('perPage', '7');
+
+    setSearchParams(searchParams);
+  },
+  []);
 
   const fromItem = (currentPage - 1) * perPage + 1;
   const toItem = currentPage * perPage > total ? total : currentPage * perPage;
@@ -55,7 +63,7 @@ export const App: React.FC = () => {
             onChange={handleSelect}
             defaultValue={perPage}
           >
-            {[3, 5, 10, 20].map(option => (
+            {countOptions.map(option => (
               <option key={option} value={option}>
                 {option}
               </option>
