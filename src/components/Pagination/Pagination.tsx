@@ -29,7 +29,7 @@ export const Pagination: React.FC<Props> = ({
   const count = countPagination();
 
   function changeCheck(numPage: number) {
-    if (numPage > 0 && numPage < numberPag && numPage !== currentPage) {
+    if (numPage > 0 && numPage <= numberPag && numPage !== currentPage) {
       onPageChange(numPage);
     }
   }
