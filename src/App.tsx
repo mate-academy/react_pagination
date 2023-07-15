@@ -18,7 +18,7 @@ export const App: React.FC = () => {
 
       <p className="lead" data-cy="info">
         {`Page ${currentPage} `}
-        {`(items ${firstItem}-${lastItem} of ${total})`}
+        {`(items ${firstItem} - ${lastItem} of ${total})`}
       </p>
 
       <div className="form-group row">
