@@ -56,7 +56,11 @@ export const Pagination = ({
         </li>
       ))}
 
-      <li className="page-item">
+      <li className={classNames(
+        'page-item',
+        { disabled: currentPage === listOfPages },
+      )}
+      >
         <a
           data-cy="nextLink"
           className="page-link"
