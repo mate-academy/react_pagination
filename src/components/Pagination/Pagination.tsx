@@ -28,7 +28,9 @@ export const Pagination = ({
             className="page-link"
             href="#prev"
             aria-disabled={currentPage === 1 ? 'true' : 'false'}
-            onClick={() => onPageChange(currentPage - 1)}
+            onClick={() => (
+              (currentPage !== 1) ? onPageChange(currentPage - 1) : null
+            )}
           >
             «
           </a>
@@ -59,8 +61,12 @@ export const Pagination = ({
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={currentPage === pages.length ? 'true' : 'false'}
-            onClick={() => onPageChange(currentPage + 1)}
+            aria-disabled={(currentPage === pages.length) ? 'true' : 'false'}
+            onClick={() => (
+              (currentPage !== pages.length)
+                ? onPageChange(currentPage + 1)
+                : null
+            )}
           >
             »
           </a>
