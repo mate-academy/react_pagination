@@ -36,6 +36,7 @@ export const App: React.FC = () => {
               <option
                 value={`${itemsPerPage}`}
                 key={itemsPerPage}
+                selected={perPage === itemsPerPage}
               >
                 {itemsPerPage}
               </option>
