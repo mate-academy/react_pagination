@@ -17,7 +17,7 @@ export const App: React.FC = () => {
   const onPerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(+event.target.value);
     setCurrentPage(1);
-  }
+  };
 
   return (
     <div className="container">
