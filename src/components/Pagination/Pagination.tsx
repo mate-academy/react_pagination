@@ -23,7 +23,7 @@ export const Pagination: FC<PaginationProps> = (props) => {
   }, [count]);
 
   const incrementCurrentPage = () => {
-    if (current + 1 >= numbers.length) {
+    if (current + 1 > numbers.length) {
       return;
     }
 
@@ -31,7 +31,7 @@ export const Pagination: FC<PaginationProps> = (props) => {
   };
 
   const decrementCurrentPage = () => {
-    if (current - 1 < 0) {
+    if (current - 1 < 1) {
       return;
     }
 

@@ -6,49 +6,47 @@ import { Pagination } from './components/Pagination';
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
-export const App: React.FC = () => {
-  const defaultCountPerPage = 5;
+const updateTitle = (currentPage: number, countPerPage: number) => {
+  const isLastPage = ((currentPage - 1) * countPerPage + 1)
+  === items.length - 1;
 
-  const [visibleItems, setVisibleItems] = useState(items
-    .slice(0, defaultCountPerPage));
-  const [countPerPage, setCountPerPage] = useState('5');
+  const from = (currentPage - 1) * countPerPage + 1;
+  const to = isLastPage
+    ? items.length
+    : ((currentPage - 1) * countPerPage) + countPerPage;
+
+  return `Page ${currentPage} (items ${from} - ${to} of ${items.length})`;
+};
+
+const getVisibleItems = (currentPage: number, countPerPage: number) => {
+  const start = (currentPage - 1) * countPerPage;
+  const end = countPerPage + start;
+
+  return items.slice(start, end);
+};
+
+export const App: React.FC = () => {
+  const [countPerPage, setCountPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
+  const [visibleItems, setVisibleItems] = useState(items
+    .slice(0, countPerPage));
 
   useEffect(() => {
-    const start = (currentPage - 1) * +countPerPage;
-    const end = +countPerPage + start;
-    const newVisibleItems = items.slice(start, end);
+    const newVisibleItems = getVisibleItems(currentPage, countPerPage);
 
     setVisibleItems(newVisibleItems);
   }, [countPerPage, currentPage]);
 
-  const changeCountPerPage = (newCount: string) => {
+  const changeCountPerPage = (newCount: number) => {
     setCountPerPage(newCount);
     setCurrentPage(1);
   };
 
-  const changeCurrentPage = (current:number) => {
-    if (current - 1 < 0) {
-      return;
-    }
-
-    if (current + 1 >= items.length) {
-      return;
-    }
-
+  const changeCurrentPage = (current: number) => {
     setCurrentPage(current);
   };
 
-  const isLastPage = () => {
-    return ((currentPage - 1) * +countPerPage + 1) === items.length - 1;
-  };
-
-  const from = (currentPage - 1) * +countPerPage + 1;
-  const to = isLastPage()
-    ? items.length
-    : ((currentPage - 1) * +countPerPage) + +countPerPage;
-
-  const title = `Page ${currentPage} (items ${from} - ${to} of ${items.length})`;
+  const title = updateTitle(currentPage, countPerPage);
 
   return (
     <div className="container">
@@ -65,7 +63,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={countPerPage}
-            onChange={(event) => changeCountPerPage(event.target.value)}
+            onChange={(event) => changeCountPerPage(+event.target.value)}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -81,7 +79,7 @@ export const App: React.FC = () => {
 
       <Pagination
         current={currentPage}
-        count={Math.ceil(items.length / +countPerPage)}
+        count={Math.ceil(items.length / countPerPage)}
         onChangeCurrentPage={changeCurrentPage}
       />
       <ul>
