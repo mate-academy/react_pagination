@@ -63,6 +63,7 @@ export const Pagination = (props: Props) => {
             className={classNames('page-item', {
               active: item.value === currentPage,
             })}
+            key={item.id}
           >
             <a
               data-cy="pageLink"
@@ -77,7 +78,7 @@ export const Pagination = (props: Props) => {
       }
       <li
         className={classNames('page-item', {
-          'disabled': currentPage === numberOfPages,
+          disabled: currentPage === numberOfPages,
         })}
       >
         <a

@@ -24,7 +24,7 @@ export const App: React.FC = () => {
   const setNumberPerPage = (number: number) => {
     setPerPage(number);
     setCurrentPage(1);
-  }
+  };
 
   return (
     <div className="container">
