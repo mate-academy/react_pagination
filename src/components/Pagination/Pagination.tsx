@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 interface Props {
   total: number,
@@ -14,22 +14,21 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
-  const numberPag = Math.ceil(total / perPage);
+  const numberPage: number = Math.ceil(total / perPage);
+  const countArr: number[] = [];
 
   function countPagination() {
-    const countArr: number[] = [];
-
-    for (let i = 1; i <= numberPag; i += 1) {
+    for (let i = 1; i <= numberPage; i += 1) {
       countArr.push(i);
     }
 
     return countArr;
   }
 
-  const count = countPagination();
+  const count = useMemo(() => countPagination(), countArr);
 
   function changeCheck(numPage: number) {
-    if (numPage > 0 && numPage <= numberPag && numPage !== currentPage) {
+    if (numPage > 0 && numPage <= numberPage && numPage !== currentPage) {
       onPageChange(numPage);
     }
   }
@@ -68,12 +67,12 @@ export const Pagination: React.FC<Props> = ({
         </li>
       ))}
 
-      <li className={cn('page-item', { disabled: currentPage === numberPag })}>
+      <li className={cn('page-item', { disabled: currentPage === numberPage })}>
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === numberPag}
+          aria-disabled={currentPage === numberPage}
           onClick={() => {
             changeCheck(currentPage + 1);
           }}
