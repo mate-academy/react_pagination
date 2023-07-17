@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import React, { useMemo } from 'react';
+import React from 'react';
 
 interface Props {
   total: number,
@@ -25,7 +25,7 @@ export const Pagination: React.FC<Props> = ({
     return countArr;
   }
 
-  const count = useMemo(() => countPagination(), countArr);
+  const count = countPagination();
 
   function changeCheck(numPage: number) {
     if (numPage > 0 && numPage <= numberPage && numPage !== currentPage) {
