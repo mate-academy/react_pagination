@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 
 import './App.css';
 import { Pagination } from './components/Pagination';
@@ -27,7 +27,17 @@ export const App: React.FC = () => {
     ? TOTAL_ITEMS_COUNT
     : startCount + perPage;
 
-  const visibleItems = getVisibleItems(items, startCount, endCount);
+  const visibleItems = useMemo(
+    () => getVisibleItems(items, startCount, endCount),
+    [items, startCount, endCount],
+  );
+
+  const changeSelect = (value: number) => {
+    if (value !== perPage) {
+      setPerPage(value);
+      setPage(1);
+    }
+  };
 
   return (
     <div className="container">
@@ -41,10 +51,7 @@ export const App: React.FC = () => {
         <div className="col-3 col-sm-2 col-xl-1">
           <select
             onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
-              if (+event.target.value !== perPage) {
-                setPerPage(+event.target.value);
-                setPage(1);
-              }
+              changeSelect(+event.target.value);
             }}
             data-cy="perPageSelector"
             id="perPageSelector"
