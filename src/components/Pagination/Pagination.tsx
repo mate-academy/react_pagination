@@ -15,6 +15,18 @@ export const Pagination = ({
 }: PaginationType) => {
   const listOfPages = Math.ceil(totalNumber / listOfItems);
 
+  const getPreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const getNextPage = () => {
+    if (currentPage !== listOfPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   return (
     <ul className="pagination">
       <li className={classNames(
@@ -31,7 +43,7 @@ export const Pagination = ({
               ? 'true'
               : 'false'
           }
-          onClick={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
+          onClick={getPreviousPage}
         >
           «
         </a>
@@ -70,8 +82,7 @@ export const Pagination = ({
               ? 'true'
               : 'false'
           }
-          onClick={() => currentPage !== listOfPages
-            && setCurrentPage(currentPage + 1)}
+          onClick={getNextPage}
         >
           »
         </a>
