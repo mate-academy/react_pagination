@@ -12,7 +12,7 @@ type Props = {
 export const Pagination: React.FC<Props> = ({
   total,
   perPage,
-  currentPage = 1,
+  currentPage,
   onPageChange,
 }) => {
   const totalPages = getNumbers(1, Math.ceil(total / perPage));
@@ -42,7 +42,7 @@ export const Pagination: React.FC<Props> = ({
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={isFirstPage && true}
+          aria-disabled={isFirstPage}
           onClick={showPrevPage}
         >
           «
@@ -75,7 +75,7 @@ export const Pagination: React.FC<Props> = ({
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={isLastPage && true}
+          aria-disabled={isLastPage}
           onClick={showNextPage}
         >
           »

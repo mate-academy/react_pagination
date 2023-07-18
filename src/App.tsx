@@ -7,12 +7,11 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const totalItems = items.length;
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
   const startItemIndex = itemsPerPage * currentPage - itemsPerPage;
-  const lastItem = Math.min(startItemIndex + itemsPerPage, totalItems);
+  const lastItem = Math.min(startItemIndex + itemsPerPage, items.length);
   const visibleItems = items.slice(startItemIndex, lastItem);
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -25,7 +24,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${startItemIndex + 1} - ${lastItem} of ${totalItems})`}
+        {`Page ${currentPage} (items ${startItemIndex + 1} - ${lastItem} of ${items.length})`}
       </p>
 
       <div className="form-group row">
@@ -50,7 +49,7 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={totalItems}
+        total={items.length}
         perPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
