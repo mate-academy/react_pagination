@@ -1,13 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
 
-type Callback = (page: number) => number;
-
 type Props = {
   total: number,
   perPage: number,
   currentPage: number,
-  onPageChange: (page: number | Callback) => void,
+  onPageChange: (page: number) => void,
 };
 
 export const Pagination: React.FC<Props> = ({
@@ -27,7 +25,7 @@ export const Pagination: React.FC<Props> = ({
       return;
     }
 
-    onPageChange(prevPage => prevPage - 1);
+    onPageChange(currentPage - 1);
   }
 
   function moveToNextPage() {
@@ -35,7 +33,7 @@ export const Pagination: React.FC<Props> = ({
       return;
     }
 
-    onPageChange(prevPage => prevPage + 1);
+    onPageChange(currentPage + 1);
   }
 
   return (
@@ -45,15 +43,16 @@ export const Pagination: React.FC<Props> = ({
           disabled: currentPage === 1,
         })}
       >
-        <a
+        <button
           data-cy="prevLink"
           className="page-link"
-          href="#prev"
-          aria-disabled={currentPage === 1}
+          disabled={currentPage === 1}
+          type="button"
           onClick={moveToPreviousPage}
+          aria-disabled={currentPage === 1 ? 'true' : 'false'}
         >
           «
-        </a>
+        </button>
       </li>
 
       {pagesArray.map((pageNo: number) => (
@@ -63,14 +62,14 @@ export const Pagination: React.FC<Props> = ({
             active: pageNo === currentPage,
           })}
         >
-          <a
+          <button
             data-cy="pageLink"
             className="page-link"
-            href={`#${pageNo}`}
+            type="button"
             onClick={() => onPageChange(pageNo)}
           >
             {pageNo}
-          </a>
+          </button>
         </li>
       ))}
 
