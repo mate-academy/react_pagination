@@ -20,6 +20,13 @@ export const App: React.FC = () => {
     currentPage * itemsOnPage, items.length,
   );
 
+  const onSelectChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setItemsOnPage(+event.target.value);
+    setCurrentPage(1);
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
@@ -32,12 +39,7 @@ export const App: React.FC = () => {
         <div className="col-3 col-sm-2 col-xl-1">
           <select
             value={itemsOnPage}
-            onChange={
-              event => {
-                setItemsOnPage(+event.target.value);
-                setCurrentPage(1);
-              }
-            }
+            onChange={onSelectChange}
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
