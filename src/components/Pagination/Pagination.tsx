@@ -10,12 +10,12 @@ interface Props {
 
 const TOTAL_ITEM = 42;
 
-export const Pagination : React.FC<Props> = (
-  {
-    perPage, currentPage, totalPages, handlePage,
-  },
-
-) => {
+export const Pagination : React.FC<Props> = ({
+  perPage,
+  currentPage,
+  totalPages,
+  handlePage,
+}) => {
   const pagesNumber = Math.ceil(TOTAL_ITEM / perPage);
   const paginated = getNumbers(1, pagesNumber);
 
