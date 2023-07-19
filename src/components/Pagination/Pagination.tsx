@@ -32,7 +32,7 @@ export const Pagination: React.FC<Props> = ({
 
   return (
     <ul className="pagination">
-      <li className={currentPage === 1 ? 'page-item disabled' : undefined}>
+      <li className={currentPage === 1 ? 'page-item disabled' : ''}>
         <a
           data-cy="prevLink"
           className="page-link"
@@ -46,7 +46,7 @@ export const Pagination: React.FC<Props> = ({
       {paginated.map(page => (
         <li
           key={page}
-          className={currentPage === page ? 'page-item active' : undefined}
+          className={currentPage === page ? 'page-item active' : ''}
         >
           <a
             data-cy="pageLink"
@@ -61,7 +61,7 @@ export const Pagination: React.FC<Props> = ({
       <li className={
         currentPage === pagesNumber
           ? 'page-item disabled'
-          : undefined
+          : ''
       }
       >
         <a
