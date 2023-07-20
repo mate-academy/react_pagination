@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 
-import { getNumbers } from './../../utils';
+import { getNumbers } from '../../utils';
 
 type Props = {
   total: number;
