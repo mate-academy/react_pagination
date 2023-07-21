@@ -1,18 +1,51 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import './App.css';
-import { getNumbers } from './utils';
+import { getNumbers, getMaxNumberPage } from './utils';
+import { Pagination } from './components/Pagination';
+
+const PAGE_INITIAL = 1;
+const ITEMS_PER_PAGE_INITIAL = 5;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
+  const itemsList = useMemo(() => {
+    return [...items];
+  }, []); // get all items from server
+
+  const itemsQty = useMemo(() => itemsList.length, [itemsList]);
+
+  const [page, setPage] = useState<number>(PAGE_INITIAL);
+
+  const [itemsPerPage, setItemsPerPage]
+    = useState<number>(ITEMS_PER_PAGE_INITIAL);
+
+  const maxPageNumber = getMaxNumberPage(itemsQty, itemsPerPage);
+
+  const firstItemInPage = Math.min(
+    page * itemsPerPage - itemsPerPage,
+    (maxPageNumber - 1) * itemsPerPage,
+  );
+  const lastItemInPage = Math.min(page * itemsPerPage, itemsQty);
+
+  const itemsToRender = [...itemsList].slice(
+    firstItemInPage,
+    lastItemInPage,
+  );
+
+  const handerItemsPerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setItemsPerPage(+event.target.value);
+    setPage(PAGE_INITIAL);
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        {`Page ${page} (items ${firstItemInPage + 1} - ${lastItemInPage} of ${itemsQty})`}
       </p>
 
       <div className="form-group row">
@@ -21,11 +54,14 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
+            defaultValue={ITEMS_PER_PAGE_INITIAL}
+            onChange={e => handerItemsPerPage(e)}
           >
             <option value="3">3</option>
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="20">20</option>
+            <option value={itemsQty}>View all</option>
           </select>
         </div>
 
@@ -34,62 +70,23 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
-      <ul className="pagination">
-        <li className="page-item disabled">
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled="true"
-          >
-            «
-          </a>
-        </li>
-        <li className="page-item active">
-          <a data-cy="pageLink" className="page-link" href="#1">1</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#2">2</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#3">3</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#4">4</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#5">5</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#6">6</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#7">7</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#8">8</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#9">9</a>
-        </li>
-        <li className="page-item">
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled="false"
-          >
-            »
-          </a>
-        </li>
-      </ul>
+      <Pagination
+        total={itemsQty}
+        perPage={itemsPerPage}
+        currentPage={page}
+        onPageChange={(newPageNumber) => {
+          setPage(newPageNumber);
+        }}
+      />
       <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
+        {itemsToRender.map(item => (
+          <li
+            key={item}
+            data-cy="item"
+          >
+            {item}
+          </li>
+        ))}
       </ul>
     </div>
   );

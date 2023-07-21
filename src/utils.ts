@@ -7,3 +7,10 @@ export function getNumbers(from: number, to: number): number[] {
 
   return numbers;
 }
+
+export function getMaxNumberPage(
+  totalItems: number,
+  itemsPerPage: number,
+): number {
+  return Math.ceil(totalItems / itemsPerPage);
+}
