@@ -7,9 +7,10 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
   const perPageValues = [3, 5, 10, 20];
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(perPageValues[1]);
 
   const startIndex = (currentPage - 1) * perPage;
   const endIndex = Math.min(currentPage * perPage, items.length);
