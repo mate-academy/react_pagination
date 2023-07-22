@@ -16,6 +16,7 @@ export const Pagination: React.FC<Props> = ({
   onPageChange,
 }) => {
   const totalPageNumber = Math.ceil(total / perPage);
+
   const pageNumbers = getNumbers(1, totalPageNumber);
 
   const selectPage = (event: React.MouseEvent<HTMLAnchorElement>) => {
