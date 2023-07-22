@@ -17,6 +17,8 @@ export const Pagination: React.FC<Props> = ({
 }) => {
   const totalPageNumber = Math.ceil(total / perPage);
   const pageNumbers = getNumbers(1, totalPageNumber);
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === totalPageNumber;
 
   const selectPage = (event: React.MouseEvent<HTMLAnchorElement>) => {
     const selectedPageNumber = Number(event.currentTarget.textContent);
@@ -42,14 +44,14 @@ export const Pagination: React.FC<Props> = ({
     <ul className="pagination">
       <li
         className={cn('page-item', {
-          disabled: currentPage === 1,
+          disabled: isFirstPage,
         })}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === 1}
+          aria-disabled={isFirstPage}
           onClick={handleClickPrevLink}
         >
           «
@@ -76,14 +78,14 @@ export const Pagination: React.FC<Props> = ({
       ))}
       <li
         className={cn('page-item', {
-          disabled: currentPage === totalPageNumber,
+          disabled: isLastPage,
         })}
       >
         <a
           data-cy="nextLink"
           href="#next"
           className="page-link"
-          aria-disabled={currentPage === totalPageNumber}
+          aria-disabled={isLastPage}
           onClick={handleClickNextLink}
         >
           »
