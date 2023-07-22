@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 
-import { getMaxNumberPage } from '../../utils';
+import { getMaxPageNumber } from '../../utils';
 
 type Props = {
   total: number;
@@ -23,7 +23,7 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
-  const maxPageNumber = getMaxNumberPage(total, perPage);
+  const maxPageNumber = getMaxPageNumber(total, perPage);
   const pageNumbers = createPageNumbers(maxPageNumber);
 
   const handlePreviousButton = () => {

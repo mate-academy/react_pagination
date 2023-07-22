@@ -8,7 +8,7 @@ export function getNumbers(from: number, to: number): number[] {
   return numbers;
 }
 
-export function getMaxNumberPage(
+export function getMaxPageNumber(
   totalItems: number,
   itemsPerPage: number,
 ): number {

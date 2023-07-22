@@ -1,28 +1,27 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import { getNumbers, getMaxNumberPage } from './utils';
+import { getNumbers, getMaxPageNumber } from './utils';
 import { Pagination } from './components/Pagination';
 
 const PAGE_INITIAL = 1;
 const ITEMS_PER_PAGE_INITIAL = 5;
+const PER_PAGE_SELECTOR_OPTIONS = [3, 5, 10, 20];
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const itemsList = useMemo(() => {
-    return [...items];
-  }, []); // get all items from server
+  const itemsList = [...items]; // get all items from server
 
-  const itemsQty = useMemo(() => itemsList.length, [itemsList]);
+  const itemsQty = itemsList.length;
 
   const [page, setPage] = useState<number>(PAGE_INITIAL);
 
   const [itemsPerPage, setItemsPerPage]
     = useState<number>(ITEMS_PER_PAGE_INITIAL);
 
-  const maxPageNumber = getMaxNumberPage(itemsQty, itemsPerPage);
+  const maxPageNumber = getMaxPageNumber(itemsQty, itemsPerPage);
 
   const firstItemInPage = Math.min(
     page * itemsPerPage - itemsPerPage,
@@ -57,11 +56,14 @@ export const App: React.FC = () => {
             defaultValue={ITEMS_PER_PAGE_INITIAL}
             onChange={e => handerItemsPerPage(e)}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value={itemsQty}>View all</option>
+            {PER_PAGE_SELECTOR_OPTIONS.map(option => (
+              <option
+                key={option}
+                value={option}
+              >
+                {option}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -74,9 +76,7 @@ export const App: React.FC = () => {
         total={itemsQty}
         perPage={itemsPerPage}
         currentPage={page}
-        onPageChange={(newPageNumber) => {
-          setPage(newPageNumber);
-        }}
+        onPageChange={setPage}
       />
       <ul>
         {itemsToRender.map(item => (
