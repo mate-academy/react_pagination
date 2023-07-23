@@ -15,82 +15,79 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
-  const totalPageNumber = Math.ceil(total / perPage);
-  const pageNumbers = getNumbers(1, totalPageNumber);
+  const totalPages = Math.ceil(total / perPage);
+  const pageNumbers = getNumbers(1, totalPages);
+
   const isFirstPage = currentPage === 1;
-  const isLastPage = currentPage === totalPageNumber;
+  const isLastPage = currentPage === totalPages;
 
-  const selectPage = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    const selectedPageNumber = Number(event.currentTarget.textContent);
+  const handlePageClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    const clickedPage = Number(event.currentTarget.textContent);
 
-    if (selectedPageNumber !== currentPage) {
-      onPageChange(selectedPageNumber);
+    if (clickedPage !== currentPage) {
+      onPageChange(clickedPage);
     }
   };
 
-  const handleClickPrevLink = () => {
+  const handlePrevClick = () => {
     if (currentPage > 1) {
       onPageChange(currentPage - 1);
     }
   };
 
-  const handleClickNextLink = () => {
-    if (currentPage < totalPageNumber) {
+  const handleNextClick = () => {
+    if (currentPage < totalPages) {
       onPageChange(currentPage + 1);
     }
   };
 
   return (
     <ul className="pagination">
+
       <li
-        className={cn('page-item', {
-          disabled: isFirstPage,
-        })}
+        className={cn('page-item', { disabled: isFirstPage })}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
           aria-disabled={isFirstPage}
-          onClick={handleClickPrevLink}
+          onClick={handlePrevClick}
         >
           «
         </a>
       </li>
-      {pageNumbers.map(item => (
+
+      {pageNumbers.map(pageNumber => (
         <li
-          key={item}
-          className={cn('page-item', {
-            active: item === currentPage,
-          })}
+          key={pageNumber}
+          className={cn('page-item', { active: pageNumber === currentPage })}
         >
           <a
             data-cy="pageLink"
             className="page-link"
             href="#1"
-            onClick={(e) => {
-              selectPage(e);
-            }}
+            onClick={handlePageClick}
           >
-            {item}
+            {pageNumber}
           </a>
         </li>
       ))}
+
       <li
-        className={cn('page-item', {
-          disabled: isLastPage,
-        })}
+        className={cn('page-item', { disabled: isLastPage })}
       >
         <a
           data-cy="nextLink"
           href="#next"
           className="page-link"
           aria-disabled={isLastPage}
-          onClick={handleClickNextLink}
+          onClick={handleNextClick}
         >
           »
         </a>
       </li>
+
     </ul>
   );
 };
