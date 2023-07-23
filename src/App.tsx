@@ -3,22 +3,25 @@ import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
 
-const items: string[] = getNumbers(1, 42)
-  .map(n => `Item ${n}`);
+const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
-export const App: React.FC = () => {
+export const App = () => {
   const [amountOfItems, setAmountOfItems] = useState(5);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [info, setInfo] = useState(`Page 1 (items 1 - 5 of ${items.length})`);
 
-  const startItem: number = currentPage * amountOfItems;
-  const pages: number[] = [];
+  const startItem = currentPage !== 1 ? (currentPage - 1) * amountOfItems : 0;
 
-  const newList: string[] = items.slice(startItem, startItem + amountOfItems);
+  const newList = items.slice(startItem, startItem + amountOfItems);
 
-  for (let i = 1; i <= Math.ceil(items.length / amountOfItems); i += 1) {
-    pages.push(i);
-  }
+  const total = items.length;
+
+  const handleAmountSelection = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setCurrentPage(1); // tests say that it should set 1st page on change of amount
+    setAmountOfItems(+event.target.value);
+  };
 
   return (
     <div className="container">
@@ -35,10 +38,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            onChange={(event) => {
-              setCurrentPage(0);
-              setAmountOfItems(+event.target.value);
-            }}
+            onChange={(event) => handleAmountSelection(event)}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -54,7 +54,8 @@ export const App: React.FC = () => {
 
       <Pagination
         newList={newList}
-        pages={pages}
+        total={total}
+        perPage={amountOfItems}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         setInfo={setInfo}

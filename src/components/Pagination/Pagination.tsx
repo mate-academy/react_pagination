@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 
 interface Props {
   newList: string[];
-  pages: number[];
+  total: number;
+  perPage: number;
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   setInfo: React.Dispatch<React.SetStateAction<string>>;
@@ -11,7 +12,8 @@ interface Props {
 
 export const Pagination: React.FC<Props> = ({
   newList,
-  pages,
+  total,
+  perPage,
   currentPage,
   setCurrentPage,
   setInfo,
@@ -21,15 +23,13 @@ export const Pagination: React.FC<Props> = ({
   const indexOfLast = items.indexOf(newList[newList.length - 1]) + 1;
 
   useEffect(() => {
-    setInfo(
-      `Page ${currentPage + 1} (items ${indexOfFirst} - ${
-        indexOfLast
-      } of ${items.length})`,
-    );
-  }, [currentPage, indexOfFirst, newList.length, items.length, setInfo]);
+    setInfo(`Page ${currentPage} (items ${indexOfFirst} - ${indexOfLast} of ${items.length})`);
+  }, [currentPage, indexOfFirst, indexOfLast, items.length, setInfo]);
 
-  const isFirstPage = currentPage === 0;
-  const isLastPage = currentPage === pages.length - 1;
+  const totalPages = Math.ceil(total / perPage);
+
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === totalPages;
 
   const goToPrevPage = () => {
     if (!isFirstPage) {
@@ -42,6 +42,8 @@ export const Pagination: React.FC<Props> = ({
       setCurrentPage(currentPage + 1);
     }
   };
+
+  const pages = Array.from({ length: totalPages }).map((_, index) => index);
 
   return (
     <>
@@ -58,17 +60,17 @@ export const Pagination: React.FC<Props> = ({
           </a>
         </li>
 
-        {pages.map(page => (
-          <li key={page} className={`page-item${currentPage === pages.indexOf(page) ? ' active' : ''}`}>
+        {pages.map((page) => (
+          <li key={page} className={`page-item${currentPage === page + 1 ? ' active' : ''}`}>
             <a
               data-cy="pageLink"
-              href={`#${page}`}
+              href={`#${page + 1}`}
               onClick={() => {
-                setCurrentPage(pages.indexOf(page));
+                setCurrentPage(page + 1);
               }}
               className="page-link"
             >
-              {page}
+              {page + 1}
             </a>
           </li>
         ))}
