@@ -7,7 +7,7 @@ interface Props {
   total: number,
   perPage: number,
   currentPage: number,
-  onPageChange: (page: number) => {},
+  onPageChange: (page: number) => void,
 }
 
 export const Pagination: React.FC<Props> = ({
@@ -24,9 +24,9 @@ export const Pagination: React.FC<Props> = ({
   const allItems = getNumbers(1, total);
 
   const itemsOnPageArr
-  = [...allItems].slice(firstItemOnPage - 1, lastItemOnPage);
+    = [...allItems].slice(firstItemOnPage - 1, lastItemOnPage);
 
-  const eventHandler = (newPage: number) => {
+  const eventHandler = (newPage: number) => () => {
     if (currentPage !== newPage) {
       onPageChange(newPage);
     }
@@ -53,7 +53,7 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#prev"
             aria-disabled={currentPage === 1 ? 'true' : 'false'}
-            onClick={() => prevHandler()}
+            onClick={prevHandler}
           >
             «
           </a>
@@ -67,7 +67,7 @@ export const Pagination: React.FC<Props> = ({
               data-cy="pageLink"
               className="page-link"
               href={`#${page}`}
-              onClick={() => eventHandler(page)}
+              onClick={eventHandler(page)}
             >
               {page}
             </a>
@@ -82,7 +82,7 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#next"
             aria-disabled={currentPage === pagesAmount ? 'true' : 'false'}
-            onClick={() => nextHandler()}
+            onClick={nextHandler}
           >
             »
           </a>
