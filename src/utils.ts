@@ -7,3 +7,15 @@ export function getNumbers(from: number, to: number): number[] {
 
   return numbers;
 }
+
+export function allChunks(array: number[], step: number): number[][] {
+  const chunks = [];
+
+  for (let i = 0; i < array.length; i += step) {
+    const chunk = array.slice(i, i + step);
+
+    chunks.push(chunk);
+  }
+
+  return chunks;
+}
