@@ -7,3 +7,9 @@ export function getNumbers(from: number, to: number): number[] {
 
   return numbers;
 }
+
+export const getPageNumbers = (totalItems: number, itemsPerPage: number) => {
+  const numberOfPages = Math.ceil(totalItems / itemsPerPage);
+
+  return Array.from({ length: numberOfPages }, (_, i) => i + 1);
+};
