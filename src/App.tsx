@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -28,8 +28,9 @@ const getVisibleItems = (currentPage: number, countPerPage: number) => {
 export const App: React.FC = () => {
   const [countPerPage, setCountPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-  const [visibleItems, setVisibleItems] = useState(items
-    .slice(0, countPerPage));
+  const [visibleItems, setVisibleItems] = useState(
+    items.slice(0, countPerPage),
+  );
 
   useEffect(() => {
     const newVisibleItems = getVisibleItems(currentPage, countPerPage);
@@ -37,16 +38,17 @@ export const App: React.FC = () => {
     setVisibleItems(newVisibleItems);
   }, [countPerPage, currentPage]);
 
-  const changeCountPerPage = (newCount: number) => {
+  const changeCountPerPage = useCallback((newCount: number) => {
     setCountPerPage(newCount);
     setCurrentPage(1);
-  };
+  }, []);
 
-  const changeCurrentPage = (current: number) => {
+  const changeCurrentPage = useCallback((current: number) => {
     setCurrentPage(current);
-  };
+  }, []);
 
   const title = updateTitle(currentPage, countPerPage);
+  const countPages = Math.ceil(items.length / countPerPage);
 
   return (
     <div className="container">
@@ -79,7 +81,7 @@ export const App: React.FC = () => {
 
       <Pagination
         current={currentPage}
-        count={Math.ceil(items.length / countPerPage)}
+        count={countPages}
         onChangeCurrentPage={changeCurrentPage}
       />
       <ul>

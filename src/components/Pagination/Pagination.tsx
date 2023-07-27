@@ -1,5 +1,10 @@
 import classNames from 'classnames';
-import { FC, useEffect, useState } from 'react';
+import {
+  FC,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 
 const getNumbers = (count: number) => {
   return Array(count)
@@ -13,37 +18,40 @@ type PaginationProps = {
   onChangeCurrentPage: (number:number) => void
 };
 
-export const Pagination: FC<PaginationProps> = (props) => {
-  const { current, count, onChangeCurrentPage } = props;
-
+export const Pagination: FC<PaginationProps> = ({
+  current,
+  count,
+  onChangeCurrentPage,
+}) => {
   const [numbers, setNumbers] = useState<number[]>([]);
 
   useEffect(() => {
-    setNumbers(getNumbers(count));
+    setNumbers(
+      getNumbers(count),
+    );
   }, [count]);
 
-  const incrementCurrentPage = () => {
+  const incrementCurrentPage = useCallback(() => {
     if (current + 1 > numbers.length) {
       return;
     }
 
     onChangeCurrentPage(current + 1);
-  };
+  }, [current]);
 
-  const decrementCurrentPage = () => {
+  const decrementCurrentPage = useCallback(() => {
     if (current - 1 < 1) {
       return;
     }
 
     onChangeCurrentPage(current - 1);
-  };
+  }, [current]);
 
   return (
     <ul className="pagination">
       <li
         className={classNames(
-          'page-item',
-          {
+          'page-item', {
             disabled: current === 1,
           },
         )}
@@ -62,8 +70,7 @@ export const Pagination: FC<PaginationProps> = (props) => {
       {numbers.map(number => (
         <li
           className={classNames(
-            'page-item',
-            {
+            'page-item', {
               active: number === current,
             },
           )}
@@ -82,8 +89,7 @@ export const Pagination: FC<PaginationProps> = (props) => {
 
       <li
         className={classNames(
-          'page-item',
-          {
+          'page-item', {
             disabled: current === numbers.length,
           },
         )}
