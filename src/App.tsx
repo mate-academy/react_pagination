@@ -41,7 +41,7 @@ export const App: React.FC = () => {
             onChange={handlePerPageChange}
           >
             {itemsPerPage.map(numberOfItems => (
-              <option value={numberOfItems}>
+              <option key={numberOfItems} value={numberOfItems}>
                 {numberOfItems}
               </option>
             ))}

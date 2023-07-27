@@ -1,3 +1,5 @@
+import cn from 'classnames';
+
 import { getPageNumbers, getNumbers } from '../../utils';
 
 type PaginationProps = {
@@ -25,7 +27,7 @@ export const Pagination = ({
   return (
     <>
       <ul className="pagination">
-        <li className={`page-item ${isFirstPage && 'disabled'}`}>
+        <li className={cn('page-item', { disabled: isFirstPage })}>
           <a
             data-cy="prevLink"
             className="page-link"
@@ -40,7 +42,8 @@ export const Pagination = ({
         {pageNumbers.map(pageNumber => (
           <li
             key={pageNumber}
-            className={`page-item ${currentPage === pageNumber && 'active'}`}
+            className={cn('page-item',
+              { active: currentPage === pageNumber })}
           >
             <a
               data-cy="pageLink"
@@ -53,7 +56,7 @@ export const Pagination = ({
           </li>
         ))}
 
-        <li className={`page-item ${isLastPage && 'disabled'}`}>
+        <li className={cn('page-item', { disabled: isLastPage })}>
           <a
             data-cy="nextLink"
             className="page-link"
