@@ -11,9 +11,9 @@ const items = getNumbers(1, 42)
 const startValue = 1;
 
 export const App: React.FC = () => {
-  const [itemsOnDesc, setItemsOnDesc] = useState('5');
+  const [itemsOnDesc, setItemsOnDesc] = useState(5);
   const [currentPage, setCurrentPage] = useState(startValue);
-  const perPage = parseFloat(itemsOnDesc);
+  const perPage = itemsOnDesc;
   const startItem = (currentPage - startValue) * perPage + startValue;
   const endIem = Math.min(startItem + perPage - startValue, items.length);
 
@@ -32,7 +32,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             onChange={(e) => {
-              setItemsOnDesc(e.target.value);
+              setItemsOnDesc(+e.target.value);
               setCurrentPage(startValue);
             }}
             value={itemsOnDesc}
@@ -51,7 +51,7 @@ export const App: React.FC = () => {
 
       <Pagination
         total={items}
-        perPage={+itemsOnDesc}
+        perPage={itemsOnDesc}
         currentPage={currentPage}
         onPageChange={(page) => setCurrentPage(page)}
       />
