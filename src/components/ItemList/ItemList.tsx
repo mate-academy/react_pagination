@@ -1,10 +1,10 @@
 import React from 'react';
 
-interface ItemListProps {
+interface Props {
   items: string[];
 }
 
-export const ItemList: React.FC<ItemListProps> = ({ items }) => {
+export const ItemList: React.FC<Props> = ({ items }) => {
   return (
     <ul>
       {items.map((item) => (
