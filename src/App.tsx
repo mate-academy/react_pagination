@@ -1,24 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42)
-  .map(n => `Item ${n}`);
+const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [perPage, setPerPage] = useState(5);
-  const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const changePage = (page: number) => setCurrentPage(page);
+  const queryParams = new URLSearchParams(location.search);
+  const pageQueryParam = queryParams.get('page');
+  const perPageQueryParam = queryParams.get('perPage');
 
-  const handlePerPageChange
-    = (event: React.ChangeEvent<HTMLSelectElement>) => {
-      setPerPage(5);
-      setPerPage(+event.target.value);
-      setCurrentPage(1);
-    };
+  const [perPage, setPerPage] = useState(
+    perPageQueryParam ? parseInt(perPageQueryParam, 10) : 5,
+  );
+  const [currentPage, setCurrentPage] = useState(
+    pageQueryParam ? parseInt(pageQueryParam, 10) : 1,
+  );
+
+  const changePage = (page: number) => {
+    setCurrentPage(page);
+    queryParams.set('page', String(page));
+    navigate({ search: queryParams.toString() });
+  };
+
+  const handlePerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const perPageValue = parseInt(event.target.value, 10);
+
+    setPerPage(perPageValue);
+    queryParams.set('perPage', String(perPageValue));
+    queryParams.set('page', '1');
+    navigate({ search: queryParams.toString() });
+  };
+
+  useEffect(() => {
+    if (pageQueryParam) {
+      setCurrentPage(parseInt(pageQueryParam, 10));
+    }
+  }, [pageQueryParam]);
 
   const total = items.length;
   const maxPage = perPage * currentPage;
@@ -55,8 +77,6 @@ export const App: React.FC = () => {
           items per page
         </label>
       </div>
-
-      {/* Move this markup to Pagination */}
 
       <Pagination
         total={total}

@@ -1,42 +1,6 @@
 import React from 'react';
-import cn from 'classnames';
 import { getNumbers } from '../../utils';
-
-type PaginationButtonProps = {
-  dataCy: string;
-  label: string;
-  active: boolean;
-  disabled: boolean;
-  onClick: () => void;
-  ariaDisabled?: boolean;
-};
-
-const PaginationButton: React.FC<PaginationButtonProps> = ({
-  active,
-  dataCy,
-  label,
-  disabled,
-  onClick,
-  ariaDisabled = true, // Set the default value to true
-}) => {
-  return (
-    <li className={cn('page-item', { disabled, active })}>
-      <button
-        type="button"
-        data-cy={dataCy}
-        className="page-link"
-        onClick={onClick}
-        aria-disabled={ariaDisabled ? 'true' : 'false'}
-      >
-        {label}
-      </button>
-    </li>
-  );
-};
-
-PaginationButton.defaultProps = {
-  ariaDisabled: true,
-};
+import { PaginationButton } from '../PaginationButton';
 
 type Props = {
   total: number;
