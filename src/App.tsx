@@ -69,9 +69,7 @@ export const App: React.FC = () => {
         onPageChange={changePage}
       />
 
-      <ItemList
-        items={visiblePages}
-      />
+      <ItemList items={visiblePages} />
     </div>
   );
 };
