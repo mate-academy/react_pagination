@@ -1,11 +1,11 @@
 type Props = {
-  values: number[],
+  paginationOptions: number[],
   perPage: number;
   onPerPageChange: (event: React.ChangeEvent<HTMLSelectElement>) => void,
 };
 
 export const Selector: React.FC<Props> = ({
-  values,
+  paginationOptions,
   perPage,
   onPerPageChange,
 }) => (
@@ -18,8 +18,8 @@ export const Selector: React.FC<Props> = ({
         value={perPage}
         onChange={onPerPageChange}
       >
-        {values.map(value => (
-          <option value={value}>{value}</option>
+        {paginationOptions.map(option => (
+          <option value={option} key={option}>{option}</option>
         ))}
       </select>
     </div>

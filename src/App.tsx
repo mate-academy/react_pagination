@@ -3,10 +3,10 @@ import './App.css';
 import { getEdgeIndexes, getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 import { Selector } from './components/Selector';
-import { ItemsList } from './components/ItemsList/ItemsList';
+import { ItemList } from './components/ItemsList/ItemsList';
 
 const TOTAL_PAGES = 42;
-const VALUES = [3, 5, 10, 20];
+const PER_PAGE_OPTIONS = [3, 5, 10, 20];
 
 const items = getNumbers(1, TOTAL_PAGES)
   .map(n => `Item ${n}`);
@@ -21,7 +21,7 @@ export const App: React.FC = () => {
     perPage,
   );
 
-  const perPageHandle = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handlePerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(Number(event.target.value));
     setCurrentPage(1);
   };
@@ -35,9 +35,9 @@ export const App: React.FC = () => {
       </p>
 
       <Selector
-        values={VALUES}
+        paginationOptions={PER_PAGE_OPTIONS}
         perPage={perPage}
-        onPerPageChange={perPageHandle}
+        onPerPageChange={handlePerPageChange}
       />
 
       {/* Move this markup to Pagination */}
@@ -47,7 +47,7 @@ export const App: React.FC = () => {
         currentPage={currentPage}
         onPageChange={setCurrentPage}
       />
-      <ItemsList
+      <ItemList
         items={items}
         firstElementIndex={firstItemIndex}
         lastElementIndex={lastItemIndex}

@@ -6,14 +6,14 @@ type Props = {
   lastElementIndex: number,
 };
 
-export const ItemsList: React.FC<Props> = ({
+export const ItemList: React.FC<Props> = ({
   items,
   firstElementIndex,
   lastElementIndex,
 }) => (
   <ul>
     {getVisibleItems(items, firstElementIndex, lastElementIndex).map(item => (
-      <li data-cy="item">{item}</li>
+      <li data-cy="item" key={item}>{item}</li>
     ))}
   </ul>
 );
