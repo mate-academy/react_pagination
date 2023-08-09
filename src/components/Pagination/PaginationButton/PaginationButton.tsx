@@ -19,7 +19,7 @@ export const PaginationButton: React.FC<Props> = ({
   ariaDisabled = true,
 }) => {
   return (
-    <li className={classNames('pagi-item', { disabled, active })}>
+    <li className={classNames('page-item', { disabled, active })}>
       <button
         type="button"
         data-cy={dataCy}
