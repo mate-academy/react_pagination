@@ -3,9 +3,9 @@ import cn from 'classnames';
 import { getNumbers } from '../../utils';
 
 type Props = {
-  total: number, // total number of items to paginate
-  perPage: number, // optional with 1 by default
-  perItems: number, // number of items per page
+  total: number,
+  perPage: number,
+  perItems: number,
   onPageChange: (page: number) => void,
 };
 
