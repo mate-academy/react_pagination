@@ -7,21 +7,25 @@ export const Items: React.FC<Props> = ({
 }) => {
   const items = view();
 
-  return (
-    <ul>
-      {
-        items.map(item => {
-          if (item) {
-            return (
-              <li data-cy="item" key={item}>
-                {item}
-              </li>
-            );
-          }
+  if (items.length !== 0) {
+    return (
+      <ul>
+        {
+          items.map(item => {
+            if (item) {
+              return (
+                <li data-cy="item" key={item}>
+                  {item}
+                </li>
+              );
+            }
 
-          return null;
-        })
-      }
-    </ul>
-  );
+            return null;
+          })
+        }
+      </ul>
+    );
+  }
+
+  return null;
 };

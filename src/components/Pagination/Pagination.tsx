@@ -5,14 +5,17 @@ type Props = {
 };
 
 export const Pagination: React.FC<Props> = ({ pages, pageCur, setPage }) => {
+  const nextLinkCondition = pageCur === pages.length;
+  const prevLinkCondition = pageCur === 1;
+
   return (
     <ul className="pagination">
-      <li className={`page-item ${pageCur !== 1 ? '' : 'disabled'}`}>
+      <li className={`page-item ${prevLinkCondition ? 'disabled' : ''}`}>
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={pageCur === 1 ? 'true' : 'false'}
+          aria-disabled={prevLinkCondition ? 'true' : 'false'}
           onClick={() => {
             if (pageCur !== 1) {
               setPage(pageCur - 1);
@@ -24,8 +27,13 @@ export const Pagination: React.FC<Props> = ({ pages, pageCur, setPage }) => {
       </li>
       {
         pages.map(page => {
+          const condition = +page === pageCur;
+
           return (
-            <li className={`page-item ${+page === pageCur ? 'active' : ''}`}>
+            <li
+              className={`page-item ${condition ? 'active' : ''}`}
+              key={page}
+            >
               <a
                 data-cy="pageLink"
                 className="page-link"
@@ -42,12 +50,12 @@ export const Pagination: React.FC<Props> = ({ pages, pageCur, setPage }) => {
           );
         })
       }
-      <li className={`page-item ${pageCur !== pages.length ? '' : 'disabled'}`}>
+      <li className={`page-item ${nextLinkCondition ? 'disabled' : ''}`}>
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={pageCur === pages.length ? 'true' : 'false'}
+          aria-disabled={nextLinkCondition ? 'true' : 'false'}
           onClick={() => {
             if (pageCur !== pages.length) {
               setPage(pageCur + 1);

@@ -20,7 +20,7 @@ export const Table: React.FC<Props> = ({
   setPage,
   setLimit,
 }) => {
-  const startItem: number = pageCur * limit + 1 - limit;
+  const startItem: number = (pageCur - 1) * limit + 1;
   const endItem: number = Math.min(pageCur * limit, items.length);
 
   return (
@@ -41,10 +41,10 @@ export const Table: React.FC<Props> = ({
               setLimit(parseInt(event.target.value, 10));
               setPage(1);
             }}
-            value={limit}
+            defaultValue={limit}
           >
             <option value="3">3</option>
-            <option value="5" selected>5</option>
+            <option value="5">5</option>
             <option value="10">10</option>
             <option value="20">20</option>
           </select>

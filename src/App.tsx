@@ -8,11 +8,10 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export function getItems(page: number, limit: number): string[] {
-  const visibleItems = [];
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
 
-  for (let i = (page - 1) * limit; i < (page * limit); i += 1) {
-    visibleItems.push(items[i]);
-  }
+  const visibleItems = items.slice(startIndex, endIndex);
 
   return visibleItems;
 }
