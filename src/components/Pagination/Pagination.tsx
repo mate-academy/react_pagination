@@ -9,7 +9,7 @@ type Props = {
 };
 
 export const Pagination: React.FC<Props> = ({
-  total: numberOfPages,
+  total,
   currentPage,
   onPageChange: setCurrentPage,
 }) => {
@@ -18,15 +18,23 @@ export const Pagination: React.FC<Props> = ({
   };
 
   const goToPreviousPage = () => {
-    setCurrentPage((prevCurrentPage) => prevCurrentPage - 1);
+    if (currentPage !== 1) {
+      setCurrentPage((prevCurrentPage) => prevCurrentPage - 1);
+    }
   };
 
   const goToNextPage = () => {
-    setCurrentPage((prevCurrentPage) => prevCurrentPage + 1);
+    if (currentPage !== total) {
+      setCurrentPage((prevCurrentPage) => prevCurrentPage + 1);
+    }
   };
 
   const disableGoToPrevious = currentPage === 1;
-  const disableGoToNext = currentPage === numberOfPages;
+  const disableGoToNext = currentPage === total;
+
+  function generateNumberArray(arrayLength: number): number[] {
+    return Array.from({ length: arrayLength }, (_, index) => index + 1);
+  }
 
   return (
     <ul className="pagination">
@@ -44,7 +52,7 @@ export const Pagination: React.FC<Props> = ({
         </a>
       </li>
 
-      {Array.from({ length: numberOfPages }, (_, index) => index + 1)
+      {generateNumberArray(total)
         .map(page => (
           <li
             className={`page-item${currentPage === page ? ' active' : ''}`}
