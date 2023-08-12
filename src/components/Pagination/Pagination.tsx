@@ -45,7 +45,7 @@ export const Pagination: React.FC<Props> = ({
       {pageNumbers.map((pageNumber) => (
         <li key={pageNumber} className={`page-item ${pageNumber === currentPage ? 'active' : ''}`}>
           <a
-            data-cy={`pageLink-${pageNumber}`}
+            data-cy="pageLink"
             className="page-link"
             href={`#page-${pageNumber}`}
             aria-disabled="false"
