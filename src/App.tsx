@@ -2,30 +2,25 @@ import React, { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
-// import { event } from 'cypress/types/jquery';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 enum ItemsPerPage {
-  three = 3,
-  five = 5,
-  ten = 10,
-  twenty = 20,
+  Three = 3,
+  Five = 5,
+  Ten = 10,
+  Twenty = 20,
 }
 
 export const App: React.FC = () => {
-  const [itemsPerPage, setItemsPerPage] = useState(ItemsPerPage.five);
+  const [itemsPerPage, setItemsPerPage] = useState(ItemsPerPage.Five);
   const totalPages = Math.ceil(items.length / itemsPerPage);
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(+event.target.value);
     setCurrentPage(1);
-  };
-
-  const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
   };
 
   const displayedItems = items.slice((currentPage - 1) * itemsPerPage,
@@ -50,10 +45,10 @@ export const App: React.FC = () => {
             value={itemsPerPage}
             onChange={handlePerPageChange}
           >
-            <option value={ItemsPerPage.three}>{ItemsPerPage.three}</option>
-            <option value={ItemsPerPage.five}>{ItemsPerPage.five}</option>
-            <option value={ItemsPerPage.ten}>{ItemsPerPage.ten}</option>
-            <option value={ItemsPerPage.twenty}>{ItemsPerPage.twenty}</option>
+            <option value={ItemsPerPage.Three}>{ItemsPerPage.Three}</option>
+            <option value={ItemsPerPage.Five}>{ItemsPerPage.Five}</option>
+            <option value={ItemsPerPage.Ten}>{ItemsPerPage.Ten}</option>
+            <option value={ItemsPerPage.Twenty}>{ItemsPerPage.Twenty}</option>
           </select>
         </div>
 
@@ -65,7 +60,7 @@ export const App: React.FC = () => {
       <Pagination
         total={totalPages}
         currentPage={currentPage}
-        onPageChange={handlePageChange}
+        onPageChange={setCurrentPage}
       />
 
       <ul>
