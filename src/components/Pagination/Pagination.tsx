@@ -42,6 +42,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           data-cy="prevLink"
           className="page-link"
           href="#prev"
+          aria-disabled={currentPage === 1}
           onClick={handlePrevClick}
         >
           «
