@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 interface Props {
   total: number;
@@ -6,16 +7,22 @@ interface Props {
   onPageChange: (pageNumber: number) => void;
 }
 
-export const Pagination: React.FC<Props> = ({
-  total,
-  currentPage,
-  onPageChange,
-}) => {
+const generatePageNumbers = (total: number): number[] => {
   const pageNumbers = [];
 
   for (let i = 1; i <= total; i += 1) {
     pageNumbers.push(i);
   }
+
+  return pageNumbers;
+};
+
+export const Pagination: React.FC<Props> = ({
+  total,
+  currentPage,
+  onPageChange,
+}) => {
+  const pageNumbers = generatePageNumbers(total);
 
   const handlePrevClick = () => {
     if (currentPage > 1) {
@@ -31,7 +38,10 @@ export const Pagination: React.FC<Props> = ({
 
   return (
     <ul className="pagination">
-      <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+      <li
+        className={classNames('page-item',
+          { disabled: currentPage === 1 })}
+      >
         <a
           data-cy="prevLink"
           className="page-link"
@@ -43,7 +53,11 @@ export const Pagination: React.FC<Props> = ({
         </a>
       </li>
       {pageNumbers.map((pageNumber) => (
-        <li key={pageNumber} className={`page-item ${pageNumber === currentPage ? 'active' : ''}`}>
+        <li
+          key={pageNumber}
+          className={classNames('page-item',
+            { active: pageNumber === currentPage })}
+        >
           <a
             data-cy="pageLink"
             className="page-link"
@@ -55,7 +69,10 @@ export const Pagination: React.FC<Props> = ({
           </a>
         </li>
       ))}
-      <li className={`page-item ${currentPage === total ? 'disabled' : ''}`}>
+      <li
+        className={classNames('page-item',
+          { disabled: currentPage === total })}
+      >
         <a
           data-cy="nextLink"
           className="page-link"
