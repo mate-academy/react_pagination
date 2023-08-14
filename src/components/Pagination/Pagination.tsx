@@ -74,6 +74,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           data-cy="nextLink"
           className="page-link"
           href="#next"
+          aria-disabled={currentPage === totalPages}
           onClick={handleNextClick}
         >
           »

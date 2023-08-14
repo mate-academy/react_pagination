@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import "./App.css";
-import { getNumbers } from "./utils";
-import { Pagination } from "./components/Pagination/Pagination";
+import React, { useState } from 'react';
+import './App.css';
+import { getNumbers } from './utils';
+import { Pagination } from './components/Pagination/Pagination';
 
 export const App: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -26,7 +26,7 @@ export const App: React.FC = () => {
       <p className="lead" data-cy="info">
         {`Page ${current} (items ${(current - 1) * perPage + 1} - ${Math.min(
           current * perPage,
-          items.length
+          items.length,
         )} of ${items.length})`}
       </p>
 
