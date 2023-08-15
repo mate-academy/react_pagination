@@ -18,6 +18,7 @@ export const App: React.FC = () => {
   } = usePagination();
 
   const visibleItems = items.slice(startItem, endItem);
+  const totalItems = 42;
 
   return (
     <div className="container">
@@ -49,7 +50,7 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={42}
+        total={totalItems}
         perPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={onPageChange}
@@ -57,7 +58,7 @@ export const App: React.FC = () => {
 
       <ul>
         {visibleItems.map(item => (
-          <li data-cy="item">{item}</li>
+          <li data-cy="item" key={item}>{item}</li>
         ))}
       </ul>
     </div>
