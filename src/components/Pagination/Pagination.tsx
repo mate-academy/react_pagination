@@ -18,15 +18,13 @@ export const Pagination: React.FC<PaginationProps> = ({
   const pageNumbers: number[] = [...Array(totalPages)]
     .map((_, i) => i + 1);
 
-  function handlePrevClick(e: React.MouseEvent<HTMLAnchorElement>) {
-    e.preventDefault();
+  function handlePrevClick() {
     if (currentPage > 1) {
       onPageChange(currentPage - 1);
     }
   }
 
-  const handleNextClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
+  const handleNextClick = () => {
     if (currentPage < totalPages) {
       onPageChange(currentPage + 1);
     }
@@ -56,8 +54,7 @@ export const Pagination: React.FC<PaginationProps> = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${page}`}
-            onClick={(e) => {
-              e.preventDefault();
+            onClick={() => {
               onPageChange(page);
             }}
           >
