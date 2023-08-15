@@ -28,16 +28,18 @@ export const App: React.FC = () => {
     window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
   }
 
-  function onPageChange(newPage: number) {
+  const onPageChange = (newPage: number) => {
     changeUrlParams(newPage, perPage);
     setCurrentPage(newPage);
-  }
+  };
 
-  function onPerPageChange(newPerPage: number) {
-    changeUrlParams(1, newPerPage);
-    setPerPage(newPerPage);
+  const onPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = e.target;
+
+    changeUrlParams(1, Number(value));
+    setPerPage(Number(value));
     setCurrentPage(1);
-  }
+  };
 
   useEffect(() => {
     changeUrlParams(currentPage, perPage);
@@ -57,7 +59,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            onChange={(e) => onPerPageChange(Number(e.target.value))}
+            onChange={onPerPageChange}
             value={perPage}
           >
             <option value="3">3</option>
@@ -76,7 +78,7 @@ export const App: React.FC = () => {
         total={total}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={(page) => onPageChange(page)}
+        onPageChange={onPageChange}
       />
 
       <ul>
