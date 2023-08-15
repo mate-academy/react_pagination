@@ -35,7 +35,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page${currentPage}`}
+        {`Page ${currentPage}`}
         {`(items ${firstItem + 1} - ${lastItem} of ${total})`}
       </p>
 
