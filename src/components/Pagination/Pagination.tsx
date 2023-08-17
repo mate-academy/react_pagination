@@ -3,32 +3,32 @@ import cn from 'classnames';
 
 type Props = {
   currentPage: number;
-  itemsPerPage: number;
-  totalItems: number;
-  paginate: (pageNumber: number) => void;
+  perPage: number;
+  total: number;
+  onPageChange: (pageNumber: number) => void;
 };
 
 export const Pagination: React.FC<Props> = ({
   currentPage,
-  itemsPerPage,
-  totalItems,
-  paginate,
+  perPage,
+  total,
+  onPageChange,
 }) => {
   const pageNumbers: number[] = [];
 
-  for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i += 1) {
+  for (let i = 1; i <= Math.ceil(total / perPage); i += 1) {
     pageNumbers.push(i);
   }
 
   const handlePrevButton = (index: number) => {
     if (pageNumbers.includes(index - 1)) {
-      paginate(index - 1);
+      onPageChange(index - 1);
     }
   };
 
   const handleNextButton = (index: number) => {
     if (pageNumbers.includes(index + 1)) {
-      paginate(index + 1);
+      onPageChange(index + 1);
     }
   };
 
@@ -54,7 +54,7 @@ export const Pagination: React.FC<Props> = ({
           key={number}
         >
           <a
-            onClick={() => paginate(number)}
+            onClick={() => onPageChange(number)}
             data-cy="pageLink"
             className="page-link"
             href={`#${number}`}
