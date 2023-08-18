@@ -3,7 +3,7 @@ import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42)
+const items: string[] = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
@@ -67,6 +67,7 @@ export const App: React.FC = () => {
       <ul>
         {currentItems.map(item => (
           <li
+            data-cy="item"
             key={item}
           >
             {item}
