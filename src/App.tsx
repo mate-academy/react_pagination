@@ -8,7 +8,7 @@ const items = getNumbers(1, 42)
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setItemsPerPage] = useState(5);
+  const [perPage, setItemsPerPage] = useState(3);
 
   const pageAmount = (Math.ceil(items.length / perPage));
 
@@ -16,9 +16,7 @@ export const App: React.FC = () => {
     ? items.length
     : currentPage * perPage;
 
-  const indexOfFirstItem = currentPage === 1
-    ? 1
-    : (currentPage - 1) * perPage + 1;
+  const indexOfFirstItem = idexOfLastItem - perPage;
 
   const currentItems = items.slice(indexOfFirstItem, idexOfLastItem);
 
@@ -48,7 +46,7 @@ export const App: React.FC = () => {
             className="form-control"
           >
             <option value="3">3</option>
-            <option value="5" selected>5</option>
+            <option value="5">5</option>
             <option value="10">10</option>
             <option value="20">20</option>
           </select>
@@ -69,7 +67,6 @@ export const App: React.FC = () => {
       <ul>
         {currentItems.map(item => (
           <li
-            data-cy="item"
             key={item}
           >
             {item}
