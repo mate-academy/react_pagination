@@ -16,7 +16,9 @@ export const App: React.FC = () => {
     ? items.length
     : currentPage * perPage;
 
-  const indexOfFirstItem = idexOfLastItem - perPage;
+  const indexOfFirstItem = currentPage === 1
+    ? 1
+    : (currentPage - 1) * perPage + 1;
 
   const currentItems = items.slice(indexOfFirstItem, idexOfLastItem);
 
