@@ -17,17 +17,17 @@ export const Pagination: React.FC<Props> = ({
 }) => {
   const pageCount = Math.ceil(total / perPage);
   const pageButtons = getNumbers(1, pageCount);
-  const firstPage = currentPage === 1;
-  const lastPage = currentPage === pageCount;
+  const isfirstPage = currentPage === 1;
+  const islastPage = currentPage === pageCount;
 
   const handlePrevButton = () => {
-    if (!firstPage) {
+    if (!isfirstPage) {
       onPageChange(currentPage - 1);
     }
   };
 
   const handleNextButton = () => {
-    if (!lastPage) {
+    if (!islastPage) {
       onPageChange(currentPage + 1);
     }
   };
@@ -41,14 +41,14 @@ export const Pagination: React.FC<Props> = ({
   return (
     <ul className="pagination">
       <li className={classNames('page-item', {
-        disabled: firstPage,
+        disabled: isfirstPage,
       })}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={firstPage}
+          aria-disabled={isfirstPage}
           onClick={handlePrevButton}
         >
           «
@@ -56,15 +56,17 @@ export const Pagination: React.FC<Props> = ({
       </li>
 
       {pageButtons.map(page => (
-        <li className={classNames('page-item', {
-          active: page === currentPage,
-        })}
+        <li
+          key={page}
+          className={classNames('page-item', {
+            active: page === currentPage,
+          })}
         >
           <a
             data-cy="pageLink"
             className="page-link"
             href={`#${page}`}
-            aria-disabled={firstPage}
+            aria-disabled={isfirstPage}
             onClick={() => handlePageChangeIfDifferent(page)}
           >
             {page}
@@ -73,14 +75,14 @@ export const Pagination: React.FC<Props> = ({
       ))}
 
       <li className={classNames('page-item', {
-        disabled: lastPage,
+        disabled: islastPage,
       })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={lastPage}
+          aria-disabled={islastPage}
           onClick={handleNextButton}
         >
           »
