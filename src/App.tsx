@@ -67,6 +67,7 @@ export const App: React.FC = () => {
       <ul>
         {currentItems.map(item => (
           <li
+            data-cy="item"
             key={item}
           >
             {item}
