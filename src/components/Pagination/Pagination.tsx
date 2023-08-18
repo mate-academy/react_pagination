@@ -17,17 +17,17 @@ export const Pagination: React.FC<Props> = ({
 }) => {
   const pageCount = Math.ceil(total / perPage);
   const pageButtons = getNumbers(1, pageCount);
-  const isfirstPage = currentPage === 1;
-  const islastPage = currentPage === pageCount;
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === pageCount;
 
   const handlePrevButton = () => {
-    if (!isfirstPage) {
+    if (!isFirstPage) {
       onPageChange(currentPage - 1);
     }
   };
 
   const handleNextButton = () => {
-    if (!islastPage) {
+    if (!isLastPage) {
       onPageChange(currentPage + 1);
     }
   };
@@ -41,14 +41,14 @@ export const Pagination: React.FC<Props> = ({
   return (
     <ul className="pagination">
       <li className={classNames('page-item', {
-        disabled: isfirstPage,
+        disabled: isFirstPage,
       })}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={isfirstPage}
+          aria-disabled={isFirstPage}
           onClick={handlePrevButton}
         >
           «
@@ -66,7 +66,7 @@ export const Pagination: React.FC<Props> = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${page}`}
-            aria-disabled={isfirstPage}
+            aria-disabled={isFirstPage}
             onClick={() => handlePageChangeIfDifferent(page)}
           >
             {page}
@@ -75,14 +75,14 @@ export const Pagination: React.FC<Props> = ({
       ))}
 
       <li className={classNames('page-item', {
-        disabled: islastPage,
+        disabled: isLastPage,
       })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={islastPage}
+          aria-disabled={isLastPage}
           onClick={handleNextButton}
         >
           »
