@@ -8,7 +8,7 @@ const items = getNumbers(1, 42)
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setItemsPerPage] = useState(3);
+  const [perPage, setItemsPerPage] = useState(5);
 
   const pageAmount = (Math.ceil(items.length / perPage));
 
