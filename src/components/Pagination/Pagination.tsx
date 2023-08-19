@@ -16,7 +16,7 @@ export const Pagination: React.FC<Props> = ({
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === pageCount;
 
-  const handlePageChange = (page: number, preventChange: boolean) => () => {
+  const handlePageChange = (page: number, preventChange?: boolean) => () => {
     if (preventChange) {
       return;
     }
@@ -34,7 +34,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={isFirstPage}
-          onClick={handlePageChange(currentPage + 1, isLastPage)}
+          onClick={handlePageChange(currentPage - 1, isFirstPage)}
         >
           «
         </a>
@@ -49,7 +49,7 @@ export const Pagination: React.FC<Props> = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${page}`}
-            onClick={() => onPageChange(page)}
+            onClick={handlePageChange(page)}
           >
             {page}
           </a>
