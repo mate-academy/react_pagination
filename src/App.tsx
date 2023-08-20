@@ -7,17 +7,12 @@ import { getFirstItemGroup, getLastItemGroup } from './utils';
 const total = 42;
 
 export const App: React.FC = () => {
-  const options = [
-    { value: 3, text: '3' },
-    { value: 5, text: '5' },
-    { value: 10, text: '10' },
-    { value: 20, text: '20' },
-  ];
+  const options = [3, 5, 10, 20];
 
-  const [countItems, setCountItems] = useState(options[1].value);
+  const [countItems, setCountItems] = useState(options[1]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const handChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCountItems(+event.target.value);
     setCurrentPage(1);
   };
@@ -37,14 +32,14 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={countItems}
-            onChange={handChange}
+            onChange={handleChange}
           >
             {options.map(option => (
               <option
-                key={option.value}
-                value={option.value}
+                key={option}
+                value={option}
               >
-                {option.text}
+                {option}
               </option>
             ))}
           </select>
