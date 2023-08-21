@@ -11,7 +11,7 @@ export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(options[1]);
 
-  const pages = calcPages(total, perPage);
+  const pagesCount = calcPages(total, perPage);
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(+event.target.value);
@@ -24,7 +24,7 @@ export const App: React.FC = () => {
   const info = `Page ${currentPage} (items ${startItem} - ${endItem} of ${total})`;
 
   const onPageChange = (page: number) => {
-    if (page > 0 && page <= pages) {
+    if (page > 0 && page <= pagesCount) {
       setCurrentPage(page);
     }
   };
