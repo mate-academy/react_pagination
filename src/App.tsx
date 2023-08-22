@@ -4,10 +4,6 @@ import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 import { Items } from './components/Pagination/Items';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// const items = getNumbers(1, 42)
-//   .map(n => `Item ${n}`);
-
 export const App: React.FC = () => {
   const [perPageNum, setPerPageNum] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
@@ -73,11 +69,6 @@ export const App: React.FC = () => {
       />
 
       <Items items={items} />
-      {/* <ul>
-        {items.map(item => (
-          <li data-cy="item" key={item}>{`Item ${item}`}</li>
-        ))}
-      </ul> */}
     </div>
   );
 };
