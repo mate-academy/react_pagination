@@ -3,28 +3,50 @@ import React from 'react';
 import { getNumbers } from '../../utils';
 
 type Props = {
-  setCurrentPage: (value: number) => void;
-  itemsPerPage: number;
+  total: number;
+  onPageChange: (value: number) => void;
+  perPage: number;
   currentPage: number;
 };
 
 export const Pagination: React.FC<Props> = ({
-  itemsPerPage,
-  setCurrentPage,
+  total,
+  perPage,
+  onPageChange,
   currentPage,
 }) => {
-  const lastPage = Math.ceil(42 / itemsPerPage);
+  const lastPage = Math.ceil(total / perPage);
   const pages = getNumbers(1, lastPage);
+  const currentPageIsFirst = currentPage === 1;
+  const currentPageIsLast = currentPage === lastPage;
+
+  const handlePrevPage = () => {
+    if (!currentPageIsFirst) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (!currentPageIsLast) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
+  const handlePageChange = (page: number) => {
+    if (page !== currentPage) {
+      onPageChange(page);
+    }
+  };
 
   return (
     <ul className="pagination">
-      <li className={cn('page-item', { disabled: currentPage === 1 })}>
+      <li className={cn('page-item', { disabled: currentPageIsFirst })}>
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === 1}
-          onClick={() => currentPage !== 1 && setCurrentPage(currentPage - 1)}
+          aria-disabled={currentPageIsFirst}
+          onClick={handlePrevPage}
         >
           «
         </a>
@@ -38,20 +60,19 @@ export const Pagination: React.FC<Props> = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${page}`}
-            onClick={() => setCurrentPage(page)}
+            onClick={() => handlePageChange(page)}
           >
             {page}
           </a>
         </li>
       ))}
-      <li className={cn('page-item', { disabled: currentPage === lastPage })}>
+      <li className={cn('page-item', { disabled: currentPageIsLast })}>
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === lastPage}
-          onClick={() => currentPage !== lastPage
-            && setCurrentPage(currentPage + 1)}
+          aria-disabled={currentPageIsLast}
+          onClick={handleNextPage}
         >
           »
         </a>

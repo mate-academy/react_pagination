@@ -12,16 +12,21 @@ export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const firstItem = itemsPerPage * currentPage - itemsPerPage + 1;
-  const lastItem = itemsPerPage * currentPage;
+  const lastItem = Math.min(itemsPerPage * currentPage, items.length);
 
   const visibleItems = items.slice(firstItem - 1, lastItem);
+
+  const handleitemsPerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setItemsPerPage(+event.target.value);
+    setCurrentPage(1);
+  };
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${firstItem} - ${lastItem < 42 ? lastItem : 42} of 42)`}
+        {`Page ${currentPage} (items ${firstItem} - ${lastItem} of ${items.length})`}
       </p>
 
       <div className="form-group row">
@@ -31,10 +36,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             defaultValue={itemsPerPage}
-            onChange={(event) => {
-              setItemsPerPage(+event.target.value);
-              setCurrentPage(1);
-            }}
+            onChange={(event) => handleitemsPerPage(event)}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -49,9 +51,10 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        setCurrentPage={setCurrentPage}
-        itemsPerPage={itemsPerPage}
+        total={items.length}
+        perPage={itemsPerPage}
         currentPage={currentPage}
+        onPageChange={(page: number) => setCurrentPage(page)}
       />
 
       <ul>
