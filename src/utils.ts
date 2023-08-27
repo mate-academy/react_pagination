@@ -7,3 +7,13 @@ export function getNumbers(from: number, to: number): number[] {
 
   return numbers;
 }
+
+export function getNumbersInRange(
+  from: number, to: number,
+  startRange:number,
+  endRange:number,
+): number[] {
+  const numbers:number[] = getNumbers(from, to);
+
+  return numbers.filter((n) => n >= startRange && n <= endRange);
+}
