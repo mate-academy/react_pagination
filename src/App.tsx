@@ -25,15 +25,13 @@ export const App: React.FC = () => {
   const changedPage = (page: number) => {
     setInitialPage(page);
   };
-  
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-      {`Page ${initialPage} (items ${startVisibleItems + 1}
-        - ${endVisibleItems} of ${totalItems})`}
+        {`Page ${initialPage} (items ${startVisibleItems + 1} - ${endVisibleItems} of ${totalItems})`}
       </p>
 
       <div className="form-group row">
@@ -65,13 +63,13 @@ export const App: React.FC = () => {
       />
       <ul>
         {getNumbers(firstPage, totalItems).map(item => (
-            <li
-              data-cy="item"
-              key={item}
-            >
-              {`Item ${item}`}
-            </li>
-          )).slice(startVisibleItems, endVisibleItems)} 
+          <li
+            data-cy="item"
+            key={item}
+          >
+            {`Item ${item}`}
+          </li>
+        )).slice(startVisibleItems, endVisibleItems)}
       </ul>
     </div>
   );

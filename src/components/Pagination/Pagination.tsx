@@ -1,14 +1,13 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import cn from 'classnames';
 import { getNumbers } from '../../utils';
-import React from 'react';
 
 type Props = {
   total: number;
   perPage: number;
   currentPage: number;
   onPageChange: (page: number) => void;
-}
+};
 
 export const Pagination: React.FC<Props> = ({
   total,
@@ -18,13 +17,13 @@ export const Pagination: React.FC<Props> = ({
 }) => {
   const [chosenPage, setChosenPage] = useState(currentPage);
 
-  // useEffect(() => {
-  //   setChosenPage(currentPage);
-  // }, [perPage]);
-
   useEffect(() => {
     onPageChange(chosenPage);
   }, [chosenPage]);
+
+  useEffect(() => {
+    setChosenPage(currentPage);
+  }, [perPage]);
 
   const totalTabs = Math.ceil(total / perPage);
 
