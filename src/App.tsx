@@ -9,7 +9,7 @@ const items = getNumbers(1, 42)
 
 function getItems(
   listOfItems: string[],
-  itemNumbers: string,
+  itemNumbers: number,
 ): string[][] {
   const result = [];
   let itemsPart = [];
@@ -36,7 +36,7 @@ function getItems(
 }
 
 export const App: React.FC = () => {
-  const [perPage, setPerPage] = useState('5');
+  const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const groupedItems = getItems(items, perPage);
   const currentGroupOfItems = groupedItems[currentPage - 1];
@@ -49,7 +49,7 @@ export const App: React.FC = () => {
   };
 
   const handleChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setPerPage(event.target.value);
+    setPerPage(+event.target.value);
     setCurrentPage(1);
   };
 

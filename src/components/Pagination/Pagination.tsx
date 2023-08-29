@@ -2,7 +2,7 @@ import cn from 'classnames';
 
 type Props = {
   total: number;
-  perPage: string;
+  perPage: number;
   currentPage: number;
   onPageChange: (page: number) => void;
 };
@@ -11,47 +11,35 @@ export const Pagination: React.FC<Props> = ({
   total,
   perPage,
   currentPage,
-  onPageChange = () => {},
+  onPageChange,
 }) => {
-  const totalPages = Math.ceil(total / +perPage);
+  const totalPages = Math.ceil(total / perPage);
   const numberOfPages = [];
 
   for (let i = 1; i <= totalPages; i += 1) {
     numberOfPages.push(i);
   }
 
-  const isFirstPage = (): boolean => {
-    if (currentPage === 1) {
-      return true;
-    }
+  const isFirstPage = currentPage === 1;
 
-    return false;
-  };
-
-  const isLastPage = (): boolean => {
-    if (currentPage === totalPages) {
-      return true;
-    }
-
-    return false;
-  };
+  const isLastPage = currentPage === totalPages;
 
   return (
     <ul className="pagination">
       <li className={cn(
         'page-item',
-        { disabled: isFirstPage() },
+        { disabled: isFirstPage },
       )}
       >
-        <a
+        <button
+          type="button"
           data-cy="prevLink"
           className="page-link"
-          href="#prev"
-          aria-disabled={isFirstPage()}
-          onClick={() => !isFirstPage() && onPageChange(currentPage - 1)}
+          aria-disabled={isFirstPage}
+          onClick={() => !isFirstPage && onPageChange(currentPage - 1)}
         >
           «
-        </a>
+        </button>
       </li>
       {numberOfPages.map(page => (
         <li
@@ -73,18 +61,18 @@ export const Pagination: React.FC<Props> = ({
       ))}
       <li className={cn(
         'page-item',
-        { disabled: isLastPage() },
+        { disabled: isLastPage },
       )}
       >
-        <a
+        <button
+          type="button"
           data-cy="nextLink"
           className="page-link"
-          href="#next"
-          aria-disabled={isLastPage()}
-          onClick={() => !isLastPage() && onPageChange(currentPage + 1)}
+          aria-disabled={isLastPage}
+          onClick={() => !isLastPage && onPageChange(currentPage + 1)}
         >
           »
-        </a>
+        </button>
       </li>
     </ul>
   );
