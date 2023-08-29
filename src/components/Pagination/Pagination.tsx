@@ -38,12 +38,17 @@ export const Pagination: React.FC<Props> = ({
     }
   };
 
+  const DISABLED = {
+    first: currentPage === 1,
+    second: currentPage === totalPages,
+  };
+
   return (
     <>
       <ul className="pagination">
         <li className={cn(
           'page-item',
-          { disabled: currentPage === 1 },
+          { disabled: DISABLED.first },
         )}
         >
           <a
@@ -51,7 +56,7 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#prev"
             onClick={handlePrevClick}
-            aria-disabled={currentPage === 1}
+            aria-disabled={DISABLED.first}
           >
             «
           </a>
@@ -71,7 +76,7 @@ export const Pagination: React.FC<Props> = ({
         ))}
         <li className={cn(
           'page-item',
-          { disabled: currentPage === totalPages },
+          { disabled: DISABLED.second },
         )}
         >
           <a
@@ -79,7 +84,7 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#next"
             onClick={handleNextClick}
-            aria-disabled={currentPage === totalPages}
+            aria-disabled={DISABLED.second}
           >
             »
           </a>

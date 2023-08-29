@@ -10,6 +10,11 @@ export const App: React.FC = () => {
   const [selectedPage, setSelectedPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
 
+  const handleItemsPerPage = (event:React.ChangeEvent<HTMLSelectElement>) => {
+    setItemsPerPage(+event.target.value);
+    setSelectedPage(1);
+  };
+
   const firstItemOnThePage = ((selectedPage - 1) * itemsPerPage) + 1;
   const lastItemOnPage = selectedPage * itemsPerPage < TOTAL_ITEMS
     ? selectedPage * itemsPerPage
@@ -29,10 +34,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            onChange={(event) => {
-              setItemsPerPage(+event.target.value);
-              setSelectedPage(1);
-            }}
+            onChange={handleItemsPerPage}
             value={itemsPerPage.toString()}
           >
             {options.map((option) => (
@@ -51,9 +53,7 @@ export const App: React.FC = () => {
         total={TOTAL_ITEMS}
         perPage={itemsPerPage}
         currentPage={selectedPage}
-        onPageChange={(page: number) => {
-          setSelectedPage(page);
-        }}
+        onPageChange={setSelectedPage}
       />
     </div>
   );
