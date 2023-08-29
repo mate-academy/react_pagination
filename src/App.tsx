@@ -3,15 +3,14 @@ import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42)
+const total = 42;
+const items = getNumbers(1, total)
   .map(n => `Item ${n}`);
+const optionNumbers = [3, 5, 10, 20];
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
-  const optionNumbers = [3, 5, 10, 20];
-
   const firstItem = (currentPage - 1) * perPage + 1;
   const lastItem = Math.min(currentPage * perPage, 42);
 
@@ -22,16 +21,14 @@ export const App: React.FC = () => {
     return items.slice(firstPageIndex, lastPageIndex);
   };
 
+  const visibleElems = visibleElements();
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page
-        {currentPage}
-        (items
-        {` ${firstItem} - ${lastItem} `}
-        of 42)
+        {`Page ${currentPage} (items ${firstItem} - ${lastItem} of ${total})`}
       </p>
 
       <div className="form-group row">
@@ -41,7 +38,10 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={(event) => setPerPage(parseInt(event.target.value, 10))}
+            onChange={(event) => {
+              setPerPage(parseInt(event.target.value, 10));
+              setCurrentPage(1);
+            }}
           >
             {optionNumbers.map((option) => (
               <option key={option} value={option}>
@@ -57,12 +57,16 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        visibleElements={visibleElements}
-        total={42}
+        total={total}
         perPage={perPage}
         currentPage={currentPage}
         onPageChange={(page: number) => setCurrentPage(page)}
       />
+      {visibleElems.map((item) => (
+        <ul key={item}>
+          <li data-cy="item">{item}</li>
+        </ul>
+      ))}
     </div>
   );
 };

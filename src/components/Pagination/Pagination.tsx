@@ -1,7 +1,6 @@
 import React from 'react';
 
 interface PaginationProps {
-  visibleElements: (currentPage: number) => string[];
   total: number;
   perPage: number;
   currentPage: number;
@@ -9,13 +8,11 @@ interface PaginationProps {
 }
 
 export const Pagination: React.FC<PaginationProps> = ({
-  visibleElements,
   total,
   perPage,
   currentPage,
   onPageChange,
 }) => {
-  const visibleElems = visibleElements(currentPage);
   const totalPageCount: number = Math.ceil(total / perPage);
   const pageNumber: number[] = [];
 
@@ -44,9 +41,9 @@ export const Pagination: React.FC<PaginationProps> = ({
             className="page-link"
             href="#prev"
             aria-disabled={
-              currentPage === (pageNumber.length - 1) ? 'false' : 'true'
+              currentPage === (pageNumber.length - 1)
             }
-            onClick={() => onPrevious()}
+            onClick={onPrevious}
           >
             «
           </a>
@@ -71,7 +68,7 @@ export const Pagination: React.FC<PaginationProps> = ({
             className="page-link"
             href="#next"
             aria-disabled={
-              currentPage === (pageNumber.length - 1) ? 'false' : 'true'
+              currentPage === (pageNumber.length - 1)
             }
             onClick={() => onNext()}
           >
@@ -79,12 +76,6 @@ export const Pagination: React.FC<PaginationProps> = ({
           </a>
         </li>
       </ul>
-
-      {visibleElems.map((item) => (
-        <ul key={item}>
-          <li data-cy={item}>{item}</li>
-        </ul>
-      ))}
     </>
   );
 };
