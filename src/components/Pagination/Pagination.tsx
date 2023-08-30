@@ -62,7 +62,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           </li>
         ))}
 
-        <li className={`page-item ${currentPage === (pageNumber.length) && 'disabled'}`}>
+        <li className={`page-item ${currentPage === pageNumber.length && 'disabled'}`}>
           <a
             data-cy="nextLink"
             className="page-link"
