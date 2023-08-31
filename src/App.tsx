@@ -11,8 +11,6 @@ export const App: React.FC = () => {
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
 
-  const perPageOptions: number[] = [3, 5, 10, 20];
-
   const firstItem = (page - 1) * itemsPerPage;
   const lastItem = page * itemsPerPage < items.length
     ? page * itemsPerPage
@@ -44,14 +42,10 @@ export const App: React.FC = () => {
             value={itemsPerPage}
             onChange={handlePerPageChange}
           >
-            {perPageOptions.map(option => (
-              <option
-                key={option}
-                value={option}
-              >
-                {option}
-              </option>
-            ))}
+            <option value="3">3</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
           </select>
         </div>
 
@@ -64,9 +58,7 @@ export const App: React.FC = () => {
         total={items.length}
         perPage={itemsPerPage}
         currentPage={page}
-        onPageChange={(value: number) => {
-          setPage(value);
-        }}
+        onPageChange={setPage}
       />
 
       <ul>
