@@ -1,4 +1,5 @@
 import React from 'react';
+import cn from 'classnames';
 import { getNumbers } from '../../utils';
 
 interface Props {
@@ -19,7 +20,12 @@ export const Pagination: React.FC<Props> = ({
 
   return (
     <ul className="pagination">
-      <li className={`page-item ${currentPage === 1 && 'disabled'}`}>
+      <li className={
+        cn('page-item', {
+          disabled: currentPage === 1,
+        })
+      }
+      >
         <a
           data-cy="prevLink"
           className="page-link"
@@ -37,7 +43,10 @@ export const Pagination: React.FC<Props> = ({
 
       {pages.map(page => (
         <li
-          className={`page-item ${currentPage === page && 'active'}`}
+          className={cn(
+            'page-item',
+            { active: currentPage === page },
+          )}
           key={page}
         >
           <a
@@ -51,7 +60,12 @@ export const Pagination: React.FC<Props> = ({
         </li>
       ))}
 
-      <li className={`page-item ${currentPage === amountOfPages && 'disabled'}`}>
+      <li className={
+        cn('page-item', {
+          disabled: currentPage === amountOfPages,
+        })
+      }
+      >
         <a
           data-cy="nextLink"
           className="page-link"
