@@ -22,6 +22,7 @@ export const App: React.FC = () => {
     option: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     setItemsPerPage(+option.target.value);
+    setPage(1);
   };
 
   return (
@@ -38,6 +39,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
+            value={itemsPerPage}
             onChange={handlePerPageChange}
           >
             <option value="3">3</option>
