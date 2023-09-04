@@ -12,9 +12,7 @@ export const App: React.FC = () => {
   const [itemsPerPage, setItemsPerPage] = useState(5);
 
   const firstItem = (page - 1) * itemsPerPage;
-  const lastItem = page * itemsPerPage < items.length
-    ? page * itemsPerPage
-    : items.length;
+  const lastItem = Math.min(page * itemsPerPage, items.length);
 
   const visibleItems = getNumbers(firstItem + 1, lastItem);
 
