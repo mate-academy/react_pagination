@@ -38,11 +38,6 @@ export const Pagination: React.FC<Props> = ({
       handlePageChange(currentPage + 1);
     }
   };
-  // console.log('countPages', countPages);
-  // console.log('arrayOfPage', arrayOfPage);
-  // console.log('currentItemsOnPage', currentItemsOnPage);
-  // const arrayOfDigits = Array.from(String(countPages), Number);
-  // console.log('arrayOfDigits', arrayOfDigits);
 
   return (
     <>
