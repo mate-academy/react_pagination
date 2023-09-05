@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 type PaginationProps = {
   total: number,
@@ -11,64 +11,64 @@ type PaginationProps = {
 export const Pagination: React.FC<PaginationProps> = ({
   total,
   perPage,
-  currentPage = 1,
+  currentPage,
   onPageChange,
 }) => {
   const totalPages = Math.ceil(total / perPage);
 
-  const [current, setCurrent] = useState(currentPage || 1);
+  // const [current, setCurrent] = useState(currentPage || 1);
 
   const handlePageClick = (page: number) => {
-    if (current !== page) {
-      setCurrent(page);
-      if (onPageChange) {
-        onPageChange(page);
-      }
+    if (currentPage !== page) {
+      onPageChange(page);
+      // if (onPageChange) {
+      //   onPageChange(page);
+      // }
     }
   };
 
   const handlePrev = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    if (current > 1) {
-      setCurrent(current - 1);
-      if (onPageChange) {
-        onPageChange(current - 1);
-      }
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
+      // if (onPageChange) {
+      //   onPageChange(current - 1);
+      // }
     }
   };
 
   const handleNext = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    if (current < totalPages) {
-      setCurrent(current + 1);
-      if (onPageChange) {
-        onPageChange(current + 1);
-      }
+    if (currentPage < totalPages) {
+      onPageChange(currentPage + 1);
+      // if (onPageChange) {
+      //   onPageChange(current + 1);
+      // }
     }
   };
 
-  useEffect(() => {
-    if (currentPage !== undefined && currentPage !== current) {
-      setCurrent(currentPage);
-    }
-  }, [currentPage]);
+  // useEffect(() => {
+  //   if (currentPage !== undefined && currentPage !== current) {
+  //     setCurrent(currentPage);
+  //   }
+  // }, [currentPage]);
 
   // check for current page to never be higher than total
   useEffect(() => {
-    if (totalPages < current) {
-      setCurrent(totalPages);
+    if (totalPages < currentPage) {
+      onPageChange(totalPages);
     }
-  }, [total, totalPages, current]);
+  }, [total, totalPages, currentPage]);
 
   return (
     <div>
       <ul className="pagination">
-        <li className={classNames('page-item', { disabled: current <= 1 })}>
+        <li className={classNames('page-item', { disabled: currentPage <= 1 })}>
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled={current <= 1 ? 'true' : 'false'}
+            aria-disabled={currentPage <= 1 ? 'true' : 'false'}
             onClick={handlePrev}
           >
             «
@@ -81,7 +81,9 @@ export const Pagination: React.FC<PaginationProps> = ({
           return (
             <li
               key={page}
-              className={classNames('page-item', { active: current === page })}
+              className={classNames(
+                'page-item', { active: currentPage === page },
+              )}
               data-cy={`page-${page}`}
             >
               <a
@@ -101,14 +103,14 @@ export const Pagination: React.FC<PaginationProps> = ({
 
         <li
           className={classNames(
-            'page-item', { disabled: current >= totalPages },
+            'page-item', { disabled: currentPage >= totalPages },
           )}
         >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={current >= totalPages ? 'true' : 'false'}
+            aria-disabled={currentPage >= totalPages ? 'true' : 'false'}
             onClick={handleNext}
           >
             »

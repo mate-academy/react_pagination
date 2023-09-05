@@ -1,19 +1,21 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination/Pagination';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1); // Define currentPage state here
+  // const navigate = useNavigate();
+  // const location = useLocation();
+  const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
 
   const handlePageChange = (newPage: number) => {
-    // eslint-disable-next-line no-console
-    console.log('Current Page Changed:', newPage);
     setCurrentPage(newPage);
   };
 
@@ -31,7 +33,6 @@ export const App: React.FC = () => {
 
   return (
     <div className="container">
-      {/* {console.log('Rendering App')} */}
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
