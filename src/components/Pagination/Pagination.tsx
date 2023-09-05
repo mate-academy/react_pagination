@@ -5,39 +5,41 @@ type Props = {
   total: number;
   itemsPerPage: number;
   currentPage: number;
-  setCurrentPage: (currentPage: number) => void;
+  onPageChange: (currentPage: number) => void;
 };
 
 export const Pagination: React.FC<Props> = ({
   total,
   itemsPerPage,
   currentPage,
-  setCurrentPage,
+  onPageChange,
 }) => {
   const numberOfPages = Math.ceil(total / itemsPerPage);
   const pages = Array(numberOfPages).fill(0).map((_, i) => i + 1);
+  const isPrevAreaDisabled = currentPage === 1;
+  const isNextAreaDisabled = currentPage === numberOfPages;
 
   const handleClickToNext = (nextPage: number) => {
     return (currentPage !== numberOfPages
-      && (setCurrentPage(nextPage)));
+      && (onPageChange(nextPage)));
   };
 
   const handleClickToPrev = (previousPage: number) => {
     return (currentPage !== 1
-      && (setCurrentPage(previousPage)));
+      && (onPageChange(previousPage)));
   };
 
   return (
     <ul className="pagination">
       <li className={cn('page-item', {
-        disabled: currentPage === 1,
+        disabled: isPrevAreaDisabled,
       })}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === 1}
+          aria-disabled={isPrevAreaDisabled}
           onClick={() => handleClickToPrev(currentPage - 1)}
         >
           «
@@ -52,21 +54,21 @@ export const Pagination: React.FC<Props> = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${page}`}
-            onClick={() => (setCurrentPage(page))}
+            onClick={() => (onPageChange(page))}
           >
             {page}
           </a>
         </li>
       ))}
       <li className={cn('page-item', {
-        disabled: currentPage === numberOfPages,
+        disabled: isNextAreaDisabled,
       })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === numberOfPages}
+          aria-disabled={isNextAreaDisabled}
           onClick={() => handleClickToNext(currentPage + 1)}
         >
           »
