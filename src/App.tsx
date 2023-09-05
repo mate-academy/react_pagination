@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -9,7 +9,13 @@ const items = getNumbers(1, 42)
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(3);
+  const [perPage, setPerPage] = useState(5);
+  let lastItem = currentPage * perPage;
+  const firstItem = lastItem - perPage + 1;
+
+  if (lastItem > 42) {
+    lastItem = 42;
+  }
 
   const handleChangePage = (num: number) => {
     setPerPage(num);
@@ -21,7 +27,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        {`Page ${currentPage} (items ${firstItem} - ${lastItem} of ${items.length})`}
       </p>
 
       <div className="form-group row">
@@ -45,26 +51,21 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
       <Pagination
-        total={items.length} // total number of items to paginate
-        perPage={perPage} // number of items per page
-        currentPage={currentPage} /* optional with 1 by default */
-        onPageChange={setCurrentPage}
+        total={items.length}
+        perPage={perPage}
+        currentPage={currentPage}
+        onPageChange={useMemo(() => setCurrentPage, [])}
       />
 
       <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
+        {getNumbers(firstItem, lastItem).map(item => (
+          <li data-cy="item">
+            {`Item ${item}`}
+          </li>
+        ))}
       </ul>
 
-      <select name="" id="">
-        <option value="1">1</option>
-        <option value="2">2</option>
-      </select>
     </div>
   );
 };

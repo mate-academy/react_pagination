@@ -1,10 +1,12 @@
 import React from 'react';
+import cn from 'classnames';
+import { getNumbers } from '../../utils';
 
 interface Props {
   total: number,
   perPage: number,
   currentPage: number,
-  onPageChange: (number: number) => void,
+  onPageChange: (value: number) => void,
 }
 
 export const Pagination: React.FC<Props> = ({
@@ -13,53 +15,67 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
+  const pages = getNumbers(1, Math.ceil(total / perPage));
+
+  const moveLeft = (value: number) => {
+    if (currentPage !== 1) {
+      onPageChange(value - 1);
+    }
+  };
+
+  const moveRight = (value: number) => {
+    if (currentPage !== pages[pages.length - 1]) {
+      onPageChange(value + 1);
+    }
+  };
+
   return (
     <ul className="pagination">
-      <li className="page-item disabled">
+      <li className={cn('page-item', {
+        disabled: currentPage === 1,
+      })}
+      >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled="true"
+          onClick={() => moveLeft(currentPage)}
+          aria-disabled={
+            currentPage === 1
+          }
         >
           «
         </a>
       </li>
 
-      <li className="page-item active">
-        <a data-cy="pageLink" className="page-link" href="#1">1</a>
-      </li>
-      <li className="page-item">
-        <a data-cy="pageLink" className="page-link" href="#2">2</a>
-      </li>
-      <li className="page-item">
-        <a data-cy="pageLink" className="page-link" href="#3">3</a>
-      </li>
-      <li className="page-item">
-        <a data-cy="pageLink" className="page-link" href="#4">4</a>
-      </li>
-      <li className="page-item">
-        <a data-cy="pageLink" className="page-link" href="#5">5</a>
-      </li>
-      <li className="page-item">
-        <a data-cy="pageLink" className="page-link" href="#6">6</a>
-      </li>
-      <li className="page-item">
-        <a data-cy="pageLink" className="page-link" href="#7">7</a>
-      </li>
-      <li className="page-item">
-        <a data-cy="pageLink" className="page-link" href="#8">8</a>
-      </li>
-      <li className="page-item">
-        <a data-cy="pageLink" className="page-link" href="#9">9</a>
-      </li>
+      {pages.map(page => (
+        <li className={cn('page-item', {
+          active: currentPage === page,
+        })}
+        >
+          <a
+            data-cy="pageLink"
+            className="page-link"
+            href={`#${page}`}
+            onClick={() => onPageChange(page)}
+          >
+            {page}
+          </a>
+        </li>
+      ))}
 
-      <li className="page-item">
+      <li className={cn('page-item', {
+        disabled: currentPage === pages[pages.length - 1],
+      })}
+      >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled="false"
+          onClick={() => moveRight(currentPage)}
+          aria-disabled={
+            currentPage === pages[pages.length - 1]
+          }
         >
           »
         </a>
