@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 
 type PaginationProps = {
@@ -30,22 +31,19 @@ export const Pagination: React.FC<PaginationProps> = ({
     event.preventDefault();
     if (current > 1) {
       setCurrent(current - 1);
-    }
-
-    if (onPageChange) {
-      onPageChange(current - 1);
+      if (onPageChange) {
+        onPageChange(current - 1);
+      }
     }
   };
 
   const handleNext = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-
     if (current < totalPages) {
       setCurrent(current + 1);
-    }
-
-    if (onPageChange) {
-      onPageChange(current + 1);
+      if (onPageChange) {
+        onPageChange(current + 1);
+      }
     }
   };
 
@@ -65,12 +63,12 @@ export const Pagination: React.FC<PaginationProps> = ({
   return (
     <div>
       <ul className="pagination">
-        <li className="page-item disabled">
+        <li className={classNames('page-item', { disabled: current <= 1 })}>
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled="true"
+            aria-disabled={current <= 1 ? 'true' : 'false'}
             onClick={handlePrev}
           >
             «
@@ -83,7 +81,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           return (
             <li
               key={page}
-              className={`page-item ${current === page ? 'active' : ''}`}
+              className={classNames('page-item', { active: current === page })}
               data-cy={`page-${page}`}
             >
               <a
@@ -101,12 +99,16 @@ export const Pagination: React.FC<PaginationProps> = ({
           );
         })}
 
-        <li className="page-item">
+        <li
+          className={classNames(
+            'page-item', { disabled: current >= totalPages },
+          )}
+        >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled="false"
+            aria-disabled={current >= totalPages ? 'true' : 'false'}
             onClick={handleNext}
           >
             »

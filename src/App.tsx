@@ -9,12 +9,12 @@ const items = getNumbers(1, 42)
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1); // Define currentPage state here
-  const [perPage, setPerPage] = useState(3);
+  const [perPage, setPerPage] = useState(5);
 
   const handlePageChange = (newPage: number) => {
     // eslint-disable-next-line no-console
     console.log('Current Page Changed:', newPage);
-    setCurrentPage(newPage); // Update the currentPage state here
+    setCurrentPage(newPage);
   };
 
   const handlePerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -26,13 +26,16 @@ export const App: React.FC = () => {
   const endIndex = startIndex + perPage;
   const displayedItems = items.slice(startIndex, endIndex);
 
+  const startItem = (currentPage - 1) * perPage + 1;
+  const endItem = Math.min(currentPage * perPage, items.length);
+
   return (
     <div className="container">
-
+      {/* {console.log('Rendering App')} */}
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        {`Page ${currentPage} (items ${startItem} - ${endItem} of ${items.length})`}
       </p>
 
       <div className="form-group row">
@@ -41,6 +44,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
+            value={perPage}
             onChange={handlePerPageChange}
           >
             <option value="3">3</option>
