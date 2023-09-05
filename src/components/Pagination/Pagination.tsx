@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import cn from 'classnames';
+import { getNumbers } from '../../utils';
 
 type Props = {
   total: number,
   perPage: number,
   currentPage: number,
   onPageChange: (pageNumber: number) => void;
-  itemsArr: string[],
 };
 
 export const Pagination: React.FC<Props> = ({
@@ -14,38 +14,48 @@ export const Pagination: React.FC<Props> = ({
   perPage,
   currentPage,
   onPageChange,
-  itemsArr,
 }) => {
-  const pagesCount = Math.round(total % perPage) === 0
-    ? Math.round(total / perPage)
-    : Math.round(total / perPage) + 1;
-  const totalPages: number[] = new Array(pagesCount)
-    .fill(null).map((_, index: number) => index + 1);
+  const itemsNumbers: number[] = getNumbers(1, total);
+  const pages: number[] = getNumbers(1, Math.ceil(total / perPage));
+
+  const firstPageIndex = (currentPage - 1) * perPage;
+  const lastPageIndex = firstPageIndex + perPage < itemsNumbers.length
+    ? firstPageIndex + perPage
+    : itemsNumbers.length;
+  const currentTableData = useMemo(() => {
+    return itemsNumbers.slice(firstPageIndex, lastPageIndex);
+  }, [currentPage, perPage]);
 
   const firstPageIsActive = currentPage === 1;
-  const lastPageIsActive = currentPage === pagesCount;
+  const lastPageIsActive = currentPage === pages.length;
+
+  const previousPageHandler = () => {
+    if (!firstPageIsActive) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const nextPageHandler = () => {
+    if (!lastPageIsActive) {
+      onPageChange(currentPage + 1);
+    }
+  };
 
   return (
     <>
       <ul className="pagination">
-        <li className={cn('page-item', { disabled: currentPage === 1 })}>
+        <li className={cn('page-item', { disabled: firstPageIsActive })}>
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled={currentPage === 1
-              ? 'true'
-              : 'false'}
-            onClick={() => {
-              if (!firstPageIsActive) {
-                onPageChange(currentPage - 1);
-              }
-            }}
+            aria-disabled={firstPageIsActive}
+            onClick={previousPageHandler}
           >
             «
           </a>
         </li>
-        {totalPages.map((pageNumber: number) => (
+        {getNumbers(1, Math.ceil(total / perPage)).map((pageNumber: number) => (
           <li
             className={cn('page-item',
               { active: currentPage === pageNumber })}
@@ -64,32 +74,26 @@ export const Pagination: React.FC<Props> = ({
           </li>
         ))}
         <li className={cn('page-item',
-          { disabled: currentPage === totalPages.length })}
+          { disabled: lastPageIsActive })}
         >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={currentPage === totalPages.length
-              ? 'true'
-              : 'false'}
-            onClick={() => {
-              if (!lastPageIsActive) {
-                onPageChange(currentPage + 1);
-              }
-            }}
+            aria-disabled={lastPageIsActive}
+            onClick={nextPageHandler}
           >
             »
           </a>
         </li>
       </ul>
       <ul>
-        {itemsArr.map((item) => (
+        {currentTableData.map((item) => (
           <li
             data-cy="item"
             key={item}
           >
-            {item}
+            {`Item ${item}`}
           </li>
         ))}
       </ul>

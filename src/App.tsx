@@ -1,37 +1,27 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination/Pagination';
 
 enum DefaultPageValues {
   startPage = 1,
   defaultPageSize = 5,
+  totalPages = 42,
 }
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42)
-  .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(DefaultPageValues.startPage);
-  const [perPage, setPerPage] = useState(DefaultPageValues.defaultPageSize);
-  const firstPageIndex = (currentPage - 1) * perPage;
-  const lastPageIndex = firstPageIndex + perPage < items.length
-    ? firstPageIndex + perPage
-    : items.length;
-
-  // eslint-disable-next-line no-console
-  console.log(firstPageIndex, lastPageIndex, perPage);
-
-  const currentTableData = useMemo(() => {
-    return items.slice(firstPageIndex, lastPageIndex);
-  }, [currentPage, perPage]);
+  const [itemsPerPage, setPerPage] = useState(
+    DefaultPageValues.defaultPageSize,
+  );
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${firstPageIndex + 1} - ${lastPageIndex} of 42)`}
+        {`Page ${currentPage} (items ${currentPage * itemsPerPage - itemsPerPage + 1} - ${currentPage * itemsPerPage > DefaultPageValues.totalPages
+          ? DefaultPageValues.totalPages
+          : currentPage * itemsPerPage} of ${DefaultPageValues.totalPages})`}
       </p>
 
       <div className="form-group row">
@@ -40,7 +30,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            defaultValue={5}
+            defaultValue={DefaultPageValues.defaultPageSize}
             onChange={(event) => {
               setPerPage(Number(event?.currentTarget.value));
               setCurrentPage(DefaultPageValues.startPage);
@@ -58,13 +48,11 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
       <Pagination
-        total={items.length}
-        perPage={perPage}
+        total={DefaultPageValues.totalPages}
+        perPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={(pageNumber: number) => setCurrentPage(pageNumber)}
-        itemsArr={currentTableData}
       />
     </div>
   );
