@@ -12,8 +12,8 @@ export const App: React.FC = () => {
   const startItemNumber = currentPage * perPage - perPage;
   const endItemNumber = currentPage * perPage;
 
-  const changePerPage = (target: EventTarget & HTMLSelectElement) => {
-    setPerPage(+target.value);
+  const changePerPage = (value: number) => {
+    setPerPage(value);
     setCurrentPage(1);
   };
 
@@ -41,7 +41,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             defaultValue={perPage}
-            onChange={({ target }) => changePerPage(target)}
+            onChange={({ target }) => changePerPage(+target.value)}
           >
             <option value="3">3</option>
             <option value="5">5</option>
