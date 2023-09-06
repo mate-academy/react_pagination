@@ -7,16 +7,16 @@ const PerPagesList = [3, 5, 10, 20];
 
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(PerPagesList[1]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentItem, setCurrentItem] = useState(1);
 
-  const maxPages = currentPage + perPage - 1;
+  const maxPages = currentItem + perPage - 1;
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${maxPages / perPage} (items ${currentPage} - ${maxPages > TOTAL
+        {`Page ${maxPages / perPage} (items ${currentItem} - ${maxPages > TOTAL
           ? TOTAL
           : maxPages} of ${TOTAL})`}
       </p>
@@ -35,7 +35,7 @@ export const App: React.FC = () => {
                 value={perP}
                 onClick={() => {
                   setPerPage(perP);
-                  setCurrentPage(1);
+                  setCurrentItem(1);
                 }}
               >
                 {perP}
@@ -51,8 +51,8 @@ export const App: React.FC = () => {
       <Pagination
         total={TOTAL}
         perPage={perPage}
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
+        currentItem={currentItem}
+        onPageChange={setCurrentItem}
       />
     </div>
   );

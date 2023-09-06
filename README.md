@@ -10,7 +10,7 @@ You a given a list of items and markup for the `Pagination`. Implement the
     <Pagination
       total={42} // total number of items to paginate
       perPage={5} // number of items per page
-      currentPage={1} /* optional with 1 by default */
+      currentItem={1} /* optional with 1 by default */
       onPageChange={(page) => { ... }}
     />
     ```

@@ -7,7 +7,7 @@ type Callback = (prevState: number) => number;
 interface Props {
   total: number,
   perPage: number,
-  currentPage: number,
+  currentItem: number,
   onPageChange: (page: number | Callback) => void,
 }
 
@@ -15,15 +15,15 @@ export const Pagination: React.FC<Props> = (props) => {
   const {
     total,
     perPage,
-    currentPage,
+    currentItem,
     onPageChange,
   } = props;
 
-  const maxItemOnCurPage = currentPage + perPage - 1 > total
-    ? total : currentPage + perPage - 1;
+  const maxItemOnCurPage = currentItem + perPage - 1 > total
+    ? total : currentItem + perPage - 1;
 
   const pageNumberHandler = (n: number) => {
-    if (currentPage === 1 + perPage * (n - 1)) {
+    if (currentItem === 1 + perPage * (n - 1)) {
       return;
     }
 
@@ -39,7 +39,7 @@ export const Pagination: React.FC<Props> = (props) => {
   };
 
   const leftArrowHandler = () => {
-    if (currentPage === 1) {
+    if (currentItem === 1) {
       return;
     }
 
@@ -51,14 +51,14 @@ export const Pagination: React.FC<Props> = (props) => {
       {/* Move this markup to Pagination */}
       <ul className="pagination">
         <li className={cn('page-item', {
-          disabled: currentPage === 1,
+          disabled: currentItem === 1,
         })}
         >
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled={currentPage === 1 ? 'true' : 'false'}
+            aria-disabled={currentItem === 1 ? 'true' : 'false'}
             onClick={leftArrowHandler}
           >
             «
@@ -98,7 +98,7 @@ export const Pagination: React.FC<Props> = (props) => {
         </li>
       </ul>
       <ul>
-        {getNumbers(currentPage, maxItemOnCurPage)
+        {getNumbers(currentItem, maxItemOnCurPage)
           .map(n => (
             <li
               data-cy="item"
