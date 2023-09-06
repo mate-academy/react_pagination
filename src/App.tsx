@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -10,12 +10,10 @@ const items = getNumbers(1, 42)
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
-  let lastItem = currentPage * perPage;
-  const firstItem = lastItem - perPage + 1;
 
-  if (lastItem > 42) {
-    lastItem = 42;
-  }
+  const maxItem = currentPage * perPage;
+  const firstItem = maxItem - perPage + 1;
+  const lastItem = maxItem > items.length ? items.length : maxItem;
 
   const handleChangePage = (num: number) => {
     setPerPage(num);
@@ -55,12 +53,15 @@ export const App: React.FC = () => {
         total={items.length}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={useMemo(() => setCurrentPage, [])}
+        onPageChange={setCurrentPage}
       />
 
       <ul>
         {getNumbers(firstItem, lastItem).map(item => (
-          <li data-cy="item">
+          <li
+            key={item}
+            data-cy="item"
+          >
             {`Item ${item}`}
           </li>
         ))}
