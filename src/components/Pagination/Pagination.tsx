@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import cn from 'classnames';
 import { getNumbers } from '../../utils';
 
@@ -15,88 +15,65 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
-  const itemsNumbers: number[] = getNumbers(1, total);
   const pages: number[] = getNumbers(1, Math.ceil(total / perPage));
 
-  const firstPageIndex = (currentPage - 1) * perPage;
-  const lastPageIndex = firstPageIndex + perPage < itemsNumbers.length
-    ? firstPageIndex + perPage
-    : itemsNumbers.length;
-  const currentTableData = useMemo(() => {
-    return itemsNumbers.slice(firstPageIndex, lastPageIndex);
-  }, [currentPage, perPage]);
-
-  const firstPageIsActive = currentPage === 1;
-  const lastPageIsActive = currentPage === pages.length;
+  const isFirstPageActive = currentPage === 1;
+  const isLastPageActive = currentPage === pages.length;
 
   const previousPageHandler = () => {
-    if (!firstPageIsActive) {
+    if (!isFirstPageActive) {
       onPageChange(currentPage - 1);
     }
   };
 
   const nextPageHandler = () => {
-    if (!lastPageIsActive) {
+    if (!isLastPageActive) {
       onPageChange(currentPage + 1);
     }
   };
 
   return (
-    <>
-      <ul className="pagination">
-        <li className={cn('page-item', { disabled: firstPageIsActive })}>
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled={firstPageIsActive}
-            onClick={previousPageHandler}
-          >
-            «
-          </a>
-        </li>
-        {getNumbers(1, Math.ceil(total / perPage)).map((pageNumber: number) => (
-          <li
-            className={cn('page-item',
-              { active: currentPage === pageNumber })}
-            key={pageNumber}
-          >
-            <a
-              data-cy="pageLink"
-              className="page-link"
-              href={`#${pageNumber}`}
-              onClick={() => {
-                onPageChange(pageNumber);
-              }}
-            >
-              {pageNumber}
-            </a>
-          </li>
-        ))}
-        <li className={cn('page-item',
-          { disabled: lastPageIsActive })}
+    <ul className="pagination">
+      <li className={cn('page-item', { disabled: isFirstPageActive })}>
+        <a
+          data-cy="prevLink"
+          className="page-link"
+          href="#prev"
+          aria-disabled={isFirstPageActive}
+          onClick={previousPageHandler}
+        >
+          «
+        </a>
+      </li>
+      {pages.map((pageNumber: number) => (
+        <li
+          className={cn('page-item',
+            { active: currentPage === pageNumber })}
+          key={pageNumber}
         >
           <a
-            data-cy="nextLink"
+            data-cy="pageLink"
             className="page-link"
-            href="#next"
-            aria-disabled={lastPageIsActive}
-            onClick={nextPageHandler}
+            href={`#${pageNumber}`}
+            onClick={() => onPageChange(pageNumber)}
           >
-            »
+            {pageNumber}
           </a>
         </li>
-      </ul>
-      <ul>
-        {currentTableData.map((item) => (
-          <li
-            data-cy="item"
-            key={item}
-          >
-            {`Item ${item}`}
-          </li>
-        ))}
-      </ul>
-    </>
+      ))}
+      <li className={cn('page-item',
+        { disabled: isLastPageActive })}
+      >
+        <a
+          data-cy="nextLink"
+          className="page-link"
+          href="#next"
+          aria-disabled={isLastPageActive}
+          onClick={nextPageHandler}
+        >
+          »
+        </a>
+      </li>
+    </ul>
   );
 };

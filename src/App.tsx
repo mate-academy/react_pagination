@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination/Pagination';
+import { ItemsList } from './components/ItemsList';
 
 enum DefaultPageValues {
   startPage = 1,
@@ -13,15 +14,22 @@ export const App: React.FC = () => {
   const [itemsPerPage, setPerPage] = useState(
     DefaultPageValues.defaultPageSize,
   );
+  const startIndex = currentPage * itemsPerPage - itemsPerPage + 1;
+  const endIndex = currentPage * itemsPerPage > DefaultPageValues.totalPages
+    ? DefaultPageValues.totalPages
+    : currentPage * itemsPerPage;
+
+  const handleItemsPerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setPerPage(Number(event?.currentTarget.value));
+    setCurrentPage(DefaultPageValues.startPage);
+  };
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${currentPage * itemsPerPage - itemsPerPage + 1} - ${currentPage * itemsPerPage > DefaultPageValues.totalPages
-          ? DefaultPageValues.totalPages
-          : currentPage * itemsPerPage} of ${DefaultPageValues.totalPages})`}
+        {`Page ${currentPage} (items ${startIndex} - ${endIndex} of ${DefaultPageValues.totalPages})`}
       </p>
 
       <div className="form-group row">
@@ -31,10 +39,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             defaultValue={DefaultPageValues.defaultPageSize}
-            onChange={(event) => {
-              setPerPage(Number(event?.currentTarget.value));
-              setCurrentPage(DefaultPageValues.startPage);
-            }}
+            onChange={handleItemsPerPage}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -53,6 +58,11 @@ export const App: React.FC = () => {
         perPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={(pageNumber: number) => setCurrentPage(pageNumber)}
+      />
+      <ItemsList
+        total={DefaultPageValues.totalPages}
+        perPage={itemsPerPage}
+        currentPage={currentPage}
       />
     </div>
   );
