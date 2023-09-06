@@ -56,6 +56,7 @@ export const App: React.FC = () => {
         perPage={+perPage}
         currentPage={+currentPage}
         onPageChange={onPageChange}
+        items={items}
       />
     </div>
   );

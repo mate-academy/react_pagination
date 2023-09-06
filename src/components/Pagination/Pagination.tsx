@@ -6,10 +6,11 @@ type Props = {
   perPage: number,
   currentPage: number,
   onPageChange: (page: number) => void,
+  items: Array<string>,
 };
 
 export const Pagination = ({
-  total, perPage, currentPage, onPageChange,
+  total, perPage, currentPage, onPageChange, items,
 }: Props) => {
   const pages = getNumbers(1, Math.ceil(total / perPage));
 
@@ -21,8 +22,9 @@ export const Pagination = ({
     }
   };
 
-  const showItems = getNumbers((((currentPage - 1) * perPage) + 1),
-    Math.min(currentPage * perPage, total));
+  const showItems = items.filter((_item, index) => index + 1
+  >= (((currentPage - 1) * perPage) + 1) && index + 1
+    <= Math.min(currentPage * perPage, total));
 
   return (
     <>
@@ -83,7 +85,7 @@ export const Pagination = ({
       </ul>
       <ul>
         {showItems.map(item => (
-          <li key={item} data-cy="item">{`Item ${item}`}</li>
+          <li key={item} data-cy="item">{item}</li>
         ))}
       </ul>
     </>
