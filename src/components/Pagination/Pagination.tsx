@@ -19,14 +19,14 @@ export const Pagination: React.FC<Props> = ({
   const isPrevAreaDisabled = currentPage === 1;
   const isNextAreaDisabled = currentPage === numberOfPages;
 
-  const handleClickToNext = (nextPage: number) => {
-    return (currentPage !== numberOfPages
-      && (onPageChange(nextPage)));
+  const handleClickToNext = () => {
+    return (!isNextAreaDisabled
+      && (onPageChange(currentPage + 1)));
   };
 
-  const handleClickToPrev = (previousPage: number) => {
-    return (currentPage !== 1
-      && (onPageChange(previousPage)));
+  const handleClickToPrev = () => {
+    return (!isPrevAreaDisabled
+      && (onPageChange(currentPage - 1)));
   };
 
   return (
@@ -40,7 +40,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={isPrevAreaDisabled}
-          onClick={() => handleClickToPrev(currentPage - 1)}
+          onClick={() => handleClickToPrev()}
         >
           «
         </a>
@@ -69,7 +69,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={isNextAreaDisabled}
-          onClick={() => handleClickToNext(currentPage + 1)}
+          onClick={() => handleClickToNext()}
         >
           »
         </a>

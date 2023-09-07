@@ -4,7 +4,7 @@ import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
 const TOTAL_ITEMS = 42;
-const showItemsPerPage = [3, 5, 10, 2];
+const showItemsPerPage = [3, 5, 10, 20];
 const DEFAULT_PER_PAGE = showItemsPerPage[1];
 
 export const App: React.FC = () => {
@@ -16,18 +16,16 @@ export const App: React.FC = () => {
     setCurrentPage(1);
   };
 
-  const start = currentPage * itemsPerPage - itemsPerPage + 1;
-  const end = currentPage * itemsPerPage <= TOTAL_ITEMS
-    ? currentPage * itemsPerPage
-    : TOTAL_ITEMS;
-  const itemsForPage = getNumbers(start, end);
+  const startIndex = currentPage * itemsPerPage - itemsPerPage + 1;
+  const lastIndex = Math.min(currentPage * itemsPerPage, TOTAL_ITEMS);
+  const itemsForPage = getNumbers(startIndex, lastIndex);
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${start} - ${end} of ${TOTAL_ITEMS})`}
+        {`Page ${currentPage} (items ${startIndex} - ${lastIndex} of ${TOTAL_ITEMS})`}
       </p>
 
       <div className="form-group row">
