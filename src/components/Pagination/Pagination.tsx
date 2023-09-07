@@ -58,7 +58,7 @@ export const Pagination: React.FC<Props> = (props) => {
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled={currentItem === 1 ? 'true' : 'false'}
+            aria-disabled={currentItem === 1}
             onClick={leftArrowHandler}
           >
             «
@@ -90,7 +90,7 @@ export const Pagination: React.FC<Props> = (props) => {
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={maxItemOnCurPage === total ? 'true' : 'false'}
+            aria-disabled={maxItemOnCurPage === total}
             onClick={rightArrowHandler}
           >
             »
