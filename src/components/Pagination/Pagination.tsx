@@ -1,6 +1,6 @@
-import { FC, useEffect, useState } from 'react';
-import cn from 'classnames';
-import { getNumbers } from '../../utils';
+import { FC, useEffect, useState } from "react";
+import cn from "classnames";
+import { getNumbers } from "../../utils";
 
 interface Props {
   total: number;
@@ -16,6 +16,8 @@ export const Pagination: FC<Props> = ({
   onPageChange,
 }) => {
   const [chosenPage, setChosenPage] = useState(currentPage);
+  const totalTabs = Math.ceil(total / perPage);
+  const isDisabled = chosenPage === totalTabs;
 
   useEffect(() => {
     setChosenPage(currentPage);
@@ -25,8 +27,6 @@ export const Pagination: FC<Props> = ({
     onPageChange(chosenPage);
   }, [chosenPage]);
 
-  const totalTabs = Math.ceil(total / perPage);
-
   const selectPrevPage = () => {
     if (currentPage !== chosenPage) {
       setChosenPage((prevPage) => prevPage - 1);
@@ -34,7 +34,7 @@ export const Pagination: FC<Props> = ({
   };
 
   const selectNextPage = () => {
-    if (chosenPage !== totalTabs) {
+    if (!isDisabled) {
       setChosenPage((nextPage) => nextPage + 1);
     }
   };
@@ -46,7 +46,7 @@ export const Pagination: FC<Props> = ({
   return (
     <ul className="pagination">
       <li
-        className={cn('page-item', {
+        className={cn("page-item", {
           disabled: chosenPage === 1,
         })}
       >
@@ -54,7 +54,7 @@ export const Pagination: FC<Props> = ({
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={chosenPage === 1 ? 'true' : 'false'}
+          aria-disabled={isDisabled}
           onClick={selectPrevPage}
         >
           «
@@ -62,7 +62,7 @@ export const Pagination: FC<Props> = ({
       </li>
       {getNumbers(currentPage, totalTabs).map((item) => (
         <li
-          className={cn('page-item', {
+          className={cn("page-item", {
             active: chosenPage === item,
           })}
           key={item}
@@ -78,15 +78,15 @@ export const Pagination: FC<Props> = ({
         </li>
       ))}
       <li
-        className={cn('page-item', {
-          disabled: chosenPage === totalTabs,
+        className={cn("page-item", {
+          disabled: isDisabled,
         })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={chosenPage === totalTabs ? 'true' : 'false'}
+          aria-disabled={isDisabled}
           onClick={selectNextPage}
         >
           »
