@@ -19,15 +19,15 @@ export const Pagination: React.FC<Props> = (props) => {
   const maxItemOnCurPage = currentItem + perPage - 1 > total
     ? total : currentItem + perPage - 1;
 
-  const pageNumberHandler = (n: number) => {
-    if (currentItem === 1 + perPage * (n - 1)) {
-      return;
-    }
+  const handlePageClick = (page: number) => {
+    const newCurrentItem = 1 + perPage * (page - 1);
 
-    onPageChange(1 + perPage * (n - 1));
+    if (currentItem !== newCurrentItem) {
+      onPageChange(newCurrentItem);
+    }
   };
 
-  const rightArrowHandler = () => {
+  const handleNextPageClick = () => {
     if (maxItemOnCurPage === total) {
       return;
     }
@@ -35,7 +35,7 @@ export const Pagination: React.FC<Props> = (props) => {
     onPageChange(currentItem + perPage);
   };
 
-  const leftArrowHandler = () => {
+  const handlePrevPageClick = () => {
     if (currentItem === 1) {
       return;
     }
@@ -45,7 +45,6 @@ export const Pagination: React.FC<Props> = (props) => {
 
   return (
     <>
-      {/* Move this markup to Pagination */}
       <ul className="pagination">
         <li className={cn('page-item', {
           disabled: currentItem === 1,
@@ -56,26 +55,26 @@ export const Pagination: React.FC<Props> = (props) => {
             className="page-link"
             href="#prev"
             aria-disabled={currentItem === 1}
-            onClick={leftArrowHandler}
+            onClick={handlePrevPageClick}
           >
             «
           </a>
         </li>
         {getNumbers(1, Math.ceil(total / perPage))
-          .map(n => (
+          .map(page => (
             <li
               className={cn('page-item', {
-                active: n === Math.ceil(maxItemOnCurPage / perPage),
+                active: page === Math.ceil(maxItemOnCurPage / perPage),
               })}
-              key={n}
+              key={page}
             >
               <a
                 data-cy="pageLink"
                 className="page-link"
-                href={`#${n}`}
-                onClick={() => pageNumberHandler(n)}
+                href={`#${page}`}
+                onClick={() => handlePageClick(page)}
               >
-                {n}
+                {page}
               </a>
             </li>
           ))}
@@ -88,7 +87,7 @@ export const Pagination: React.FC<Props> = (props) => {
             className="page-link"
             href="#next"
             aria-disabled={maxItemOnCurPage === total}
-            onClick={rightArrowHandler}
+            onClick={handleNextPageClick}
           >
             »
           </a>
@@ -96,12 +95,12 @@ export const Pagination: React.FC<Props> = (props) => {
       </ul>
       <ul>
         {getNumbers(currentItem, maxItemOnCurPage)
-          .map(n => (
+          .map(item => (
             <li
               data-cy="item"
-              key={n}
+              key={item}
             >
-              {`Item ${n}`}
+              {`Item ${item}`}
             </li>
           ))}
       </ul>
