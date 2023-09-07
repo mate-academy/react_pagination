@@ -4,32 +4,41 @@ import { Pagination } from './components/Pagination/Pagination';
 import { ItemsList } from './components/ItemsList';
 
 enum DefaultPageValues {
-  startPage = 1,
-  defaultPageSize = 5,
-  totalPages = 42,
+  StartPage = 1,
+  DefaultPageSize = 5,
+  TotalPages = 42,
 }
 
 export const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(DefaultPageValues.startPage);
+  const [currentPage, setCurrentPage] = useState(DefaultPageValues.StartPage);
   const [itemsPerPage, setPerPage] = useState(
-    DefaultPageValues.defaultPageSize,
+    DefaultPageValues.DefaultPageSize,
   );
   const startIndex = currentPage * itemsPerPage - itemsPerPage + 1;
-  const endIndex = currentPage * itemsPerPage > DefaultPageValues.totalPages
-    ? DefaultPageValues.totalPages
+  const endIndex = currentPage * itemsPerPage > DefaultPageValues.TotalPages
+    ? DefaultPageValues.TotalPages
     : currentPage * itemsPerPage;
 
   const handleItemsPerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(Number(event?.currentTarget.value));
-    setCurrentPage(DefaultPageValues.startPage);
+    setCurrentPage(DefaultPageValues.StartPage);
   };
+
+  const paginationProps = () => (
+    {
+      total: DefaultPageValues.TotalPages,
+      perPage: itemsPerPage,
+      currentPage,
+      onPageChange: (pageNumber: number) => setCurrentPage(pageNumber),
+    }
+  );
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${startIndex} - ${endIndex} of ${DefaultPageValues.totalPages})`}
+        {`Page ${currentPage} (items ${startIndex} - ${endIndex} of ${DefaultPageValues.TotalPages})`}
       </p>
 
       <div className="form-group row">
@@ -38,7 +47,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            defaultValue={DefaultPageValues.defaultPageSize}
+            defaultValue={DefaultPageValues.DefaultPageSize}
             onChange={handleItemsPerPage}
           >
             <option value="3">3</option>
@@ -54,13 +63,10 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={DefaultPageValues.totalPages}
-        perPage={itemsPerPage}
-        currentPage={currentPage}
-        onPageChange={(pageNumber: number) => setCurrentPage(pageNumber)}
+        {...paginationProps()}
       />
       <ItemsList
-        total={DefaultPageValues.totalPages}
+        total={DefaultPageValues.TotalPages}
         perPage={itemsPerPage}
         currentPage={currentPage}
       />
