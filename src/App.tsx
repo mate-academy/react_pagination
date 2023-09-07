@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 
 import './App.css';
 import { getNumbers } from './utils';
@@ -10,8 +8,6 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  // const navigate = useNavigate();
-  // const location = useLocation();
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
 

@@ -16,14 +16,9 @@ export const Pagination: React.FC<PaginationProps> = ({
 }) => {
   const totalPages = Math.ceil(total / perPage);
 
-  // const [current, setCurrent] = useState(currentPage || 1);
-
   const handlePageClick = (page: number) => {
     if (currentPage !== page) {
       onPageChange(page);
-      // if (onPageChange) {
-      //   onPageChange(page);
-      // }
     }
   };
 
@@ -31,9 +26,6 @@ export const Pagination: React.FC<PaginationProps> = ({
     event.preventDefault();
     if (currentPage > 1) {
       onPageChange(currentPage - 1);
-      // if (onPageChange) {
-      //   onPageChange(current - 1);
-      // }
     }
   };
 
@@ -41,17 +33,8 @@ export const Pagination: React.FC<PaginationProps> = ({
     event.preventDefault();
     if (currentPage < totalPages) {
       onPageChange(currentPage + 1);
-      // if (onPageChange) {
-      //   onPageChange(current + 1);
-      // }
     }
   };
-
-  // useEffect(() => {
-  //   if (currentPage !== undefined && currentPage !== current) {
-  //     setCurrent(currentPage);
-  //   }
-  // }, [currentPage]);
 
   // check for current page to never be higher than total
   useEffect(() => {
