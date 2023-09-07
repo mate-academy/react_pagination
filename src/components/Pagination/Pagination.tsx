@@ -1,14 +1,11 @@
 import cn from 'classnames';
 import { getNumbers } from '../../utils';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type Callback = (prevState: number) => number;
-
 interface Props {
   total: number,
   perPage: number,
   currentItem: number,
-  onPageChange: (page: number | Callback) => void,
+  onPageChange: (page: number) => void,
 }
 
 export const Pagination: React.FC<Props> = (props) => {
@@ -35,7 +32,7 @@ export const Pagination: React.FC<Props> = (props) => {
       return;
     }
 
-    onPageChange(prevState => prevState + perPage);
+    onPageChange(currentItem + perPage);
   };
 
   const leftArrowHandler = () => {
@@ -43,7 +40,7 @@ export const Pagination: React.FC<Props> = (props) => {
       return;
     }
 
-    onPageChange(prevState => prevState - perPage);
+    onPageChange(currentItem - perPage);
   };
 
   return (

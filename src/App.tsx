@@ -11,6 +11,8 @@ export const App: React.FC = () => {
 
   const maxPages = currentItem + perPage - 1;
 
+  const onPageChange = (page: number) => setCurrentItem(page);
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
@@ -52,7 +54,7 @@ export const App: React.FC = () => {
         total={TOTAL}
         perPage={perPage}
         currentItem={currentItem}
-        onPageChange={setCurrentItem}
+        onPageChange={onPageChange}
       />
     </div>
   );
