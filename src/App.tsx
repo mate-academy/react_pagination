@@ -13,6 +13,11 @@ export const App: React.FC = () => {
 
   const onPageChange = (page: number) => setCurrentItem(page);
 
+  const handleItemsPerPageClick = (perP: number) => {
+    setPerPage(perP);
+    setCurrentItem(1);
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
@@ -35,10 +40,7 @@ export const App: React.FC = () => {
               <option
                 key={perP}
                 value={perP}
-                onClick={() => {
-                  setPerPage(perP);
-                  setCurrentItem(1);
-                }}
+                onClick={() => handleItemsPerPageClick(perP)}
               >
                 {perP}
               </option>
