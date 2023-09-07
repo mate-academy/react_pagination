@@ -23,10 +23,7 @@ export const ItemsList: React.FC<Props> = ({
   return (
     <ul>
       {currentTableData.map((item) => (
-        <li
-          data-cy="item"
-          key={item}
-        >
+        <li data-cy="item" key={item}>
           {`Item ${item}`}
         </li>
       ))}

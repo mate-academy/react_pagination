@@ -15,30 +15,22 @@ export const App: React.FC = () => {
     DefaultPageValues.DefaultPageSize,
   );
   const startIndex = currentPage * itemsPerPage - itemsPerPage + 1;
-  const endIndex = currentPage * itemsPerPage > DefaultPageValues.TotalPages
-    ? DefaultPageValues.TotalPages
-    : currentPage * itemsPerPage;
+  const lastIndex = Math.min(currentPage * itemsPerPage,
+    DefaultPageValues.TotalPages);
 
   const handleItemsPerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(Number(event?.currentTarget.value));
     setCurrentPage(DefaultPageValues.StartPage);
   };
 
-  const paginationProps = () => (
-    {
-      total: DefaultPageValues.TotalPages,
-      perPage: itemsPerPage,
-      currentPage,
-      onPageChange: (pageNumber: number) => setCurrentPage(pageNumber),
-    }
-  );
+  const onPageChange = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${startIndex} - ${endIndex} of ${DefaultPageValues.TotalPages})`}
+        {`Page ${currentPage} (items ${startIndex} - ${lastIndex} of ${DefaultPageValues.TotalPages})`}
       </p>
 
       <div className="form-group row">
@@ -63,7 +55,10 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        {...paginationProps()}
+        total={DefaultPageValues.TotalPages}
+        perPage={itemsPerPage}
+        currentPage={currentPage}
+        onPageChange={onPageChange}
       />
       <ItemsList
         total={DefaultPageValues.TotalPages}
