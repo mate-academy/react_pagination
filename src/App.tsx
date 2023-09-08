@@ -13,8 +13,8 @@ export const App: React.FC = () => {
 
   const onPageChange = (page: number) => setCurrentItem(page);
 
-  const handleItemsPerPageClick = (perP: number) => {
-    setPerPage(() => perP);
+  const handleItemsPerPageChange = (perP: number) => {
+    setPerPage(perP);
     setCurrentItem(1);
   };
 
@@ -35,12 +35,12 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             defaultValue={PerPagesList[1]}
+            onChange={(event) => handleItemsPerPageChange(+event.target.value)}
           >
             {PerPagesList.map(perP => (
               <option
                 key={perP}
                 value={perP}
-                onClick={() => handleItemsPerPageClick(perP)}
               >
                 {perP}
               </option>
