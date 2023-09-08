@@ -40,7 +40,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={isPrevAreaDisabled}
-          onClick={() => handleClickToPrev()}
+          onClick={handleClickToPrev}
         >
           «
         </a>
@@ -69,7 +69,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={isNextAreaDisabled}
-          onClick={() => handleClickToNext()}
+          onClick={handleClickToNext}
         >
           »
         </a>
