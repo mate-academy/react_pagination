@@ -14,7 +14,7 @@ export const App: React.FC = () => {
   const onPageChange = (page: number) => setCurrentItem(page);
 
   const handleItemsPerPageClick = (perP: number) => {
-    setPerPage(perP);
+    setPerPage(() => perP);
     setCurrentItem(1);
   };
 
