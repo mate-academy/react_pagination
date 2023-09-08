@@ -11,6 +11,17 @@ export const App: React.FC = () => {
   const [perPage, setPerPage] = useState('5');
   const [currentPage, setCurrentPage] = useState(1);
 
+  const pages = Math.ceil(items.length / Number(perPage));
+  const itemsArr: Array<number[]> = [];
+
+  for (let i = 1; i <= items.length; i += Number(perPage)) {
+    if (i + Number(perPage) > items.length) {
+      itemsArr.push(getNumbers(i, items.length));
+    } else {
+      itemsArr.push(getNumbers(i, i + Number(perPage) - 1));
+    }
+  }
+
   const startItemsPerPage = items.length
     - (items.length - (Number(perPage) * (currentPage - 1))) + 1;
 
@@ -19,7 +30,13 @@ export const App: React.FC = () => {
     : startItemsPerPage + Number(perPage) - 1;
 
   function changeCurrentPage(value: number) {
-    setCurrentPage(value);
+    if (value > pages) {
+      setCurrentPage(pages);
+    } else if (value < 1) {
+      setCurrentPage(1);
+    } else {
+      setCurrentPage(value);
+    }
   }
 
   function changePerPage(value: string) {
@@ -65,6 +82,14 @@ export const App: React.FC = () => {
         // eslint-disable-next-line react/jsx-no-bind
         onPageChange={changeCurrentPage}
       />
+
+      <ul>
+        {
+          itemsArr[currentPage - 1].map(item => (
+            <li data-cy="item">{`Item ${item}`}</li>
+          ))
+        }
+      </ul>
 
     </div>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
+import { getNumbers } from '../../utils';
 
 interface Params {
   total: number,
@@ -19,26 +20,8 @@ export const Pagination: React.FC<Params> = ({
   onPageChange,
 }) => {
   const pages = Math.ceil(total / perPage);
-  const pagesArr: number[] = [];
-  let items: number[] = [];
-  const itemsArr: Array<number[]> = [];
 
-  for (let i = 1; i <= pages; i += 1) {
-    pagesArr.push(i);
-  }
-
-  for (let i = 1; i <= total; i += 1) {
-    items.push(i);
-
-    if (items.length === perPage) {
-      itemsArr.push(items);
-      items = [];
-    }
-  }
-
-  if (items.length !== 0) {
-    itemsArr.push(items);
-  }
+  const pagesArr = getNumbers(1, pages);
 
   return (
     <>
@@ -48,15 +31,10 @@ export const Pagination: React.FC<Params> = ({
         })}
         >
           <a
-            onClick={() => {
-              if (!checkCurrentPage(currentPage, 1)) {
-                onPageChange(currentPage - 1);
-              }
-            }}
+            onClick={() => onPageChange(currentPage - 1)}
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            // aria-disabled="true"
             aria-disabled={
               checkCurrentPage(currentPage, 1) ? 'true' : 'false'
             }
@@ -68,7 +46,7 @@ export const Pagination: React.FC<Params> = ({
           pagesArr.map(page => (
             <li
               className={cn('page-item', {
-                active: page === currentPage, //!
+                active: page === currentPage,
               })}
             >
               <a
@@ -87,15 +65,10 @@ export const Pagination: React.FC<Params> = ({
         })}
         >
           <a
-            onClick={() => {
-              if (!checkCurrentPage(currentPage, pages)) {
-                onPageChange(currentPage + 1);
-              }
-            }}
+            onClick={() => onPageChange(currentPage + 1)}
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            // aria-disabled="false"
             aria-disabled={
               checkCurrentPage(currentPage, pages) ? 'true' : 'false'
             }
@@ -103,13 +76,6 @@ export const Pagination: React.FC<Params> = ({
             »
           </a>
         </li>
-      </ul>
-      <ul>
-        {
-          itemsArr[currentPage - 1].map(item => (
-            <li data-cy="item">{`Item ${item}`}</li>
-          ))
-        }
       </ul>
     </>
   );
