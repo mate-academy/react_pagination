@@ -1,12 +1,27 @@
-import React from 'react';
+/* eslint-disable max-len */
+import React, { useState } from 'react';
 import './App.css';
+import cn from 'classnames';
 import { getNumbers } from './utils';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42)
-  .map(n => `Item ${n}`);
+  .map((n, index) => ({ name: `Item ${n}`, id: index }));
+
+enum SelectValue {
+  THREE = 3,
+  FIVE = 5,
+  TEN = 10,
+  TWENTY = 20,
+}
 
 export const App: React.FC = () => {
+  const [pagesNumbers, setPagesNumbes] = useState(9);
+  const [itemsPerPage, setItemsPerPAge] = useState(5);
+  const [selectedPage, setSelectedPage] = useState(1);
+
+  const numberOfLinks = new Array(pagesNumbers)
+    .fill(0).map((value, index) => ({ value, id: index + 1 }));
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
@@ -21,11 +36,18 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
+            defaultValue={SelectValue.FIVE}
+            onChange={(event) => {
+              const value = +event.target.value;
+
+              setItemsPerPAge(+event.target.value);
+              setPagesNumbes(Math.ceil(items.length / value));
+            }}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            <option value={SelectValue.THREE}>{SelectValue.THREE}</option>
+            <option value={SelectValue.FIVE}>{SelectValue.FIVE}</option>
+            <option value={SelectValue.TEN}>{SelectValue.TEN}</option>
+            <option value={SelectValue.TWENTY}>{SelectValue.TWENTY}</option>
           </select>
         </div>
 
@@ -36,60 +58,47 @@ export const App: React.FC = () => {
 
       {/* Move this markup to Pagination */}
       <ul className="pagination">
-        <li className="page-item disabled">
+        <li className={cn('page-item', { disabled: selectedPage === 1 })}>
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled="true"
+            aria-disabled="false"
+            onClick={() => setSelectedPage(selectedPage - 1)}
           >
             «
           </a>
         </li>
-        <li className="page-item active">
-          <a data-cy="pageLink" className="page-link" href="#1">1</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#2">2</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#3">3</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#4">4</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#5">5</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#6">6</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#7">7</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#8">8</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#9">9</a>
-        </li>
-        <li className="page-item">
+
+        {numberOfLinks.map((item) => (
+          <li className={cn('page-item', { active: selectedPage === item.id })} key={item.id}>
+            <a
+              data-cy="pageLink"
+              className="page-link"
+              href={`#${item.id}`}
+              onClick={() => setSelectedPage(item.id)}
+            >
+              {item.id}
+            </a>
+          </li>
+        ))}
+
+        <li className={cn('page-item', { disabled: selectedPage === pagesNumbers })}>
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
             aria-disabled="false"
+            onClick={() => setSelectedPage(selectedPage + 1)}
           >
             »
           </a>
         </li>
       </ul>
       <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
+        {items.slice((selectedPage - 1) * itemsPerPage, selectedPage * itemsPerPage).map(item => (
+          <li data-cy="item" key={item.id}>{item.name}</li>
+        ))}
       </ul>
     </div>
   );
