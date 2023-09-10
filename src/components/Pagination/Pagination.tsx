@@ -1,93 +1,76 @@
-import { FC, useEffect, useState } from "react";
-import cn from "classnames";
-import { getNumbers } from "../../utils";
+import cn from 'classnames';
+import { getNumbers } from '../../utils';
 
-interface Props {
+type Props = {
   total: number;
   perPage: number;
   currentPage: number;
   onPageChange: (page: number) => void;
-}
+};
 
-export const Pagination: FC<Props> = ({
+export const Pagination: React.FC<Props> = ({
   total,
   perPage,
   currentPage,
   onPageChange,
 }) => {
-  const [chosenPage, setChosenPage] = useState(currentPage);
-  const totalTabs = Math.ceil(total / perPage);
-  const isDisabled = chosenPage === totalTabs;
+  const numbersOfPages = Math.ceil(total / perPage);
+  const isCurrentPageFirst = currentPage === 1;
+  const isCurrentPageLast = currentPage === numbersOfPages;
 
-  useEffect(() => {
-    setChosenPage(currentPage);
-  }, [perPage]);
-
-  useEffect(() => {
-    onPageChange(chosenPage);
-  }, [chosenPage]);
-
-  const selectPrevPage = () => {
-    if (currentPage !== chosenPage) {
-      setChosenPage((prevPage) => prevPage - 1);
+  const handlePageChange = (page: number) => {
+    if (page !== currentPage && page > 0 && page <= numbersOfPages) {
+      onPageChange(page);
     }
-  };
-
-  const selectNextPage = () => {
-    if (!isDisabled) {
-      setChosenPage((nextPage) => nextPage + 1);
-    }
-  };
-
-  const selectPageOnTab = (item: number) => {
-    setChosenPage(item);
   };
 
   return (
     <ul className="pagination">
       <li
-        className={cn("page-item", {
-          disabled: chosenPage === 1,
+        className={cn('page-item', {
+          disabled: isCurrentPageFirst,
         })}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={isDisabled}
-          onClick={selectPrevPage}
+          aria-disabled={isCurrentPageFirst}
+          onClick={() => handlePageChange(currentPage - 1)}
         >
           «
         </a>
       </li>
-      {getNumbers(currentPage, totalTabs).map((item) => (
+
+      {getNumbers(1, numbersOfPages).map((page) => (
         <li
-          className={cn("page-item", {
-            active: chosenPage === item,
+          className={cn('page-item', {
+            active: page === currentPage,
           })}
-          key={item}
+          key={page}
         >
           <a
             data-cy="pageLink"
             className="page-link"
-            href={`#${item}`}
-            onClick={() => selectPageOnTab(item)}
+            href={`#${page}`}
+            onClick={() => handlePageChange(page)}
           >
-            {item}
+            {page}
           </a>
         </li>
       ))}
+
       <li
-        className={cn("page-item", {
-          disabled: isDisabled,
+        className={cn('page-item', {
+          disabled: isCurrentPageLast,
         })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={isDisabled}
-          onClick={selectNextPage}
+          aria-disabled={isCurrentPageLast}
+          onClick={() => handlePageChange(currentPage + 1)}
         >
           »
         </a>
