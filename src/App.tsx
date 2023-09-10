@@ -63,7 +63,7 @@ export const App: React.FC = () => {
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled="false"
+            aria-disabled={selectedPage === 1 ? 'true' : 'false'}
             onClick={() => setSelectedPage(selectedPage - 1)}
           >
             «
@@ -88,7 +88,7 @@ export const App: React.FC = () => {
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled="false"
+            aria-disabled={selectedPage === pagesNumbers ? 'true' : 'false'}
             onClick={() => setSelectedPage(selectedPage + 1)}
           >
             »
