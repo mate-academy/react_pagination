@@ -18,22 +18,24 @@ export const Pagination: React.FC<Props> = ({
 }) => {
   const pagesAmount = Math.ceil(total / perPage);
   const pages = getNumbers(1, pagesAmount);
-  const isSelected = (page:number) => currentPage === page;
+  const isFirstPageSelected = currentPage === 1;
+  const isLastPageSelected = currentPage === pagesAmount;
+
 
   return (
     <ul className="pagination">
       <li className={cn('page-item', {
-        disabled: isSelected(1),
+        disabled: isFirstPageSelected,
       })}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={isSelected(1)
+          aria-disabled={isFirstPageSelected
             ? 'true'
             : 'false'}
-          onClick={() => !isSelected(1)
+          onClick={() => !isFirstPageSelected
             && onPageChange(currentPage - 1)}
         >
           «
@@ -44,7 +46,7 @@ export const Pagination: React.FC<Props> = ({
         <li
           key={page}
           className={cn('page-item', {
-            active: isSelected(page),
+            active: currentPage === page,
           })}
         >
           <a
@@ -59,17 +61,17 @@ export const Pagination: React.FC<Props> = ({
       ))}
 
       <li className={cn('page-item', {
-        disabled: isSelected(pagesAmount),
+        disabled: isLastPageSelected,
       })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={isSelected(pagesAmount)
+          aria-disabled={isLastPageSelected
             ? 'true'
             : 'false'}
-          onClick={() => !isSelected(pagesAmount)
+          onClick={() => !isLastPageSelected
             && onPageChange(currentPage + 1)}
         >
           »

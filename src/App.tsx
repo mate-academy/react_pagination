@@ -11,10 +11,10 @@ export const App: React.FC = () => {
   const [currentPage, setSelectedPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
 
-  const handlePageChange = (page: number) => setSelectedPage(page);
+  // const handlePageChange = (page: number) => setSelectedPage(page);
   const handlePerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(Number(event.target.value));
-    handlePageChange(1);
+    setSelectedPage(1);
   };
 
   const total = items.length;
@@ -57,7 +57,7 @@ export const App: React.FC = () => {
         total={total}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={handlePageChange}
+        onPageChange={(page) => setSelectedPage(page)}
       />
 
       <ul>
