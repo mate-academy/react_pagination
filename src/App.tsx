@@ -10,7 +10,7 @@ const items = getNumbers(1, 42)
 
 export const App: React.FC = () => {
   const [itemsPerPage, setItemsPerPage]
-    = useState<number>(ItemsPerPageType.Five);
+    = useState<number>(ItemsPerPageType.Medium);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const itemsQuantity = items.length;
@@ -21,7 +21,10 @@ export const App: React.FC = () => {
     itemsPerPage,
   );
 
-  const handleCurrentPage = (event: React.MouseEvent<HTMLAnchorElement>) => {
+  const minItemOnCurrentPage = itemsToRender[0];
+  const maxItemOnCurrentPage = itemsToRender[itemsToRender.length - 1];
+
+  const handlePageChange = (event: React.MouseEvent<HTMLAnchorElement>) => {
     const currentAnchor = event.currentTarget.href.split('#')[1];
 
     if (currentAnchor === 'next') {
@@ -39,7 +42,7 @@ export const App: React.FC = () => {
     setCurrentPage(Number(currentAnchor));
   };
 
-  const handleSelectItemsPerPage
+  const handlePageSizeSelect
   = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(+event.target.value);
     setCurrentPage(1);
@@ -50,7 +53,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${itemsToRender[0]} - ${itemsToRender[itemsToRender.length - 1]} of ${itemsQuantity})`}
+        {`Page ${currentPage} (items ${minItemOnCurrentPage} - ${maxItemOnCurrentPage} of ${itemsQuantity})`}
       </p>
 
       <div className="form-group row">
@@ -60,22 +63,22 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             defaultValue={itemsPerPage}
-            onChange={(e) => handleSelectItemsPerPage(e)}
+            onChange={handlePageSizeSelect}
           >
-            <option value={ItemsPerPageType.Three}>
-              {ItemsPerPageType.Three}
+            <option value={ItemsPerPageType.Small}>
+              {ItemsPerPageType.Small}
             </option>
 
-            <option value={ItemsPerPageType.Five}>
-              {ItemsPerPageType.Five}
+            <option value={ItemsPerPageType.Medium}>
+              {ItemsPerPageType.Medium}
             </option>
 
-            <option value={ItemsPerPageType.Ten}>
-              {ItemsPerPageType.Ten}
+            <option value={ItemsPerPageType.Large}>
+              {ItemsPerPageType.Large}
             </option>
 
-            <option value={ItemsPerPageType.Twenty}>
-              {ItemsPerPageType.Twenty}
+            <option value={ItemsPerPageType.ExtraLarge}>
+              {ItemsPerPageType.ExtraLarge}
             </option>
           </select>
         </div>
@@ -89,7 +92,7 @@ export const App: React.FC = () => {
         total={itemsQuantity}
         perPage={itemsPerPage}
         currentPage={currentPage}
-        onPageChange={handleCurrentPage}
+        onPageChange={handlePageChange}
       />
 
       <ul>
