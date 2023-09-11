@@ -1,32 +1,46 @@
-import React from 'react';
+/* eslint-disable max-len */
+import React, { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
+import { Pagination } from './components/Pagination';
+import { List } from './components/List';
+import { PageSizeSelect } from './components/PageSizeSelect/PageSizeSelect';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42)
-  .map(n => `Item ${n}`);
+  .map((n, index) => ({ name: `Item ${n}`, id: index }));
 
 export const App: React.FC = () => {
+  const [itemsPerPage, setItemsPerPAge] = useState(5);
+  const [selectedPage, setSelectedPage] = useState(1);
+
+  const startItem = (selectedPage - 1) * itemsPerPage + 1;
+  const endItem = Math.min(selectedPage * itemsPerPage, items.length);
+
+  const handleOnPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedPage(1);
+    setItemsPerPAge(+event.target.value);
+  };
+
+  const handleOnClickChange = (page: number) => {
+    if (page !== selectedPage) {
+      setSelectedPage(page);
+    }
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        {`Page ${selectedPage} (items ${startItem} - ${endItem} of ${items.length})`}
       </p>
 
       <div className="form-group row">
         <div className="col-3 col-sm-2 col-xl-1">
-          <select
-            data-cy="perPageSelector"
-            id="perPageSelector"
-            className="form-control"
-          >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-          </select>
+          <PageSizeSelect
+            perPage={itemsPerPage}
+            onChangeSize={handleOnPageChange}
+          />
         </div>
 
         <label htmlFor="perPageSelector" className="col-form-label col">
@@ -34,63 +48,18 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
-      <ul className="pagination">
-        <li className="page-item disabled">
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled="true"
-          >
-            «
-          </a>
-        </li>
-        <li className="page-item active">
-          <a data-cy="pageLink" className="page-link" href="#1">1</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#2">2</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#3">3</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#4">4</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#5">5</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#6">6</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#7">7</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#8">8</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#9">9</a>
-        </li>
-        <li className="page-item">
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled="false"
-          >
-            »
-          </a>
-        </li>
-      </ul>
-      <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
-      </ul>
+      <Pagination
+        total={items.length}
+        perPage={itemsPerPage}
+        currentPage={selectedPage}
+        onPageChange={handleOnClickChange}
+      />
+
+      <List
+        items={items}
+        perPage={itemsPerPage}
+        currentPage={selectedPage}
+      />
     </div>
   );
 };
