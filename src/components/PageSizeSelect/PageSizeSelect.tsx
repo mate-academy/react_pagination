@@ -20,7 +20,7 @@ export const PageSizeSelect: React.FC<Props> = ({
       id="perPageSelector"
       className="form-control"
       defaultValue={perPage}
-      onChange={(onChangeSize)}
+      onChange={onChangeSize}
     >
       <option value={SelectValue.THREE}>{SelectValue.THREE}</option>
       <option value={SelectValue.FIVE}>{SelectValue.FIVE}</option>
