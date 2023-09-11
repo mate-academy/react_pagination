@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import cn from 'classnames';
 
 type Props = {
@@ -39,7 +38,13 @@ export const Pagination: React.FC<Props> = ({
         </li>
 
         {mappedPagesNumbers.map((item) => (
-          <li className={cn('page-item', { active: currentPage === item.id })} key={item.id}>
+          <li
+            className={cn(
+              'page-item',
+              { active: currentPage === item.id },
+            )}
+            key={item.id}
+          >
             <a
               data-cy="pageLink"
               className="page-link"
@@ -51,7 +56,14 @@ export const Pagination: React.FC<Props> = ({
           </li>
         ))}
 
-        <li className={cn('page-item', { disabled: currentPage === pagesNumbers })}>
+        <li
+          className={
+            cn(
+              'page-item',
+              { disabled: currentPage === pagesNumbers },
+            )
+          }
+        >
           <a
             data-cy="nextLink"
             className="page-link"

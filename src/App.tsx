@@ -14,7 +14,7 @@ export const App: React.FC = () => {
   const [selectedPage, setSelectedPage] = useState(1);
 
   const startItem = (selectedPage - 1) * itemsPerPage + 1;
-  const endItem = Math.min(selectedPage * itemsPerPage, items.length)
+  const endItem = Math.min(selectedPage * itemsPerPage, items.length);
 
   const handleOnPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedPage(1);
