@@ -26,59 +26,57 @@ export const Pagination: React.FC<Props> = ({
   }
 
   return (
-    <>
-      <ul className="pagination">
-        <li className={cn('page-item', {
-          disabled: currentPage === 1,
-        })}
+    <ul className="pagination">
+      <li className={cn('page-item', {
+        disabled: currentPage === 1,
+      })}
+      >
+        <a
+          data-cy="prevLink"
+          className="page-link"
+          href="#prev"
+          aria-disabled={currentPage === 1}
+          onClick={toPrevPage}
         >
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled={currentPage === 1}
-            onClick={toPrevPage}
-          >
-            «
-          </a>
-        </li>
-        {visiblePages.map(page => {
-          const isActive = cn({
-            active: currentPage === page,
-          });
+          «
+        </a>
+      </li>
+      {visiblePages.map(page => {
+        const isActive = cn({
+          active: currentPage === page,
+        });
 
-          function onClickHandler() {
-            return currentPage !== page && onPageChange(page);
-          }
+        function onClickHandler() {
+          return currentPage !== page && onPageChange(page);
+        }
 
-          return (
-            <li className={`page-item ${isActive}`} key={page}>
-              <a
-                data-cy="pageLink"
-                className="page-link"
-                href={`#${page}`}
-                onClick={onClickHandler}
-              >
-                {page}
-              </a>
-            </li>
-          );
-        })}
-        <li className={cn('page-item', {
-          disabled: currentPage === numberOfPages,
-        })}
+        return (
+          <li className={`page-item ${isActive}`} key={page}>
+            <a
+              data-cy="pageLink"
+              className="page-link"
+              href={`#${page}`}
+              onClick={onClickHandler}
+            >
+              {page}
+            </a>
+          </li>
+        );
+      })}
+      <li className={cn('page-item', {
+        disabled: currentPage === numberOfPages,
+      })}
+      >
+        <a
+          data-cy="nextLink"
+          className="page-link"
+          href="#next"
+          aria-disabled={currentPage === numberOfPages}
+          onClick={toNextPage}
         >
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled={currentPage === numberOfPages}
-            onClick={toNextPage}
-          >
-            »
-          </a>
-        </li>
-      </ul>
-    </>
+          »
+        </a>
+      </li>
+    </ul>
   );
 };
