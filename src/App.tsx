@@ -2,6 +2,7 @@
 /* eslint-disable max-len */
 import React, { useState } from 'react';
 import './App.css';
+import { v4 as uuidv4 } from 'uuid';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
@@ -63,8 +64,8 @@ export const App: React.FC = () => {
       />
 
       <ul>
-        {displayedItems.map((item, index) => (
-          <li key={index} data-cy="item">
+        {displayedItems.map((item) => (
+          <li key={uuidv4()} data-cy="item">
             {item}
           </li>
         ))}
