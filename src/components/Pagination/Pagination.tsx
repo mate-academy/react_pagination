@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 
 import { PaginationOption } from '../../types/PaginationOption';
-import { getNumbers } from '../../utils';
+import { getPages } from '../../services/utils';
 import { Page } from '../Page';
 
 type Props = {
@@ -17,7 +17,7 @@ export const Pagination: React.FC<Props> = ({
   const pageCount = Math.ceil(paginationOption.total
     / paginationOption.perPage);
 
-  const pages = getNumbers(1, pageCount).map(n => n);
+  const pages = getPages(1, pageCount);
 
   const isActivePrev = paginationOption.currentPage === 1;
   const isActiveNext = paginationOption.currentPage === pageCount;

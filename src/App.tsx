@@ -1,20 +1,13 @@
 import React, { useState } from 'react';
 
-// import { createBrowserRouter } from 'react-router-dom';
-
 import './App.css';
-import { getNumbers } from './utils';
+import { getItems } from './services/utils';
 import { Pagination } from './components/Pagination';
 import { ItemList } from './components/ItemList';
-import { PerPageList } from './components/PerPageList';
+import { PageSizeSelectList } from './components/PageSizeSelectList';
+import { defaultPaginVal } from './utils';
 
-const defaultPaginVal = {
-  total: 42,
-  perPage: 5,
-  currentPage: 1,
-};
-
-const options = [3, 5, 10, 20];
+const PAGE_SIZE_OPTIONS = [3, 5, 10, 20];
 
 export const App: React.FC = () => {
   const [paginationOption, setPaginationOption] = useState({
@@ -23,13 +16,9 @@ export const App: React.FC = () => {
     currentPage: defaultPaginVal.currentPage,
   });
 
-  const itemPerPageHandler = (value: string) => setPaginationOption({
-    ...paginationOption,
-    ...{ perPage: +value, currentPage: defaultPaginVal.currentPage },
-  });
-
   const currentPageHandler = (value: number) => setPaginationOption({
-    ...paginationOption, ...{ currentPage: value },
+    ...paginationOption,
+    currentPage: value,
   });
 
   const fromItem = (paginationOption?.currentPage - 1)
@@ -37,13 +26,9 @@ export const App: React.FC = () => {
 
   const maxCountItem = paginationOption?.currentPage * paginationOption.perPage;
 
-  const toItem = maxCountItem
-    > defaultPaginVal.total
-    ? defaultPaginVal.total
-    : maxCountItem;
+  const toItem = Math.min(maxCountItem, defaultPaginVal.total);
 
-  const items = getNumbers(fromItem, toItem)
-    .map(n => `Item ${n}`);
+  const items = getItems(fromItem, toItem);
 
   return (
     <div className="container">
@@ -55,10 +40,10 @@ export const App: React.FC = () => {
 
       <div className="form-group row">
         <div className="col-3 col-sm-2 col-xl-1">
-          <PerPageList
-            selectOptions={options}
+          <PageSizeSelectList
+            selectOptions={PAGE_SIZE_OPTIONS}
             paginationOption={paginationOption}
-            onChangePaginationOption={itemPerPageHandler}
+            onSetPaginationOption={setPaginationOption}
           />
         </div>
 
