@@ -63,7 +63,7 @@ export const App: React.FC = () => {
       <Pagination
         total={totalItems}
         perPage={itemsOnPage}
-        currentPage={firstPage}
+        currentPage={initialPage}
         onPageChange={setInitialPage}
       />
       <ul>
