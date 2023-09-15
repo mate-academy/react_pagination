@@ -14,8 +14,8 @@ export const App: React.FC = () => {
 
   const perPageArray = [3, 5, 10, 20];
 
-  const indexOfLastItem = currentPage * perPage;
-  const indexOfFirstItem = indexOfLastItem - perPage;
+  const indexOfLastItem = Math.min(currentPage * perPage, items.length);
+  const indexOfFirstItem = (currentPage - 1) * perPage;
   const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -32,7 +32,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${indexOfFirstItem} - ${indexOfLastItem}) of ${items.length})`}
+        {`Page ${currentPage} (items ${indexOfFirstItem + 1} - ${indexOfLastItem}) of ${items.length})`}
       </p>
 
       <div className="form-group row">
