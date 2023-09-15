@@ -4,15 +4,15 @@ import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers, getSearchWith } from './utils';
 
+const items = getNumbers(1, 42)
+  .map(n => `Item ${n}`);
+
+const perPageArray = [3, 5, 10, 20];
+
 export const App: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const perPage = Number(searchParams.get('perPage')) || 5;
   const currentPage = Number(searchParams.get('page')) || 1;
-
-  const items = getNumbers(1, 42)
-    .map(n => `Item ${n}`);
-
-  const perPageArray = [3, 5, 10, 20];
 
   const indexOfLastItem = Math.min(currentPage * perPage, items.length);
   const indexOfFirstItem = (currentPage - 1) * perPage;
