@@ -3,10 +3,10 @@ import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
 
-export const App: React.FC = () => {
-  const totalItems = 42;
-  const firstPage = 1;
+const totalItems = 42;
+const firstPage = 1;
 
+export const App: React.FC = () => {
   const [itemsOnPage, setItemsOnPage] = useState(5);
   const [initialPage, setInitialPage] = useState(firstPage);
 
@@ -22,9 +22,14 @@ export const App: React.FC = () => {
     setItemsOnPage(+event.target.value);
   };
 
-  const changedPage = (page: number) => {
-    setInitialPage(page);
-  };
+  const visibleItems = getNumbers(firstPage, totalItems).map(item => (
+    <li
+      data-cy="item"
+      key={item}
+    >
+      {`Item ${item}`}
+    </li>
+  )).slice(startVisibleItems, endVisibleItems);
 
   return (
     <div className="container">
@@ -59,17 +64,10 @@ export const App: React.FC = () => {
         total={totalItems}
         perPage={itemsOnPage}
         currentPage={firstPage}
-        onPageChange={changedPage}
+        onPageChange={setInitialPage}
       />
       <ul>
-        {getNumbers(firstPage, totalItems).map(item => (
-          <li
-            data-cy="item"
-            key={item}
-          >
-            {`Item ${item}`}
-          </li>
-        )).slice(startVisibleItems, endVisibleItems)}
+        {visibleItems}
       </ul>
     </div>
   );
