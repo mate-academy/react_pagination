@@ -3,13 +3,13 @@ import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
-const perPageOptions = [3, 5, 10, 20];
+const PER_PAGE_OPTIONS = [3, 5, 10, 20];
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 export const App: React.FC = () => {
-  const [perPage, setPerPage] = useState<number>(5);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [perPage, setPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const handlePerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(Number(e.target.value));
@@ -42,7 +42,7 @@ export const App: React.FC = () => {
             value={perPage}
             onChange={handlePerPageChange}
           >
-            {perPageOptions.map(option => (
+            {PER_PAGE_OPTIONS.map(option => (
               <option key={option} value={option}>{option}</option>
             ))}
           </select>

@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { getNumbers } from '../../utils';
 
 interface PaginationProps {
   total: number;
@@ -33,22 +34,20 @@ export const Pagination: React.FC<PaginationProps> = ({
           «
         </a>
       </li>
-      {[...Array(totalPages)].map((_, index) => {
-        const uniqueKey = `${index} - ${Math.random()}`;
-
+      {getNumbers(1, totalPages).map((page) => {
         return (
           <li
-            key={uniqueKey}
+            key={page}
             className={classNames('page-item',
-              { active: currentPage === (index + 1) })}
+              { active: currentPage === page })}
           >
             <a
               data-cy="pageLink"
               className="page-link"
-              href={`#${index + 1}`}
-              onClick={() => handlePageChange(index + 1)}
+              href={`#${page}`}
+              onClick={() => handlePageChange(page)}
             >
-              {index + 1}
+              {page}
             </a>
           </li>
         );
