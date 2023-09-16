@@ -14,31 +14,31 @@ export const Pagination: React.FC<Props> = ({
   paginationOption,
   onPageChange,
 }) => {
-  const pageCount = Math.ceil(paginationOption.total
-    / paginationOption.perPage);
+  const { total, perPage, currentPage } = paginationOption;
+
+  const pageCount = Math.ceil(total
+    / perPage);
 
   const pages = getPages(1, pageCount);
 
-  const isActivePrev = paginationOption.currentPage === 1;
-  const isActiveNext = paginationOption.currentPage === pageCount;
-  const startVal = paginationOption.currentPage;
+  const isActivePrev = currentPage === 1;
+  const isActiveNext = currentPage === pageCount;
+  const startVal = currentPage;
 
   const onNextPageHandler = () => {
-    if (paginationOption.currentPage < pageCount) {
+    if (currentPage < pageCount) {
       onPageChange(startVal + 1);
     }
   };
 
   const onPrevPageHandler = () => {
-    if (paginationOption.currentPage > 1) {
+    if (currentPage > 1) {
       onPageChange(startVal - 1);
     }
   };
 
   return (
-    <ul
-      className="pagination"
-    >
+    <ul className="pagination">
       <li className={cn(
         'page-item',
         { disabled: isActivePrev },
@@ -59,7 +59,7 @@ export const Pagination: React.FC<Props> = ({
         <Page
           key={page}
           page={page}
-          selectedPage={paginationOption.currentPage}
+          selectedPage={currentPage}
           onSelectPage={onPageChange}
         />
       ))}

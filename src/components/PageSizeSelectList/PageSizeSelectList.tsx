@@ -1,6 +1,6 @@
 import React from 'react';
 import { PaginationOption } from '../../types/PaginationOption';
-import { defaultPaginVal } from '../../utils';
+import { defaultPaginationValue } from '../../utils';
 
 type Props = {
   selectOptions: number[],
@@ -16,9 +16,8 @@ export const PageSizeSelectList: React.FC<Props> = ({
   const handleItemPerPage
   = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     onSetPaginationOption({
-      ...paginationOption,
+      ...defaultPaginationValue,
       perPage: +event.target.value,
-      currentPage: defaultPaginVal.currentPage,
     });
   };
 

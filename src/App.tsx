@@ -5,28 +5,32 @@ import { getItems } from './services/utils';
 import { Pagination } from './components/Pagination';
 import { ItemList } from './components/ItemList';
 import { PageSizeSelectList } from './components/PageSizeSelectList';
-import { defaultPaginVal } from './utils';
+import { defaultPaginationValue } from './utils';
 
 const PAGE_SIZE_OPTIONS = [3, 5, 10, 20];
 
 export const App: React.FC = () => {
   const [paginationOption, setPaginationOption] = useState({
-    total: defaultPaginVal.total,
-    perPage: defaultPaginVal.perPage,
-    currentPage: defaultPaginVal.currentPage,
+    total: defaultPaginationValue.total,
+    perPage: defaultPaginationValue.perPage,
+    currentPage: defaultPaginationValue.currentPage,
   });
 
-  const currentPageHandler = (value: number) => setPaginationOption({
-    ...paginationOption,
-    currentPage: value,
-  });
+  const handleCurrentPage = (value: number) => setPaginationOption(
+    (prevState) => {
+      return {
+        ...prevState,
+        currentPage: value,
+      };
+    },
+  );
 
   const fromItem = (paginationOption?.currentPage - 1)
     * paginationOption.perPage + 1;
 
   const maxCountItem = paginationOption?.currentPage * paginationOption.perPage;
 
-  const toItem = Math.min(maxCountItem, defaultPaginVal.total);
+  const toItem = Math.min(maxCountItem, defaultPaginationValue.total);
 
   const items = getItems(fromItem, toItem);
 
@@ -54,7 +58,7 @@ export const App: React.FC = () => {
 
       <Pagination
         paginationOption={paginationOption}
-        onPageChange={currentPageHandler}
+        onPageChange={handleCurrentPage}
       />
 
       <ItemList items={items} />
