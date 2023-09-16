@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
-import { Pagination } from './components/Pagination';
+import { Pagination } from './components/Pagination/Pagination';
+import { Items } from './components/Items/Items.';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
@@ -48,6 +49,11 @@ export const App: React.FC = () => {
         perPage={perPage}
         currentPage={currentPage}
         onChangePage={(page) => setCurrentPage(page)}
+      />
+      <Items
+        total={TOTAL}
+        perPage={perPage}
+        currentPage={currentPage}
       />
     </div>
   );
