@@ -7,3 +7,7 @@ export function getNumbers(from: number, to: number): number[] {
 
   return numbers;
 }
+
+export function getItems(): string[] {
+  return getNumbers(1, 42).map(n => `Item ${n}`);
+}
