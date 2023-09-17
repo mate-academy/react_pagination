@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { useEffect, useState } from 'react';
 
 type Props = {
   items: string[],
@@ -15,14 +16,21 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
+  const [pages, setPages] = useState<number[]>([]);
+
   const pagesCount = Math.ceil(total / perPage);
-  const pages = [];
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === pagesCount;
 
-  for (let i = 1; i <= pagesCount; i += 1) {
-    pages.push(i);
-  }
+  useEffect(() => {
+    const updatedPages: number[] = [];
+
+    for (let i = 1; i <= pagesCount; i += 1) {
+      updatedPages.push(i);
+    }
+
+    setPages(updatedPages);
+  }, [pagesCount]);
 
   const prevPage = (page: number) => () => {
     if (page > 0 && page !== 1) {

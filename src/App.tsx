@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -12,13 +12,24 @@ export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const itemsSize = items.length;
-  const startItem = perPage * currentPage - perPage;
-  const endItem = Math.min(startItem + perPage, itemsSize);
-  const visibleItems = items.slice(startItem, endItem);
+
+  const calcItems = useMemo(() => {
+    const startItem = perPage * currentPage - perPage;
+    const endItem = Math.min(startItem + perPage, itemsSize);
+    const visibleItem = items.slice(startItem, endItem);
+
+    return { startItem, endItem, visibleItem };
+  }, [perPage, currentPage, items]);
 
   const perPageHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(Number(event.currentTarget.value));
     setCurrentPage(1);
+  };
+
+  const handleCurrentPage = (page: number) => {
+    if (page !== currentPage) {
+      setCurrentPage(page);
+    }
   };
 
   return (
@@ -28,7 +39,7 @@ export const App: React.FC = () => {
       <p className="lead" data-cy="info">
         {
           `Page ${currentPage} `
-          + `(items ${startItem + 1} - ${endItem}`
+          + `(items ${calcItems.startItem + 1} - ${calcItems.endItem}`
           + ` of ${itemsSize})`
         }
       </p>
@@ -55,14 +66,12 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        items={visibleItems}
+        items={calcItems.visibleItem}
         total={itemsSize}
         perPage={perPage}
         currentPage={currentPage}
         onPageChange={(page) => {
-          if (page !== currentPage) {
-            setCurrentPage(page);
-          }
+          handleCurrentPage(page);
         }}
       />
     </div>
