@@ -1,11 +1,10 @@
 import React from 'react';
 import { PaginationOption } from '../../types/PaginationOption';
-import { defaultPaginationValue } from '../../utils';
 
 type Props = {
   selectOptions: number[],
   paginationOption: PaginationOption,
-  onSetPaginationOption: (value: PaginationOption) => void,
+  onSetPaginationOption: (value: string) => void,
 };
 
 export const PageSizeSelectList: React.FC<Props> = ({
@@ -13,21 +12,13 @@ export const PageSizeSelectList: React.FC<Props> = ({
   paginationOption,
   onSetPaginationOption,
 }) => {
-  const handleItemPerPage
-  = (event: React.ChangeEvent<HTMLSelectElement>): void => {
-    onSetPaginationOption({
-      ...defaultPaginationValue,
-      perPage: +event.target.value,
-    });
-  };
-
   return (
     <select
       value={paginationOption.perPage}
       data-cy="perPageSelector"
       id="perPageSelector"
       className="form-control"
-      onChange={handleItemPerPage}
+      onChange={(event) => onSetPaginationOption(event.target.value)}
     >
       {selectOptions.map(option => (
         <option key={option} value={option}>{option}</option>

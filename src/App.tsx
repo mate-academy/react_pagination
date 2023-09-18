@@ -34,6 +34,16 @@ export const App: React.FC = () => {
 
   const items = getItems(fromItem, toItem);
 
+  const handleSetPaginationOption = (value: string) => {
+    setPaginationOption((prevState) => {
+      return {
+        ...prevState,
+        perPage: +value,
+        currentPage: defaultPaginationValue.currentPage,
+      };
+    });
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
@@ -47,7 +57,7 @@ export const App: React.FC = () => {
           <PageSizeSelectList
             selectOptions={PAGE_SIZE_OPTIONS}
             paginationOption={paginationOption}
-            onSetPaginationOption={setPaginationOption}
+            onSetPaginationOption={handleSetPaginationOption}
           />
         </div>
 
