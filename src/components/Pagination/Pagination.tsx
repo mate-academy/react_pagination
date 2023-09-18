@@ -42,7 +42,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={currentPage === 1}
-          onClick={() => clickInPrevArrows()}
+          onClick={clickInPrevArrows}
         >
           «
         </a>
@@ -73,7 +73,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={currentPage === pages.length}
-          onClick={() => clickInNextArrows()}
+          onClick={clickInNextArrows}
         >
           »
         </a>

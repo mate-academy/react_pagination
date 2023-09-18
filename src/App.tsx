@@ -10,6 +10,7 @@ export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const listCountsPerPages = [3, 5, 10, 20];
   const startIndex = (currentPage * perPage) - perPage + 1;
   const endIndex = ((currentPage * perPage) > items.length)
     ? items.length : (currentPage * perPage);
@@ -39,8 +40,9 @@ export const App: React.FC = () => {
             }}
           >
             {
-              [3, 5, 10, 20].map((countItemsInPage) => (
+              listCountsPerPages.map((countItemsInPage) => (
                 <option
+                  key={countItemsInPage}
                   value={countItemsInPage}
                 >
                   {countItemsInPage}
