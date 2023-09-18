@@ -71,10 +71,7 @@ export const App: React.FC = () => {
 
       <ul>
         {currentPageItems.map(item => (
-          <li
-            key={item}
-            data-cy="item"
-          >
+          <li key={item} data-cy="item">
             {item}
           </li>
         ))}
