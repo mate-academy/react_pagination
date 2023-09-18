@@ -4,14 +4,14 @@ import './App.css';
 import { getItems } from './utils';
 import { Pagination } from './components/Pagination';
 
-const PER_PAGE_OPTIONS = [3, 5, 10, 20];
-const DEFAULT_PER_PAGE_OPTION = PER_PAGE_OPTIONS[1];
-const DEFAULT_PAGE = 1;
+const PAGE_SIZE_OPTIONS = [3, 5, 10, 20];
+const DEFAULT_PAGE_SIZE = PAGE_SIZE_OPTIONS[1];
+const DEFAULT_PAGE_INDEX = 1;
 
 export const App: React.FC = () => {
   const [items, setItems] = useState<string[]>([]);
-  const [perPage, setPerPage] = useState(DEFAULT_PER_PAGE_OPTION);
-  const [currentPage, setCurrentPage] = useState(DEFAULT_PAGE);
+  const [perPage, setPerPage] = useState(DEFAULT_PAGE_SIZE);
+  const [currentPage, setCurrentPage] = useState(DEFAULT_PAGE_INDEX);
 
   useEffect(() => {
     setItems(getItems());
@@ -21,7 +21,7 @@ export const App: React.FC = () => {
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     setPerPage(+event.target.value);
-    setCurrentPage(DEFAULT_PAGE);
+    setCurrentPage(DEFAULT_PAGE_INDEX);
   };
 
   const startIndex = (currentPage - 1) * perPage;
@@ -49,7 +49,7 @@ export const App: React.FC = () => {
             value={perPage}
             onChange={handleSelectChange}
           >
-            {PER_PAGE_OPTIONS.map(option => (
+            {PAGE_SIZE_OPTIONS.map(option => (
               <option key={option} value={option}>
                 {option}
               </option>
