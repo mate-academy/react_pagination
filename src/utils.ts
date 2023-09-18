@@ -1,9 +1,5 @@
-export function getNumbers(from: number, to: number): number[] {
-  const numbers = [];
-
-  for (let n = from; n <= to; n += 1) {
-    numbers.push(n);
-  }
-
-  return numbers;
-}
+export const defaultPaginationValue = {
+  total: 42,
+  perPage: 5,
+  currentPage: 1,
+};
