@@ -19,6 +19,11 @@ export const App: React.FC = () => {
     startIndex - 1, endIndex,
   );
 
+  const changeCountsPerPages = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setPerPage(+e.target.value);
+    setCurrentPage(1);
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
@@ -34,10 +39,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={(e) => {
-              setPerPage(+e.target.value);
-              setCurrentPage(1);
-            }}
+            onChange={(e) => changeCountsPerPages(e)}
           >
             {
               listCountsPerPages.map((countItemsInPage) => (
