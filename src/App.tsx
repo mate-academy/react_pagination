@@ -10,14 +10,20 @@ const items = getNumbers(1, 42)
 
 export const App: React.FC = () => {
   const [itemsPerPage, setItemsPerPage] = useState(5);
-  const [currentPage, setIsCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const pageFrom = (currentPage - 1) * itemsPerPage + 1;
   const pageTo = pageFrom + itemsPerPage - 1 > 42
     ? items.length
     : pageFrom + itemsPerPage - 1;
 
   const onPageChange = (page: number) => {
-    setIsCurrentPage(page);
+    if (
+      page !== currentPage
+      && page >= 1
+      && page <= Math.ceil(items.length / itemsPerPage)
+    ) {
+      setCurrentPage(page);
+    }
   };
 
   const visibleItems = () => {
@@ -25,6 +31,11 @@ export const App: React.FC = () => {
     const itemCopy = [...items];
 
     return itemCopy.splice(itemFrom, itemsPerPage);
+  };
+
+  const handlePageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setItemsPerPage(+event.target.value);
+    setCurrentPage(1);
   };
 
   return (
@@ -43,8 +54,7 @@ export const App: React.FC = () => {
             className="form-control"
             defaultValue={itemsPerPage}
             onChange={(e) => {
-              setItemsPerPage(+e.target.value);
-              setIsCurrentPage(1);
+              handlePageChange(e);
             }}
           >
             <option value="3">3</option>

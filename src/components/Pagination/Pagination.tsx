@@ -1,5 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
+import { getNumbers } from '../../utils';
 
 type Props = {
   total: number;
@@ -14,11 +15,7 @@ export const Pagination: React.FC<Props> = React.memo(({
   currentPage,
   onPageChange,
 }) => {
-  const pageLinkArr = [];
-
-  for (let i = 1; i <= Math.ceil(total / perPage); i += 1) {
-    pageLinkArr.push(i);
-  }
+  const pageLinkArr = getNumbers(1, Math.ceil(total / perPage));
 
   return (
     <ul className="pagination">
@@ -27,10 +24,8 @@ export const Pagination: React.FC<Props> = React.memo(({
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === 1 ? 'true' : 'false'}
-          onClick={() => {
-            onPageChange(currentPage - 1);
-          }}
+          aria-disabled={currentPage === 1}
+          onClick={() => onPageChange(currentPage - 1)}
         >
           «
         </a>
@@ -44,9 +39,7 @@ export const Pagination: React.FC<Props> = React.memo(({
             data-cy="pageLink"
             className="page-link"
             href={`#${link}`}
-            onClick={() => {
-              onPageChange(link);
-            }}
+            onClick={() => onPageChange(link)}
           >
             {link}
           </a>
@@ -60,10 +53,8 @@ export const Pagination: React.FC<Props> = React.memo(({
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === pageLinkArr.length ? 'true' : 'false'}
-          onClick={() => {
-            onPageChange(currentPage + 1);
-          }}
+          aria-disabled={currentPage === pageLinkArr.length}
+          onClick={() => onPageChange(currentPage + 1)}
         >
           »
         </a>
