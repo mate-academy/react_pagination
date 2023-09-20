@@ -11,8 +11,8 @@ const items = getNumbers(1, 42)
 const potion = [3, 5, 10, 20];
 
 export const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(3);
+  const [currentPage, setCurrentPage] = useState(9);
+  const [perPage, setPerPage] = useState(5);
 
   const indexOfLastPost = currentPage * perPage;
   const indexOfFirstPost = indexOfLastPost - perPage;
