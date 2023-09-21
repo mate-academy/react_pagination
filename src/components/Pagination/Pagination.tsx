@@ -1,4 +1,5 @@
 import cn from 'classnames';
+import { getNumbers } from '../../utils';
 
 type Props = {
   total: number,
@@ -15,17 +16,14 @@ export const Pagination: React.FC<Props> = ({
 }) => {
   const numberOfPages = Math.ceil(total / perPage);
 
-  const pageItems = Array.from(
-    { length: numberOfPages }, (_, index) => index + 1,
-  );
+  const pageItems = getNumbers(1, numberOfPages);
 
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === numberOfPages;
 
   return (
     <ul className="pagination">
-      <li className={cn({
-        'page-item': true,
+      <li className={cn('page-item', {
         disabled: isFirstPage,
       })}
       >
@@ -57,8 +55,7 @@ export const Pagination: React.FC<Props> = ({
         </li>
       ))}
 
-      <li className={cn({
-        'page-item': true,
+      <li className={cn('page-item', {
         disabled: isLastPage,
       })}
       >

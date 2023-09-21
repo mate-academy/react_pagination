@@ -52,14 +52,12 @@ export const App: React.FC = () => {
         total={itemsTotal}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={(pageNumber) => setCurrentPage(pageNumber)}
+        onPageChange={setCurrentPage}
       />
 
       <ul>
-        {items.map((item, index) => (
-          (index >= (fromItem - 1) && index < toItem) && (
-            <li data-cy="item" key={item}>{item}</li>
-          )
+        {items.slice(fromItem - 1, toItem).map(item => (
+          <li data-cy="item" key={item}>{item}</li>
         ))}
       </ul>
     </div>
