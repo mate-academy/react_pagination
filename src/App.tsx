@@ -11,7 +11,7 @@ export const App: React.FC = () => {
   const total = items.length;
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState('5');
+  const [perPage, setPerPage] = useState(5);
 
   const onPageChange = (page: number) => {
     setCurrentPage(page);
@@ -39,7 +39,7 @@ export const App: React.FC = () => {
             className="form-control"
             defaultValue={5}
             onChange={(event) => {
-              setPerPage(event.target.value);
+              setPerPage(+event.target.value);
               setCurrentPage(1);
             }}
           >
