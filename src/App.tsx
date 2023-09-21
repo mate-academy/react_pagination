@@ -14,6 +14,14 @@ export const App: React.FC = () => {
   const itemsTotal = items.length;
   const fromItem = (currentPage - 1) * perPage + 1;
   const toItem = Math.min(currentPage * perPage, itemsTotal);
+  const visibleItems = items.slice(fromItem - 1, toItem);
+
+  const handlePerPageChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setPerPage(Number(event.target.value));
+    setCurrentPage(1);
+  };
 
   return (
     <div className="container">
@@ -31,10 +39,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={event => {
-              setPerPage(Number(event.target.value));
-              setCurrentPage(1);
-            }}
+            onChange={handlePerPageChange}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -56,7 +61,7 @@ export const App: React.FC = () => {
       />
 
       <ul>
-        {items.slice(fromItem - 1, toItem).map(item => (
+        {visibleItems.map(item => (
           <li data-cy="item" key={item}>{item}</li>
         ))}
       </ul>
