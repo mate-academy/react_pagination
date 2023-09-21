@@ -4,14 +4,14 @@ import { getNumbers } from '../../utils';
 interface Props {
   total: number;
   onPageChange: React.Dispatch<React.SetStateAction<number>>;
-  selectedPage: number;
+  currentPage: number;
   perPage: number;
 }
 
 export const Pagination: React.FC<Props> = ({
   total,
   onPageChange,
-  selectedPage,
+  currentPage,
   perPage,
 }) => {
   const lastPage = Math.ceil(total / perPage);
@@ -19,31 +19,31 @@ export const Pagination: React.FC<Props> = ({
     .map(n => `${n}`);
 
   const handlePrevious = () => (
-    selectedPage > 1 && onPageChange(selectedPage - 1)
+    currentPage > 1 && onPageChange(currentPage - 1)
   );
 
   const handleNext = () => (
-    selectedPage < lastPage && onPageChange(selectedPage + 1)
+    currentPage < lastPage && onPageChange(currentPage + 1)
   );
 
   return (
     <ul className="pagination">
       <li
         className={cn('page-item',
-          selectedPage === 1 ? 'disabled' : '')}
+          currentPage === 1 ? 'disabled' : '')}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={selectedPage === 1 ? 'true' : 'false'}
+          aria-disabled={currentPage === 1 ? 'true' : 'false'}
           onClick={handlePrevious}
         >
           «
         </a>
       </li>
       {pages.map((page) => {
-        const isSelected = selectedPage === +page;
+        const isSelected = currentPage === +page;
 
         return (
           <li
@@ -56,7 +56,7 @@ export const Pagination: React.FC<Props> = ({
               className="page-link"
               href={`#${page}`}
               onClick={() => {
-                onPageChange(!isSelected ? +page : selectedPage);
+                onPageChange(!isSelected ? +page : currentPage);
               }}
             >
               {page}
@@ -66,13 +66,13 @@ export const Pagination: React.FC<Props> = ({
       })}
       <li
         className={cn('page-item',
-          selectedPage === lastPage ? 'disabled' : '')}
+          currentPage === lastPage ? 'disabled' : '')}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={selectedPage === lastPage ? 'true' : 'false'}
+          aria-disabled={currentPage === lastPage ? 'true' : 'false'}
           onClick={handleNext}
         >
           »
