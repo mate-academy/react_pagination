@@ -8,17 +8,16 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [query, setQuery] = useState(5);
+  const [perPage, setPerPage] = useState(5);
   const [selectedPage, setSelectedPage] = useState(1);
-  const lastPage = Math.ceil(items.length / query);
+  const total = items.length;
 
-  const totalItems = items.length;
-  const sliceTo = selectedPage * query;
-  const sliceFrom = sliceTo - query;
+  const sliceTo = selectedPage * perPage;
+  const sliceFrom = sliceTo - perPage;
   const itemsList = items.slice(sliceFrom, sliceTo);
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setQuery(+event.target.value);
+    setPerPage(+event.target.value);
     setSelectedPage(1);
   };
 
@@ -27,7 +26,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${selectedPage} (items ${sliceFrom + 1} - ${sliceTo > totalItems ? totalItems : sliceTo} of ${totalItems})`}
+        {`Page ${selectedPage} (items ${sliceFrom + 1} - ${sliceTo > total ? total : sliceTo} of ${total})`}
       </p>
 
       <div className="form-group row">
@@ -36,7 +35,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            value={query}
+            value={perPage}
             onChange={handleChange}
           >
             <option value="3">3</option>
@@ -52,14 +51,15 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        lastPage={lastPage}
-        setSelectedPage={setSelectedPage}
+        total={total}
+        perPage={perPage}
+        onPageChange={setSelectedPage}
         selectedPage={selectedPage}
       />
 
       <ul>
         {itemsList.map(item => (
-          <li data-cy="item">{item}</li>
+          <li data-cy="item" key={item}>{item}</li>
         ))}
       </ul>
     </div>

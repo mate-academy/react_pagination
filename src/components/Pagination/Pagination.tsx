@@ -2,25 +2,28 @@ import cn from 'classnames';
 import { getNumbers } from '../../utils';
 
 interface Props {
-  lastPage: number;
-  setSelectedPage: React.Dispatch<React.SetStateAction<number>>;
+  total: number;
+  onPageChange: React.Dispatch<React.SetStateAction<number>>;
   selectedPage: number;
+  perPage: number;
 }
 
-export const Pagination = ({
-  lastPage,
-  setSelectedPage,
+export const Pagination: React.FC<Props> = ({
+  total,
+  onPageChange,
   selectedPage,
-}: Props) => {
+  perPage,
+}) => {
+  const lastPage = Math.ceil(total / perPage);
   const pages = getNumbers(1, lastPage)
     .map(n => `${n}`);
 
   const handlePrevious = () => (
-    selectedPage > 1 && setSelectedPage(selectedPage - 1)
+    selectedPage > 1 && onPageChange(selectedPage - 1)
   );
 
   const handleNext = () => (
-    selectedPage < lastPage && setSelectedPage(selectedPage + 1)
+    selectedPage < lastPage && onPageChange(selectedPage + 1)
   );
 
   return (
@@ -46,13 +49,14 @@ export const Pagination = ({
           <li
             className={cn('page-item',
               isSelected ? 'active' : '')}
+            key={page}
           >
             <a
               data-cy="pageLink"
               className="page-link"
               href={`#${page}`}
               onClick={() => {
-                setSelectedPage(!isSelected ? +page : selectedPage);
+                onPageChange(!isSelected ? +page : selectedPage);
               }}
             >
               {page}
