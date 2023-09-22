@@ -6,7 +6,7 @@ interface Props {
   itemsPerPage: number,
   items: number[],
   currentPage: number,
-  onPageChange: (value: number) => void;
+  onPageChange: (page: number) => void;
 }
 
 export const Pagination: React.FC<Props> = ({
@@ -21,40 +21,46 @@ export const Pagination: React.FC<Props> = ({
   return (
     <>
       <ul className="pagination">
-        <li className="page-item disabled">
+        <li className={cn('page-item', { disabled: currentPage === 1 })}>
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled="true"
+            aria-disabled={currentPage === 1}
             onClick={() => onPageChange(currentPage - 1)}
           >
             «
           </a>
         </li>
 
-        {pages.map(el => (
-          <li className={cn('page-item', { active: el === currentPage })}>
+        {pages.map(page => (
+          <li
+            key={page}
+            className={cn('page-item',
+              { active: page === currentPage })}
+          >
             <a
               data-cy="pageLink"
               className="page-link"
-              href={`#${el}`}
+              href={`#${page}`}
               onClick={(event) => {
                 event.preventDefault();
-                onPageChange(el);
+                onPageChange(page);
               }}
             >
-              {el}
+              {page}
             </a>
           </li>
         ))}
 
-        <li className="page-item">
+        <li className={cn('page-item',
+          { disabled: currentPage === pages.length })}
+        >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled="false"
+            aria-disabled={currentPage === pages.length}
             onClick={() => onPageChange(currentPage + 1)}
           >
             »
@@ -63,7 +69,12 @@ export const Pagination: React.FC<Props> = ({
       </ul>
       <ul>
         {items.map(item => (
-          <li data-cy="item">{`Item ${item}`}</li>
+          <li
+            data-cy="item"
+            key={item}
+          >
+            {`Item ${item}`}
+          </li>
         ))}
       </ul>
     </>
