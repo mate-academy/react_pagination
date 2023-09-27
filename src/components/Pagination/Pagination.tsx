@@ -51,10 +51,12 @@ export const Pagination: React.FC<Props> = ({
         </li>
       ))}
 
-      <li className="page-item">
+      <li
+        className={cn('page-item', { disabled: nextLinkDisabled })}
+      >
         <a
           data-cy="nextLink"
-          className={cn('page-link', { disabled: nextLinkDisabled })}
+          className="page-link"
           href="#next"
           aria-disabled={nextLinkDisabled}
           onClick={() => !nextLinkDisabled && onPageChange(currentPage + 1)}
