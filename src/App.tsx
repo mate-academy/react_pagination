@@ -5,9 +5,10 @@ import { Pagination } from './components/Pagination';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
+const matrix: number[] = [3, 5, 10, 20];
+const totalAmount = 42;
+
 export const App: React.FC = () => {
-  const matrix: number[] = [3, 5, 10, 20];
-  const totalAmount = 42;
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
