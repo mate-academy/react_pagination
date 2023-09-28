@@ -7,6 +7,9 @@ const ITEMS_PER_PAGE_OPTIONS = [3, 5, 10, 20];
 
 const generateItems = (count: number) => getNumbers(1, count).map((n) => `Item ${n}`);
 
+const items = generateItems(42);
+const total = items.length;
+
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,8 +19,6 @@ export const App: React.FC = () => {
     setCurrentPage(1);
   };
 
-  const items = generateItems(42);
-  const total = items.length;
   const fromPage = (currentPage - 1) * perPage;
   const toPage = currentPage * perPage > total ? total
     : currentPage * perPage;

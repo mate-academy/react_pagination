@@ -12,14 +12,30 @@ export const Pagination: React.FC<Props> = ({
   total,
   perPage,
   currentPage,
-  onPageChange = () => { },
+  onPageChange = () => {},
 }) => {
   const pages = Math.ceil(total / perPage);
+  const generatePages = getNumbers(1, pages);
   const isFirstPageSelected = currentPage === 1;
   const isLastPageSelected = currentPage === pages;
 
   const getClassName = (condition: boolean) => cn('page-item',
     { disabled: condition });
+
+  const handlePrev = () => !isFirstPageSelected
+  && onPageChange(currentPage - 1);
+
+  const handleNext = () => !isLastPageSelected
+  && onPageChange(currentPage + 1);
+
+  const handleChangePage = ({ currentTarget }:
+  React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    const { textContent } = currentTarget;
+
+    if (textContent !== null) {
+      onPageChange(+textContent);
+    }
+  };
 
   return (
     <ul className="pagination">
@@ -29,13 +45,13 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={isFirstPageSelected}
-          onClick={() => !isFirstPageSelected && onPageChange(currentPage - 1)}
+          onClick={handlePrev}
         >
           «
         </a>
       </li>
 
-      {getNumbers(1, pages).map(page => (
+      {generatePages.map(page => (
         <li
           key={page}
           className={cn('page-item',
@@ -45,10 +61,7 @@ export const Pagination: React.FC<Props> = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${page}`}
-            onClick={(event) => {
-              event.preventDefault();
-              onPageChange(page);
-            }}
+            onClick={handleChangePage}
           >
             {page}
           </a>
@@ -61,8 +74,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={isLastPageSelected}
-          onClick={() => !isLastPageSelected
-            && onPageChange(currentPage + 1)}
+          onClick={handleNext}
         >
           »
         </a>
