@@ -1,6 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import { getNumbers } from '../../utils';
+
 type Props = {
   total: number;
   perPage: number;
@@ -15,13 +17,9 @@ export const Pagination: React.FC<Props> = ({
   onPageChange,
 }) => {
   const pagesCount = Math.ceil(total / perPage);
-  const pages = [];
+  const pages = getNumbers(1, pagesCount);
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === pagesCount;
-
-  for (let i = 1; i <= pagesCount; i += 1) {
-    pages.push(i);
-  }
 
   return (
     <ul className="pagination">
@@ -41,7 +39,7 @@ export const Pagination: React.FC<Props> = ({
           «
         </a>
       </li>
-      {pages.map((page, index) => (
+      {pages.map(page => (
         <li
           key={page}
           className={classNames(
@@ -52,7 +50,7 @@ export const Pagination: React.FC<Props> = ({
           <a
             data-cy="pageLink"
             className="page-link"
-            href={`#${index + 1}`}
+            href={`#${page}`}
             onClick={() => onPageChange(page)}
           >
             {page}
