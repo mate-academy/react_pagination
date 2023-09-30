@@ -21,20 +21,36 @@ export const Pagination: React.FC<Props> = ({
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === pagesCount;
 
+  const prevCLickHandler = () => {
+    if (isFirstPage) {
+      return;
+    }
+
+    onPageChange(currentPage - 1);
+  };
+
+  const nextCLickHandler = () => {
+    if (isLastPage) {
+      return;
+    }
+
+    onPageChange(currentPage + 1);
+  };
+
   return (
     <ul className="pagination">
       <li
         className={classNames(
           'page-item',
-          { disabled: isFirstPage },
+          { disabled: currentPage === 1 },
         )}
       >
         <a
           data-cy="prevLink"
           className="page-link"
-          href={`#${currentPage}`}
+          href="#prev"
           aria-disabled={isFirstPage}
-          onClick={() => onPageChange(currentPage - 1)}
+          onClick={prevCLickHandler}
         >
           «
         </a>
@@ -66,9 +82,9 @@ export const Pagination: React.FC<Props> = ({
         <a
           data-cy="nextLink"
           className="page-link"
-          href={`#${currentPage}`}
-          aria-disabled={isLastPage}
-          onClick={() => onPageChange(currentPage + 1)}
+          href="#next"
+          aria-disabled={currentPage === pagesCount}
+          onClick={nextCLickHandler}
         >
           »
         </a>
