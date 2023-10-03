@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -8,21 +8,27 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [optionValue, setOptionValue] = useState(5);
+  const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
-  // const totalPages = Math.ceil(42 / +optionValue);
+  const total = items.length;
+  const startItemIndex = (currentPage - 1) * perPage;
+  const endItemIndex = Math.min(currentPage * perPage, total);
+  const visibleItems = items.slice(startItemIndex, endItemIndex);
 
-  const abcc = currentPage * optionValue + optionValue;
-  const math = items.slice((currentPage - 1) * optionValue,
-    Math.min(+optionValue, items.length));
+  const options = [3, 5, 10, 20];
+
+  function optionEvent(event: ChangeEvent<HTMLSelectElement>) {
+    setPerPage(+event.target.value);
+    setCurrentPage(1);
+  }
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${(currentPage) * +optionValue} - ${abcc} of ${items.length})`}
+        {`Page ${currentPage} (items ${startItemIndex + 1} - ${endItemIndex} of ${total})`}
       </p>
 
       <div className="form-group row">
@@ -31,13 +37,14 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            value={optionValue}
-            onChange={(event) => setOptionValue(+event.target.value)}
+            value={perPage}
+            onChange={(event) => optionEvent(event)}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            {options.map(option => (
+              <option value={option} key={option}>
+                {option}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -46,15 +53,14 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
       <Pagination
-        total={items.length}
-        perPage={optionValue}
+        total={total}
+        perPage={perPage}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
       />
       <ul>
-        {math.map((item) => (
+        {visibleItems.map((item) => (
           <li data-cy="item" key={item}>
             {item}
           </li>
