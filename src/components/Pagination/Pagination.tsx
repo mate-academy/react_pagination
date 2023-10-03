@@ -1,4 +1,6 @@
+import cn from 'classnames';
 import { useEffect } from 'react';
+
 import { getNumbers, getList } from '../../utils';
 
 interface Props {
@@ -56,39 +58,42 @@ export const Pagination = (
     <>
       <ul className="pagination">
         <li
-          className={`page-item ${currentPage === 1 && 'disabled'} `}
+          className={cn('page-item', { disabled: currentPage === 1 })}
         >
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled={currentPage === 1 && true}
+            aria-disabled={currentPage === 1}
             onClick={arrowHendlerLeft}
           >
             «
           </a>
         </li>
-        { pages.map(el => (
+        { pages.map(page => (
           <li
-            className={`page-item ${el === currentPage && 'active'}`}
-            key={el}
+            className={cn('page-item', { active: page === currentPage })}
+            key={page}
           >
             <a
               data-cy="pageLink"
               className="page-link"
-              href={`#${el}`}
+              href={`#${page}`}
               onClick={pageHendler}
             >
-              {el}
+              {page}
             </a>
           </li>
         ))}
-        <li className={`page-item ${currentPage > pages.length - 1 && 'disabled'}`}>
+        <li className={cn(
+          'page-item', { disabled: currentPage > pages.length - 1 },
+        )}
+        >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={currentPage > pages.length - 1 && true}
+            aria-disabled={currentPage > pages.length - 1}
             onClick={arrowHendlerRight}
           >
             »
