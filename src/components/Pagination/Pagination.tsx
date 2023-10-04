@@ -30,18 +30,6 @@ export const Pagination = (
     onPageChange(selectPage);
   }
 
-  function arrowHendlerLeft(event: React.MouseEvent<HTMLElement>) {
-    if (event) {
-      onPageChange(currentPage - 1);
-    }
-  }
-
-  function arrowHendlerRight(event: React.MouseEvent<HTMLElement>) {
-    if (event) {
-      onPageChange(currentPage + 1);
-    }
-  }
-
   const pages = getNumbers(1, amountPages);
 
   const amountOfli = getList(currentPage, total, perPage);
@@ -49,6 +37,18 @@ export const Pagination = (
   const [start, end] = amountOfli;
 
   const items = getNumbers(start, end).map(n => `Item ${n}`);
+
+  function arrowHendlerLeft(event: React.MouseEvent<HTMLElement>) {
+    if (event && currentPage > pages[0]) {
+      onPageChange(currentPage - 1);
+    }
+  }
+
+  function arrowHendlerRight(event: React.MouseEvent<HTMLElement>) {
+    if (event && currentPage < amountPages) {
+      onPageChange(currentPage + 1);
+    }
+  }
 
   useEffect(() => {
     onItemChange(amountOfli);
