@@ -38,14 +38,14 @@ export const Pagination = (
 
   const items = getNumbers(start, end).map(n => `Item ${n}`);
 
-  function arrowHendlerLeft(event: React.MouseEvent<HTMLElement>) {
-    if (event && currentPage > pages[0]) {
+  function arrowHendlerLeft() {
+    if (currentPage > pages[0]) {
       onPageChange(currentPage - 1);
     }
   }
 
-  function arrowHendlerRight(event: React.MouseEvent<HTMLElement>) {
-    if (event && currentPage < amountPages) {
+  function arrowHendlerRight() {
+    if (currentPage < amountPages) {
       onPageChange(currentPage + 1);
     }
   }
