@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 
 import { getNumbers, getList } from '../../utils';
 
@@ -11,15 +11,13 @@ interface Props {
   onItemChange: (el1: number[]) => void
 }
 
-export const Pagination = (
-  {
-    total,
-    perPage,
-    currentPage,
-    onPageChange,
-    onItemChange,
-  }: Props,
-) => {
+export const Pagination: FC<Props> = ({
+  total,
+  perPage,
+  currentPage,
+  onPageChange,
+  onItemChange,
+}) => {
   const amountPages = total % perPage === 0
     ? Math.floor(total / perPage)
     : Math.floor(total / perPage) + 1;
@@ -38,13 +36,13 @@ export const Pagination = (
 
   const items = getNumbers(start, end).map(n => `Item ${n}`);
 
-  function arrowHendlerLeft() {
+  function getArrowLeft() {
     if (currentPage > pages[0]) {
       onPageChange(currentPage - 1);
     }
   }
 
-  function arrowHendlerRight() {
+  function getArrowRight() {
     if (currentPage < amountPages) {
       onPageChange(currentPage + 1);
     }
@@ -65,7 +63,7 @@ export const Pagination = (
             className="page-link"
             href="#prev"
             aria-disabled={currentPage === 1}
-            onClick={arrowHendlerLeft}
+            onClick={getArrowLeft}
           >
             «
           </a>
@@ -94,7 +92,7 @@ export const Pagination = (
             className="page-link"
             href="#next"
             aria-disabled={currentPage > pages.length - 1}
-            onClick={arrowHendlerRight}
+            onClick={getArrowRight}
           >
             »
           </a>

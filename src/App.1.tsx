@@ -11,9 +11,7 @@ export const App: React.FC = () => {
   const options = ['3', '5', '10', '20'];
 
   const onPageChange = (page: number) => {
-    if (
-      currentPage !== page
-    ) {
+    if (currentPage !== page) {
       setCurrentPage(page);
     }
   };
