@@ -26,6 +26,12 @@ export const Pagination: React.FC<Props> = ({
     }
   };
 
+  const onClick = (number: number) => {
+    if (number !== currentPage) {
+      onChangePage(number);
+    }
+  };
+
   return (
     <ul className="pagination">
       <li className={cn('page-item', { disabled: currentPage === 1 })}>
@@ -49,11 +55,7 @@ export const Pagination: React.FC<Props> = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${page}`}
-            onClick={() => {
-              if (page !== currentPage) {
-                onChangePage(page);
-              }
-            }}
+            onClick={() => onClick(page)}
 
           >
             {page}
