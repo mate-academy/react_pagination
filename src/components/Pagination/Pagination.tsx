@@ -68,7 +68,7 @@ export const Pagination: FC<Props> = ({
             «
           </a>
         </li>
-        { pages.map(page => (
+        {pages.map(page => (
           <li
             className={cn('page-item', { active: page === currentPage })}
             key={page}
@@ -98,6 +98,7 @@ export const Pagination: FC<Props> = ({
           </a>
         </li>
       </ul>
+
       <ul>
         {items.map(item => (
           <li
