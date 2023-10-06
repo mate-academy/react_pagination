@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
+
 import { START } from './constants';
+import { getNumbers } from './utils';
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(START.PAGE);
@@ -11,6 +13,9 @@ export const App: React.FC = () => {
   const lastItem = Math.min(
     (perPage + perPage * (currentPage - START.PAGE)), START.NUMBER_ITEMS,
   );
+
+  const items = getNumbers(firstItem, lastItem)
+    .map(n => `Item ${n}`);
 
   const countPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(+event.target.value);
@@ -51,9 +56,13 @@ export const App: React.FC = () => {
         perPage={perPage}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
-        firstItem={firstItem}
-        lastItem={lastItem}
       />
+
+      <ul>
+        {items.map(item => (
+          <li data-cy="item" key={item}>{item}</li>
+        ))}
+      </ul>
     </div>
   );
 };

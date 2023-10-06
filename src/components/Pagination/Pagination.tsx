@@ -8,8 +8,6 @@ type Props = {
   perPage: number;
   currentPage: number;
   onPageChange: (page: number) => void;
-  firstItem: number;
-  lastItem: number;
 };
 
 export const Pagination: React.FC<Props> = ({
@@ -17,15 +15,9 @@ export const Pagination: React.FC<Props> = ({
   perPage,
   currentPage,
   onPageChange,
-  firstItem,
-  lastItem,
 }) => {
-  const items = getNumbers(1, total)
-    .map(n => `Item ${n}`);
-
   const amountPages = Math.ceil(total / perPage);
   const amountPagesArr = getNumbers(1, amountPages);
-  const amountItemsOnPage = [...items].slice(firstItem - 1, lastItem);
 
   const prevPage = () => {
     if (currentPage !== START.PAGE) {
@@ -87,11 +79,6 @@ export const Pagination: React.FC<Props> = ({
             »
           </a>
         </li>
-      </ul>
-      <ul>
-        {amountItemsOnPage.map(item => (
-          <li data-cy="item" key={item}>{item}</li>
-        ))}
       </ul>
     </>
   );
