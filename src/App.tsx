@@ -1,18 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import { getNumbers } from './utils';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { getNumbers } from './utils';
+import { Pagination } from './components/Pagination';
+import PaginationConstructor from './utils/Pagination';
+
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
+enum DEFAULT {
+  pageCount = 5,
+  page = 1,
+}
+
 export const App: React.FC = () => {
+  const [itemsPerPage, setItemsPerPage] = useState(DEFAULT.pageCount);
+  const [currentPage, setCurrentPage] = useState(DEFAULT.page);
+
+  const preparedItems
+    = new PaginationConstructor<typeof items[0]>(items, itemsPerPage);
+
+  const getTitle = () => {
+    const start = (currentPage - 1) * itemsPerPage + 1;
+    const end = Math.min((
+      currentPage - 1) * itemsPerPage + itemsPerPage,
+    items.length);
+
+    return `Page ${currentPage} (items ${start} - ${end} of ${items.length})`;
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        {getTitle()}
       </p>
 
       <div className="form-group row">
@@ -21,6 +43,11 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
+            defaultValue={DEFAULT.pageCount}
+            onChange={event => {
+              setCurrentPage(DEFAULT.page);
+              setItemsPerPage(+event.target.value);
+            }}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -34,62 +61,21 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
-      <ul className="pagination">
-        <li className="page-item disabled">
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled="true"
-          >
-            «
-          </a>
-        </li>
-        <li className="page-item active">
-          <a data-cy="pageLink" className="page-link" href="#1">1</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#2">2</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#3">3</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#4">4</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#5">5</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#6">6</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#7">7</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#8">8</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#9">9</a>
-        </li>
-        <li className="page-item">
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled="false"
-          >
-            »
-          </a>
-        </li>
-      </ul>
+      <Pagination
+        pagesCount={preparedItems.getPagesCount()}
+        selectedPage={currentPage}
+        selectPage={(value) => {
+          setCurrentPage(value);
+        }}
+      />
+
       <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
+        {
+          preparedItems.getPage(currentPage - 1)
+            .map((item) => (
+              <li data-cy="item" key={item}>{item}</li>
+            ))
+        }
       </ul>
     </div>
   );
