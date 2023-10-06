@@ -1,6 +1,7 @@
 import cn from 'classnames';
 import React from 'react';
 import { getNumbers } from '../../utils';
+import { START } from '../../constants';
 
 type Props = {
   total: number;
@@ -27,7 +28,7 @@ export const Pagination: React.FC<Props> = ({
   const amountItemsOnPage = [...items].slice(firstItem - 1, lastItem);
 
   const prevPage = () => {
-    if (currentPage !== 1) {
+    if (currentPage !== START.PAGE) {
       onPageChange(currentPage - 1);
     }
   };
@@ -41,12 +42,15 @@ export const Pagination: React.FC<Props> = ({
   return (
     <>
       <ul className="pagination">
-        <li className={cn('page-item', { disabled: currentPage === 1 })}>
+        <li className={cn('page-item', {
+          disabled: currentPage === START.PAGE,
+        })}
+        >
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled={currentPage === 1 ? 'true' : 'false'}
+            aria-disabled={currentPage === START.PAGE}
             onClick={prevPage}
           >
             «
@@ -77,7 +81,7 @@ export const Pagination: React.FC<Props> = ({
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={currentPage === amountPages ? 'true' : 'false'}
+            aria-disabled={currentPage === amountPages}
             onClick={nextPage}
           >
             »

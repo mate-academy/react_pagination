@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
+import { START } from './constants';
 
 export const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(START.PAGE);
+  const [perPage, setPerPage] = useState(START.AMOUNT_ITEMS);
 
-  const TOTAL = 42;
-  const firstItem = 1 + perPage * (currentPage - 1);
-  const lastItem = Math.min((perPage + perPage * (currentPage - 1)), TOTAL);
+  const firstItem = START.PAGE + perPage * (currentPage - START.PAGE);
+  const lastItem = Math.min(
+    (perPage + perPage * (currentPage - START.PAGE)), START.NUMBER_ITEMS,
+  );
 
   const countPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(+event.target.value);
-    setCurrentPage(1);
+    setCurrentPage(START.PAGE);
   };
 
   return (
@@ -45,7 +47,7 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={TOTAL}
+        total={START.NUMBER_ITEMS}
         perPage={perPage}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
