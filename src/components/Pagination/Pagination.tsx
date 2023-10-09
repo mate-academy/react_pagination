@@ -112,7 +112,7 @@ export const Pagination: React.FC<Props> = ({
       <ul>
         {itemsArr.map(item => (
           item <= total && (
-            <li data-cy="item">
+            <li data-cy="item" key={item}>
               {`Item ${item}`}
             </li>
           )
