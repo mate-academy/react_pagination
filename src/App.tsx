@@ -41,7 +41,7 @@ const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={(e) => handleOnChange(e)}
+            onChange={handleOnChange}
           >
             <option value="3">3</option>
             <option value="5">5</option>
