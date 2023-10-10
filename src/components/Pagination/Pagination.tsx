@@ -17,6 +17,12 @@ export const Pagination: React.FC<Props> = ({
   const pages: number[] = [];
   const itemsArr: number[] = [];
 
+  const handleChangeClick = (page: number) => {
+    if (currentPage !== page) {
+      onPageChange(page);
+    }
+  };
+
   for (let i = 1; i <= perPage; i += 1) {
     const resultItem = i + perPage * (currentPage - 1);
 
@@ -69,11 +75,7 @@ export const Pagination: React.FC<Props> = ({
               data-cy="pageLink"
               className="page-link"
               href={`#${page}`}
-              onClick={() => {
-                if (currentPage !== page) {
-                  onPageChange(page);
-                }
-              }}
+              onClick={() => handleChangeClick(page)}
             >
               {page}
             </a>

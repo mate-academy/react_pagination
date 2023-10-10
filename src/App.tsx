@@ -53,7 +53,7 @@ export const App: React.FC = () => {
 
           >
             {valueSelector.map(value => (
-              <option value={value}>
+              <option value={value} key={value}>
                 {value}
               </option>
             ))}
