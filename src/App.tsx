@@ -9,7 +9,7 @@ const items = getNumbers(1, 42)
 export const App: React.FC = () => {
   const options = [3, 5, 10, 20];
   const total = items.length;
-  const [perPage, setPerPage] = useState(3);
+  const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const startIndex = (currentPage - 1) * perPage;
   const endIndex = startIndex + perPage < total ? startIndex + perPage : total;
