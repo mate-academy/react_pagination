@@ -5,15 +5,15 @@ import { Pagination } from './components/Pagination';
 
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
+const options = [3, 5, 10, 20];
+const total = items.length;
 
 export const App: React.FC = () => {
-  const options = [3, 5, 10, 20];
-  const total = items.length;
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const startIndex = (currentPage - 1) * perPage;
   const endIndex = startIndex + perPage < total ? startIndex + perPage : total;
-  const displayed = items.slice(startIndex, endIndex);
+  const visibleItems = items.slice(startIndex, endIndex);
 
   function handleOptionChange(event: React.ChangeEvent<HTMLSelectElement>) {
     const value = +event.target.value;
@@ -39,9 +39,9 @@ export const App: React.FC = () => {
             value={perPage}
             onChange={handleOptionChange}
           >
-            {options.map(
-              item => <option value={item} key={item}>{item}</option>,
-            )}
+            {options.map(item => (
+              <option value={item} key={item}>{item}</option>
+            ))}
           </select>
         </div>
 
@@ -58,7 +58,7 @@ export const App: React.FC = () => {
       />
 
       <ul>
-        {displayed.map(item => (
+        {visibleItems.map(item => (
           <li data-cy="item" key={item}>
             {item}
           </li>
