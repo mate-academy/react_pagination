@@ -17,6 +17,18 @@ export const Pagination: React.FC<Props> = ({
   const pages = Math.ceil(total / perPage);
   const arrOfPages = Array.from({ length: pages }, (_, i) => i + 1);
 
+  const handleNextLinkChange = () => {
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const handlePrevLinkChange = () => {
+    if (currentPage < arrOfPages[arrOfPages.length - 1]) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
   return (
     <ul className="pagination">
       <li className={cn('page-item', {
@@ -28,32 +40,28 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={currentPage === 1}
-          onClick={() => {
-            if (currentPage > 1) {
-              onPageChange(currentPage - 1);
-            }
-          }}
+          onClick={handleNextLinkChange}
         >
           «
         </a>
       </li>
-      {arrOfPages.map(page => {
-        return (
-          <li
-            key={page}
-            className={cn('page-item', { active: currentPage === page })}
+
+      {arrOfPages.map(page => (
+        <li
+          key={page}
+          className={cn('page-item', { active: currentPage === page })}
+        >
+          <a
+            data-cy="pageLink"
+            className="page-link"
+            href={`#${page}`}
+            onClick={() => onPageChange(page)}
           >
-            <a
-              data-cy="pageLink"
-              className="page-link"
-              href={`#${page}`}
-              onClick={() => onPageChange(page)}
-            >
-              {page}
-            </a>
-          </li>
-        );
-      })}
+            {page}
+          </a>
+        </li>
+      ))}
+
       <li className={cn('page-item', {
         disabled: currentPage === arrOfPages[arrOfPages.length - 1],
       })}
@@ -63,11 +71,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={currentPage === arrOfPages[arrOfPages.length - 1]}
-          onClick={() => {
-            if (currentPage < arrOfPages[arrOfPages.length - 1]) {
-              onPageChange(currentPage + 1);
-            }
-          }}
+          onClick={handlePrevLinkChange}
         >
           »
         </a>
