@@ -1,18 +1,63 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
+import { useSearchParams } from 'react-router-dom';
 import { getNumbers } from './utils';
+import { Pagination } from './components/Pagination';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42)
-  .map(n => `Item ${n}`);
+const items = getNumbers(1, 42).map(n => `Item ${n}`);
+const perPageValues = [3, 5, 10, 20];
+const defaultSearchParams = {
+  page: '1',
+  perPage: '5',
+};
 
 export const App: React.FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams(defaultSearchParams);
+
+  const total = items.length;
+  const currentPage = Number(searchParams.get('page'));
+  const perPage = Number(searchParams.get('perPage'));
+  const maxPages = Math.ceil(total / perPage);
+
+  const fromIndex = currentPage * perPage - perPage;
+  const toIndex = currentPage === maxPages ? total : currentPage * perPage;
+  const itemsOnPage = items.slice(fromIndex, toIndex);
+
+  useEffect(() => {
+    if (currentPage < 1) {
+      searchParams.set('page', defaultSearchParams.page);
+    }
+
+    if (currentPage > maxPages) {
+      searchParams.set('page', `${maxPages}`);
+    }
+
+    if (perPage === 0 || !perPageValues.includes(perPage)) {
+      searchParams.set('perPage', defaultSearchParams.perPage);
+    }
+
+    setSearchParams(searchParams);
+  }, [searchParams]);
+
+  const onPerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    searchParams.set('perPage', event.target.value);
+    searchParams.set('page', defaultSearchParams.page);
+    setSearchParams(searchParams);
+  };
+
+  const onPageChange = (page: number) => {
+    if (page !== currentPage) {
+      searchParams.set('page', String(page));
+      setSearchParams(searchParams);
+    }
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        {`Page ${currentPage} (items ${fromIndex + 1} - ${toIndex} of ${total})`}
       </p>
 
       <div className="form-group row">
@@ -21,11 +66,17 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
+            value={perPage}
+            onChange={onPerPageChange}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            {perPageValues.map(perPageValue => (
+              <option
+                key={perPageValue}
+                value={perPageValue}
+              >
+                {perPageValue}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -34,62 +85,17 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
-      <ul className="pagination">
-        <li className="page-item disabled">
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled="true"
-          >
-            «
-          </a>
-        </li>
-        <li className="page-item active">
-          <a data-cy="pageLink" className="page-link" href="#1">1</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#2">2</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#3">3</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#4">4</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#5">5</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#6">6</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#7">7</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#8">8</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#9">9</a>
-        </li>
-        <li className="page-item">
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled="false"
-          >
-            »
-          </a>
-        </li>
-      </ul>
+      <Pagination
+        total={total}
+        perPage={Number(searchParams.get('perPage'))}
+        currentPage={Number(searchParams.get('page'))}
+        onPageChange={onPageChange}
+      />
+
       <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
+        {itemsOnPage.map(item => (
+          <li data-cy="item" key={item}>{item}</li>
+        ))}
       </ul>
     </div>
   );
