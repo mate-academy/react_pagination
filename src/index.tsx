@@ -1,15 +1,18 @@
-import ReactDOM from 'react-dom';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createRoot } from 'react-dom/client';
+import { createHashRouter, RouterProvider } from 'react-router-dom';
 import { App } from './App';
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: '/',
     element: <App />,
   },
 ]);
 
-ReactDOM.render(
+const element = document.getElementById('root');
+// eslint-disable-next-line
+const root = createRoot(element!);
+
+root.render(
   <RouterProvider router={router} />,
-  document.getElementById('root'),
 );

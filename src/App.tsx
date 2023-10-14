@@ -8,7 +8,7 @@ const items = getNumbers(1, 42).map(n => `Item ${n}`);
 const perPageValues = [3, 5, 10, 20];
 const defaultSearchParams = {
   page: '1',
-  perPage: '5',
+  perPage: String(perPageValues[1]),
 };
 
 export const App: React.FC = () => {

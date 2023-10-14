@@ -27,15 +27,15 @@ export const Pagination = ({
           disabled: isFirstPage,
         })}
       >
-        <a
+        <button
           data-cy="prevLink"
           aria-disabled={isFirstPage}
-          href="#prev"
+          type="button"
           className="page-link"
           onClick={() => onPageChange(currentPage - 1)}
         >
           «
-        </a>
+        </button>
       </li>
       {pages.map(page => (
         <li
@@ -44,14 +44,14 @@ export const Pagination = ({
             active: page === currentPage,
           })}
         >
-          <a
+          <button
             data-cy="pageLink"
-            href={currentPage === page ? '' : `#${page}`}
+            type="button"
             className="page-link"
             onClick={() => onPageChange(page)}
           >
             {page}
-          </a>
+          </button>
         </li>
       ))}
       <li
@@ -59,15 +59,15 @@ export const Pagination = ({
           disabled: isLastPage,
         })}
       >
-        <a
+        <button
           data-cy="nextLink"
           aria-disabled={isLastPage}
-          href="#next"
+          type="button"
           className="page-link"
           onClick={() => onPageChange(currentPage + 1)}
         >
           »
-        </a>
+        </button>
       </li>
     </ul>
   );
