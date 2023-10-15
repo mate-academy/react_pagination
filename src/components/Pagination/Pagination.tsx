@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { getNumbers } from '../../utils';
+import { getNumbers, getLastPage } from '../../utils';
 
 interface PaginationProps {
   total: number;
@@ -15,21 +15,21 @@ export const Pagination = ({
   onPageChange,
 }: PaginationProps) => {
   const firstPage = 1;
-  const lastPage = Math.ceil(total / perPage);
-  const isFirstPage = currentPage === firstPage;
-  const isLastPage = currentPage === lastPage;
+  const lastPage = getLastPage(total, perPage);
+  const isFirst = currentPage === firstPage;
+  const isLast = currentPage === lastPage;
   const pages = getNumbers(firstPage, lastPage);
 
   return (
     <ul className="pagination">
       <li
         className={cn('page-item', {
-          disabled: isFirstPage,
+          disabled: isFirst,
         })}
       >
         <button
           data-cy="prevLink"
-          aria-disabled={isFirstPage}
+          aria-disabled={isFirst}
           type="button"
           className="page-link"
           onClick={() => onPageChange(currentPage - 1)}
@@ -56,12 +56,12 @@ export const Pagination = ({
       ))}
       <li
         className={cn('page-item', {
-          disabled: isLastPage,
+          disabled: isLast,
         })}
       >
         <button
           data-cy="nextLink"
-          aria-disabled={isLastPage}
+          aria-disabled={isLast}
           type="button"
           className="page-link"
           onClick={() => onPageChange(currentPage + 1)}

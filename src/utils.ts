@@ -7,3 +7,7 @@ export function getNumbers(from: number, to: number): number[] {
 
   return numbers;
 }
+
+export function getLastPage(total: number, perPage: number): number {
+  return Math.ceil(total / perPage);
+}
