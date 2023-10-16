@@ -14,9 +14,11 @@ export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const changeItemsPerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    if (+event.target.value !== itemsPerPage) {
+    const { value } = event.target;
+
+    if (+value !== itemsPerPage) {
       setCurrentPage(1);
-      setItemsPerPage(+event.target.value);
+      setItemsPerPage(+value);
     }
   };
 

@@ -18,17 +18,31 @@ export const Pagination: React.FC<PaginationOptions> = ({
   const totalPages = Math.ceil(total / perPage);
   const pages = getNumbers(1, totalPages);
 
+  const onPrevClick = () => {
+    if (currentPage !== 1) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const onPageClick = (page: number) => {
+    if (page !== currentPage) {
+      onPageChange(page);
+    }
+  };
+
+  const onNextClick = () => {
+    if (currentPage !== totalPages) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
   return (
     <ul className="pagination">
       <li
         className={`page-item ${cn({
           disabled: currentPage === 1,
         })}`}
-        onClickCapture={() => {
-          if (currentPage !== 1) {
-            onPageChange(currentPage - 1);
-          }
-        }}
+        onClickCapture={onPrevClick}
       >
         <a
           data-cy="prevLink"
@@ -46,11 +60,7 @@ export const Pagination: React.FC<PaginationOptions> = ({
             active: currentPage === page,
           })}`}
           key={`page-item-${page}`}
-          onClickCapture={() => {
-            if (page !== currentPage) {
-              onPageChange(page);
-            }
-          }}
+          onClickCapture={() => onPageClick(page)}
         >
           <a
             data-cy="pageLink"
@@ -66,11 +76,7 @@ export const Pagination: React.FC<PaginationOptions> = ({
         className={`page-item ${cn({
           disabled: currentPage === totalPages,
         })}`}
-        onClickCapture={() => {
-          if (currentPage !== totalPages) {
-            onPageChange(currentPage + 1);
-          }
-        }}
+        onClickCapture={onNextClick}
       >
         <a
           data-cy="nextLink"
