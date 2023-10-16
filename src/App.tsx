@@ -4,9 +4,9 @@ import { useSearchParams } from 'react-router-dom';
 import { getNumbers, getLastPage } from './utils';
 import { Pagination } from './components/Pagination';
 
-const items = getNumbers(1, 42).map(n => `Item ${n}`);
-const perPageValues = [3, 5, 10, 20];
-const defaultParams = {
+const ITEMS = getNumbers(1, 42).map(n => `Item ${n}`);
+const PER_PAGE_VALUES = [3, 5, 10, 20];
+const DEFAULT_PARAMS = {
   page: '1',
   perPage: '5',
 };
@@ -14,20 +14,20 @@ const defaultParams = {
 export const App: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const total = items.length;
-  const currentPage = Number(searchParams.get('page') || defaultParams.page);
-  const perPage = Number(searchParams.get('perPage') || defaultParams.perPage);
+  const total = ITEMS.length;
+  const currentPage = Number(searchParams.get('page') || DEFAULT_PARAMS.page);
+  const perPage = Number(searchParams.get('perPage') || DEFAULT_PARAMS.perPage);
   const lastPage = getLastPage(total, perPage);
 
   const fromIndex = currentPage * perPage - perPage;
   const toIndex = currentPage === lastPage ? total : currentPage * perPage;
-  const itemsOnPage = items.slice(fromIndex, toIndex);
+  const ITEMSOnPage = ITEMS.slice(fromIndex, toIndex);
 
   useEffect(() => {
-    if (currentPage < Number(defaultParams.page)) {
+    if (currentPage < Number(DEFAULT_PARAMS.page)) {
       setSearchParams({
         ...searchParams,
-        page: String(defaultParams.page),
+        page: String(DEFAULT_PARAMS.page),
       });
     }
 
@@ -38,20 +38,17 @@ export const App: React.FC = () => {
       });
     }
 
-    if (!perPageValues.includes(perPage)) {
+    if (!PER_PAGE_VALUES.includes(perPage)) {
       setSearchParams({
         ...searchParams,
-        perPage: String(defaultParams.perPage),
+        perPage: String(DEFAULT_PARAMS.perPage),
       });
     }
   }, [searchParams]);
 
-  // eslint-disable-next-line
-  console.log('render');
-
   const onPerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     searchParams.set('perPage', event.target.value);
-    searchParams.set('page', String(defaultParams.page));
+    searchParams.set('page', String(DEFAULT_PARAMS.page));
     setSearchParams(searchParams);
   };
 
@@ -64,7 +61,7 @@ export const App: React.FC = () => {
 
   return (
     <div className="container">
-      <h1>Items with Pagination</h1>
+      <h1>ITEMS with Pagination</h1>
 
       <p className="lead" data-cy="info">
         {`Page ${currentPage} (items ${fromIndex + 1} - ${toIndex} of ${total})`}
@@ -79,7 +76,7 @@ export const App: React.FC = () => {
             value={perPage}
             onChange={onPerPageChange}
           >
-            {perPageValues.map(perPageValue => (
+            {PER_PAGE_VALUES.map(perPageValue => (
               <option
                 key={perPageValue}
                 value={perPageValue}
@@ -103,7 +100,7 @@ export const App: React.FC = () => {
       />
 
       <ul>
-        {itemsOnPage.map(item => (
+        {ITEMSOnPage.map(item => (
           <li data-cy="item" key={item}>{item}</li>
         ))}
       </ul>
