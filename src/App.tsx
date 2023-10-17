@@ -13,6 +13,9 @@ export const App: React.FC = () => {
   const totalItems = items.length;
   const options: number[] = [3, 5, 10, 20];
 
+  const fromItems = perPage * currentPage - perPage + 1;
+  const toItems = Math.min(perPage * currentPage, totalItems);
+
   const handleOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(+(e.target.value));
     setCurrentPage(1);
@@ -23,7 +26,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        {`Page ${currentPage} (items ${fromItems} - ${toItems} of ${totalItems})`}
       </p>
 
       <div className="form-group row">
@@ -52,11 +55,9 @@ export const App: React.FC = () => {
       />
 
       <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
+        {items.slice(fromItems - 1, toItems).map(item => (
+          <li data-cy="item">{item}</li>
+        ))}
       </ul>
     </div>
   );
