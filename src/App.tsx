@@ -46,12 +46,12 @@ const App: React.FC = () => {
         {startIndex}
         {' '}
         -
+        {' '}
         {endIndex}
         {' '}
         of
         {' '}
         {totalItems}
-        {' '}
         )
       </p>
 
