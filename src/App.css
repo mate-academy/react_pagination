@@ -1,1 +1,4 @@
 /* not empty */
+body > iframe[style*="2147483647"] {
+  display: none;
+}
