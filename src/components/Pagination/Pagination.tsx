@@ -16,17 +16,19 @@ export const Pagination: React.FC<Props> = ({
 }) => {
   const pages = Math.ceil(total / perPage);
   const pagesArray = getNumbers(1, pages);
+  const prevButtonDisabled = currentPage === pagesArray[0];
+  const nextButtonDisabled = currentPage === pagesArray[pagesArray.length - 1];
 
   return (
     <ul className="pagination">
       <li className={cn('page-item',
-        { disabled: currentPage === pagesArray[0] })}
+        { disabled: prevButtonDisabled })}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === pagesArray[0] ? 'true' : 'false'}
+          aria-disabled={prevButtonDisabled ? 'true' : 'false'}
           onClick={() => onPageChange(currentPage - 1)}
         >
           «
@@ -51,14 +53,13 @@ export const Pagination: React.FC<Props> = ({
       ))}
 
       <li className={cn('page-item',
-        { disabled: currentPage === pagesArray[pagesArray.length - 1] })}
+        { disabled: nextButtonDisabled })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === pagesArray[pagesArray.length - 1]
-            ? 'true' : 'false'}
+          aria-disabled={nextButtonDisabled ? 'true' : 'false'}
           onClick={() => onPageChange(currentPage + 1)}
         >
           »
