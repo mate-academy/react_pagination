@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -16,6 +17,13 @@ const items: { title: string, id: number }[] = getNumbers(1, 42)
 interface PagesOnPage<O> {
   totalPages: number;
   currentPage: O[];
+}
+
+enum Selects {
+  Three = '3',
+  Five = '5',
+  Ten = '10',
+  Twenty = '20',
 }
 
 const pagination = <T extends unknown>(
@@ -37,19 +45,51 @@ const pagination = <T extends unknown>(
 };
 
 export const App: React.FC = () => {
-  const [itemsOnPage, setItemsOnPage] = useState<number>(5);
-  const [selectedPage, setSelectedPage] = useState<number>(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const selectedPage = Number(searchParams.get('page'));
+  const itemsOnPage = Number(searchParams.get('perPage'));
 
-  const { currentPage } = pagination(
+  const { currentPage, totalPages } = pagination(
     items, itemsOnPage, selectedPage,
   );
+
+  useEffect(() => {
+    if (searchParams.get('page') === null
+      || searchParams.get('perPage') === null
+    ) {
+      searchParams.set('page', '1');
+      searchParams.set('perPage', '5');
+      setSearchParams(searchParams);
+    }
+  }, [searchParams, setSearchParams]);
+
+  useEffect(() => {
+    if (searchParams.get('page') !== null
+      && searchParams.get('perPage') !== null
+    ) {
+      if (selectedPage < 0 || selectedPage > totalPages
+        || !Object.values(Object(Selects)).includes(String(itemsOnPage))) {
+        searchParams.set('page', '1');
+        searchParams.set('perPage', '5');
+        setSearchParams(searchParams);
+      }
+    }
+  }, [searchParams, setSearchParams]);
 
   const firstElement = currentPage[0]?.id || 0;
   const lastElement = currentPage[currentPage.length - 1]?.id || 0;
 
   useEffect(() => {
-    setSelectedPage(1);
+    searchParams.set('page', '1');
+    setSearchParams(searchParams);
   }, [itemsOnPage]);
+
+  const onPerPageChange = (perPage: number) => {
+    setSearchParams({
+      page: String(selectedPage),
+      perPage: String(perPage),
+    });
+  };
 
   return (
     <div className="container">
@@ -66,12 +106,12 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={itemsOnPage}
-            onChange={e => setItemsOnPage(Number(e.target.value))}
+            onChange={e => onPerPageChange(Number(e.target.value))}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            <option value={Selects.Three}>{Selects.Three}</option>
+            <option value={Selects.Five}>{Selects.Five}</option>
+            <option value={Selects.Ten}>{Selects.Ten}</option>
+            <option value={Selects.Twenty}>{Selects.Twenty}</option>
           </select>
         </div>
 
@@ -79,14 +119,12 @@ export const App: React.FC = () => {
           items per page
         </label>
       </div>
-
-      <Pagination
-        total={items.length}
-        currentPage={selectedPage}
-        perPage={itemsOnPage}
-        onPageChange={(page: number): void => setSelectedPage(page)}
-      />
-
+      {(selectedPage && itemsOnPage)
+      && (
+        <Pagination
+          total={items.length}
+        />
+      )}
       <ul>
         {currentPage.map(({ title, id }) => (
           <li data-cy="item" key={id}>{title}</li>

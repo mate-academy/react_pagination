@@ -1,20 +1,19 @@
-import React from 'react';
 import cn from 'classnames';
+import { useSearchParams } from 'react-router-dom';
 import { getNumbers } from '../../utils';
 
 type Props = {
   total: number;
-  perPage: number;
-  currentPage: number;
-  onPageChange: (page: number) => void;
 };
 
 export const Pagination: React.FC<Props> = ({
   total,
-  perPage,
-  currentPage,
-  onPageChange,
 }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const currentPage = Number(searchParams.get('page'));
+  const perPage = Number(searchParams.get('perPage'));
+
   const totalPages = Math.ceil(total / perPage);
   const pageButtons = getNumbers(1, totalPages)
     .map(n => (
@@ -30,7 +29,12 @@ export const Pagination: React.FC<Props> = ({
           data-cy="pageLink"
           className="page-link"
           href={`#${n}`}
-          onClick={() => onPageChange(n)}
+          onClick={() => {
+            if (n !== currentPage) {
+              searchParams.set('page', String(n));
+              setSearchParams(searchParams);
+            }
+          }}
         >
           {n}
         </a>
@@ -43,13 +47,16 @@ export const Pagination: React.FC<Props> = ({
     switch (current) {
       case 'prevLink':
         if (currentPage !== 1) {
-          onPageChange(currentPage - 1);
+          searchParams.set('page', String(currentPage - 1));
+          setSearchParams(searchParams);
         }
 
         break;
+
       case 'nextLink':
         if (currentPage !== totalPages) {
-          onPageChange(currentPage + 1);
+          searchParams.set('page', String(currentPage + 1));
+          setSearchParams(searchParams);
         }
 
         break;
