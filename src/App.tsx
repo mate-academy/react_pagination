@@ -15,7 +15,12 @@ export const App: React.FC = () => {
   const pages = getNumbers(1, Math.ceil(itemsMax / perPageValue));
 
   const fromItemOnPage = (currentPage - 1) * perPageValue;
-  const tillItemOnPage = currentPage * perPageValue;
+  let tillItemOnPage = currentPage * perPageValue;
+
+  if (tillItemOnPage > itemsMax) {
+    tillItemOnPage = itemsMax;
+  }
+
   const visibleItems = items.slice(fromItemOnPage, tillItemOnPage);
 
   function handlePerPageValue(e: BaseSyntheticEvent) {
