@@ -18,7 +18,6 @@ export const App: React.FC = () => {
   const tillItemOnPage = currentPage * perPageValue;
   const visibleItems = items.slice(fromItemOnPage, tillItemOnPage);
 
-  // тип е
   function handlePerPageValue(e: BaseSyntheticEvent) {
     setPerPageValue(+e.target.value);
     setCurrentPage(1);
