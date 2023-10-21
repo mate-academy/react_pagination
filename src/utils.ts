@@ -7,3 +7,7 @@ export function getNumbers(from: number, to: number): number[] {
 
   return numbers;
 }
+
+export function getRandomNumber(): number {
+  return +Math.random().toFixed(16).slice(2);
+}
