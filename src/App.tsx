@@ -37,14 +37,10 @@ export const App: React.FC = () => {
   const visibleItems = getVisibleItems(items, start, end);
   const titleInfo = `Page ${selectedPage} (items ${start + 1} - ${end + 1} of ${items.length})`;
 
-  const handleOnPageChange = (newPageNumber: number) => {
-    setSelectedPage(prevPage => {
-      if (prevPage !== newPageNumber) {
-        return newPageNumber;
-      }
-
-      return prevPage;
-    });
+  const handleOnPageChange = (
+    newPageNumber: number,
+  ) => {
+    setSelectedPage(newPageNumber);
   };
 
   return (
