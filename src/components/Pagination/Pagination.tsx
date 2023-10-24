@@ -41,9 +41,7 @@ export const Pagination: React.FC<Props> = ({
       </li>
     ));
 
-  const onPrevNextHandler = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    const current = event.currentTarget.getAttribute('data-cy');
-
+  function onChangePage(current: string) {
     switch (current) {
       case 'prevLink':
         if (currentPage !== 1) {
@@ -63,6 +61,14 @@ export const Pagination: React.FC<Props> = ({
 
       default:
         break;
+    }
+  }
+
+  const onPrevNextHandler = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    const current = event.currentTarget.getAttribute('data-cy');
+
+    if (current) {
+      onChangePage(current);
     }
   };
 

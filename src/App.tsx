@@ -5,8 +5,11 @@ import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-
-const items: { title: string, id: number }[] = getNumbers(1, 42)
+interface Element {
+  title: string;
+  id: number;
+}
+const items: Element[] = getNumbers(1, 42)
   .map(n => {
     return {
       title: `Item ${n}`,
@@ -32,7 +35,7 @@ const pagination = <T extends unknown>(
   selectedPage: number,
 ): PagesOnPage<T> => {
   const totalPages = Math.ceil(elements.length / itemsOnPage);
-  const startIndex = 0 + (itemsOnPage * (selectedPage - 1));
+  const startIndex = itemsOnPage * (selectedPage - 1);
 
   const currentPage = [...elements].splice(startIndex, itemsOnPage);
 
