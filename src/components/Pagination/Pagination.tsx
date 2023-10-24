@@ -60,8 +60,10 @@ export const Pagination: FC<Props> = (
               className="page-link"
               href={`#${page}`}
               onClick={() => {
-                onPageChange(page);
-                setCurrentPage(page);
+                if (currentPage !== page) {
+                  onPageChange(page);
+                  setCurrentPage(page);
+                }
               }}
             >
               {page}
