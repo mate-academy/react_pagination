@@ -34,7 +34,7 @@ export const App: FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            defaultValue={5}
+            defaultValue={itemsPerPage}
             onChange={(e) => setItemsPerPage(+e.target.value)}
           >
             <option value="3">3</option>

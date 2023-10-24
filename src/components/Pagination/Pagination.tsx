@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-indent */
 import { FC } from 'react';
 
 interface Props {
@@ -93,10 +94,10 @@ export const Pagination: FC<Props> = (
       <ul>
         {items.slice((currentPage - 1) * itemsPerPage,
           currentPage * itemsPerPage).map((item) => (
-            <li data-cy="item" key={item}>
-              {item}
-            </li>
-          ))}
+          <li data-cy="item" key={item}>
+            {item}
+          </li>
+        ))}
       </ul>
     </>
   );
