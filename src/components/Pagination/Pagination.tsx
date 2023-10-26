@@ -4,7 +4,7 @@ import { FC } from 'react';
 interface Props {
   total: number,
   itemsPerPage: number,
-  currentPage: number | undefined,
+  currentPage: number,
   setCurrentPage: (n: number) => void,
   onPageChange: (page: number) => void,
   items: string[],
@@ -27,6 +27,14 @@ export const Pagination: FC<Props> = (
     pages.push(i);
   }
 
+  const handlePageChange = (page: number): void => {
+    onPageChange(page);
+    setCurrentPage(page);
+  }
+
+  const preparedItems = items.slice((currentPage - 1) * itemsPerPage,
+  currentPage * itemsPerPage)
+
   return (
     <>
       <ul className="pagination">
@@ -38,9 +46,7 @@ export const Pagination: FC<Props> = (
             aria-disabled={currentPage === 1}
             onClick={() => {
               const newPage = currentPage - 1;
-
-              onPageChange(newPage);
-              setCurrentPage(newPage);
+              handlePageChange(newPage);
             }}
           >
             «
@@ -61,8 +67,7 @@ export const Pagination: FC<Props> = (
               href={`#${page}`}
               onClick={() => {
                 if (currentPage !== page) {
-                  onPageChange(page);
-                  setCurrentPage(page);
+                  handlePageChange(page);
                 }
               }}
             >
@@ -94,12 +99,11 @@ export const Pagination: FC<Props> = (
         </li>
       </ul>
       <ul>
-        {items.slice((currentPage - 1) * itemsPerPage,
-          currentPage * itemsPerPage).map((item) => (
-          <li data-cy="item" key={item}>
-            {item}
-          </li>
-        ))}
+        {preparedItems.map((item) => (
+            <li data-cy="item" key={item}>
+              {item}
+            </li>
+          ))}
       </ul>
     </>
   );
