@@ -30,10 +30,10 @@ export const Pagination: FC<Props> = (
   const handlePageChange = (page: number): void => {
     onPageChange(page);
     setCurrentPage(page);
-  }
+  };
 
   const preparedItems = items.slice((currentPage - 1) * itemsPerPage,
-  currentPage * itemsPerPage)
+    currentPage * itemsPerPage);
 
   return (
     <>
@@ -46,6 +46,7 @@ export const Pagination: FC<Props> = (
             aria-disabled={currentPage === 1}
             onClick={() => {
               const newPage = currentPage - 1;
+
               handlePageChange(newPage);
             }}
           >
@@ -90,8 +91,7 @@ export const Pagination: FC<Props> = (
             onClick={() => {
               const newPage = currentPage + 1;
 
-              onPageChange(newPage);
-              setCurrentPage(newPage);
+              handlePageChange(newPage);
             }}
           >
             »
@@ -100,10 +100,10 @@ export const Pagination: FC<Props> = (
       </ul>
       <ul>
         {preparedItems.map((item) => (
-            <li data-cy="item" key={item}>
-              {item}
-            </li>
-          ))}
+          <li data-cy="item" key={item}>
+            {item}
+          </li>
+        ))}
       </ul>
     </>
   );
