@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
 import { items } from './components/Items';
+import { itemsPerPageOptions } from './utils';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 export const App: React.FC = () => {
-  const itemsPerPageOptions
-    = [3, 5, 10, 20];
   const [itemsNumberPerPage, setItemsNumberPerPage]
     = useState(itemsPerPageOptions[1]);
   const [activePageNumber, setActivePage]
