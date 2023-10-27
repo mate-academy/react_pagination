@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 interface PaginationProps {
   total: number;
@@ -78,11 +77,4 @@ export const Pagination: React.FC<PaginationProps> = ({
       </ul>
     </>
   );
-};
-
-Pagination.propTypes = {
-  total: PropTypes.number.isRequired,
-  perPage: PropTypes.number.isRequired,
-  currentPage: PropTypes.number.isRequired,
-  onPageChange: PropTypes.func.isRequired,
 };

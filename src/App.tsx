@@ -32,6 +32,7 @@ export const App: React.FC = () => {
               const newPerPage = parseInt(e.target.value, 10);
 
               setPerPage(newPerPage);
+              setCurrentPage(1);
             }}
           >
             <option value="3">3</option>
