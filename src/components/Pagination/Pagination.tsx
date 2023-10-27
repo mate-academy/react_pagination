@@ -1,53 +1,63 @@
 /* eslint-disable react/jsx-indent */
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 interface Props {
   total: number,
   itemsPerPage: number,
-  currentPage: number,
   setCurrentPage: (n: number) => void,
   onPageChange: (page: number) => void,
   items: string[],
+  currentPage: number,
 }
 
 export const Pagination: FC<Props> = (
   {
     total,
     itemsPerPage,
-    currentPage = 1,
     setCurrentPage,
     onPageChange,
     items,
+    currentPage = 1,
   },
 ) => {
-  const pages: number[] = [];
-  const maxPages = Math.ceil(total / itemsPerPage);
+  const [pages, setPages] = useState<number[]>([]);
 
-  for (let i = 1; i <= maxPages; i += 1) {
-    pages.push(i);
-  }
+  const maxPages = Math.ceil(total / itemsPerPage);
+  const prevPage = currentPage - 1;
+  const nextPage = currentPage + 1;
+
+  useEffect(() => {
+    const newPages:number[] = [];
+
+    for (let i = 1; i <= maxPages; i += 1) {
+      newPages.push(i);
+    }
+
+    setPages(newPages);
+  }, []);
+
+  const isPageFirst = () => currentPage === 1;
+  const isPageLast = () => currentPage === maxPages;
 
   const handlePageChange = (page: number): void => {
     onPageChange(page);
     setCurrentPage(page);
   };
 
-  const preparedItems = items.slice((currentPage - 1) * itemsPerPage,
+  const preparedItems = items.slice((prevPage) * itemsPerPage,
     currentPage * itemsPerPage);
 
   return (
     <>
       <ul className="pagination">
-        <li className={currentPage === 1 ? 'page-item disabled' : 'page-item'}>
+        <li className={isPageFirst() ? 'page-item disabled' : 'page-item'}>
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled={currentPage === 1}
+            aria-disabled={isPageFirst()}
             onClick={() => {
-              const newPage = currentPage - 1;
-
-              handlePageChange(newPage);
+              handlePageChange(prevPage);
             }}
           >
             «
@@ -78,7 +88,7 @@ export const Pagination: FC<Props> = (
         ))}
         <li
           className={
-            currentPage === maxPages
+            isPageLast()
               ? 'page-item disabled'
               : 'page-item'
           }
@@ -87,11 +97,9 @@ export const Pagination: FC<Props> = (
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={currentPage === maxPages}
+            aria-disabled={isPageLast()}
             onClick={() => {
-              const newPage = currentPage + 1;
-
-              handlePageChange(newPage);
+              handlePageChange(nextPage);
             }}
           >
             »
