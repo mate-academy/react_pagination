@@ -13,14 +13,18 @@ export const App: React.FC = () => {
     setCurrentPage(newPage);
   };
 
+  const itemsFrom = (currentPage - 1) * perPage + 1;
+  const itemsTo = Math.min(currentPage * perPage, items.length);
+  const totalItems = items.length;
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
       <p className="lead" data-cy="info">
         {`Page ${currentPage} (items `
-        + `${(currentPage - 1) * perPage + 1} - `
-        + `${Math.min(currentPage * perPage, items.length)} of `
-        + `${items.length})`}
+        + `${itemsFrom} - `
+        + `${itemsTo} of `
+        + `${totalItems})`}
       </p>
       <div className="form-group row">
         <div className="col-3 col-sm-2 col-xl-1">
