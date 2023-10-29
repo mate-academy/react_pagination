@@ -1,1 +1,22 @@
-/* not empty */
+html,
+#root {
+  background-color: #09142c;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #c0c1c2;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  background-color: #c0c1c2;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #808080;
+}
+
+.container {
+  padding: 40px 0;
+  color: #fff;
+}
