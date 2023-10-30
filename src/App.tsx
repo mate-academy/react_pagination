@@ -21,6 +21,11 @@ export const App: React.FC = () => {
     ? LAST_ITEM_NUMBER
     : countVisibleItems * activePage;
 
+  const handlePerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setCountVisibleItems(+event.target.value);
+    setActivePage(1);
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
@@ -38,10 +43,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={countVisibleItems}
-            onChange={event => {
-              setCountVisibleItems(+event.target.value);
-              setActivePage(1);
-            }}
+            onChange={handlePerPageChange}
           >
             <option value="3">3</option>
             <option value="5">5</option>

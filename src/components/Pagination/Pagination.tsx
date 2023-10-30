@@ -5,8 +5,16 @@ interface Props {
   items: string[];
   countItemsPage: number;
   currentPage: number;
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
+
+const moveToPreviousPage
+= (currentPage: number, setCurrentPage: React
+  .Dispatch<React.SetStateAction<number>>) => {
+  const newPage = currentPage - 1 <= 0 ? 1 : currentPage - 1;
+
+  setCurrentPage(newPage);
+};
 
 export const Pagination: React.FC<Props> = ({
   items,
@@ -20,19 +28,14 @@ export const Pagination: React.FC<Props> = ({
     <>
       <ul className="pagination">
         <li
-          className={cn('page-item',
-            { disabled: currentPage === 1 })}
+          className={cn('page-item', { disabled: currentPage === 1 })}
         >
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
             aria-disabled={currentPage === 1}
-            onClick={() => {
-              const newPage = currentPage - 1 <= 0 ? 1 : currentPage - 1;
-
-              setCurrentPage(newPage);
-            }}
+            onClick={() => moveToPreviousPage(currentPage, setCurrentPage)}
           >
             «
           </a>
@@ -40,8 +43,7 @@ export const Pagination: React.FC<Props> = ({
         {
           [...Array(countPage)].map((_, i) => (
             <li
-              className={cn('page-item',
-                { active: i + 1 === currentPage })}
+              className={cn('page-item', { active: i + 1 === currentPage })}
               key={`#${i + 1}`}
             >
               <a
@@ -56,8 +58,7 @@ export const Pagination: React.FC<Props> = ({
           ))
         }
         <li
-          className={cn('page-item',
-            { disabled: currentPage === countPage })}
+          className={cn('page-item', { disabled: currentPage === countPage })}
         >
           <a
             data-cy="nextLink"
