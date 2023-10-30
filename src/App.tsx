@@ -23,12 +23,14 @@ export const App: React.FC = () => {
     return array;
   };
 
+  const INFO_OF_PAGE = `Page ${page} (items ${(page - 1) * limit + 1} - ${Math.min(page * limit, items.length)} of ${items.length})`;
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${page} (Items ${(page - 1) * limit + 1} - ${Math.min(page * limit, items.length)} of ${items.length})`}
+        {INFO_OF_PAGE}
       </p>
 
       <div className="form-group row">
@@ -59,8 +61,11 @@ export const App: React.FC = () => {
         onPageChange={setPage}
       />
       <ul>
-        {getPages(page, limit).map(item => (
-          <li data-cy="items">{item}</li>
+        {getPages(page, limit).map((item, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <li key={index} data-cy="item">
+            {item}
+          </li>
         ))}
       </ul>
     </div>
