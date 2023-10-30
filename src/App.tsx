@@ -13,24 +13,21 @@ export const App: React.FC = () => {
   const [limit, setLimit] = useState(5);
 
   const getPages = (pages: number = page, limits: number = limit): string[] => {
-    const array = [];
+    const startIndex = (pages - 1) * limits;
+    const endIndex = pages * limits;
+    const slicedItems = items.slice(startIndex, endIndex);
 
-    // eslint-disable-next-line no-plusplus
-    for (let i = (pages - 1) * limits; i < (pages * limits); i++) {
-      array.push(items[i]);
-    }
-
-    return array;
+    return slicedItems;
   };
 
-  const INFO_OF_PAGE = `Page ${page} (items ${(page - 1) * limit + 1} - ${Math.min(page * limit, items.length)} of ${items.length})`;
+  const infoOfPage = `Page ${page} (items ${(page - 1) * limit + 1} - ${Math.min(page * limit, items.length)} of ${items.length})`;
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {INFO_OF_PAGE}
+        {infoOfPage}
       </p>
 
       <div className="form-group row">
@@ -40,7 +37,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             defaultValue="5"
-            onChange={(event) => setLimit(Number(event.target.value))}
+            onChange={(event) => setLimit(+event.target.value)}
           >
             <option value="3">3</option>
             <option value="5">5</option>
