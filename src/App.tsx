@@ -9,7 +9,7 @@ const items = getNumbers(1, 42)
 export const App: React.FC = () => {
   return (
     <div className="container">
-      <h1>Items with Pagination</h1>
+      <h1>Items with Paginationn</h1>
 
       <p className="lead" data-cy="info">
         Page 1 (items 1 - 5 of 42)
