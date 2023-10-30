@@ -37,8 +37,8 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
+            defaultValue="5"
             onChange={(event) => setLimit(Number(event.target.value))}
-            value="5"
           >
             <option value="3">3</option>
             <option value="5">5</option>
