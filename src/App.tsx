@@ -18,7 +18,7 @@ export const App: React.FC = () => {
   const pageChangeHandler = (page: number, option: number) => {
     setSelectedPage(page);
     setSelectedOption(option);
-  }
+  };
 
   return (
     <div className="container">
@@ -34,7 +34,8 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            onChange={(e) => pageChangeHandler(page, parseInt(e.target.value, 10))}
+            onChange={(e) => pageChangeHandler(page,
+              parseInt(e.target.value, 10))}
           >
             {options.map((opt) => (
               <option

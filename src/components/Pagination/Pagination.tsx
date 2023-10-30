@@ -1,13 +1,13 @@
-import cn from "classnames";
-import array from "../../utils/pages";
+import cn from 'classnames';
+import array from '../../utils/pages';
 
 type Props = {
   total: number;
   perPage: number;
   currentPage: number;
-  items: Number[];
+  items: number[];
   onPageChange: (page: number) => void;
-}
+};
 
 export const Pagination: React.FC<Props> = ({
   perPage,
@@ -20,9 +20,8 @@ export const Pagination: React.FC<Props> = ({
     onPageChange(page);
   };
 
-
   const lastItemOnPage = currentPage * perPage;
-  const firstItemOnPage = lastItemOnPage - perPage ;
+  const firstItemOnPage = lastItemOnPage - perPage;
 
   return (
     <>
@@ -40,7 +39,7 @@ export const Pagination: React.FC<Props> = ({
           </a>
         </li>
         {array.map((page) => (
-          <li className={cn('page-item', { 'active': page === currentPage })}>
+          <li className={cn('page-item', { active: page === currentPage })}>
             <a
               data-cy="pageLink"
               className="page-link"
