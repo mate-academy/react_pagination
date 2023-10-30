@@ -6,21 +6,21 @@ import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
 export const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [perPage, setPerPage] = useState<number>(5);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
 
   const totalItems = 42;
-  const items: string[] = getNumbers(1, totalItems).map((n) => `Item ${n}`);
-  const startIndex: number = (currentPage - 1) * perPage;
-  const endIndex: number = startIndex + perPage;
-  const displayedItems: string[] = items.slice(startIndex, endIndex);
+  const items = getNumbers(1, totalItems).map((n) => `Item ${n}`);
+  const startIndex = (currentPage - 1) * perPage;
+  const endIndex = startIndex + perPage;
+  const displayedItems = items.slice(startIndex, endIndex);
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
 
   const handlePerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newPerPage: number = parseInt(e.target.value, 10);
+    const newPerPage = +e.target.value;
 
     setPerPage(newPerPage);
     setCurrentPage(1);
