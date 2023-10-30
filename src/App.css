@@ -1,1 +1,4 @@
 /* not empty */
+li {
+  list-style: none;
+}
