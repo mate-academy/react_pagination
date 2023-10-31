@@ -34,13 +34,13 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            onChange={(e) => pageChangeHandler(page,
+            onChange={(e) => pageChangeHandler(selectedPage,
               parseInt(e.target.value, 10))}
           >
             {options.map((opt) => (
               <option
                 value={opt}
-                onClick={pageChangeHandler}
+                onClick={() => pageChangeHandler(selectedPage, selectedOption)}
               >
                 {opt}
               </option>

@@ -6,7 +6,7 @@ type Props = {
   perPage: number;
   currentPage: number;
   items: number[];
-  onPageChange: (page: number) => void;
+  onPageChange: (currentPage: number) => void;
 };
 
 export const Pagination: React.FC<Props> = ({
@@ -27,13 +27,13 @@ export const Pagination: React.FC<Props> = ({
     <>
       <ul className="pagination">
 
-        <li className="page-item disabled">
+        <li className="page-item">
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
             aria-disabled="true"
-            onClick={() => pageChanger(page)}
+            onClick={() => pageChanger(currentPage - 1)}
           >
             «
           </a>
@@ -44,7 +44,7 @@ export const Pagination: React.FC<Props> = ({
               data-cy="pageLink"
               className="page-link"
               href={`#${page}`}
-              onClick={() => pageChanger(page)}
+              onClick={() => onPageChange(page)}
             >
               {page}
             </a>
@@ -56,7 +56,7 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#next"
             aria-disabled="false"
-            onClick={() => pageChanger(page)}
+            onClick={() => pageChanger(currentPage + 1)}
           >
             »
           </a>
