@@ -12,7 +12,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   total, perPage, currentPage, onPageChange,
 }) => {
   const totalPagesAmount = Math.ceil(total / perPage);
-  const pages = new Array(totalPagesAmount).fill(0)
+  const getNumbers = new Array(totalPagesAmount).fill(0)
     .map((__element, index) => index + 1);
 
   return (
@@ -30,7 +30,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           «
         </a>
       </li>
-      {pages.map(page => (
+      {getNumbers.map(page => (
         <li
           key={page}
           className={cn('page-item',

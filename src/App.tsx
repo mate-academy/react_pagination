@@ -18,9 +18,6 @@ export const App: React.FC = () => {
   const firstItemOnPage = ((currentPage - 1) * perPage) + 1;
   const filteredItems = items.slice((currentPage - 1)
   * perPage, currentPage * perPage);
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
 
   return (
     <div className="container">
@@ -41,7 +38,14 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
           >
-            {itemsPerPage.map(value => <option value={value}>{value}</option>)}
+            {itemsPerPage.map(value => (
+              <option
+                key={value}
+                value={value}
+              >
+                {value}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -53,7 +57,7 @@ export const App: React.FC = () => {
         total={total}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={handlePageChange}
+        onPageChange={setCurrentPage}
       />
       <ul>
         {filteredItems.map((item) => (
