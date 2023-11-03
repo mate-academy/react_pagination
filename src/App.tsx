@@ -1,18 +1,43 @@
-import React from 'react';
 import './App.css';
+import React, { useMemo, useState } from 'react';
 import { getNumbers } from './utils';
+import { Pagination } from './components/Pagination/Pagination';
+import { Items } from './components/Items/Items';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
+const itemsNumbers: number[] = [];
+
+for (let i = 1; i <= items.length; i += 1) {
+  itemsNumbers.push(i);
+}
+
 export const App: React.FC = () => {
+  const [perPage, setItemsPerPage] = useState<number>(5);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const onPageChange = (value: number) => {
+    setCurrentPage(value);
+  };
+
+  const filtredItems = useMemo(() => {
+    return itemsNumbers
+      .filter(item => item <= perPage * currentPage
+        && item > perPage * (currentPage - 1))
+      .map(item => `Item ${item}`);
+  }, [perPage, currentPage]);
+
+  const fromPage = perPage * (currentPage - 1) + 1;
+  const ToPage = perPage * currentPage >= 42 ? 42 : perPage * currentPage;
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        {`Page ${currentPage} (items ${fromPage} - ${ToPage} of 42)`}
       </p>
 
       <div className="form-group row">
@@ -21,6 +46,11 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
+            defaultValue="5"
+            onChange={(event) => {
+              setItemsPerPage(+(event.target.value));
+              setCurrentPage(1);
+            }}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -34,62 +64,15 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
-      <ul className="pagination">
-        <li className="page-item disabled">
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled="true"
-          >
-            «
-          </a>
-        </li>
-        <li className="page-item active">
-          <a data-cy="pageLink" className="page-link" href="#1">1</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#2">2</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#3">3</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#4">4</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#5">5</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#6">6</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#7">7</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#8">8</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#9">9</a>
-        </li>
-        <li className="page-item">
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled="false"
-          >
-            »
-          </a>
-        </li>
-      </ul>
+      <Pagination
+        total={itemsNumbers.length}
+        perPage={perPage}
+        onPageChange={onPageChange}
+        currentPage={currentPage}
+      />
+
       <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
+        <Items items={filtredItems} />
       </ul>
     </div>
   );
