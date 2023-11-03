@@ -30,6 +30,7 @@ export const App: React.FC = () => {
     : items.length;
 
   return (
+
     <div className="container">
       <h1>Items with Pagination</h1>
 
