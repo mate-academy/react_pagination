@@ -33,52 +33,49 @@ export const Pagination: React.FC<Props> = ({
   };
 
   return (
-    <>
-      <ul className="pagination">
-        <li className={cn('page-item', { disabled: currentPage === 1 })}>
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href={`#${currentPage - 1}`}
-            aria-disabled={currentPage === 1 ? 'true' : 'false'}
-            onClick={moveBack}
-          >
-            «
-          </a>
-        </li>
+    <ul className="pagination">
+      <li className={cn('page-item', { disabled: currentPage === 1 })}>
+        <a
+          data-cy="prevLink"
+          className="page-link"
+          href={`#${currentPage - 1}`}
+          aria-disabled={currentPage === 1 ? 'true' : 'false'}
+          onClick={moveBack}
+        >
+          «
+        </a>
+      </li>
 
-        {allPages.map(page => (
-          <li
-            className={cn('page-item', { active: currentPage === page })}
-            key={page}
-          >
-            <a
-              onClick={() => onPageChange(page)}
-              data-cy="pageLink"
-              className="page-link"
-              href={`#${page}`}
-            >
-              {page}
-            </a>
-          </li>
-        ))}
-
-        <li className={cn(
-          'page-item', { disabled: currentPage === qtyOfPages },
-        )}
+      {allPages.map(page => (
+        <li
+          className={cn('page-item', { active: currentPage === page })}
+          key={page}
         >
           <a
-            data-cy="nextLink"
+            onClick={() => onPageChange(page)}
+            data-cy="pageLink"
             className="page-link"
-            href={`#${currentPage + 1}`}
-            aria-disabled={currentPage === qtyOfPages ? 'true' : 'false'}
-            onClick={moveForward}
+            href={`#${page}`}
           >
-            »
+            {page}
           </a>
         </li>
-      </ul>
+      ))}
 
-    </>
+      <li className={cn(
+        'page-item', { disabled: currentPage === qtyOfPages },
+      )}
+      >
+        <a
+          data-cy="nextLink"
+          className="page-link"
+          href={`#${currentPage + 1}`}
+          aria-disabled={currentPage === qtyOfPages ? 'true' : 'false'}
+          onClick={moveForward}
+        >
+          »
+        </a>
+      </li>
+    </ul>
   );
 };
