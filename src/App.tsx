@@ -41,7 +41,6 @@ export const App: React.FC = () => {
 
       <div className="form-group row">
         <div className="col-3 col-sm-2 col-xl-1">
-
           <select
             value={perPage}
             onChange={handleChange}
