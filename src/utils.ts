@@ -1,5 +1,5 @@
 export function getNumbers(from: number, to: number): number[] {
-  const numbers = [];
+  const numbers:number[] = [];
 
   for (let n = from; n <= to; n += 1) {
     numbers.push(n);
