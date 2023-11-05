@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { getNumbers } from '../../utils';
 
 type Pagination1 = {
   total: string[],
@@ -14,8 +15,7 @@ export const Pagination = ({
   onPageChange,
 }: Pagination1) => {
   const numberOfPages = Math.ceil(total.length / perPage);
-  const numberPagesOnArr = Array.from({ length: numberOfPages })
-    .map((_, i) => i + 1);
+  const numberPagesOnArr = getNumbers(1, numberOfPages);
 
   const needChangPage = (page: number) => {
     if (page !== currentPage) {
@@ -33,7 +33,7 @@ export const Pagination = ({
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === numberPagesOnArr[0] ? 'true' : 'false'}
+          aria-disabled={currentPage === numberPagesOnArr[0]}
           onClick={() => {
             if (currentPage !== numberPagesOnArr[0]) {
               needChangPage(currentPage - 1);
@@ -68,9 +68,7 @@ export const Pagination = ({
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={
-            currentPage === numberPagesOnArr.length ? 'true' : 'false'
-          }
+          aria-disabled={currentPage === numberPagesOnArr.length}
           onClick={() => {
             if (currentPage !== numberPagesOnArr.length) {
               needChangPage(currentPage + 1);

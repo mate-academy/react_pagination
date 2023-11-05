@@ -11,10 +11,6 @@ export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const onPageChang = (page: number) => {
-    setCurrentPage(page);
-  };
-
   const needChangPerPage = (page: number) => {
     if (page !== perPage) {
       setCurrentPage(1);
@@ -58,7 +54,7 @@ export const App: React.FC = () => {
         total={items}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={onPageChang}
+        onPageChange={setCurrentPage}
       />
 
       <ul>
