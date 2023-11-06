@@ -6,7 +6,7 @@ interface Props {
   total: number,
   perPage: number,
   currentPage: number,
-  onPageChange: (page: number) => void,
+  onPageChange: React.Dispatch<React.SetStateAction<number>>,
 }
 
 export const Pagination: React.FC<Props> = ({
@@ -26,7 +26,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={currentPage === 1}
-          onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
+          onClick={() => currentPage > 1 && onPageChange(prev => prev - 1)}
         >
           «
         </a>
@@ -56,7 +56,7 @@ export const Pagination: React.FC<Props> = ({
           href="#next"
           aria-disabled={currentPage === numberOfPages}
           onClick={() => currentPage < numberOfPages
-            && onPageChange(currentPage + 1)}
+            && onPageChange(prev => prev + 1)}
         >
           »
         </a>
