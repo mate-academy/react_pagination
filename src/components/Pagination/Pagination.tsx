@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import cn from 'classnames';
 import { getNumbers } from '../../utils';
 
@@ -15,20 +15,14 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
-  const [activePage, setActivePage] = useState<number>(1);
 
   const quantityPages = Math.ceil(total / perPage);
 
   const allPages = getNumbers(1, quantityPages);
 
   const handlePageClick = (page: number) => {
-    setActivePage(page);
     onPageChange(page);
   };
-
-  useEffect(() => {
-    setActivePage(currentPage);
-  }, [currentPage]);
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
@@ -56,11 +50,10 @@ export const Pagination: React.FC<Props> = ({
             «
           </a>
         </li>
-        {allPages.map((page) => {
-          return (
+        {allPages.map((page) => (
             <li
               key={page}
-              className={cn('page-item', { active: page === activePage })}
+              className={cn('page-item', { active: page === currentPage })}
             >
               <a
                 data-cy="pageLink"
@@ -71,10 +64,10 @@ export const Pagination: React.FC<Props> = ({
                 {page}
               </a>
             </li>
-          );
-        })}
+          ))}
         <li className={cn('page-item',
-        { disabled: currentPage === quantityPages })}>
+          { disabled: currentPage === quantityPages })}
+        >
           <a
             data-cy="nextLink"
             className="page-link"
