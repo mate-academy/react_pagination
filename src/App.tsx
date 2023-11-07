@@ -10,11 +10,12 @@ export const App: React.FC = () => {
   const [perPage, setPerPag] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   let startNumber: number = currentPage - 1;
-  let endNumber = startNumber + perPage;
 
   if (currentPage > 1) {
     startNumber = perPage * currentPage - perPage;
   }
+
+  let endNumber = startNumber + perPage;
 
   if (endNumber > 42) {
     endNumber = 42;

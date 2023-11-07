@@ -29,12 +29,11 @@ export const Pagination: React.FC<PaginationProps> = ({
     }
   };
 
-  const nextLinkCheck = (item: number) =>{
-    if (item -1 !== arrowDisable) {
+  const nextLinkCheck = (item: number) => {
+    if (item - 1 !== arrowDisable) {
       setCurrentPage(item);
     }
   };
-
 
   return (
     <ul className="pagination">
