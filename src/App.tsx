@@ -3,11 +3,14 @@ import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
-const items: string[] = getNumbers(1, 42)
+const TOTALNUMBER: number = 42;
+const PAGE: number = 5;
+
+const items: string[] = getNumbers(1, TOTALNUMBER)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [perPage, setPerPag] = useState(5);
+  const [perPage, setPerPag] = useState(PAGE);
   const [currentPage, setCurrentPage] = useState(1);
   let startNumber: number = currentPage - 1;
 
@@ -55,7 +58,7 @@ export const App: React.FC = () => {
 
       <Pagination
         setCurrentPage={setCurrentPage}
-        total={getNumbers(1, Math.ceil(42 / perPage))}
+        total={getNumbers(1, Math.ceil(TOTALNUMBER / perPage))}
         currentPage={currentPage}
       />
       <ul>
