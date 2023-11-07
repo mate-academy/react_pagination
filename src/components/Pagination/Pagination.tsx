@@ -3,14 +3,12 @@ import cn from 'classnames';
 type PaginationProps = {
   total: number[];
   setCurrentPage: (item: number) => void;
-  // perPage: number;
   currentPage: number;
 };
 
 export const Pagination: React.FC<PaginationProps> = ({
   total,
   setCurrentPage,
-  // perPage,
   currentPage,
 }) => {
   const firstDisabledAria = currentPage === 1;

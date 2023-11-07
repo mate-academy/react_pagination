@@ -36,7 +36,10 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={(event) => setPerPag(+event.target.value)}
+            onChange={(event) => {
+              setPerPag(+event.target.value);
+              setCurrentPage(1);
+            }}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -53,7 +56,6 @@ export const App: React.FC = () => {
       <Pagination
         setCurrentPage={setCurrentPage}
         total={getNumbers(1, Math.ceil(42 / perPage))}
-        // perPage={perPage}
         currentPage={currentPage}
       />
       <ul>
