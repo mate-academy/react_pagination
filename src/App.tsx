@@ -39,6 +39,7 @@ export const App: React.FC = () => {
           >
             {options.map((opt) => (
               <option
+                key={opt}
                 value={opt}
                 onClick={() => pageChangeHandler(selectedPage, selectedOption)}
               >

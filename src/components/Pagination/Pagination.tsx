@@ -19,7 +19,8 @@ export const Pagination: React.FC<Props> = ({
     onPageChange(page);
   };
 
-  const array = Array.from({ length: Math.ceil(42 / perPage)}, (_, index) => index + 1);
+  const array = Array.from({ length: Math.ceil(42 / perPage) },
+    (_, index) => index + 1);
 
   const lastItemOnPage = currentPage * perPage;
   const firstItemOnPage = lastItemOnPage - perPage;
@@ -28,7 +29,9 @@ export const Pagination: React.FC<Props> = ({
     <>
       <ul className="pagination">
 
-        <li className={cn('page-item', {disabled: currentPage * perPage <= perPage})}>
+        <li className={cn('page-item',
+          { disabled: currentPage * perPage <= perPage })}
+        >
           <a
             data-cy="prevLink"
             className="page-link"
@@ -51,7 +54,9 @@ export const Pagination: React.FC<Props> = ({
             </a>
           </li>
         ))}
-        <li className={cn('page-item', {disabled: currentPage * perPage >= 42})}>
+        <li className={cn('page-item',
+          { disabled: currentPage * perPage >= 42 })}
+        >
           <a
             data-cy="nextLink"
             className="page-link"
@@ -65,7 +70,12 @@ export const Pagination: React.FC<Props> = ({
       </ul>
       <ul>
         {items.slice(firstItemOnPage, lastItemOnPage).map((item) => (
-          <li data-cy="item">{item}</li>
+          <li
+            key={item}
+            data-cy="item"
+          >
+            {item}
+          </li>
         ))}
       </ul>
     </>
