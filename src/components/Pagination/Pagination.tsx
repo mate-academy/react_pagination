@@ -9,6 +9,7 @@ type Props = {
 };
 
 export const Pagination: React.FC<Props> = ({
+  total,
   perPage,
   currentPage,
   items,
@@ -19,7 +20,7 @@ export const Pagination: React.FC<Props> = ({
     onPageChange(page);
   };
 
-  const array = Array.from({ length: Math.ceil(42 / perPage) },
+  const array = Array.from({ length: Math.ceil(total / perPage) },
     (_, index) => index + 1);
 
   const lastItemOnPage = currentPage * perPage;
@@ -55,7 +56,7 @@ export const Pagination: React.FC<Props> = ({
           </li>
         ))}
         <li className={cn('page-item',
-          { disabled: currentPage * perPage >= 42 })}
+          { disabled: currentPage * perPage >= total })}
         >
           <a
             data-cy="nextLink"

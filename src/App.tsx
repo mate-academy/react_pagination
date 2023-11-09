@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './App.css';
 import { Pagination } from './components/Pagination';
 
@@ -8,6 +9,7 @@ export const App: React.FC = () => {
   const total = 42;
   const [selectedPage, setSelectedPage] = useState(1);
   const [selectedOption, setSelectedOption] = useState(3);
+  const history = useNavigate();
 
   const items = Array.from({ length: 42 }, (_, index) => index + 1);
   const options = [3, 5, 10, 15];
@@ -20,12 +22,18 @@ export const App: React.FC = () => {
     setSelectedOption(option);
   };
 
+  const changeURL = (value) => {
+    const newValue = value.target.value;
+
+    history.push(`/${newValue}`);
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${selectedPage} (items ${firstItemOnPage + 1} - ${Math.min(lastItemOnPage, items.length)} of ${items.length})`}
+        {`Page ${selectedPage} (items ${Math.min(firstItemOnPage + 1, total)} - ${Math.min(lastItemOnPage, total)} of ${items.length})`}
       </p>
 
       <div className="form-group row">
@@ -34,14 +42,15 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            onChange={(e) => pageChangeHandler(selectedPage,
-              parseInt(e.target.value, 10))}
+            value={selectedOption}
+            onChange={(e) => {
+              pageChangeHandler(selectedPage, parseInt(e.target.value, 10));
+              changeURL(e);
+            }}
           >
             {options.map((opt) => (
               <option
                 key={opt}
-                value={opt}
-                onClick={() => pageChangeHandler(selectedPage, selectedOption)}
               >
                 {opt}
               </option>
