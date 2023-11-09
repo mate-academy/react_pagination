@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './App.css';
 import { Pagination } from './components/Pagination';
 
@@ -9,8 +8,6 @@ export const App: React.FC = () => {
   const total = 42;
   const [selectedPage, setSelectedPage] = useState(1);
   const [selectedOption, setSelectedOption] = useState(3);
-  const history = useNavigate();
-
   const items = Array.from({ length: 42 }, (_, index) => index + 1);
   const options = [3, 5, 10, 15];
 
@@ -18,14 +15,15 @@ export const App: React.FC = () => {
   const firstItemOnPage = lastItemOnPage - selectedOption;
 
   const pageChangeHandler = (page: number, option: number) => {
+    if (page * option > items.length) {
+      setSelectedPage(1);
+      setSelectedOption(option);
+
+      return;
+    }
+
     setSelectedPage(page);
     setSelectedOption(option);
-  };
-
-  const changeURL = (value) => {
-    const newValue = value.target.value;
-
-    history.push(`/${newValue}`);
   };
 
   return (
@@ -45,7 +43,6 @@ export const App: React.FC = () => {
             value={selectedOption}
             onChange={(e) => {
               pageChangeHandler(selectedPage, parseInt(e.target.value, 10));
-              changeURL(e);
             }}
           >
             {options.map((opt) => (
