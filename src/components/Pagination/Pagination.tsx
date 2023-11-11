@@ -1,24 +1,32 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import cn from 'classnames';
 import { getNumbers } from '../../utils';
 
 interface PaginationProps {
   total: number;
   perPage: number;
-  currentPage?: number;
+  currentPage: number;
   onPageChange: (a: number) => void;
 }
 
 export const Pagination: FC<PaginationProps> = ({
   total,
   perPage,
-  currentPage = 1,
+  currentPage,
   onPageChange,
 }) => {
   const totalPages = Math.ceil(total / perPage);
 
-  Pagination.defaultProps = {
-    currentPage: 1,
+  const handleDec = () => {
+    onPageChange(currentPage - 1);
+  };
+
+  const handleInc = () => {
+    onPageChange(currentPage + 1);
+  };
+
+  const handleSetItem = (item: number) => {
+    onPageChange(item);
   };
 
   return (
@@ -29,9 +37,7 @@ export const Pagination: FC<PaginationProps> = ({
           className="page-link"
           href="#prev"
           aria-disabled={currentPage === 1}
-          onClick={() => {
-            onPageChange(currentPage - 1);
-          }}
+          onClick={handleDec}
         >
           «
         </a>
@@ -48,7 +54,7 @@ export const Pagination: FC<PaginationProps> = ({
               className="page-link"
               href={`#${item}`}
               onClick={() => {
-                onPageChange(item);
+                handleSetItem(item);
               }}
             >
               {item}
@@ -63,9 +69,7 @@ export const Pagination: FC<PaginationProps> = ({
           className="page-link"
           href="#next"
           aria-disabled={currentPage === totalPages}
-          onClick={() => {
-            onPageChange(currentPage + 1);
-          }}
+          onClick={handleInc}
         >
           »
         </a>
