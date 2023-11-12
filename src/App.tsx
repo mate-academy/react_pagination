@@ -20,7 +20,9 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${page} (items ${perPage * (page - 1) + 1} - ${perPage * page > 42 ? 42 : perPage * page} of 42)`}
+        {`Page ${page} (items ${perPage * (page - 1) + 1} - ${
+          perPage * page > 42 ? 42 : perPage * page
+        } of 42)`}
       </p>
 
       <div className="form-group row">
@@ -48,23 +50,17 @@ export const App: React.FC = () => {
         total={42}
         perPage={perPage}
         currentPage={page}
-        onPageChange={(pageNumber) => {
-          setPage(pageNumber);
-        }}
+        onPageChange={setPage}
       />
 
       <ul>
-        {items.map((item, id) => {
-          if (id + 1 <= perPage * page && id >= perPage * (page - 1)) {
-            return (
-              <li key={item} data-cy="item">
-                {item}
-              </li>
-            );
-          }
-
-          return null;
-        })}
+        {items
+          .slice((page - 1) * perPage, page * perPage)
+          .map((item) => (
+            <li key={item} data-cy="item">
+              {item}
+            </li>
+          ))}
       </ul>
     </div>
   );
