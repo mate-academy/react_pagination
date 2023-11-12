@@ -6,7 +6,7 @@ interface PaginationProps {
   total: number;
   perPage: number;
   currentPage: number;
-  onPageChange: (a: number) => void;
+  onPageChange: (newPage: number) => void;
 }
 
 export const Pagination: FC<PaginationProps> = ({
@@ -16,6 +16,7 @@ export const Pagination: FC<PaginationProps> = ({
   onPageChange,
 }) => {
   const totalPages = Math.ceil(total / perPage);
+  const totalItems = getNumbers(1, totalPages);
 
   const handleDec = () => {
     onPageChange(currentPage - 1);
@@ -43,7 +44,7 @@ export const Pagination: FC<PaginationProps> = ({
         </a>
       </li>
 
-      {getNumbers(1, totalPages).map((item) => {
+      {totalItems.map((item) => {
         return (
           <li
             key={item}
@@ -53,9 +54,7 @@ export const Pagination: FC<PaginationProps> = ({
               data-cy="pageLink"
               className="page-link"
               href={`#${item}`}
-              onClick={() => {
-                handleSetItem(item);
-              }}
+              onClick={() => handleSetItem(item)}
             >
               {item}
             </a>

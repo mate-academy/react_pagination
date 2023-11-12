@@ -15,6 +15,9 @@ export const App: React.FC = () => {
     setPage(1);
   };
 
+  const startIndex = (page - 1) * perPage;
+  const endIndex = page * perPage;
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
@@ -55,7 +58,7 @@ export const App: React.FC = () => {
 
       <ul>
         {items
-          .slice((page - 1) * perPage, page * perPage)
+          .slice(startIndex, endIndex)
           .map((item) => (
             <li key={item} data-cy="item">
               {item}
