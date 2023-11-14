@@ -8,8 +8,9 @@ import { items } from './constants/items';
 export const App: React.FC = () => {
   const [itemsPerPage, setItemsPerPage]
     = useState<ItemsOnPage>(ItemsOnPage.Three);
-
   const [currentPage, setCurrentPage] = useState(1);
+  const firstItemOnPage = (currentPage * itemsPerPage) - itemsPerPage;
+  const lastItemOnPage = (currentPage * itemsPerPage) - 1;
 
   const handleSelectorChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(+e.target.value);
@@ -25,7 +26,9 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items 1 - 5 of ${itemsCount.max})`}
+        {`Page ${currentPage} (items ${firstItemOnPage + 1} - ${
+          lastItemOnPage + 1 > 42 ? 42 : lastItemOnPage + 1
+        } of ${itemsCount.max})`}
       </p>
 
       <div className="form-group row">
@@ -63,6 +66,8 @@ export const App: React.FC = () => {
         currentPage={currentPage}
         onPageChange={onPageChange}
         items={items}
+        firstItemOnPage={firstItemOnPage}
+        lastItemOnPage={lastItemOnPage}
       />
     </div>
   );
