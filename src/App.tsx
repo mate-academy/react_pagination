@@ -1,34 +1,31 @@
-import React, { ChangeEvent, useCallback, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
-import { itemsCount } from './constants/itemsCount';
 import { ItemsOnPage } from './types/itemsOnPage';
 import { items } from './constants/items';
 
 export const App: React.FC = () => {
   const [itemsPerPage, setItemsPerPage]
-    = useState<ItemsOnPage>(ItemsOnPage.Three);
+    = useState<ItemsOnPage>(ItemsOnPage.Five);
   const [currentPage, setCurrentPage] = useState(1);
-  const firstItemOnPage = (currentPage * itemsPerPage) - itemsPerPage;
-  const lastItemOnPage = (currentPage * itemsPerPage) - 1;
+  const firstItemIndexOnPage = (currentPage * itemsPerPage) - itemsPerPage;
+  const lastItemIndexOnPage = (currentPage * itemsPerPage);
 
   const handleSelectorChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(+e.target.value);
     setCurrentPage(1);
   };
 
-  const onPageChange = useCallback((page) => {
-    setCurrentPage(page);
-  }, [currentPage]);
-
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${firstItemOnPage + 1} - ${
-          lastItemOnPage + 1 > 42 ? 42 : lastItemOnPage + 1
-        } of ${itemsCount.max})`}
+        {`Page ${currentPage} (items ${firstItemIndexOnPage + 1} - ${
+          lastItemIndexOnPage > 42
+            ? 42
+            : lastItemIndexOnPage
+        } of ${items.length})`}
       </p>
 
       <div className="form-group row">
@@ -61,14 +58,23 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={itemsCount.max}
+        total={items.length}
         perPage={itemsPerPage}
         currentPage={currentPage}
-        onPageChange={onPageChange}
-        items={items}
-        firstItemOnPage={firstItemOnPage}
-        lastItemOnPage={lastItemOnPage}
+        onPageChange={setCurrentPage}
       />
+
+      <ul>
+        {items.map((item, index) => {
+          if (index < firstItemIndexOnPage
+            || index > lastItemIndexOnPage - 1
+          ) {
+            return null;
+          }
+
+          return (<li data-cy="item" key={item}>{item}</li>);
+        })}
+      </ul>
     </div>
   );
 };

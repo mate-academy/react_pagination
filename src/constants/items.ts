@@ -1,5 +1,4 @@
 import { getNumbers } from '../utils';
-import { itemsCount } from './itemsCount';
 
-export const items = getNumbers(itemsCount.min, itemsCount.max)
+export const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
