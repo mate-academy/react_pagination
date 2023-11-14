@@ -10,6 +10,7 @@ export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const firstItemIndexOnPage = (currentPage * itemsPerPage) - itemsPerPage;
   const lastItemIndexOnPage = (currentPage * itemsPerPage);
+  const visibleItems = items.slice(firstItemIndexOnPage, lastItemIndexOnPage);
 
   const handleSelectorChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(+e.target.value);
@@ -22,8 +23,8 @@ export const App: React.FC = () => {
 
       <p className="lead" data-cy="info">
         {`Page ${currentPage} (items ${firstItemIndexOnPage + 1} - ${
-          lastItemIndexOnPage > 42
-            ? 42
+          lastItemIndexOnPage > items.length
+            ? items.length
             : lastItemIndexOnPage
         } of ${items.length})`}
       </p>
@@ -65,15 +66,9 @@ export const App: React.FC = () => {
       />
 
       <ul>
-        {items.map((item, index) => {
-          if (index < firstItemIndexOnPage
-            || index > lastItemIndexOnPage - 1
-          ) {
-            return null;
-          }
-
-          return (<li data-cy="item" key={item}>{item}</li>);
-        })}
+        {visibleItems.map((item) => (
+          <li data-cy="item" key={item}>{item}</li>
+        ))}
       </ul>
     </div>
   );
