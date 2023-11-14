@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useCallback, useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
 import { itemsCount } from './constants/itemsCount';
@@ -13,14 +13,19 @@ export const App: React.FC = () => {
 
   const handleSelectorChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(+e.target.value);
+    setCurrentPage(1);
   };
+
+  const onPageChange = useCallback((page) => {
+    setCurrentPage(page);
+  }, [currentPage]);
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items 1 - 5 of 42)`}
+        {`Page ${currentPage} (items 1 - 5 of ${itemsCount.max})`}
       </p>
 
       <div className="form-group row">
@@ -56,7 +61,7 @@ export const App: React.FC = () => {
         total={itemsCount.max}
         perPage={itemsPerPage}
         currentPage={currentPage}
-        onPageChange={setCurrentPage}
+        onPageChange={onPageChange}
         items={items}
       />
     </div>
