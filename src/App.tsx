@@ -19,6 +19,11 @@ export const App: React.FC = () => {
     setCurrentPage(pageNumber);
   }
 
+  function onSelect(event: React.ChangeEvent<HTMLSelectElement>) {
+    setCountItems(Number(event.target.value));
+    setCurrentPage(1);
+  }
+
   const previousPage = () => {
     if (currentPage !== 1) {
       setCurrentPage(currentPage - 1);
@@ -43,10 +48,7 @@ export const App: React.FC = () => {
         <div className="col-3 col-sm-2 col-xl-1">
           <select
             value={countItems}
-            onChange={(event) => {
-              setCountItems(Number(event.target.value));
-              setCurrentPage(1);
-            }}
+            onChange={(event) => onSelect(event)}
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"

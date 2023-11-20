@@ -27,12 +27,11 @@ export const Pagination: React.FC<Props> = (
         disabled: currentPage === pageNumbers[0],
       })}
       >
-        {/* {`page-item ${currentPage === pageNumbers[0] ? 'disabled' : ''}`} */}
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === pageNumbers[0] ? 'true' : 'false'}
+          aria-disabled={currentPage === pageNumbers[0]}
           onClick={previousPage}
         >
           «
@@ -47,7 +46,6 @@ export const Pagination: React.FC<Props> = (
               active: currentPage === number,
             })}
           >
-            {/* // {`page-item ${currentPage === number ? 'active' : ''}`} */}
             <a
               onClick={paginate}
               data-cy="pageLink"
@@ -63,15 +61,12 @@ export const Pagination: React.FC<Props> = (
       <li className={cn('page-item', {
         disabled: currentPage === pageNumbers.length,
       })}
-      // {`page-item ${currentPage === pageNumbers.length ? 'disabled' : ''}`}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === pageNumbers.length
-            ? 'true'
-            : 'false'}
+          aria-disabled={currentPage === pageNumbers.length}
           onClick={nextPage}
         >
           »
