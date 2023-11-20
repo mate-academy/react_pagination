@@ -62,13 +62,11 @@ export const App: React.FC = () => {
           items per page
         </label>
       </div>
-
-      {/* Move this markup to Pagination */}
       <Pagination
         total={42} // total number of items to paginate
         perPage={countItems} // number of items per page
         currentPage={currentPage} /* optional with 1 by default */
-        paginate={(pageNumber) => paginate(pageNumber)}
+        paginate={paginate}
         previousPage={previousPage}
         nextPage={nextPage}
       />
