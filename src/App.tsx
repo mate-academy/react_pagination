@@ -23,12 +23,9 @@ export const App: React.FC = () => {
     navigate(`?${newSearchParams}`);
   };
 
-  const page = searchParams.get('page') !== null
-    ? Number(searchParams.get('page'))
-    : 1;
-  const perPage = searchParams.get('perPage') !== null
-    ? Number(searchParams.get('perPage'))
-    : 5;
+  const page = Number(searchParams.get('page')) || 1;
+
+  const perPage = Number(searchParams.get('perPage')) || 5;
 
   const firstDisplayedItem = page * perPage - perPage + 1;
   const lastDisplayedItem = page * perPage > items.length
@@ -40,22 +37,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page
-        {' '}
-        {page}
-        {' '}
-        (items
-        {' '}
-        {firstDisplayedItem}
-        {' '}
-        -
-        {' '}
-        {lastDisplayedItem}
-        {' '}
-        of
-        {' '}
-        {items.length}
-        )
+        {`Page ${page} (items ${firstDisplayedItem} - ${lastDisplayedItem} of ${items.length})`}
       </p>
 
       <div className="form-group row">

@@ -57,7 +57,7 @@ export const Pagination: React.FC<Props> = ({
             data-cy="prevLink"
             className="page-link"
             to={{ search: handlePrevClick() }}
-            aria-disabled={currentPage === 1 ? 'true' : 'false'}
+            aria-disabled={currentPage === 1}
           >
             «
           </Link>
@@ -88,7 +88,7 @@ export const Pagination: React.FC<Props> = ({
             data-cy="nextLink"
             className="page-link"
             to={{ search: handleNextClick() }}
-            aria-disabled={currentPage === buttonCount ? 'true' : 'false'}
+            aria-disabled={currentPage === buttonCount}
           >
             »
           </Link>
