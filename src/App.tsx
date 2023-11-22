@@ -65,9 +65,7 @@ export const App: React.FC = () => {
         total={42}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={(page) => {
-          setCurrentPage(page);
-        }}
+        onPageChange={setCurrentPage}
       />
       <ul>
         {items.slice(startItem, lastItem).map((item) => (
