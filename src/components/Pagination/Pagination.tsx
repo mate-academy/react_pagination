@@ -53,6 +53,7 @@ export const Pagination: React.FC<TypeProps> = ({
       {pages.map(page => (
         <li
           className={cn('page-item', { active: page === currentPage })}
+          key={page}
         >
           <a
             data-cy="pageLink"

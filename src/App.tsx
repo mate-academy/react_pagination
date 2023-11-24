@@ -49,7 +49,7 @@ export const App: React.FC = () => {
         total={numberOfItems}
         perPage={itemsPerPage}
         currentPage={currentPage}
-        onPageChange={(page) => setCurrentPage(page)}
+        onPageChange={setCurrentPage}
       />
       <ul>
         {
