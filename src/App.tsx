@@ -18,7 +18,7 @@ export const App:React.FC = () => {
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setItemsOnPage(+event.target.value);
-    setCurrentPage(2);
+    setCurrentPage(1);
   };
 
   const itemsToShow = items.slice(firstItemonPage - 1, lastItemonPage);
