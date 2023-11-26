@@ -20,7 +20,10 @@ function createRow(total: number, perPage: number) {
 }
 
 export const Pagination: React.FC<Props> = ({
-  total, perPage, currentPage, onPageChange,
+  total,
+  perPage,
+  currentPage,
+  onPageChange,
 }) => {
   const pages = createRow(total, perPage);
   const quntaty = Math.ceil(total / perPage);
@@ -32,11 +35,15 @@ export const Pagination: React.FC<Props> = ({
   };
 
   const nextPage = () => {
-    onPageChange(currentPage + 1);
+    if (currentPage !== quntaty) {
+      onPageChange(currentPage + 1);
+    }
   };
 
   const prevPage = () => {
-    onPageChange(currentPage - 1);
+    if (currentPage !== 1) {
+      onPageChange(currentPage - 1);
+    }
   };
 
   return (
@@ -47,7 +54,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={currentPage === 1}
-          onClick={() => prevPage()}
+          onClick={prevPage}
         >
           «
         </a>
@@ -71,7 +78,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={currentPage === quntaty}
-          onClick={() => nextPage()}
+          onClick={nextPage}
         >
           »
         </a>
