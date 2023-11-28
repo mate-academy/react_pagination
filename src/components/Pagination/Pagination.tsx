@@ -2,14 +2,11 @@ import classNames from 'classnames';
 import { useSearchParams } from 'react-router-dom';
 
 type Props = {
-  onPageChange: (value: number) => void,
-  current: number,
-  itemsPerPage: number,
   total: number,
 };
 
 export const Pagination: React.FC<Props> = ({
-  onPageChange, itemsPerPage, total,
+  total,
 }) => {
   const [params, setParams] = useSearchParams();
 
@@ -19,12 +16,7 @@ export const Pagination: React.FC<Props> = ({
     / (Number(params.get('perPage')) || 5));
 
   function handleClick(event:React.MouseEvent<HTMLElement>):void {
-    console.log(itemsPerPage, total, `qty of P ${quantityOfPages}`);
-    console.log(event.currentTarget.innerText);
-    console.log(params);
-
     event.preventDefault();
-    onPageChange(+event.currentTarget.innerText);
 
     const oldParams = new URLSearchParams(params);
 
@@ -42,9 +34,6 @@ export const Pagination: React.FC<Props> = ({
       oldParams.set('page', `${currPage + 1}`);
       setParams(oldParams);
     }
-
-    console.log(params.get('page') + ' - cur page');
-    console.log(params.get('perPage') + ' - items per page');
   }
 
   function GeneratePages() {
@@ -104,13 +93,6 @@ export const Pagination: React.FC<Props> = ({
           </a>
         </li>
       </ul>
-{/*       <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
-      </ul> */}
     </>
   );
 };

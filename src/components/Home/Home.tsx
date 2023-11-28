@@ -8,7 +8,6 @@ let items = getNumbers(1, 42)
   .map((n:number) => <li data-cy="item">{`Item ${n}`}</li>);
 
 export const Home: React.FC = () => {
-  const [, setCurrentPage] = useState(1);
   const [maxItems, setMaxItems] = useState(42);
   const [params, setParams] = useSearchParams();
 
@@ -88,9 +87,6 @@ export const Home: React.FC = () => {
       </div>
 
       <Pagination
-        onPageChange={setCurrentPage}
-        current={Number(params.get('page')) || 1}
-        itemsPerPage={Number(params?.get('perPage')) || 5}
         total={items.length}
       />
       <ul>
