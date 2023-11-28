@@ -42,7 +42,7 @@ export const Pagination: React.FC<Props> = ({
     for (let i = 1; i <= quantityOfPages; i += 1) {
       pages.push(
         <li className={classNames('page-item',
-          { active: (Number(params.get('page')) || 1) === i })}
+          { active: (currPage) === i })}
         >
           <a
             data-cy="pageLink"
@@ -78,15 +78,14 @@ export const Pagination: React.FC<Props> = ({
         {GeneratePages()}
         <li className={classNames('page-item',
           {
-            disabled: ((Number(params.get('page')) || 1) === quantityOfPages),
+            disabled: (currPage === quantityOfPages),
           })}
         >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={((Number(params.get('page'))
-              || 1) === quantityOfPages)}
+            aria-disabled={(currPage === quantityOfPages)}
             onClick={handleClick}
           >
             »
