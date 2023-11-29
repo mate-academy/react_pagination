@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -22,7 +22,9 @@ export const App: React.FC = () => {
     setCurrentPage(1);
   };
 
-  const showedItems = items.slice(firstItemOnPage - 1, lastItemOnPage);
+  const showedItems = useMemo(() => {
+    return items.slice(firstItemOnPage - 1, lastItemOnPage);
+  }, [items, firstItemOnPage, lastItemOnPage]);
 
   return (
     <div className="container">
