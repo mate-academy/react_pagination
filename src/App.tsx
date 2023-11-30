@@ -3,7 +3,7 @@ import './App.css';
 import { Pagination } from './components/Pagination/Pagination';
 import { getNumbers } from './utils';
 
-const items = getNumbers(1, 42).map(n => `Item ${n}`);
+const items = getNumbers(1, 42).map(number => `Item ${number}`);
 
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
@@ -18,6 +18,15 @@ export const App: React.FC = () => {
   const handleChangingPage = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
+
+  const itemsToView = items
+    .filter(
+      (_, index) => index + 1 >= minItemNumberOnPage
+        && index + 1 <= maxItemNumberOnPage,
+    )
+    .map(item => (
+      <li key={item + 1} data-cy="item">{item}</li>
+    ));
 
   return (
     <div className="container">
@@ -59,14 +68,7 @@ export const App: React.FC = () => {
       />
 
       <ul>
-        {items
-          .filter(
-            (_, index) => index + 1 >= minItemNumberOnPage
-              && index + 1 <= maxItemNumberOnPage,
-          )
-          .map(item => (
-            <li key={item + 1} data-cy="item">{item}</li>
-          ))}
+        {itemsToView}
       </ul>
     </div>
   );

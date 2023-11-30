@@ -17,15 +17,19 @@ export const Pagination: React.FC<Props> = ({
   const amountOfPages = Math.ceil(total / perPage);
   const arrayOfPages = Array.from(Array(amountOfPages).keys());
 
+  const handlePageClicked = (newPageNumber: number) => {
+    if (currentPage !== newPageNumber
+      && newPageNumber >= 0
+      && newPageNumber <= amountOfPages) {
+      onPageChange(newPageNumber);
+    }
+  };
+
   return (
     <ul className="pagination">
       <li className={cn('page-item', { disabled: currentPage === 1 })}>
         <a
-          onClick={() => {
-            if (currentPage !== 1) {
-              onPageChange(currentPage - 1);
-            }
-          }}
+          onClick={() => handlePageClicked(currentPage - 1)}
           data-cy="prevLink"
           className="page-link"
           href="#prev"
@@ -34,7 +38,6 @@ export const Pagination: React.FC<Props> = ({
           «
         </a>
       </li>
-
 
       {arrayOfPages.map(pageNumber => (
         <li
@@ -45,11 +48,7 @@ export const Pagination: React.FC<Props> = ({
           key={pageNumber + 1}
         >
           <a
-            onClick={() => {
-              if (currentPage !== pageNumber + 1) {
-                onPageChange(pageNumber + 1);
-              }
-            }}
+            onClick={() => handlePageClicked(pageNumber + 1)}
             data-cy="pageLink"
             className="page-link"
             href={`#${pageNumber + 1}`}
@@ -66,11 +65,7 @@ export const Pagination: React.FC<Props> = ({
         )}
       >
         <a
-          onClick={() => {
-            if (currentPage !== amountOfPages) {
-              onPageChange(currentPage + 1);
-            }
-          }}
+          onClick={() => handlePageClicked(currentPage + 1)}
           data-cy="nextLink"
           className="page-link"
           href="#next"
