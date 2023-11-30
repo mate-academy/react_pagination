@@ -7,7 +7,7 @@ const items = getNumbers(1, 42)
   .map((n, index) => ({ name: `Item ${n}`, id: index }));
 
 export const App: React.FC = () => {
-  let numbersOfPages = 9;
+  const [numbersOfPages, setNumbersOfPages] = useState(9);
   const [itemsPerPages, setItemsPerPages] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -19,7 +19,7 @@ export const App: React.FC = () => {
 
     setCurrentPage(1);
     setItemsPerPages(value);
-    numbersOfPages = Math.ceil(items.length / value);
+    setNumbersOfPages(Math.ceil(items.length / value));
   }
 
   return (
