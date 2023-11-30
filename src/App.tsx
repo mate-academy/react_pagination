@@ -67,7 +67,7 @@ export const App: React.FC = () => {
 
         {pageNumbers.map(pageNumber => (
           <li
-            className={cn('page__item',
+            className={cn('page-item',
               { active: currentPage === pageNumber.id })}
             key={pageNumber.id}
           >
