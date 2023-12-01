@@ -33,8 +33,7 @@ export const Pagination = ({
   return (
     <ul className="pagination">
       <li
-        className={cn({
-          'page-item': true,
+        className={cn('page-item', {
           'page-item disabled': isFirstPage,
         })}
       >
@@ -51,9 +50,8 @@ export const Pagination = ({
       {pagesCount.map(pageNumber => (
         <li
           key={pageNumber}
-          className={cn({
-            'page-item': true,
-            'page-item active': currentPage === pageNumber,
+          className={cn('page-item', {
+            active: currentPage === pageNumber,
           })}
         >
           <a
@@ -67,9 +65,8 @@ export const Pagination = ({
         </li>
       ))}
       <li
-        className={cn({
-          'page-item': true,
-          'page-item disabled': isLastPage,
+        className={cn('page-item', {
+          disabled: isLastPage,
         })}
       >
         <a
