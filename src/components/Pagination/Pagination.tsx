@@ -60,38 +60,36 @@ export const Pagination: React.FC<Props> = ({
   }
 
   return (
-    <>
-      <ul className="pagination">
-        <li className={classNames('page-item',
-          { disabled: ((Number(params.get('page')) || 1) === 1) })}
+    <ul className="pagination">
+      <li className={classNames('page-item',
+        { disabled: ((Number(params.get('page')) || 1) === 1) })}
+      >
+        <a
+          data-cy="prevLink"
+          className="page-link"
+          href="#prev"
+          aria-disabled={((Number(params.get('page')) || 1) === 1)}
+          onClick={handleClick}
         >
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled={((Number(params.get('page')) || 1) === 1)}
-            onClick={handleClick}
-          >
-            «
-          </a>
-        </li>
-        {GeneratePages()}
-        <li className={classNames('page-item',
-          {
-            disabled: (currPage === quantityOfPages),
-          })}
+          «
+        </a>
+      </li>
+      {GeneratePages()}
+      <li className={classNames('page-item',
+        {
+          disabled: (currPage === quantityOfPages),
+        })}
+      >
+        <a
+          data-cy="nextLink"
+          className="page-link"
+          href="#next"
+          aria-disabled={(currPage === quantityOfPages)}
+          onClick={handleClick}
         >
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled={(currPage === quantityOfPages)}
-            onClick={handleClick}
-          >
-            »
-          </a>
-        </li>
-      </ul>
-    </>
+          »
+        </a>
+      </li>
+    </ul>
   );
 };
