@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+
 import { getNumbers } from './utils';
 
 import { Pagination } from './components/Pagination';
@@ -9,11 +10,22 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [itemsPerPage, setItemsPerPage] = useState('5');
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const total = items.length;
+  const perPageItems = [3, 5, 10, 20];
+  const firstItemIndex = (currentPage - 1) * itemsPerPage;
+  const lastItemIndex = firstItemIndex + itemsPerPage;
+  const currentItems = items.slice(
+    firstItemIndex,
+    lastItemIndex,
+  );
 
   const getPerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault();
-    setItemsPerPage(event.target.value);
+    setItemsPerPage(+event.target.value);
+    setCurrentPage(1);
   };
 
   return (
@@ -21,7 +33,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page 1 (items 1 - 5 of ${items.length})`}
+        {`Page ${currentPage} (items ${firstItemIndex + 1} - ${total < lastItemIndex ? total : lastItemIndex} of ${total})`}
       </p>
 
       <div className="form-group row">
@@ -33,23 +45,34 @@ export const App: React.FC = () => {
             defaultValue={5}
             onChange={getPerPage}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            {perPageItems.map(option => (
+              <option value={option} key={option}>{option}</option>
+            ))}
           </select>
         </div>
 
         <label htmlFor="perPageSelector" className="col-form-label col">
           items per page
         </label>
-
-        <Pagination
-          total={42}
-          perPage={+itemsPerPage}
-          currentPage={1}
-        />
       </div>
+
+      <Pagination
+        total={total}
+        perPage={itemsPerPage}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+      />
+
+      <ul>
+        {currentItems.map((item) => (
+          <li
+            key={item}
+            data-cy="item"
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
