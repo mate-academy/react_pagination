@@ -1,8 +1,6 @@
 import classnames from 'classnames';
 import { getNumbers } from '../../utils';
 
-const startPage = 1;
-
 type Props = {
   total: number;
   perPage: number;
@@ -16,19 +14,20 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onChangePage,
 }) => {
+  const startPage = 1;
   const lastPage = Math.ceil(total / perPage);
   const pageList = getNumbers(startPage, lastPage);
 
   const isPrevBtnDisabled = currentPage === startPage;
   const isNextBtnDisabled = currentPage === lastPage;
 
-  const increasePage = () => {
+  const decreasePage = () => {
     if (currentPage !== startPage) {
       onChangePage(currentPage - 1);
     }
   };
 
-  const decreasePage = () => {
+  const increasePage = () => {
     if (!isNextBtnDisabled) {
       onChangePage(currentPage + 1);
     }
@@ -47,7 +46,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={isPrevBtnDisabled}
-          onClick={increasePage}
+          onClick={decreasePage}
         >
           «
         </a>
@@ -81,7 +80,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={isNextBtnDisabled}
-          onClick={decreasePage}
+          onClick={increasePage}
         >
           »
         </a>
