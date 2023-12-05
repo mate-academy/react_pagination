@@ -1,49 +1,49 @@
-import React, { useMemo } from "react";
-import { getNumbers } from "../../utils";
-import classNames from "classnames";
+import React, { useMemo } from 'react';
+import classNames from 'classnames';
+import { getNumbers } from '../../utils';
 
 type Props = {
-    total: number,
-    perPage: number,
-    currentPage: number,
-    onPageChange: (pageNum: number | ((prevPage: number) => number)) => void;
-}
+  total: number,
+  perPage: number,
+  currentPage: number,
+  onPageChange: (pageNum: number | ((prevPage: number) => number)) => void;
+};
 
 export const Pagination: React.FC<Props> = ({
-    total,
-    perPage,
-    currentPage = 1,
-    onPageChange,
+  total,
+  perPage,
+  currentPage = 1,
+  onPageChange,
 }) => {
-    const pagesCount = useMemo(() => {
-        return Math.ceil(total / perPage);
-    }, [total, perPage]);
+  const pagesCount = useMemo(() => {
+    return Math.ceil(total / perPage);
+  }, [total, perPage]);
 
-    const pages = getNumbers(1, pagesCount);
+  const pages = getNumbers(1, pagesCount);
 
-    const handleBackwardButton = () => {
-        if (currentPage !== 1) {
-            onPageChange(prevPage => prevPage - 1);
-        }
+  const handleBackwardButton = () => {
+    if (currentPage !== 1) {
+      onPageChange(prevPage => prevPage - 1);
     }
+  };
 
-    const handleForwardButton = () => {
-        if (currentPage !== pagesCount) {
-            onPageChange(prevPage => prevPage + 1);
-        }
+  const handleForwardButton = () => {
+    if (currentPage !== pagesCount) {
+      onPageChange(prevPage => prevPage + 1);
     }
+  };
 
-    const handlePageChange = (pageNum: number) => {
-        onPageChange(pageNum);
-    }
+  const handlePageChange = (pageNum: number) => {
+    onPageChange(pageNum);
+  };
 
-    return (
+  return (
     <ul className="pagination">
-      <li 
+      <li
         className={classNames(
-            'page-item',
-            {disabled: currentPage === 1}
-        )} 
+          'page-item',
+          { disabled: currentPage === 1 },
+        )}
       >
         <a
           data-cy="prevLink"
@@ -55,31 +55,30 @@ export const Pagination: React.FC<Props> = ({
           «
         </a>
       </li>
-      
 
       {pages.map(pageNum => (
         <li
           className={classNames(
             'page-item',
-            {active: pageNum === currentPage},
+            { active: pageNum === currentPage },
           )}
           key={pageNum}
         >
-            <a
-              data-cy="pageLink"
-              className="page-link"
-              href={`#${pageNum}`}
-              onClick={() => handlePageChange(pageNum)}
-            >
-                {pageNum}
-            </a>
+          <a
+            data-cy="pageLink"
+            className="page-link"
+            href={`#${pageNum}`}
+            onClick={() => handlePageChange(pageNum)}
+          >
+            {pageNum}
+          </a>
         </li>
       ))}
-     
-      <li 
+
+      <li
         className={classNames(
-            'page-item',
-            {disabled: currentPage === pagesCount}
+          'page-item',
+          { disabled: currentPage === pagesCount },
         )}
       >
         <a
@@ -93,5 +92,5 @@ export const Pagination: React.FC<Props> = ({
         </a>
       </li>
     </ul>
-    )
+  );
 };
