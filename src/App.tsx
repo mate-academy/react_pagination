@@ -49,7 +49,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={event => selectPerPage(event)}
+            onChange={selectPerPage}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -72,7 +72,12 @@ export const App: React.FC = () => {
 
       <ul>
         {visibleItems.map(item => (
-          <li data-cy="item">{`Item ${item}`}</li>
+          <li
+            data-cy="item"
+            key={item}
+          >
+            {`Item ${item}`}
+          </li>
         ))}
       </ul>
     </div>
