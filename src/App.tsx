@@ -17,6 +17,8 @@ export const App: React.FC = () => {
   const startItem = (currentPage - 1) * perPage + 1;
   const endItem = Math.min(currentPage * perPage, TOTAL);
 
+  const currentItems = items.slice(startItem - 1, endItem);
+
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(+event.target.value);
     setCurrentPage(1);
@@ -40,7 +42,12 @@ export const App: React.FC = () => {
             value={perPage}
           >
             {PER_PAGE_OPTIONS.map(option => (
-              <option value={option}>{option}</option>
+              <option
+                value={option}
+                key={option}
+              >
+                {option}
+              </option>
             ))}
           </select>
         </div>
@@ -53,17 +60,14 @@ export const App: React.FC = () => {
         total={TOTAL}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={(page) => setCurrentPage(page)}
+        onPageChange={setCurrentPage}
       />
       <ul>
-        {items.map((item, index) => {
-          return index >= startItem - 1 && index <= endItem - 1 ? (
-            <li key={item} data-cy="item">
-              {item}
-            </li>
-          ) : null;
-        })}
-
+        {currentItems.map((item) => (
+          <li key={item} data-cy="item">
+            {item}
+          </li>
+        ))}
       </ul>
     </div>
   );

@@ -21,57 +21,55 @@ export const Pagination: React.FC<PaginationProps> = ({
   const pagesArray = getNumbers(1, numberOfPages);
 
   return (
-    <>
-      <ul className="pagination">
+    <ul className="pagination">
+      <li
+        className={classNames('page-item', {
+          disabled: currentPage === 1,
+        })}
+      >
+        <a
+          data-cy="prevLink"
+          className="page-link"
+          href="#prev"
+          onClick={() => currentPage !== 1 && onPageChange(currentPage - 1)}
+          aria-disabled={currentPage === 1}
+        >
+          «
+        </a>
+      </li>
+      {pagesArray.map((page) => (
         <li
           className={classNames('page-item', {
-            disabled: currentPage === 1,
+            active: page === currentPage,
           })}
+          key={page}
         >
           <a
-            data-cy="prevLink"
+            data-cy="pageLink"
             className="page-link"
-            href="#prev"
-            onClick={() => currentPage !== 1 && onPageChange(currentPage - 1)}
-            aria-disabled={currentPage === 1}
+            href={`#${page}`}
+            onClick={() => onPageChange(page)}
           >
-            «
+            {page}
           </a>
         </li>
-        {pagesArray.map((page) => (
-          <li
-            className={classNames('page-item', {
-              'page-item': true,
-              active: page === currentPage,
-            })}
-          >
-            <a
-              data-cy="pageLink"
-              className="page-link"
-              href={`#${page}`}
-              onClick={() => onPageChange(page)}
-            >
-              {page}
-            </a>
-          </li>
-        ))}
-        <li
-          className={classNames('page-item', {
-            disabled: currentPage === pagesArray.length,
-          })}
+      ))}
+      <li
+        className={classNames('page-item', {
+          disabled: currentPage === pagesArray.length,
+        })}
+      >
+        <a
+          data-cy="nextLink"
+          className="page-link"
+          href="#next"
+          onClick={() => currentPage !== pagesArray.length
+            && onPageChange(currentPage + 1)}
+          aria-disabled={currentPage === pagesArray.length}
         >
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            onClick={() => currentPage !== pagesArray.length
-              && onPageChange(currentPage + 1)}
-            aria-disabled={currentPage === pagesArray.length}
-          >
-            »
-          </a>
-        </li>
-      </ul>
-    </>
+          »
+        </a>
+      </li>
+    </ul>
   );
 };
