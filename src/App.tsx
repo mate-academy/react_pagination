@@ -9,7 +9,7 @@ const items = getNumbers(1, 42)
 
 export const App: React.FC = () => {
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(3);
+  const [perPage, setPerPage] = useState(5);
 
   const maxPerPage = page * perPage > items.length
     ? items.length
@@ -61,9 +61,11 @@ export const App: React.FC = () => {
         onPageChange={setPage}
       />
 
-      {currentItems.map(item => (
-        <li data-cy="item" key={item}>{item}</li>
-      ))}
+      <ul>
+        {currentItems.map(item => (
+          <li data-cy="item" key={item}>{item}</li>
+        ))}
+      </ul>
     </div>
   );
 };
