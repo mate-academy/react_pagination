@@ -69,7 +69,7 @@ export const Pagination:React.FC<Props> = ({
             <a
               data-cy="pageLink"
               className="page-link"
-              href={`${page}`}
+              href={`#${page}`}
               onClick={(event) => {
                 handleClick(event, page);
               }}
