@@ -58,28 +58,27 @@ export const Pagination:React.FC<Props> = ({
           «
         </a>
       </li>
-      {pagesArray.map(page => {
-        return (
-          <li
-            className={cn('page-item', {
-              active: currentPage === page,
-            })}
-            key={page}
-          >
-            <a
-              data-cy="pageLink"
-              className="page-link"
-              href={`#${page}`}
-              onClick={(event) => {
-                handleClick(event, page);
-              }}
-            >
-              {page}
-            </a>
-          </li>
 
-        );
-      })}
+      {pagesArray.map(page => (
+        <li
+          className={cn('page-item', {
+            active: currentPage === page,
+          })}
+          key={page}
+        >
+          <a
+            data-cy="pageLink"
+            className="page-link"
+            href={`#${page}`}
+            onClick={(event) => {
+              handleClick(event, page);
+            }}
+          >
+            {page}
+          </a>
+        </li>
+      ))}
+
       <li className="page-item">
         <a
           data-cy="nextLink"
