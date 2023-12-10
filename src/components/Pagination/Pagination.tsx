@@ -21,16 +21,16 @@ export const Pagination: React.FC<Props> = ({
   return (
     <ul className="pagination">
       <li className={cn('page-item', {
-        disabled: pages.indexOf(currentPage) === 0,
+        disabled: currentPage === 1,
       })}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={pages.indexOf(currentPage) === 0}
+          aria-disabled={currentPage === 1}
           onClick={() => {
-            if (pages.indexOf(currentPage) !== 0) {
+            if (currentPage !== 1) {
               onPageChange(currentPage - 1);
             }
           }}
@@ -40,7 +40,12 @@ export const Pagination: React.FC<Props> = ({
       </li>
 
       {pages.map(page => (
-        <li key={page} className={`page-item ${currentPage === page && 'active'}`}>
+        <li
+          key={page}
+          className={cn('page-item', {
+            active: currentPage === page,
+          })}
+        >
           <a
             data-cy="pageLink"
             className="page-link"
@@ -53,16 +58,16 @@ export const Pagination: React.FC<Props> = ({
       ))}
 
       <li className={cn('page-item', {
-        disabled: pages.indexOf(currentPage) === pages.length - 1,
+        disabled: currentPage === pages.length,
       })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={pages.indexOf(currentPage) === pages.length - 1}
+          aria-disabled={currentPage === pages.length}
           onClick={() => {
-            if (pages.indexOf(currentPage) !== pages.length - 1) {
+            if (currentPage !== pages.length) {
               onPageChange(currentPage + 1);
             }
           }}
