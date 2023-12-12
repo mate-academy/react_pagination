@@ -40,7 +40,9 @@ export const Pagination: React.FC<Props> = ({
 
   return (
     <ul className="pagination">
-      <li className={cn('page-item', { disabled: isFirstPage })}>
+      <li className={cn('page-item',
+        { disabled: isFirstPage })}
+      >
         <a
           data-cy="prevLink"
           className="page-link"
@@ -54,7 +56,8 @@ export const Pagination: React.FC<Props> = ({
       {pages.map(page => (
         <li
           key={page}
-          className={cn('page-item', { active: page === currentPage })}
+          className={cn('page-item',
+            { active: page === currentPage })}
         >
           <a
             data-cy="pageLink"
@@ -66,7 +69,9 @@ export const Pagination: React.FC<Props> = ({
           </a>
         </li>
       ))}
-      <li className={cn('page-item', { disabled: isLastPage })}>
+      <li className={cn('page-item',
+        { disabled: isLastPage })}
+      >
         <a
           data-cy="nextLink"
           className="page-link"
