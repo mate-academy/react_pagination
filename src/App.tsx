@@ -11,6 +11,7 @@ export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handlePerPage = (event: any) => {
     setPerPage(event?.target.value);
   };
