@@ -12,6 +12,8 @@ export const Pagination: React.FC<PaginationProps> = ({
   onPageChange,
 }) => {
   const totalPagePages = Math.ceil(total / perPage);
+  const numbersArray
+    = Array.from({ length: totalPagePages }, (_, index) => index + 1);
 
   return (
     <ul className="pagination">
@@ -26,39 +28,19 @@ export const Pagination: React.FC<PaginationProps> = ({
           «
         </a>
       </li>
-      <li className="page-item active">
-        <a
-          data-cy="pageLink"
-          className={currentPage === 1 ? 'page-link' : 'is-active'}
-          href="#1"
-        >
-          1
-        </a>
-      </li>
-      <li className="page-item">
-        <a data-cy="pageLink" className="page-link" href="#2">2</a>
-      </li>
-      <li className="page-item">
-        <a data-cy="pageLink" className="page-link" href="#3">3</a>
-      </li>
-      <li className="page-item">
-        <a data-cy="pageLink" className="page-link" href="#4">4</a>
-      </li>
-      <li className="page-item">
-        <a data-cy="pageLink" className="page-link" href="#5">5</a>
-      </li>
-      <li className="page-item">
-        <a data-cy="pageLink" className="page-link" href="#6">6</a>
-      </li>
-      <li className="page-item">
-        <a data-cy="pageLink" className="page-link" href="#7">7</a>
-      </li>
-      <li className="page-item">
-        <a data-cy="pageLink" className="page-link" href="#8">8</a>
-      </li>
-      <li className="page-item">
-        <a data-cy="pageLink" className="page-link" href="#9">9</a>
-      </li>
+      {numbersArray.map((number: number) => (
+        <li className={`page-item ${currentPage === number ? 'active' : ''}`}>
+          <a
+            key={number}
+            data-cy="pageLink"
+            className="page-link"
+            href={`#${number}`}
+            onClick={() => onPageChange(number - currentPage)}
+          >
+            {number}
+          </a>
+        </li>
+      ))}
       <li className={`page-item ${currentPage === totalPagePages ? 'disabled' : ''}`}>
         <a
           data-cy="nextLink"

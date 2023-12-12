@@ -2,10 +2,6 @@ import React, { useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// const items = getNumbers(1, 42)
-//   .map((n: number) => `Item ${n}`);
-
 export const App: React.FC = () => {
   const total = 42;
   const [perPage, setPerPage] = useState(5);
@@ -18,14 +14,31 @@ export const App: React.FC = () => {
 
   const handleCurrentPage = (pageNumber: number) => {
     setCurrentPage(currentPage + pageNumber);
+    setPerPage(perPage);
   };
+
+  const getNumbers = (startPage: number): number[] => {
+    const start = (startPage - 1) * perPage + 1;
+    const end = start + perPage - 1;
+    const totalItems = Math.min(total, end);
+
+    return Array.from(
+      { length: totalItems - start + 1 }, (_, index) => start + index,
+    );
+  };
+
+  const items = getNumbers(currentPage)
+    .map((n: number) => `Item ${n}`);
+
+  const firstItem = perPage * (currentPage - 1) + 1;
+  const lastItem = Math.min(perPage * currentPage, total);
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`${currentPage} (items ${perPage - perPage + 1} - ${perPage} of ${total})`}
+        {`${currentPage} (items ${firstItem} - ${lastItem} of ${total})`}
       </p>
 
       <div className="form-group row">
@@ -56,12 +69,11 @@ export const App: React.FC = () => {
         onPageChange={handleCurrentPage}
       />
       <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
+        {items.map((item: string) => (
+          <li data-cy="item">{item}</li>
+        ))}
       </ul>
+
     </div>
   );
 };
