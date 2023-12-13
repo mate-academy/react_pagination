@@ -29,9 +29,8 @@ export const Pagination: React.FC<PaginationProps> = ({
         </a>
       </li>
       {numbersArray.map((number: number) => (
-        <li className={`page-item ${currentPage === number ? 'active' : ''}`}>
+        <li className={`page-item ${currentPage === number ? 'active' : ''}`} key={number}>
           <a
-            key={number}
             data-cy="pageLink"
             className="page-link"
             href={`#${number}`}

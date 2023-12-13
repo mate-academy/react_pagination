@@ -6,39 +6,49 @@ export const App: React.FC = () => {
   const total = 42;
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
+  const totalPagePages = Math.ceil(total / perPage);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handlePerPage = (event: any) => {
     setPerPage(event?.target.value);
+    setCurrentPage(1);
   };
 
   const handleCurrentPage = (pageNumber: number) => {
-    setCurrentPage(currentPage + pageNumber);
-    setPerPage(perPage);
+    if (pageNumber !== 0) {
+      const newPage = currentPage + pageNumber;
+
+      if (newPage >= 1 && newPage <= totalPagePages) {
+        setCurrentPage(newPage);
+      }
+    }
   };
-
-  const getNumbers = (startPage: number): number[] => {
-    const start = (startPage - 1) * perPage + 1;
-    const end = start + perPage - 1;
-    const totalItems = Math.min(total, end);
-
-    return Array.from(
-      { length: totalItems - start + 1 }, (_, index) => start + index,
-    );
-  };
-
-  const items = getNumbers(currentPage)
-    .map((n: number) => `Item ${n}`);
 
   const firstItem = perPage * (currentPage - 1) + 1;
   const lastItem = Math.min(perPage * currentPage, total);
+
+  const getNumbers = (): number[] => {
+    const start = firstItem;
+    const end = lastItem;
+    const totalItems = end - start + 1;
+
+    const newNumbers = Array.from(
+      { length: totalItems },
+      (_, index) => start + index,
+    );
+
+    return newNumbers;
+  };
+
+  const items = getNumbers()
+    .map((n: number) => `Item ${n}`);
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`${currentPage} (items ${firstItem} - ${lastItem} of ${total})`}
+        {`Page ${currentPage} (items ${firstItem} - ${lastItem} of ${total})`}
       </p>
 
       <div className="form-group row">
@@ -70,7 +80,7 @@ export const App: React.FC = () => {
       />
       <ul>
         {items.map((item: string) => (
-          <li data-cy="item">{item}</li>
+          <li data-cy="item" key={item}>{item}</li>
         ))}
       </ul>
 
