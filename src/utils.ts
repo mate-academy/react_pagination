@@ -7,3 +7,16 @@ export function getNumbers(from: number, to: number): number[] {
 
   return numbers;
 }
+
+export const getCurrentItems = (
+  items: string[],
+  page: number,
+  perPage: number,
+  startIndex: number,
+) => {
+  if (page === 1) {
+    return items.slice(0, perPage);
+  }
+
+  return items.slice(startIndex, startIndex + perPage);
+};
