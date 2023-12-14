@@ -1,10 +1,5 @@
 import { FC } from 'react';
-
-type ItemListProps = {
-  items: string[],
-  firstIndex: number,
-  lastIndex: number,
-};
+import { ItemListProps } from '../../types';
 
 export const ItemList: FC<ItemListProps> = ({
   items, firstIndex, lastIndex,

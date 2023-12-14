@@ -8,34 +8,34 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: FC = () => {
-  const [perPage, setPerPage] = useState('5');
-  const [currentPage, setCurrentPage] = useState('1');
+  const [perPage, setPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const handlePerPageSelect: ChangeEventHandler<HTMLSelectElement>
   = (event) => {
-    setPerPage(event.target.value);
-    setCurrentPage('1');
+    setPerPage(+event.target.value);
+    setCurrentPage(1);
   };
 
   const onPageChange = (value: string) => {
     if (value === 'next') {
-      setCurrentPage(prev => String(+prev + 1));
+      setCurrentPage(prev => prev + 1);
 
       return;
     }
 
     if (value === 'prev') {
-      setCurrentPage(prev => String(+prev - 1));
+      setCurrentPage(prev => prev - 1);
 
       return;
     }
 
-    setCurrentPage(value);
+    setCurrentPage(+value);
   };
 
-  const firstVisibleIndex = (+currentPage - 1) * +perPage;
-  const lastVisibleIndex = Math.min(
-    (firstVisibleIndex + +perPage), items.length,
+  const startIndex = (currentPage - 1) * perPage;
+  const endIndex = Math.min(
+    (startIndex + perPage), items.length,
   );
 
   return (
@@ -44,7 +44,7 @@ export const App: FC = () => {
 
       <p className="lead" data-cy="info">
         {`Page ${currentPage}
-        (items ${firstVisibleIndex + 1} - ${lastVisibleIndex}
+        (items ${startIndex + 1} - ${endIndex}
         of ${items.length})`}
       </p>
 
@@ -78,8 +78,8 @@ export const App: FC = () => {
 
       <ItemList
         items={items}
-        firstIndex={firstVisibleIndex}
-        lastIndex={lastVisibleIndex}
+        firstIndex={startIndex}
+        lastIndex={endIndex}
       />
     </div>
   );

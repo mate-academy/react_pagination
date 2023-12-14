@@ -1,13 +1,7 @@
 import { FC, MouseEventHandler } from 'react';
 import cn from 'classnames';
 import { getNumbers } from '../../utils';
-
-type PaginationProps = {
-  total: number;
-  perPage: string;
-  currentPage: string;
-  onPageChange: (pageNo: string) => void;
-};
+import { PaginationProps } from '../../types';
 
 export const Pagination: FC<PaginationProps> = ({
   total,
@@ -15,7 +9,7 @@ export const Pagination: FC<PaginationProps> = ({
   currentPage,
   onPageChange,
 }) => {
-  const pageNums: number[] = getNumbers(1, Math.ceil(total / +perPage));
+  const pageNumbers = getNumbers(1, Math.ceil(total / perPage));
 
   const handlePageChange: MouseEventHandler<HTMLAnchorElement> = (event) => {
     event.preventDefault();
@@ -30,7 +24,7 @@ export const Pagination: FC<PaginationProps> = ({
     }
 
     if (
-      (target.id === 'next' && +currentPage === pageNums.length)
+      (target.id === 'next' && +currentPage === pageNumbers.length)
       || (target.id === 'prev' && +currentPage === 1)
     ) {
       return;
@@ -39,8 +33,8 @@ export const Pagination: FC<PaginationProps> = ({
     onPageChange(target.id);
   };
 
-  const isPrevDisabled: boolean = +currentPage === 1;
-  const isNextDisabled = +currentPage === pageNums.length;
+  const isPrevDisabled = +currentPage === 1;
+  const isNextDisabled = +currentPage === pageNumbers.length;
 
   return (
     <ul className="pagination">
@@ -62,7 +56,7 @@ export const Pagination: FC<PaginationProps> = ({
       </li>
 
       {
-        pageNums.map(pageNum => (
+        pageNumbers.map(pageNum => (
           <li
             key={pageNum}
             className={cn('page-item', {
