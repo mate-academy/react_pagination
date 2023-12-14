@@ -29,6 +29,13 @@ export const Pagination: FC<PaginationProps> = ({
       return;
     }
 
+    if (
+      (target.id === 'next' && +currentPage === pageNums.length)
+      || (target.id === 'prev' && +currentPage === 1)
+    ) {
+      return;
+    }
+
     onPageChange(target.id);
   };
 
@@ -44,7 +51,7 @@ export const Pagination: FC<PaginationProps> = ({
       >
         <a
           id="prev"
-          data-cy="nextLink"
+          data-cy="prevLink"
           className="page-link"
           href="#prev"
           aria-disabled={isPrevDisabled}
