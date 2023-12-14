@@ -1,12 +1,13 @@
-import React, { ChangeEventHandler, useState } from 'react';
+import { ChangeEventHandler, useState, FC } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
+import { ItemList } from './components/ItemList';
 
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
-export const App: React.FC = () => {
+export const App: FC = () => {
   const [perPage, setPerPage] = useState('5');
   const [currentPage, setCurrentPage] = useState('1');
 
@@ -32,15 +33,19 @@ export const App: React.FC = () => {
     setCurrentPage(value);
   };
 
-  const startIndex = (+currentPage - 1) * +perPage;
-  const endIndex = Math.min((startIndex + +perPage), items.length);
+  const firstVisibleIndex = (+currentPage - 1) * +perPage;
+  const lastVisibleIndex = Math.min(
+    (firstVisibleIndex + +perPage), items.length,
+  );
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${startIndex + 1} - ${endIndex} of ${items.length})`}
+        {`Page ${currentPage}
+        (items ${firstVisibleIndex + 1} - ${lastVisibleIndex}
+        of ${items.length})`}
       </p>
 
       <div className="form-group row">
@@ -71,18 +76,11 @@ export const App: React.FC = () => {
         onPageChange={onPageChange}
       />
 
-      <ul>
-        {
-          items.slice(startIndex, endIndex).map(item => (
-            <li
-              key={item}
-              data-cy="item"
-            >
-              {item}
-            </li>
-          ))
-        }
-      </ul>
+      <ItemList
+        items={items}
+        firstIndex={firstVisibleIndex}
+        lastIndex={lastVisibleIndex}
+      />
     </div>
   );
 };
