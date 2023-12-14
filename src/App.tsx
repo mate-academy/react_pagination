@@ -33,7 +33,7 @@ export const App: React.FC = () => {
   };
 
   const startIndex = (+currentPage - 1) * +perPage;
-  const endIndex = startIndex + +perPage;
+  const endIndex = Math.min((startIndex + +perPage), items.length);
 
   return (
     <div className="container">
