@@ -7,6 +7,7 @@ export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const totalPagePages = Math.ceil(total / perPage);
+  const perPageOptions = [3, 5, 10, 20];
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handlePerPage = (event: any) => {
@@ -60,10 +61,9 @@ export const App: React.FC = () => {
             value={perPage}
             onChange={handlePerPage}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            {perPageOptions.map((option: number) => (
+              <option key={option} value={option}>{option}</option>
+            ))}
           </select>
         </div>
 
