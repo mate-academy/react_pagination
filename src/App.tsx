@@ -8,6 +8,10 @@ export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [select, setSelect] = useState(5);
 
+  const lead = `Page ${currentPage} `
+  + `(items ${(currentPage - 1) * select + 1} - `
+  + `${Math.min(currentPage * select, 42)} of 42)`;
+
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newSelect = parseInt(event.target.value, 10);
 
@@ -30,9 +34,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} `
-        + `(items ${(currentPage - 1) * select + 1} - `
-        + `${Math.min(currentPage * select, 42)} of 42)`}
+        {lead}
       </p>
 
       <div className="form-group row">
