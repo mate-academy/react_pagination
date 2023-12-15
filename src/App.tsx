@@ -10,21 +10,21 @@ const items = getNumbers(1, 42)
 const itemsPerPageOptions = ['3', '5', '10', '20'];
 
 export const App: React.FC = () => {
-  const [itemsPer, setItemsPer] = useState(5);
+  const [itemsPer, setItemsPer] = useState(itemsPerPageOptions[1]);
   const [activePage, setActivePage] = useState(1);
   const [
     visibleItems, setVisibleItems,
   ] = useState<string[]>([]);
 
   useEffect(() => {
-    const firstItem = itemsPer * (activePage - 1);
+    const firstItem = Number(itemsPer) * (activePage - 1);
     const nextPageItem = firstItem + itemsPer;
 
-    setVisibleItems(items.slice(firstItem, nextPageItem));
+    setVisibleItems(items.slice(firstItem, Number(nextPageItem)));
   }, [itemsPer, activePage]);
 
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setItemsPer(+event.target.value);
+    setItemsPer(event.target.value);
     setActivePage(1);
   };
 
@@ -66,7 +66,7 @@ export const App: React.FC = () => {
         </div>
         <Pagination
           total={items.length}
-          perPage={itemsPer}
+          perPage={Number(itemsPer)}
           currentPage={activePage}
           onPageChange={handlePageChange}
         />
