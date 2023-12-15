@@ -12,11 +12,7 @@ export const Pagination: FC<Props> = ({
   total, perPage, currentPage = 1, onPageChange,
 }) => {
   const numberOfPages = Math.ceil(total / perPage);
-  const pages = [];
-
-  for (let i = 1; i <= numberOfPages; i += 1) {
-    pages.push(String(i));
-  }
+  const pages = Array.from({ length: numberOfPages }, (_, i) => i + 1);
 
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === Number(pages.at(-1));
