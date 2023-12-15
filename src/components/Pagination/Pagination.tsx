@@ -63,17 +63,19 @@ export const Pagination: React.FC<Props> = (
           })}
           href="#prev"
           aria-disabled={checkFirst()}
-          onClick={() => getPrevPage()}
+          onClick={getPrevPage}
         >
           «
         </a>
       </li>
       {
         pages.map(page => (
-          <li className={cn({
-            'page-item': true,
-            active: page === currentPage,
-          })}
+          <li
+            className={cn({
+              'page-item': true,
+              active: page === currentPage,
+            })}
+            key={page}
           >
             <a
               data-cy="pageLink"
@@ -95,8 +97,7 @@ export const Pagination: React.FC<Props> = (
       >
         <a
           data-cy="nextLink"
-          className={cn({
-            'page-link': true,
+          className={cn('page-link', {
             active: checkLast(),
           })}
           href="#next"
