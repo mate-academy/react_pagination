@@ -18,7 +18,7 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     const firstItem = Number(itemsPer) * (activePage - 1);
-    const nextPageItem = firstItem + itemsPer;
+    const nextPageItem = firstItem + Number(itemsPer);
 
     setVisibleItems(items.slice(firstItem, Number(nextPageItem)));
   }, [itemsPer, activePage]);
