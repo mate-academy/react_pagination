@@ -7,6 +7,8 @@ import { Pagination } from './components/Pagination';
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
+const itemsPerPageOptions = ['3', '5', '10', '20'];
+
 export const App: React.FC = () => {
   const [itemsPer, setItemsPer] = useState(5);
   const [activePage, setActivePage] = useState(1);
@@ -52,10 +54,9 @@ export const App: React.FC = () => {
               value={itemsPer}
               onChange={handleSelect}
             >
-              <option value="3">3</option>
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="20">20</option>
+              {itemsPerPageOptions.map((item) => (
+                <option value={item}>{item}</option>
+              ))}
             </select>
           </div>
 
