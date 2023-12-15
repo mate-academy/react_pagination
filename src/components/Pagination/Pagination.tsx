@@ -18,19 +18,19 @@ export const Pagination: FC<Props> = ({
     pages.push(String(i));
   }
 
-  const onFirstPage = currentPage === 1;
-  const onLastPage = currentPage === Number(pages.at(-1));
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === Number(pages.at(-1));
 
   return (
     <ul className="pagination">
-      <li className={cn('page-item', { disabled: onFirstPage })}>
+      <li className={cn('page-item', { disabled: isFirstPage })}>
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={onFirstPage}
+          aria-disabled={isFirstPage}
           onClick={() => {
-            if (!onFirstPage) {
+            if (!isFirstPage) {
               onPageChange(currentPage - 1);
             }
           }}
@@ -50,14 +50,14 @@ export const Pagination: FC<Props> = ({
           </a>
         </li>
       ))}
-      <li className={cn('page-item', { disabled: onLastPage })}>
+      <li className={cn('page-item', { disabled: isLastPage })}>
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={onLastPage}
+          aria-disabled={isLastPage}
           onClick={() => {
-            if (!onLastPage) {
+            if (!isLastPage) {
               onPageChange(currentPage + 1);
             }
           }}
