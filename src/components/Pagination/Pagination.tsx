@@ -44,7 +44,7 @@ export const Pagination: FC<Props> = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${page}`}
-            onClick={() => onPageChange(+page)}
+            onClick={() => onPageChange(Number(page))}
           >
             {page}
           </a>
