@@ -4,12 +4,12 @@ import cn from 'classnames';
 type Props = {
   total: number;
   perPage: number;
-  currentPage?: number;
+  currentPage: number;
   onPageChange: (page: number) => void;
 };
 
 export const Pagination: React.FC<Props> = ({
-  total, perPage, currentPage = 1, onPageChange,
+  total, perPage, currentPage, onPageChange,
 }) => {
   const totalPages = Math.ceil(total / perPage);
   const isFirstPage = currentPage <= 1;
