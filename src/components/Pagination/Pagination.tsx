@@ -26,7 +26,6 @@ export const Pagination: React.FC<Props> = ({
 
   const handleNextPage = (
     e: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>,
-
   ) => {
     e.preventDefault();
 
@@ -65,22 +64,21 @@ export const Pagination: React.FC<Props> = ({
           «
         </a>
       </li>
-      {new Array(totalPages).fill(null).map((_, idx) => {
-        const id = idx + 1;
+      {Array.from({ length: totalPages }, (_, idx) => {
+        const page = idx + 1;
 
         return (
           <li
-            key={id}
-            className={cn('page-item', { active: id === currentPage })}
+            key={page}
+            className={cn('page-item', { active: page === currentPage })}
           >
             <a
               data-cy="pageLink"
               className="page-link"
-              href={`#${id}`}
-              onClick={(e) => handlePageClick(e, id)}
+              href={`#${page}`}
+              onClick={(e) => handlePageClick(e, page)}
             >
-              {id}
-
+              {page}
             </a>
           </li>
         );
