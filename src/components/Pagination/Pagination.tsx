@@ -1,3 +1,4 @@
+import { MouseEvent } from 'react';
 import cn from 'classnames';
 
 type Props = {
@@ -11,19 +12,37 @@ export const Pagination: React.FC<Props> = ({
   total, perPage, currentPage = 1, onPageChange,
 }) => {
   const totalPages = Math.ceil(total / perPage);
-  const prevArrowDisabled = currentPage >= totalPages;
-  const nextArrowDisabled = currentPage <= 1;
+  const isFirstPage = currentPage <= 1;
+  const isLastPage = currentPage >= totalPages;
 
-  const handleNextPage = () => {
-    if (currentPage >= totalPages) {
+  const handlePageClick = (
+    e: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>,
+    id: number,
+  ) => {
+    e.preventDefault();
+
+    onPageChange(id);
+  };
+
+  const handleNextPage = (
+    e: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>,
+
+  ) => {
+    e.preventDefault();
+
+    if (isLastPage) {
       return;
     }
 
     onPageChange(currentPage + 1);
   };
 
-  const handlePrevPage = () => {
-    if (currentPage <= 1) {
+  const handlePrevPage = (
+    e: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>,
+  ) => {
+    e.preventDefault();
+
+    if (isFirstPage) {
       return;
     }
 
@@ -33,14 +52,14 @@ export const Pagination: React.FC<Props> = ({
   return (
     <ul className="pagination">
       <li className={cn('page-item', {
-        disabled: prevArrowDisabled,
+        disabled: isFirstPage,
       })}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={prevArrowDisabled}
+          aria-disabled={isFirstPage}
           onClick={handlePrevPage}
         >
           «
@@ -58,7 +77,7 @@ export const Pagination: React.FC<Props> = ({
               data-cy="pageLink"
               className="page-link"
               href={`#${id}`}
-              onClick={() => onPageChange(id)}
+              onClick={(e) => handlePageClick(e, id)}
             >
               {id}
 
@@ -67,14 +86,14 @@ export const Pagination: React.FC<Props> = ({
         );
       })}
       <li className={cn('page-item', {
-        disabled: nextArrowDisabled,
+        disabled: isLastPage,
       })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={nextArrowDisabled}
+          aria-disabled={isLastPage}
           onClick={handleNextPage}
         >
           »
