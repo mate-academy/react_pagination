@@ -29,6 +29,8 @@ export const App: React.FC = () => {
     setPage(selectedPage);
   };
 
+  const currentItems = getCurrentItems(items, page, perPage, startIndex);
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
@@ -66,7 +68,7 @@ export const App: React.FC = () => {
       />
 
       <ul>
-        {getCurrentItems(items, page, perPage, startIndex).map(item => (
+        {currentItems.map(item => (
           <li
             data-cy="item"
             key={item}

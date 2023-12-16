@@ -1,3 +1,5 @@
+import { DEFAULT_PAGE } from './constants';
+
 export function getNumbers(from: number, to: number): number[] {
   const numbers = [];
 
@@ -14,7 +16,7 @@ export const getCurrentItems = (
   perPage: number,
   startIndex: number,
 ) => {
-  if (page === 1) {
+  if (page === DEFAULT_PAGE) {
     return items.slice(0, perPage);
   }
 
