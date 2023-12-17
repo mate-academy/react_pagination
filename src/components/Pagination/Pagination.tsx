@@ -40,29 +40,21 @@ export const Pagination: React.FC<Props> = (
     return false;
   };
 
-  const checkFirst = () => {
-    if (currentPage === 1) {
-      return true;
-    }
-
-    return false;
-  };
+  const checkFirst = currentPage === 1;
 
   return (
     <ul className="pagination">
-      <li className={cn({
-        'page-item': true,
-        disabled: checkFirst(),
+      <li className={cn('page-item', {
+        disabled: checkFirst,
       })}
       >
         <a
           data-cy="prevLink"
-          className={cn({
-            'page-link': true,
-            active: !checkFirst(),
+          className={cn('page-item', {
+            disabled: checkFirst,
           })}
           href="#prev"
-          aria-disabled={checkFirst()}
+          aria-disabled={checkFirst}
           onClick={getPrevPage}
         >
           «
@@ -71,8 +63,7 @@ export const Pagination: React.FC<Props> = (
       {
         pages.map(page => (
           <li
-            className={cn({
-              'page-item': true,
+            className={cn('page-item', {
               active: page === currentPage,
             })}
             key={page}
