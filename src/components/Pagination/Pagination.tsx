@@ -32,15 +32,8 @@ export const Pagination: React.FC<Props> = (
     }
   };
 
-  const checkLast = () => {
-    if (currentPage === totalPages) {
-      return true;
-    }
-
-    return false;
-  };
-
   const checkFirst = currentPage === 1;
+  const checkLast = currentPage === totalPages;
 
   return (
     <ul className="pagination">
@@ -50,7 +43,7 @@ export const Pagination: React.FC<Props> = (
       >
         <a
           data-cy="prevLink"
-          className={cn('page-item', {
+          className={cn('page-link', {
             disabled: checkFirst,
           })}
           href="#prev"
@@ -81,19 +74,18 @@ export const Pagination: React.FC<Props> = (
           </li>
         ))
       }
-      <li className={cn({
-        'page-item': true,
-        disabled: checkLast(),
+      <li className={cn('page-item', {
+        disabled: checkLast,
       })}
       >
         <a
           data-cy="nextLink"
           className={cn('page-link', {
-            active: checkLast(),
+            active: checkLast,
           })}
           href="#next"
-          aria-disabled={checkLast()}
-          onClick={() => getNextPage()}
+          aria-disabled={checkLast}
+          onClick={getNextPage}
         >
           »
         </a>
