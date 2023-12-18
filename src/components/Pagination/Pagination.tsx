@@ -14,6 +14,7 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange = () => {},
 }) => (
+
   <ul className="pagination">
     <li className={cn('page-item', { disabled: currentPage === 1 })}>
       <a
