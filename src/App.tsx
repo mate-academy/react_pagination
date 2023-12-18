@@ -1,4 +1,6 @@
-import { ChangeEventHandler, useState, FC } from 'react';
+import {
+  ChangeEventHandler, useState, FC,
+} from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -13,7 +15,7 @@ export const App: FC = () => {
 
   const handlePerPageSelect: ChangeEventHandler<HTMLSelectElement>
   = (event) => {
-    setPerPage(+event.target.value);
+    setPerPage(Number(event.target.value));
     setCurrentPage(1);
   };
 
@@ -30,13 +32,15 @@ export const App: FC = () => {
       return;
     }
 
-    setCurrentPage(+value);
+    setCurrentPage(Number(value));
   };
 
   const startIndex = (currentPage - 1) * perPage;
   const endIndex = Math.min(
     (startIndex + perPage), items.length,
   );
+
+  const visibleItems = items.slice(startIndex, endIndex);
 
   return (
     <div className="container">
@@ -75,9 +79,7 @@ export const App: FC = () => {
       />
 
       <ItemList
-        items={items}
-        firstIndex={startIndex}
-        lastIndex={endIndex}
+        items={visibleItems}
       />
     </div>
   );

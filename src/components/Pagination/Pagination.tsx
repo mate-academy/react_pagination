@@ -16,7 +16,7 @@ export const Pagination: FC<PaginationProps> = ({
     const target = event.target as HTMLAnchorElement;
 
     if (
-      +target.id === +currentPage
+      Number(target.id) === currentPage
       && target.id !== 'next'
       && target.id !== 'prev'
     ) {
@@ -24,8 +24,8 @@ export const Pagination: FC<PaginationProps> = ({
     }
 
     if (
-      (target.id === 'next' && +currentPage === pageNumbers.length)
-      || (target.id === 'prev' && +currentPage === 1)
+      (target.id === 'next' && currentPage === pageNumbers.length)
+      || (target.id === 'prev' && currentPage === 1)
     ) {
       return;
     }
@@ -33,8 +33,8 @@ export const Pagination: FC<PaginationProps> = ({
     onPageChange(target.id);
   };
 
-  const isPrevDisabled = +currentPage === 1;
-  const isNextDisabled = +currentPage === pageNumbers.length;
+  const isPrevDisabled = currentPage === 1;
+  const isNextDisabled = currentPage === pageNumbers.length;
 
   return (
     <ul className="pagination">
@@ -60,7 +60,7 @@ export const Pagination: FC<PaginationProps> = ({
           <li
             key={pageNum}
             className={cn('page-item', {
-              active: +currentPage === pageNum,
+              active: currentPage === pageNum,
             })}
           >
             <a

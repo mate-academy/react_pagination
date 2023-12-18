@@ -7,6 +7,4 @@ export type PaginationProps = {
 
 export type ItemListProps = {
   items: string[],
-  firstIndex: number,
-  lastIndex: number,
 };

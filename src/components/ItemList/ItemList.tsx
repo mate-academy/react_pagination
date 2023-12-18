@@ -1,12 +1,10 @@
 import { FC } from 'react';
 import { ItemListProps } from '../../types';
 
-export const ItemList: FC<ItemListProps> = ({
-  items, firstIndex, lastIndex,
-}) => (
+export const ItemList: FC<ItemListProps> = ({ items }) => (
   <ul>
     {
-      items.slice(firstIndex, lastIndex).map(item => (
+      items.map(item => (
         <li key={item} data-cy="item">
           {item}
         </li>
