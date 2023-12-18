@@ -14,16 +14,12 @@ export const App: React.FC = () => {
   const pageNumbers = Array
     .from({ length: numbersOfPages }, (_, index) => ({ id: index + 1 }));
 
-  const handleChange = (page: number) => {
-    setCurrentPage(page);
-  };
-
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = +(event.target.value);
 
     setItemsPerPages(selectedValue);
     setNumbersOfPages(Math.ceil(items.length / selectedValue));
-    handleChange(1);
+    setCurrentPage(1);
   };
 
   return (
@@ -60,7 +56,9 @@ export const App: React.FC = () => {
         total={pageNumbers}
         perPage={numbersOfPages}
         currentPage={currentPage}
-        onPageChange={handleChange}
+        onPageChange={(page) => {
+          setCurrentPage(page);
+        }}
       />
 
       <ul>
