@@ -10,10 +10,8 @@ export const App: React.FC = () => {
   const [numbersOfPages, setNumbersOfPages] = useState(9);
   const [itemsPerPages, setItemsPerPages] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-
   const pageNumbers = Array
     .from({ length: numbersOfPages }, (_, index) => ({ id: index + 1 }));
-
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = +(event.target.value);
 
