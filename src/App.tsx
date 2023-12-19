@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -7,16 +7,16 @@ const items = getNumbers(1, 42)
   .map((n, index) => ({ name: `Item ${n}`, id: index }));
 
 export const App: React.FC = () => {
-  const [numbersOfPages, setNumbersOfPages] = useState(9);
+  const numbersOfPages = 9;
   const [itemsPerPages, setItemsPerPages] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const pageNumbers = Array
-    .from({ length: numbersOfPages }, (_, index) => ({ id: index + 1 }));
+    .from({ length: Math.ceil(items.length / itemsPerPages) },
+      (_, index) => ({ id: index + 1 }));
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = +(event.target.value);
 
     setItemsPerPages(selectedValue);
-    setNumbersOfPages(Math.ceil(items.length / selectedValue));
     setCurrentPage(1);
   };
 
