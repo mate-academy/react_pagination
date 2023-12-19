@@ -20,6 +20,12 @@ export const Pagination: React.FC<Props> = ({
     (_, index) => index + 1,
   );
 
+  const goToPage = (newPage: number) => {
+    if (newPage >= 1 && newPage <= lastPage && newPage !== currentPage) {
+      onPageChange(newPage);
+    }
+  };
+
   return (
     <ul className="pagination">
       <li className={classNames(
@@ -34,7 +40,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={currentPage <= 1}
-          onClick={() => onPageChange(currentPage - 1)}
+          onClick={() => goToPage(currentPage - 1)}
         >
           «
         </a>
@@ -70,7 +76,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={currentPage >= lastPage}
-          onClick={() => onPageChange(currentPage + 1)}
+          onClick={() => goToPage(currentPage + 1)}
         >
           »
         </a>
