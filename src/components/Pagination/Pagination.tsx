@@ -3,14 +3,14 @@ import cn from 'classnames';
 
 type Props = {
   total: { id: number }[];
-  perPage: number;
+  numbersOfPages: number;
   currentPage: number;
   onPageChange: (value: number) => void;
 };
 
 export const Pagination: React.FC<Props> = ({
   total,
-  perPage,
+  numbersOfPages,
   currentPage,
   onPageChange = () => {},
 }) => (
@@ -56,7 +56,7 @@ export const Pagination: React.FC<Props> = ({
         data-cy="nextLink"
         className="page-link"
         href="#next"
-        aria-disabled={currentPage === perPage}
+        aria-disabled={currentPage === numbersOfPages}
         onClick={() => onPageChange(currentPage + 1)}
       >
         »

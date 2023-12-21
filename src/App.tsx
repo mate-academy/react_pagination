@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -7,11 +7,11 @@ const items = getNumbers(1, 42)
   .map((n, index) => ({ name: `Item ${n}`, id: index }));
 
 export const App: React.FC = () => {
-  const numbersOfPages = 9;
   const [itemsPerPages, setItemsPerPages] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
+  const numbersOfPages =  Math.ceil(items.length / itemsPerPages);
   const pageNumbers = Array
-    .from({ length: Math.ceil(items.length / itemsPerPages) },
+    .from({ length: numbersOfPages },
       (_, index) => ({ id: index + 1 }));
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = +(event.target.value);
@@ -52,7 +52,7 @@ export const App: React.FC = () => {
       {/* Move this markup to Pagination */}
       <Pagination
         total={pageNumbers}
-        perPage={numbersOfPages}
+        numbersOfPages={numbersOfPages}
         currentPage={currentPage}
         onPageChange={(page) => {
           setCurrentPage(page);
