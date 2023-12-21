@@ -19,7 +19,7 @@ export const Pagination: React.FC<Props> = ({
   const sliseTo = perPage * currentPage;
 
   return (
-    <>
+    <section>
       <ul className="pagination">
         <li className={cn(
           'page-item',
@@ -37,24 +37,22 @@ export const Pagination: React.FC<Props> = ({
           </a>
         </li>
 
-        {total.slice(0, paginationNumbs).map(item => {
-          return (
-            <li className={cn(
-              'page-item',
-              { active: item === currentPage },
-            )}
+        {total.slice(0, paginationNumbs).map(item => (
+          <li className={cn(
+            'page-item',
+            { active: item === currentPage },
+          )}
+          >
+            <a
+              data-cy="pageLink"
+              className="page-link"
+              href={`#${item}`}
+              onClick={() => onPageChange(item)}
             >
-              <a
-                data-cy="pageLink"
-                className="page-link"
-                href={`#${item}`}
-                onClick={() => onPageChange(item)}
-              >
-                {`${item}`}
-              </a>
-            </li>
-          );
-        })}
+              {`${item}`}
+            </a>
+          </li>
+        ))}
 
         <li className={cn(
           'page-item',
@@ -74,14 +72,12 @@ export const Pagination: React.FC<Props> = ({
       </ul>
 
       <ul>
-        {total.slice(sliseFrom, sliseTo).map(item => {
-          return (
-            <li data-cy="item">
-              {`Item ${item}`}
-            </li>
-          );
-        })}
+        {total.slice(sliseFrom, sliseTo).map(item => (
+          <li data-cy="item">
+            {`Item ${item}`}
+          </li>
+        ))}
       </ul>
-    </>
+    </section>
   );
 };

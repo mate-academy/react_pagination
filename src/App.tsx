@@ -10,15 +10,17 @@ export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const handlePerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = event.target.value;
-
-    setPerPage(+selectedValue);
-  };
-
+  const options = [3, 5, 10, 20];
   const itemsFrom = (currentPage - 1) * perPage + 1;
   const itemsTo = Math.min(perPage * currentPage, items[items.length - 1]);
   const itemsOf = items[items.length - 1];
+
+  const handlePerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = event.target.value;
+
+    setCurrentPage(1);
+    setPerPage(+selectedValue);
+  };
 
   return (
     <div className="container">
@@ -37,10 +39,11 @@ export const App: React.FC = () => {
             value={perPage}
             onChange={handlePerPageChange}
           >
-            <option value="3"> 3 </option>
-            <option value="5"> 5 </option>
-            <option value="10"> 10 </option>
-            <option value="20"> 20 </option>
+            {options.map(option => (
+              <option value={option}>
+                {option}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -59,5 +62,3 @@ export const App: React.FC = () => {
     </div>
   );
 };
-
-export default App;
