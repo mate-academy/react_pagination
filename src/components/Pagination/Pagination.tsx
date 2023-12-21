@@ -38,7 +38,7 @@ export const Pagination: React.FC<Props> = ({
         </li>
 
         {total.slice(0, paginationNumbs).map(item => (
-          <li className={cn(
+          <li key={item} className={cn(
             'page-item',
             { active: item === currentPage },
           )}
@@ -73,7 +73,7 @@ export const Pagination: React.FC<Props> = ({
 
       <ul>
         {total.slice(sliseFrom, sliseTo).map(item => (
-          <li data-cy="item">
+          <li key={item} data-cy="item">
             {`Item ${item}`}
           </li>
         ))}

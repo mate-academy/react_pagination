@@ -40,7 +40,7 @@ export const App: React.FC = () => {
             onChange={handlePerPageChange}
           >
             {options.map(option => (
-              <option value={option}>
+              <option key={option} value={option}>
                 {option}
               </option>
             ))}
