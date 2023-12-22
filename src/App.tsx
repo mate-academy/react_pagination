@@ -1,18 +1,80 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+
 import './App.css';
 import { getNumbers } from './utils';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42)
-  .map(n => `Item ${n}`);
+const items = getNumbers(1, 42).map(n => `Item ${n}`);
+
+function finList(start: number, end: number) {
+  return (
+    <ul>
+      {items.slice(start, end + 1).map((item) => (
+        <li data-cy="item" key={item}>{item}</li>
+      ))}
+    </ul>
+  );
+}
+
+function calculationOfItems(itemsPerPage: number, page: number) {
+  const start: number = page * itemsPerPage - itemsPerPage;
+  const end: number = page * itemsPerPage - 1;
+
+  return { start, end };
+}
 
 export const App: React.FC = () => {
+  const navigate = useNavigate();
+
+  const location = useLocation();
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [activePage, setActivePage] = useState(1);
+
+  useEffect(() => {
+    const pageQueryParam = new URLSearchParams(location.search).get('page');
+    const perPageQueryParam = new URLSearchParams(location.search)
+      .get('perPage');
+
+    setActivePage(pageQueryParam ? +pageQueryParam : 1);
+    setItemsPerPage(perPageQueryParam ? +perPageQueryParam : 5);
+  }, [location.search]);
+
+  const totalItems = items.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const paginationLinks = Array.from({ length: totalPages },
+    (_, index) => index + 1);
+
+  const handlePageLinkClick = (page: number) => {
+    setActivePage(page);
+    navigate(`?page=${page}&perPage=${itemsPerPage}`);
+  };
+
+  const handleItemsPerPageChange = (newItemsPerPage: number) => {
+    setItemsPerPage(newItemsPerPage);
+    navigate(`?page=1&perPage=${newItemsPerPage}`);
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        Page
+        {' '}
+        {activePage}
+        {' '}
+        (items
+        {' '}
+        {itemsPerPage * (activePage - 1) + 1}
+        {' '}
+        -
+        {' '}
+        {Math.min(itemsPerPage * activePage, totalItems)}
+        {' '}
+        of
+        {' '}
+        {totalItems}
+        )
       </p>
 
       <div className="form-group row">
@@ -21,6 +83,8 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
+            value={itemsPerPage}
+            onChange={(e) => handleItemsPerPageChange(Number(e.target.value))}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -34,63 +98,46 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
       <ul className="pagination">
-        <li className="page-item disabled">
+        <li className={`page-item ${activePage === 1 ? 'disabled' : ''}`}>
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled="true"
+            aria-disabled={activePage === 1}
+            onClick={() => handlePageLinkClick(Math.max(activePage - 1, 1))}
           >
             «
           </a>
         </li>
-        <li className="page-item active">
-          <a data-cy="pageLink" className="page-link" href="#1">1</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#2">2</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#3">3</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#4">4</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#5">5</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#6">6</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#7">7</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#8">8</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#9">9</a>
-        </li>
-        <li className="page-item">
+        {paginationLinks.map((pageNum) => (
+          <li key={pageNum} className={`page-item ${activePage === pageNum ? 'active' : ''}`}>
+            <a
+              data-cy="pageLink"
+              onClick={() => handlePageLinkClick(pageNum)}
+              className="page-link"
+              href={`#${pageNum}`}
+            >
+              {pageNum}
+            </a>
+          </li>
+        ))}
+        <li className={`page-item ${activePage === totalPages ? 'disabled' : ''}`}>
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled="false"
+            onClick={
+              () => handlePageLinkClick(Math.min(activePage + 1, totalPages))
+            }
+            aria-disabled={activePage === totalPages}
           >
             »
           </a>
         </li>
       </ul>
-      <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
-      </ul>
+      {finList(calculationOfItems(itemsPerPage, activePage).start,
+        calculationOfItems(itemsPerPage, activePage).end)}
     </div>
   );
 };
