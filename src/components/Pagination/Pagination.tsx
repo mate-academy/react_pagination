@@ -5,8 +5,8 @@ import { getNumbers } from '../../utils';
 type Props = {
   total: string;
   perPage: string;
-  currentPage: string;
-  onPageChange: (page: string) => void;
+  currentPage: number;
+  onPageChange: (page: number) => void;
 };
 
 const items = getNumbers(1, 42)
@@ -26,64 +26,51 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
-  const pages: number[] = [];
-  const page: number[] = [];
+  const totalPages: number[] = [];
   const currentItems: string[] = getCurrentItems(+currentPage, +perPage);
 
-  function getNumbersOfItem():number {
-    if (+total % +perPage === 0) {
-      return +perPage;
-    }
-
-    if (+currentPage === pages.length) {
-      return +total % +perPage;
-    }
-
-    return +perPage;
-  }
-
   for (let i = 1; i <= Math.ceil(+total / +perPage); i += 1) {
-    pages.push(i);
-  }
-
-  for (let n = 1; n <= getNumbersOfItem(); n += 1) {
-    page.push(n);
+    totalPages.push(i);
   }
 
   return (
     <>
       <ul className="pagination">
-        <li className="page-item disabled">
+        <li className={`page-item ${currentPage === 1 && 'disabled'}`}>
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled="true"
+            aria-disabled={+currentPage === 1}
+            onClick={() => onPageChange(currentPage - 1)}
           >
             «
           </a>
         </li>
-        {[...pages].map(el => (
+
+        {[...totalPages].map(el => (
           <li
-            className={`page-item ${el === +currentPage && 'active'}`}
+            className={`page-item ${el === currentPage && 'active'}`}
             key={el}
           >
             <a
               data-cy="pageLink"
               className="page-link"
               href={`#${el}`}
-              onClick={() => onPageChange(String(el))}
+              onClick={() => onPageChange(el)}
             >
               {el}
             </a>
           </li>
         ))}
-        <li className="page-item">
+
+        <li className={`page-item ${currentPage === totalPages.length && 'disabled'}`}>
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled="false"
+            aria-disabled={currentPage === totalPages.length}
+            onClick={() => onPageChange(currentPage + 1)}
           >
             »
           </a>

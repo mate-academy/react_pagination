@@ -4,7 +4,7 @@ import { Pagination } from './components/Pagination';
 
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState('3');
-  const [currentPage, setcurrentPage] = useState('1');
+  const [currentPage, setCurrentPage] = useState(1);
 
   return (
     <div className="container">
@@ -38,7 +38,7 @@ export const App: React.FC = () => {
         total="42"
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={(page) => setcurrentPage(page)}
+        onPageChange={(page) => setCurrentPage(page)}
       />
     </div>
   );
