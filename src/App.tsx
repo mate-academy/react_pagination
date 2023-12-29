@@ -5,13 +5,20 @@ import { Pagination } from './components/Pagination';
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState('3');
   const [currentPage, setCurrentPage] = useState(1);
+  const [fromPage, setFromPage] = useState('1');
+  const [toPage, setToPage] = useState('3');
+
+  function getFromPage(page: number) {
+    setFromPage(String((page - 1) * +perPage + 1));
+    setToPage(String((page - 1) * +perPage + +perPage));
+  }
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items 1 - 5 of 42)`}
+        {`Page ${currentPage} (items ${fromPage} - ${toPage} of 42)`}
       </p>
 
       <div className="form-group row">
@@ -38,7 +45,10 @@ export const App: React.FC = () => {
         total="42"
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={(page) => setCurrentPage(page)}
+        onPageChange={(page) => {
+          setCurrentPage(page);
+          getFromPage(page);
+        }}
       />
     </div>
   );
