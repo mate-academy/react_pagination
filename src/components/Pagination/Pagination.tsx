@@ -1,4 +1,5 @@
 import './Pagination.css';
+import cn from 'classnames';
 
 type Props = {
   total: string;
@@ -19,15 +20,20 @@ export const Pagination: React.FC<Props> = ({
     totalPages.push(i);
   }
 
+  const lastPage = totalPages.length;
+
   return (
     <>
       <ul className="pagination">
-        <li className={`page-item ${currentPage === 1 && 'disabled'}`}>
+        <li className={cn('page-item', {
+          disabled: currentPage === 1,
+        })}
+        >
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled={+currentPage === 1}
+            aria-disabled={currentPage === 1}
             onClick={() => {
               onPageChange(currentPage - 1);
             }}
@@ -52,13 +58,18 @@ export const Pagination: React.FC<Props> = ({
           </li>
         ))}
 
-        <li className={`page-item ${currentPage === totalPages.length && 'disabled'}`}>
+        <li className={cn('page-item', {
+          disabled: currentPage === lastPage,
+        })}
+        >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={currentPage === totalPages.length}
-            onClick={() => onPageChange(currentPage + 1)}
+            aria-disabled={currentPage === lastPage}
+            onClick={() => {
+              onPageChange(currentPage + 1);
+            }}
           >
             »
           </a>
