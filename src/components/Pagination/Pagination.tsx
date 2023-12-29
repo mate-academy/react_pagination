@@ -1,24 +1,11 @@
 import './Pagination.css';
 
-import { getNumbers } from '../../utils';
-
 type Props = {
   total: string;
   perPage: string;
   currentPage: number;
   onPageChange: (page: number) => void;
 };
-
-const items = getNumbers(1, 42)
-  .map((n: number) => `Item ${n}`);
-
-function getCurrentItems(currentPage:number, perPage: number): string[] {
-  if (currentPage === 1) {
-    return [...items].splice(0, perPage);
-  }
-
-  return [...items].splice((currentPage - 1) * perPage, perPage);
-}
 
 export const Pagination: React.FC<Props> = ({
   total,
@@ -27,7 +14,6 @@ export const Pagination: React.FC<Props> = ({
   onPageChange,
 }) => {
   const totalPages: number[] = [];
-  const currentItems: string[] = getCurrentItems(+currentPage, +perPage);
 
   for (let i = 1; i <= Math.ceil(+total / +perPage); i += 1) {
     totalPages.push(i);
@@ -77,11 +63,6 @@ export const Pagination: React.FC<Props> = ({
             »
           </a>
         </li>
-      </ul>
-      <ul>
-        {[...currentItems].map(el => (
-          <li data-cy="item" key={el}>{el}</li>
-        ))}
       </ul>
     </>
   );
