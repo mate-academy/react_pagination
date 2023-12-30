@@ -19,8 +19,8 @@ export const App: React.FC = () => {
   const [perPage, setPerPage] = useState('5');
   const [currentPage, setCurrentPage] = useState(1);
   const currentItems: string[] = getCurrentItems(+currentPage, +perPage);
-  const firstItem = currentItems[0].split(' ')[1];
-  const lastItem = currentItems[currentItems.length - 1].split(' ')[1];
+  const firstItem = currentItems[0]?.split(' ')[1];
+  const lastItem = currentItems[currentItems.length - 1]?.split(' ')[1];
   const message = `Page ${currentPage} (items ${firstItem} - ${lastItem} of 42)`;
 
   return (
