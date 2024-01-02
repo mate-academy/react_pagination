@@ -13,6 +13,8 @@ export const Pagination:React.FC<Props> = (
   },
 ) => {
   const paginationPageCount = Math.ceil(total / +perPage);
+  const paginationPageCountArr = Array.from({ length: paginationPageCount },
+    (_, i) => i + 1);
   const allItems = [];
 
   for (let i = 1; i <= total; i += 1) {
@@ -54,20 +56,20 @@ export const Pagination:React.FC<Props> = (
           </a>
         </li>
 
-        {itemsArr.map((el, id) => {
+        {paginationPageCountArr.map((el) => {
           return (
-            <li className={`page-item ${currentPage === id + 1 ? 'active' : ''}`} key={el[0]}>
+            <li className={`page-item ${currentPage === el ? 'active' : ''}`} key={el}>
               <a
                 data-cy="pageLink"
                 className="page-link"
                 href="#1"
                 onClick={() => {
-                  if (currentPage !== id + 1) {
-                    setCurrentPage(id + 1);
+                  if (currentPage !== el) {
+                    setCurrentPage(el);
                   }
                 }}
               >
-                {id + 1}
+                {el}
               </a>
             </li>
           );
