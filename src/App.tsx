@@ -9,11 +9,11 @@ const items = getNumbers(1, 42)
 
 export const App: React.FC = () => {
   const [page, setPage] = useState(1);
-  const [sortOptional, setSortOptional] = useState(5);
+  const [optional, setOptional] = useState(5);
 
-  const firstItem = (page - 1) * sortOptional;
-  const lastItem = page * sortOptional < items.length
-    ? page * sortOptional
+  const firstItem = (page - 1) * optional;
+  const lastItem = page * optional < items.length
+    ? page * optional
     : items.length;
 
   const visibalChanging = items.slice(firstItem, lastItem);
@@ -29,8 +29,8 @@ export const App: React.FC = () => {
       <div className="form-group row">
         <div className="col-3 col-sm-2 col-xl-1">
           <select
-            value={sortOptional}
-            onChange={(e) => setSortOptional(+e.target.value)}
+            value={optional}
+            onChange={(event) => setOptional(+event.target.value)}
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
@@ -49,7 +49,7 @@ export const App: React.FC = () => {
 
       <Pagination
         total={items.length}
-        perPage={sortOptional}
+        perPage={optional}
         currentPage={page}
         onPageChange={setPage}
       />

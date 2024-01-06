@@ -33,6 +33,12 @@ export const Pagination: React.FC<Props> = ({
     }
   };
 
+  const moveTocurrentPage = (page: number) => {
+    if (currentPage !== page) {
+      onPageChange(page);
+    }
+  };
+
   return (
     <ul className="pagination">
 
@@ -61,6 +67,10 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href={`${page}`}
             aria-disabled={firsPage}
+            onClick={(event) => {
+              event.preventDefault();
+              moveTocurrentPage(page);
+            }}
           >
             {page}
           </a>
