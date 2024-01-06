@@ -11,6 +11,13 @@ export const Pagination: React.FC<PropsPagination> = ({
   const pageNumbers: number[] = Array
     .from({ length: pageCount }, (_, i) => i + 1);
 
+  const handleOpenPrevPage = () => (
+    currentPage !== 1 && onPageChange(currentPage - 1)
+  );
+
+  const handleOpenNextPage = () => currentPage !== pageCount
+  && onPageChange(currentPage + 1);
+
   return (
     <ul className="pagination">
       <li className={
@@ -21,7 +28,7 @@ export const Pagination: React.FC<PropsPagination> = ({
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          onClick={() => currentPage !== 1 && onPageChange(currentPage - 1)}
+          onClick={handleOpenPrevPage}
           aria-disabled={currentPage === 1}
         >
           «
@@ -54,8 +61,7 @@ export const Pagination: React.FC<PropsPagination> = ({
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          onClick={() => currentPage !== pageCount
-            && onPageChange(currentPage + 1)}
+          onClick={handleOpenNextPage}
           aria-disabled={currentPage === pageCount}
         >
           »
