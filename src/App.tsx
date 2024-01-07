@@ -33,15 +33,8 @@ export const App: React.FC = () => {
       />
 
       <p className="lead" data-cy="info">
-        Page
-        {currentPage}
-        (items
-        {startIndex + 1}
-        -
-        {Math.min(endIndex, items.length)}
-        of
-        {items.length}
-        )
+        Page {currentPage} (items {startIndex + 1} - {Math.min(endIndex,
+          items.length)} of {items.length})
       </p>
 
       <div className="form-group row">
