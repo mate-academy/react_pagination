@@ -1,4 +1,3 @@
-// Pagination.tsx
 import React from 'react';
 
 interface PaginationProps {
@@ -31,7 +30,9 @@ export const Pagination: React.FC<PaginationProps> = ({
             className="page-link"
             href="#prev"
             aria-disabled={currentPage === 1 ? 'true' : 'false'}
-            onClick={() => handlePageChange(currentPage - 1)}
+            onClick={() => handlePageChange(currentPage > 1
+              ? currentPage - 1
+              : currentPage)}
           >
             «
           </a>
@@ -59,7 +60,9 @@ export const Pagination: React.FC<PaginationProps> = ({
             className="page-link"
             href="#next"
             aria-disabled={currentPage === totalPages ? 'true' : 'false'}
-            onClick={() => handlePageChange(currentPage + 1)}
+            onClick={() => handlePageChange(currentPage < totalPages
+              ? currentPage + 1
+              : currentPage)}
           >
             »
           </a>
