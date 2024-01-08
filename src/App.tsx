@@ -21,12 +21,15 @@ export const App: React.FC = () => {
     setSelectedPage(1);
   };
 
+  const selectElements = (selectedPage - 1) * countItem + 1;
+  const countPages = Math.min(selectedPage * countItem, total);
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${selectedPage} (items ${(selectedPage - 1) * countItem + 1} - ${Math.min(selectedPage * countItem, total)} of ${total})`}
+        {`Page ${selectedPage} (items ${selectElements} - ${countPages} of ${total})`}
       </p>
 
       <div className="form-group row">
