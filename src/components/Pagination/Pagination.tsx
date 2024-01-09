@@ -1,5 +1,6 @@
 /* eslint-disable no-plusplus */
 import cn from 'classnames';
+import { getNumbers } from '../../utils';
 
 type Props = {
   total: number,
@@ -20,16 +21,11 @@ export const Pagination: React.FC<Props> = ({
     ? total % perPage
     : perPage;
 
-  const pageNumbers = [];
-
-  for (let i = 0; i < totalPages; i++) {
-    pageNumbers.push(i + 1);
-  }
-
+  const pageNumbers = getNumbers(1, totalPages);
   const pageContent = [];
 
   for (let i = 0; i < lastPageItems; i++) {
-    pageContent.push(i + ((currentPage - 1) * +perPage) + 1);
+    pageContent.push(i + ((currentPage - 1) * perPage) + 1);
   }
 
   return (
