@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination/Pagination';
+import { getNumbers } from './utils';
 
 export const App: React.FC = () => {
   const total = 42;
@@ -57,9 +58,18 @@ export const App: React.FC = () => {
         onPageChange={(page) => {
           setCurrentPage(page);
         }}
-        endItem={endItem}
-        startItem={startItem}
       />
+      <ul>
+        {getNumbers(startItem, endItem)
+          .map((m:number) => (
+            <li
+              data-cy="item"
+              key={m}
+            >
+              {`Item ${m}`}
+            </li>
+          ))}
+      </ul>
     </div>
   );
 };
