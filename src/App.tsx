@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -13,6 +13,10 @@ export const App: React.FC = () => {
   const onPageChange = (page: number) => {
     setCurrentPage(page);
   };
+
+  useEffect(() => {
+    window.location.hash = `#${currentPage}`;
+  }, [currentPage]);
 
   return (
     <div className="container">
