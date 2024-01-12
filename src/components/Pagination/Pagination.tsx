@@ -10,8 +10,8 @@ interface Props {
 }
 
 export const Pagination: React.FC<Props> = ({
-  total,
-  perPage = 3,
+  total = 9,
+  perPage = 5,
   currentPage = 1,
   onPageChange,
 }) => {

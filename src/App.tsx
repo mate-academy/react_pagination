@@ -9,13 +9,19 @@ const items: string[] = getNumbers(1, 42)
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(3);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
 
   const totalPages = items.length;
   const firstVisibleItem = (currentPage * itemsPerPage) - itemsPerPage;
   const lastVisibleItem = (firstVisibleItem + itemsPerPage - 1) <= totalPages
     ? firstVisibleItem + itemsPerPage
-    : items.length;
+    : totalPages;
+
+  const handleChangePage = (newPage: number) => {
+    if (newPage !== currentPage) {
+      setCurrentPage(newPage);
+    }
+  };
 
   const visibleArray = items.slice(firstVisibleItem, lastVisibleItem);
 
@@ -31,6 +37,7 @@ export const App: React.FC = () => {
         <div className="col-3 col-sm-2 col-xl-1">
           <select
             data-cy="perPageSelector"
+            value={itemsPerPage}
             id="perPageSelector"
             className="form-control"
             onChange={(event) => {
@@ -54,11 +61,7 @@ export const App: React.FC = () => {
         total={totalPages}
         perPage={itemsPerPage}
         currentPage={currentPage}
-        onPageChange={(page) => {
-          if (page !== currentPage) {
-            setCurrentPage(page);
-          }
-        }}
+        onPageChange={handleChangePage}
       />
 
       <ul>
