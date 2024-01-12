@@ -1,5 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
+import { getNumbers } from '../../utils';
 
 interface Props {
   total: number;
@@ -15,11 +16,8 @@ export const Pagination: React.FC<Props> = ({
   onPageChange,
 }) => {
   const qtyBookmarks = Math.ceil(total / perPage);
-  const pages: number[] = [];
-
-  for (let i = 1; i <= qtyBookmarks; i += 1) {
-    pages.push(i);
-  }
+  const pages: number[] = getNumbers(1, qtyBookmarks)
+    .map(n => n);
 
   return (
     <ul className="pagination">

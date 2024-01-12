@@ -17,7 +17,7 @@ export const App: React.FC = () => {
     ? firstVisibleItem + itemsPerPage
     : items.length;
 
-  const visibleArray = [...items].slice(firstVisibleItem, lastVisibleItem);
+  const visibleArray = items.slice(firstVisibleItem, lastVisibleItem);
 
   return (
     <div className="container">
@@ -64,7 +64,7 @@ export const App: React.FC = () => {
       <ul>
         {visibleArray.map((item) => (
           <li
-            key={+item.slice(5)}
+            key={item}
             data-cy="item"
           >
             {item}
