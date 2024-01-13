@@ -19,14 +19,14 @@ export const App: React.FC = () => {
     setCurrentPage(page);
   };
 
-  const firstDisplayedItem = perPage * currentPage - perPage;
-  const lastDisplayedItem = perPage * currentPage > items.length
+  const firstItemToDisplay = perPage * currentPage - perPage;
+  const lastItemToDisplay = perPage * currentPage > items.length
     ? items.length - 1
     : perPage * currentPage - 1;
 
   const itemsToDisplay = items.slice(
-    firstDisplayedItem,
-    lastDisplayedItem + 1,
+    firstItemToDisplay,
+    lastItemToDisplay + 1,
   );
 
   return (
@@ -34,7 +34,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${firstDisplayedItem + 1} - ${lastDisplayedItem + 1} of ${items.length})`}
+        {`Page ${currentPage} (items ${firstItemToDisplay + 1} - ${lastItemToDisplay + 1} of ${items.length})`}
       </p>
 
       <PerPageSelector
