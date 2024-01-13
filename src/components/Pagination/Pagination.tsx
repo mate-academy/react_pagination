@@ -48,7 +48,10 @@ export const Pagination: React.FC<Props> = (props) => {
       </li>
 
       {pages.map(page => (
-        <li className={cn('page-item', { active: page === currentPage })}>
+        <li
+          className={cn('page-item', { active: page === currentPage })}
+          key={page}
+        >
           <a
             data-cy="pageLink"
             className="page-link"
