@@ -1,6 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable max-len */
-
 import React, { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
@@ -22,7 +19,6 @@ export const App: React.FC = () => {
   });
 
   function pageChange(value: number) {
-    console.log(value);
     setState((prevState) => ({
       ...prevState,
       currentPage: value,
@@ -30,7 +26,9 @@ export const App: React.FC = () => {
   }
 
   const startIndex = (state.currentPage - 1) * state.perPage + 1;
-  const endIndex = Math.min(startIndex + state.perPage - 1, state.totalItems.length);
+  const endIndex = Math.min(
+    startIndex + state.perPage - 1, state.totalItems.length,
+  );
 
   return (
     <div className="container">
