@@ -68,7 +68,11 @@ export const Pagination: React.FC<Selected> = ({
               data-cy="pageLink"
               className="page-link"
               href="#1"
-              onClick={() => onPageChange(number)}
+              onClick={() => {
+                if (currentPage !== number) {
+                  onPageChange(number);
+                }
+              }}
             >
               {number}
             </a>
