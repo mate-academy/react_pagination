@@ -4,7 +4,6 @@ import { getNumbers } from './utils';
 import { PaginationRules } from './types/PaginationRules';
 import { Pagination } from './components/Pagination';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
@@ -19,13 +18,28 @@ const ITEMS_PER_PAGE_OPTIONS = [3, 5, 10, 20];
 export const App: React.FC = () => {
   const [paginationRules, setPaginationRules]
     = useState<PaginationRules>(DEFAULT_PAGINATION_RULES);
+  const itemsStartNumber
+    = (paginationRules.currentPage - 1) * paginationRules.perPage + 1;
+  const itemsEndNumber
+    = Math.min((
+      paginationRules.currentPage - 1)
+      * paginationRules.perPage + paginationRules.perPage,
+    items.length);
+
+  const handleOnChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setPaginationRules({
+      ...paginationRules,
+      perPage: +event.target.value,
+      currentPage: 1,
+    });
+  };
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${paginationRules.currentPage} (items ${(paginationRules.currentPage - 1) * paginationRules.perPage + 1} - ${Math.min((paginationRules.currentPage - 1) * paginationRules.perPage + paginationRules.perPage, items.length)} of ${paginationRules.total})`}
+        {`Page ${paginationRules.currentPage} (items ${itemsStartNumber} - ${itemsEndNumber} of ${paginationRules.total})`}
       </p>
 
       <div className="form-group row">
@@ -35,11 +49,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={paginationRules.perPage}
-            onChange={(event) => setPaginationRules({
-              ...paginationRules,
-              perPage: +event.target.value,
-              currentPage: 1,
-            })}
+            onChange={handleOnChange}
           >
             {ITEMS_PER_PAGE_OPTIONS.map(number => (
               <option value={number} key={number}>
@@ -57,7 +67,7 @@ export const App: React.FC = () => {
       <Pagination
         paginationRules={paginationRules}
         items={items}
-        onPageChanged={(rules) => setPaginationRules(rules)}
+        onPageChanged={setPaginationRules}
       />
     </div>
   );

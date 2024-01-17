@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import { PaginationRules } from '../../types/PaginationRules';
+import { createLinksList } from '../../services/LinksService';
 
 interface Props<T> {
   paginationRules: PaginationRules
@@ -7,35 +8,8 @@ interface Props<T> {
   onPageChanged: (rules: PaginationRules) => void
 }
 
-function createLinksList(amount: number,
-  activePage: number,
-  onClickCallBack: (pageNumber: number) => void) {
-  const linksList = [];
-
-  // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < amount; i++) {
-    linksList.push(
-      <li className={cn('page-item', {
-        active: i === activePage - 1,
-      })}
-      >
-        <a
-          onClick={() => onClickCallBack(i + 1)}
-          data-cy="pageLink"
-          className="page-link"
-          href={`#${i + 1}`}
-          key={i}
-        >
-          {i + 1}
-        </a>
-      </li>,
-    );
-  }
-
-  return linksList;
-}
-
-export function Pagination<T>({ paginationRules,
+export function Pagination<T>({
+  paginationRules,
   items,
   onPageChanged,
 }: Props<T>) {
@@ -53,6 +27,28 @@ export function Pagination<T>({ paginationRules,
       (paginationRules.currentPage - 1) * paginationRules.perPage
       + paginationRules.perPage);
 
+  const handleNextPageButtonClicked = () => {
+    if (paginationRules.currentPage === pageLinks.length) {
+      return;
+    }
+
+    onPageChanged({
+      ...paginationRules,
+      currentPage: paginationRules.currentPage + 1,
+    });
+  };
+
+  const handlePrevPageButtonClicked = () => {
+    if (paginationRules.currentPage === 1) {
+      return;
+    }
+
+    onPageChanged({
+      ...paginationRules,
+      currentPage: paginationRules.currentPage - 1,
+    });
+  };
+
   return (
     <>
       <ul className="pagination">
@@ -61,16 +57,7 @@ export function Pagination<T>({ paginationRules,
         })}
         >
           <a
-            onClick={() => {
-              if (paginationRules.currentPage === 1) {
-                return;
-              }
-
-              onPageChanged({
-                ...paginationRules,
-                currentPage: paginationRules.currentPage - 1,
-              });
-            }}
+            onClick={handlePrevPageButtonClicked}
             data-cy="prevLink"
             className="page-link"
             href="#prev"
@@ -85,16 +72,7 @@ export function Pagination<T>({ paginationRules,
         })}
         >
           <a
-            onClick={() => {
-              if (paginationRules.currentPage === pageLinks.length) {
-                return;
-              }
-
-              onPageChanged({
-                ...paginationRules,
-                currentPage: paginationRules.currentPage + 1,
-              });
-            }}
+            onClick={handleNextPageButtonClicked}
             data-cy="nextLink"
             className="page-link"
             href="#next"
