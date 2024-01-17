@@ -40,8 +40,8 @@ export const App: React.FC = () => {
             onChange={(e) => {
               const selectedItemsPerPage = parseInt(e.target.value, 10);
 
-              setItemsPerPage(selectedItemsPerPage);
               setCurrentPage(1);
+              setItemsPerPage(selectedItemsPerPage);
             }}
             value={itemsPerPage}
           >
@@ -61,6 +61,7 @@ export const App: React.FC = () => {
       <Pagination
         total={items.length}
         perPage={itemsPerPage}
+        currentPage={currentPage}
         onPageChange={onPageChange}
       />
 

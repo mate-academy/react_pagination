@@ -1,22 +1,22 @@
 import cn from 'classnames';
-import React, { useState } from 'react';
+import React from 'react';
 
 interface PaginationProps {
   total: number;
   perPage: number;
+  currentPage: number;
   onPageChange: (pageNumber: number, itemsPerPage: number) => void;
 }
 
 export const Pagination: React.FC<PaginationProps> = ({
   total,
   perPage,
+  currentPage,
   onPageChange,
 }) => {
   const totalPages = Math.ceil(total / perPage);
-  const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
     onPageChange(pageNumber, perPage);
   };
 
