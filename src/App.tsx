@@ -5,6 +5,7 @@ import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
 const MAX_ITEMS = 42;
+const PER_PAGE = [3, 5, 10, 20];
 
 const items = getNumbers(1, MAX_ITEMS)
   .map(n => `Item ${n}`);
@@ -13,7 +14,6 @@ export const App: React.FC = () => {
   const [itemsOnPage, setItemsOnPage] = useState(5);
   const [selectedPage, setSelectedPage] = useState(1);
 
-  const perPage = [3, 5, 10, 20];
   const startIndexItems = selectedPage * itemsOnPage - itemsOnPage;
   const lastIndexItems = Math.min(selectedPage * itemsOnPage, MAX_ITEMS);
   const preparedItems = items.slice(startIndexItems, lastIndexItems);
@@ -38,7 +38,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
           >
-            {perPage.map(value => (
+            {PER_PAGE.map(value => (
               <option key={value} value={value}>
                 {value}
               </option>

@@ -21,11 +21,11 @@ export const Pagination: React.FC<Props> = ({
     <ul className="pagination">
       <li className={`page-item ${cn({ disabled: currentPage === 1 })}`}>
         <a
-          onClick={
+          onClick={() => onPageChange(
             currentPage === 1
-              ? () => 0
-              : () => onPageChange(currentPage - 1)
-          }
+              ? 1
+              : currentPage - 1,
+          )}
           data-cy="prevLink"
           className="page-link"
           href="#prev"
@@ -35,7 +35,10 @@ export const Pagination: React.FC<Props> = ({
         </a>
       </li>
       {numberPage.map(page => (
-        <li className={`page-item ${cn({ active: page === currentPage })}`}>
+        <li
+          key={page}
+          className={cn('page-item', { active: page === currentPage })}
+        >
           <a
             onClick={() => onPageChange(page)}
             data-cy="pageLink"
@@ -48,11 +51,11 @@ export const Pagination: React.FC<Props> = ({
       ))}
       <li className={`page-item ${cn({ disabled: currentPage === numberPage.length })}`}>
         <a
-          onClick={
+          onClick={() => onPageChange(
             currentPage === numberPage.length
-              ? () => 0
-              : () => onPageChange(currentPage + 1)
-          }
+              ? numberPage.length
+              : currentPage + 1,
+          )}
           data-cy="nextLink"
           className="page-link"
           href="#next"
