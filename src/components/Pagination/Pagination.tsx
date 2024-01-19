@@ -1,5 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
+import { getNumbers } from '../../utils';
 
 type Props = {
   total: number;
@@ -15,11 +16,7 @@ export const Pagination: React.FC<Props> = ({
   onPageChange,
 }) => {
   const count = Math.ceil(total / perPage);
-  const countPages: number[] = [];
-
-  for (let i = 1; i <= count; i += 1) {
-    countPages.push(i);
-  }
+  const countPages = getNumbers(1, count);
 
   const hendelPrevPage = () => {
     if (currentPage > 1) {
