@@ -72,9 +72,7 @@ export const App: React.FC = () => {
         total={items.length}
         perPage={perPage}
         currentPage={page}
-        onPageChange={(newPage) => {
-          setPage(newPage);
-        }}
+        onPageChange={setPage}
       />
       <ul>
         {visiblItems.map(item => (
