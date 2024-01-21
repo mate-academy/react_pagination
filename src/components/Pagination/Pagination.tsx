@@ -6,7 +6,7 @@ interface PaginationProps {
   total: string[];
   perPage: number;
   currentPage: number;
-  PageChange: (arg0: number) => {};
+  PageChange: (value: number) => void;
 }
 
 export const Pagination: React.FC<PaginationProps> = ({
@@ -56,7 +56,7 @@ export const Pagination: React.FC<PaginationProps> = ({
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled={currentPage < 2 ? 'true' : 'false'}
+            aria-disabled={currentPage < 2}
             onClick={() => changePage(-1, 0)}
           >
             «
@@ -86,9 +86,7 @@ export const Pagination: React.FC<PaginationProps> = ({
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={
-              currentPage === currentPagesToPaginate.length ? 'true' : 'false'
-            }
+            aria-disabled={currentPage === currentPagesToPaginate.length}
             onClick={() => changePage(1, 0)}
           >
             »

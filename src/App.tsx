@@ -18,10 +18,18 @@ export const App: React.FC = () => {
     perPage: 5,
   });
 
-  function pageChange(value: number) {
+  const pageChange = (value: number) => {
     setState((prevState) => ({
       ...prevState,
       currentPage: value,
+    }));
+  };
+
+  function selectHandler(event: React.ChangeEvent<HTMLSelectElement>) {
+    setState((prevState) => ({
+      ...prevState,
+      currentPage: 1,
+      perPage: Number(event.target.value),
     }));
   }
 
@@ -45,13 +53,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={state.perPage}
-            onChange={(event) => {
-              setState((prevState) => ({
-                ...prevState,
-                currentPage: 1,
-                perPage: Number(event.target.value),
-              }));
-            }}
+            onChange={(event) => selectHandler(event)}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -69,7 +71,7 @@ export const App: React.FC = () => {
         total={state.totalItems}
         perPage={state.perPage}
         currentPage={state.currentPage}
-        PageChange={async (value) => pageChange(value)}
+        PageChange={pageChange}
       />
     </div>
   );
