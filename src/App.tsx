@@ -1,7 +1,7 @@
-import cn from 'classnames';
 import React, { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
+import { Pagination } from './components/Pagination';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42)
@@ -20,6 +20,8 @@ export const App: React.FC = () => {
 
     return pag;
   };
+
+  const paginationList = pagination();
 
   const tile = () => {
     const firstItemOnPage = ((itemsPerPage * page) - itemsPerPage) + 1;
@@ -63,61 +65,11 @@ export const App: React.FC = () => {
       </div>
 
       {/* Move this markup to Pagination */}
-      <ul className="pagination">
-        <li className={cn('page-item', {
-          disabled: page === 1,
-        })}
-        >
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled={page === 1}
-            onClick={() => {
-              setPage(currentPage => currentPage - 1);
-            }}
-          >
-            «
-          </a>
-        </li>
-        {pagination().map((number) => {
-          return (
-            <li
-              className={cn('page-item', {
-                active: page === number,
-              })}
-              key={number}
-            >
-              <a
-                data-cy="pageLink"
-                className="page-link"
-                href="#1"
-                onClick={() => {
-                  setPage(number);
-                }}
-              >
-                {number}
-              </a>
-            </li>
-          );
-        })}
-        <li className={cn('page-item', {
-          disabled: (page === pagination().length),
-        })}
-        >
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled={page === pagination().length}
-            onClick={() => {
-              setPage(currentPage => currentPage + 1);
-            }}
-          >
-            »
-          </a>
-        </li>
-      </ul>
+      <Pagination
+        paginationList={paginationList}
+        page={page}
+        setPage={setPage}
+      />
       <ul>
         {items.slice(
           (itemsPerPage * page) - itemsPerPage, (itemsPerPage * page),
