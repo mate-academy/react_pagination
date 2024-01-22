@@ -1,4 +1,5 @@
-import React from 'react';
+import cn from 'classnames';
+import React, { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 
@@ -7,12 +8,34 @@ const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [page, setPage] = useState(1);
+
+  const pagination = () => {
+    const pag = [];
+
+    for (let i = 1; i <= Math.ceil(items.length / itemsPerPage); i += 1) {
+      pag.push(i);
+    }
+
+    return pag;
+  };
+
+  const tile = () => {
+    const firstItemOnPage = ((itemsPerPage * page) - itemsPerPage) + 1;
+    const lastItemOnPage = ((itemsPerPage * page) < 42) ? (
+      itemsPerPage * page
+    ) : 42;
+
+    return `Page ${page} (items ${firstItemOnPage} - ${lastItemOnPage} of 42)`;
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        {tile()}
       </p>
 
       <div className="form-group row">
@@ -21,6 +44,11 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
+            value={itemsPerPage}
+            onChange={(event) => {
+              setItemsPerPage(+event.target.value);
+              setPage(1);
+            }}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -36,60 +64,68 @@ export const App: React.FC = () => {
 
       {/* Move this markup to Pagination */}
       <ul className="pagination">
-        <li className="page-item disabled">
+        <li className={cn('page-item', {
+          disabled: page === 1,
+        })}
+        >
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled="true"
+            aria-disabled={page === 1}
+            onClick={() => {
+              setPage(currentPage => currentPage - 1);
+            }}
           >
             «
           </a>
         </li>
-        <li className="page-item active">
-          <a data-cy="pageLink" className="page-link" href="#1">1</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#2">2</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#3">3</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#4">4</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#5">5</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#6">6</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#7">7</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#8">8</a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#9">9</a>
-        </li>
-        <li className="page-item">
+        {pagination().map((number) => {
+          return (
+            <li
+              className={cn('page-item', {
+                active: page === number,
+              })}
+              key={number}
+            >
+              <a
+                data-cy="pageLink"
+                className="page-link"
+                href="#1"
+                onClick={() => {
+                  setPage(number);
+                }}
+              >
+                {number}
+              </a>
+            </li>
+          );
+        })}
+        <li className={cn('page-item', {
+          disabled: (page === pagination().length),
+        })}
+        >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled="false"
+            aria-disabled={page === pagination().length}
+            onClick={() => {
+              setPage(currentPage => currentPage + 1);
+            }}
           >
             »
           </a>
         </li>
       </ul>
       <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
+        {items.slice(
+          (itemsPerPage * page) - itemsPerPage, (itemsPerPage * page),
+        ).map((item) => {
+          return (
+            <li key={item} data-cy="item">{item}</li>
+          );
+        })}
       </ul>
     </div>
   );
