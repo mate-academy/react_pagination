@@ -44,7 +44,7 @@ export const Pagination = ({
           <li
             className={classNames('page-item',
               { active: currentPage === item })}
-            key={1}
+            key={item}
           >
             <a
               data-cy="pageLink"

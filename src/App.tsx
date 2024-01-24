@@ -40,10 +40,9 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            value={this}
             defaultValue={5}
             onChange={onSelectChange}
-            key={this}
+            // key={perPage}
           >
 
             <option value="3">3</option>
