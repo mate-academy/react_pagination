@@ -1,3 +1,5 @@
+// import { useState } from "react";
+
 export function getNumbers(from: number, to: number): number[] {
   const numbers = [];
 
@@ -7,3 +9,6 @@ export function getNumbers(from: number, to: number): number[] {
 
   return numbers;
 }
+
+// export const [showItems, setShowItems] = useState(5);
+// export const [currentPage, setCuttentPage] = useState(1);
