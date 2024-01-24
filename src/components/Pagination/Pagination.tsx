@@ -64,6 +64,7 @@ export const Pagination: React.FC<Props> = ({
 
   return (
     <>
+      {/* eslint-disable-next-line */}
       <ul
         className="pagination"
         // eslint-disable-next-line

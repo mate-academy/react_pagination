@@ -11,15 +11,12 @@ const showOptions = [3, 5, 10, 20];
 export const Query: React.FC = () => {
   const [searchParams] = useSearchParams();
 
-  let castomPage = searchParams.get('page') || 1;
-  let castomItemsShow = searchParams.get('perPage') || 5;
+  const castomPage = searchParams.get('page') || 1;
+  const castomItemsShow = searchParams.get('perPage') || 5;
 
   if (!showOptions.includes(+castomItemsShow)) {
     showOptions.push(+castomItemsShow);
     showOptions.sort((a, b) => a - b);
-  } else {
-    castomPage = 1;
-    castomItemsShow = 5;
   }
 
   const [showItems, setShowItems] = useState(+castomItemsShow);
