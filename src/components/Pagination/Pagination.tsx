@@ -8,76 +8,70 @@ interface Paginations {
   onPageChange: (page: number) => void
 }
 
-export const Pagination
-  = ({
-    total,
-    currentPage,
-    perPage,
-    onPageChange,
-  }: Paginations) => {
-    function onPrevPage() {
-      return currentPage !== 1 && onPageChange(currentPage - 1);
-    }
+export const Pagination = ({
+  total,
+  currentPage,
+  perPage,
+  onPageChange,
+}: Paginations) => {
+  function onPrevPage() {
+    return currentPage !== 1 && onPageChange(currentPage - 1);
+  }
 
-    function onNextPage() {
-      return currentPage !== Math.ceil(total / (perPage))
+  function onNextPage() {
+    return currentPage !== Math.ceil(total / (perPage))
       && onPageChange(currentPage + 1);
-    }
+  }
 
-    return (
-      <ul className="pagination">
-        <li className={classNames('page-item',
-          { disabled: currentPage === 1 })}
+  return (
+    <ul className="pagination">
+      <li className={classNames('page-item',
+        { disabled: currentPage === 1 })}
+      >
+        <a
+          data-cy="prevLink"
+          className="page-link"
+          href="#prev"
+          aria-disabled={currentPage === 1 ? 'true' : 'false'}
+          onClick={onPrevPage}
         >
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled={currentPage === 1 ? 'true' : 'false'}
-            onClick={() => {
-              onPrevPage();
-            }}
-          >
-            «
-          </a>
-        </li>
+          «
+        </a>
+      </li>
 
-        {getNumbers(1, Math.ceil(total / (perPage)))
-          .map(item => (
-            <li
-              className={classNames('page-item',
-                { active: currentPage === item })}
-              key={1}
+      {getNumbers(1, Math.ceil(total / (perPage)))
+        .map(item => (
+          <li
+            className={classNames('page-item',
+              { active: currentPage === item })}
+            key={1}
+          >
+            <a
+              data-cy="pageLink"
+              className="page-link"
+              href={`#${currentPage}`}
+              onClick={() => {
+                onPageChange(item);
+              }}
             >
-              <a
-                data-cy="pageLink"
-                className="page-link"
-                href="#"
-                onClick={() => {
-                  onPageChange(item);
-                }}
-              >
-                {item}
-              </a>
-            </li>
-          ))}
+              {item}
+            </a>
+          </li>
+        ))}
 
-        <li className={classNames('page-item',
-          { disabled: currentPage === Math.ceil(total / (perPage)) })}
+      <li className={classNames('page-item',
+        { disabled: currentPage === Math.ceil(total / (perPage)) })}
+      >
+        <a
+          data-cy="nextLink"
+          className="page-link"
+          href="#next"
+          aria-disabled={currentPage === Math.ceil(total / (perPage))}
+          onClick={onNextPage}
         >
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled={currentPage === Math.ceil(total / (perPage))
-              ? 'true' : 'false'}
-            onClick={() => {
-              onNextPage();
-            }}
-          >
-            »
-          </a>
-        </li>
-      </ul>
-    );
-  };
+          »
+        </a>
+      </li>
+    </ul>
+  );
+};

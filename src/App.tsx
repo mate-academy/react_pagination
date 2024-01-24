@@ -30,20 +30,8 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page
-        {' '}
-        {currentPage}
-        {' '}
-        (items
-        {' '}
-        {currentPage * perPage - perPage + 1}
-        {' '}
-        -
-        {' '}
-        {currentPage === Math.ceil(total / (perPage))
-          ? total : currentPage * perPage}
-        {' '}
-        of 42)
+        {`Page ${currentPage} (items ${currentPage * perPage - perPage + 1} - ${
+          currentPage === Math.ceil(total / (perPage)) ? total : currentPage * perPage} of 42)`}
       </p>
 
       <div className="form-group row">
@@ -74,9 +62,7 @@ export const App: React.FC = () => {
         total={total}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={(page) => {
-          setCurrentPage(page);
-        }}
+        onPageChange={setCurrentPage}
       />
 
       <ul>
