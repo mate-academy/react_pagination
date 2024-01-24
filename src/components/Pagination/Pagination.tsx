@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import { getNumbers } from '../../utils';
 
-
 interface Paginations {
   total: number
   currentPage: number
@@ -9,11 +8,12 @@ interface Paginations {
   onPageChange: (page: number) => void
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-
 export const Pagination
   = ({
-    total, currentPage, perPage, onPageChange,
+    total,
+    currentPage,
+    perPage,
+    onPageChange,
   }: Paginations) => {
     function onPrevPage() {
       return currentPage !== 1 && onPageChange(currentPage - 1);
@@ -42,9 +42,6 @@ export const Pagination
           </a>
         </li>
 
-
-
-
         {getNumbers(1, Math.ceil(total / (perPage)))
           .map(item => (
             <li
@@ -52,7 +49,6 @@ export const Pagination
                 { active: currentPage === item })}
               key={1}
             >
-
               <a
                 data-cy="pageLink"
                 className="page-link"
@@ -63,7 +59,6 @@ export const Pagination
               >
                 {item}
               </a>
-
             </li>
           ))}
 

@@ -5,13 +5,15 @@ import { Pagination } from './components/Pagination';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
+const LAST_ITEM = 42;
+
 const items = getNumbers(1, 42)
   .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-  const [total, setTotal] = useState(42);
+  const [total, setTotal] = useState(LAST_ITEM);
 
   const itemsToPrint = () => {
     return items.slice(currentPage * perPage - perPage, currentPage * perPage);
@@ -52,9 +54,7 @@ export const App: React.FC = () => {
             className="form-control"
             value={this}
             defaultValue={5}
-            onChange={(event) => {
-              onSelectChange(event);
-            }}
+            onChange={onSelectChange}
             key={this}
           >
 
