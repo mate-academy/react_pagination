@@ -33,8 +33,7 @@ export const Pagination: React.FC<Props> = () => {
               className="page-link"
               href={`#${page}`}
               type="button"
-              onClick={(event) => {
-                event.preventDefault();
+              onClick={() => {
                 setCurrentPage(page);
               }}
             >
