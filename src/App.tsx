@@ -1,27 +1,37 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './App.css';
-// import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
+import { PageContext } from './PageContext/PageContext';
+import { getNumbers } from './utils';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// const items = getNumbers(1, 42)
-//   .map(n => `Item ${n}`);
+const items = getNumbers(1, 42)
+  .map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
+  const {
+    total,
+    currentPage,
+    startIndex,
+    endIndex,
+    setItemsPerPage,
+  } = useContext(PageContext);
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        {`Page ${currentPage} (items 1 - 5 of ${total})`}
       </p>
 
       <div className="form-group row">
         <div className="col-3 col-sm-2 col-xl-1">
           <select
+            defaultValue={5}
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
+            onChange={(event) => setItemsPerPage(+event.target.value)}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -35,16 +45,12 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
-
-      <Pagination />
+      <Pagination items={items} />
 
       <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
+        {items.slice(startIndex, endIndex).map(item => (
+          <li data-cy="item" key={item}>{item}</li>
+        ))}
       </ul>
     </div>
   );
