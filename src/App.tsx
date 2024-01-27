@@ -17,56 +17,45 @@ enum PostProPage {
 }
 
 export const App: React.FC = () => {
-  const arrOfPages: string[][] = [];
-  const [itemPerPage, setItemPerPage] =
-    useState<number>(PostProPage.FIVE_PRO_PAGE);
+  const [itemPerPage, setItemPerPage]
+    = useState<number>(PostProPage.FIVE_PRO_PAGE);
   const [curentPage, setCurentPage] = useState<number>(1);
   const pagesNumber = Math.ceil(items.length / itemPerPage);
+
   const handelOnPageChange = (newPage: number) => {
     setCurentPage(newPage);
   };
 
-  for (let i = 1; i <= pagesNumber; i += 1) {
-    arrOfPages.push([]);
-    const firstItemNumber = i * itemPerPage - itemPerPage;
-    for (let j: number = firstItemNumber;
-      j < i * itemPerPage && j < items.length;
-      j += 1) {
-      arrOfPages[i - 1].push(`Item ${j + 1}`);
-    }
-  }
+  const getItem = (curentPage: number, itemPerPage: number, total: number = items.length): string[] => {
+    const itemsArr: string[] = [];
+    const start: number = curentPage * itemPerPage - itemPerPage;
+    const end: number = Math.min(curentPage * itemPerPage, total)
 
-  const handelSetNumberOfItems =
-    (event: React.ChangeEvent<HTMLSelectElement>): void => {
+    for (let i = start; i < end; i += 1) {
+      itemsArr.push(`Item ${i + 1}`);
+    }
+
+    return itemsArr;
+  };
+
+  const handelSetNumberOfItems
+    = (event: React.ChangeEvent<HTMLSelectElement>): void => {
       setItemPerPage(+event.target.value);
       setCurentPage(1);
     };
 
+  const curentDiapozonStart = curentPage * itemPerPage - itemPerPage + 1;
+  const curentDiapozonEnd = curentPage < pagesNumber
+    ? curentPage * getItem(curentPage, itemPerPage).length
+    : items.length;
+  const pagDescribe = `Page ${curentPage}
+        (items ${curentDiapozonStart} - ${curentDiapozonEnd} of ${items.length})`;
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
-
       <p className="lead" data-cy="info">
-        Page
-        {' '}
-        {curentPage}
-        {' '}
-        (items
-        {' '}
-        {curentPage * itemPerPage - itemPerPage + 1}
-        {' '}
-        -
-        {' '}
-        {
-          curentPage < pagesNumber
-            ? curentPage * arrOfPages[curentPage - 1].length
-            : items.length
-        }
-        {' '}
-        of
-        {' '}
-        {items.length}
-        )
+        {pagDescribe}
       </p>
 
       <div className="form-group row">
@@ -75,12 +64,13 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
+            defaultValue={PostProPage.FIVE_PRO_PAGE}
             onChange={handelSetNumberOfItems}
           >
             <option value={PostProPage.THREE_PRO_PAGE}>
               {PostProPage.THREE_PRO_PAGE}
             </option>
-            <option selected value={PostProPage.FIVE_PRO_PAGE}>
+            <option value={PostProPage.FIVE_PRO_PAGE}>
               {PostProPage.FIVE_PRO_PAGE}
             </option>
             <option value={PostProPage.TEN_PRO_PAGE}>
@@ -108,7 +98,7 @@ export const App: React.FC = () => {
         onPageChange={handelOnPageChange}
       />
       <ul>
-        {arrOfPages[curentPage - 1].map((item) => {
+        {getItem(curentPage, itemPerPage).map((item) => {
           return (
             <li
               key={uuidv4()}

@@ -15,28 +15,23 @@ export const Pagination: React.FC<Props> = ({
   currentPage = 1,
   onPageChange,
 }) => {
-  const pages: number[][] = [];
+  const pages: number[] = [];
   const pagesNumber = Math.ceil(total / perPage);
 
   const handlePageNumberReduct = () => {
     if (currentPage > 1) {
       onPageChange(currentPage - 1);
     }
-  }
+  };
 
   const handlePageNumberIncrease = () => {
     if (currentPage < pagesNumber) {
       onPageChange(currentPage + 1);
     }
-  }
+  };
 
-  for (let i = 1; i <= pagesNumber; i += 1) {
-    pages.push([]);
-    for (let j: number = i * perPage - perPage;
-      j < i * perPage && j < total;
-      j += 1) {
-      pages[i - 1].push(j + 1);
-    }
+  for (let i = 0; i < pagesNumber; i += 1) {
+    pages.push(i + 1);
   }
 
   return (
@@ -57,13 +52,13 @@ export const Pagination: React.FC<Props> = ({
           «
         </a>
       </li>
-      {pages.map((_, index) => {
+      {pages.map((element) => {
         return (
           <li
             key={uuidv4()}
             className={
               classNames('page-item', {
-                active: index + 1 === currentPage,
+                active: element === currentPage,
               })
             }
           >
@@ -73,11 +68,11 @@ export const Pagination: React.FC<Props> = ({
               href="#1"
               onClick={
                 () => {
-                  onPageChange(index + 1);
+                  onPageChange(element);
                 }
               }
             >
-              {index + 1}
+              {element}
             </a>
           </li>
         );
