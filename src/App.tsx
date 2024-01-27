@@ -13,8 +13,11 @@ export const App: React.FC = () => {
     currentPage,
     startIndex,
     endIndex,
+    setTotal,
     setItemsPerPage,
   } = useContext(PageContext);
+
+  setTotal(items.length);
 
   return (
     <div className="container">

@@ -7,8 +7,9 @@ const initialValues = {
   perPage: 5,
   pages: 9,
   currentPage: 1,
-  setCurrentPage: () => { },
-  setItemsPerPage: () => { },
+  setTotal: () => {},
+  setCurrentPage: () => {},
+  setItemsPerPage: () => {},
 };
 
 export const PageContext
@@ -25,12 +26,13 @@ interface PageContextValue {
   total: number,
   perPage: number,
   currentPage: number,
+  setTotal: React.Dispatch<React.SetStateAction<number>>,
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>,
   setItemsPerPage: React.Dispatch<React.SetStateAction<number>>,
 }
 
 export const PageProvider: React.FC<Props> = ({ children }) => {
-  const [total] = useState(initialValues.total);
+  const [total, setTotal] = useState(initialValues.total);
   const [itemsPerPage, setItemsPerPage] = useState(initialValues.perPage);
   const [currentPage, setCurrentPage] = useState(initialValues.currentPage);
 
@@ -41,6 +43,7 @@ export const PageProvider: React.FC<Props> = ({ children }) => {
     total,
     perPage: itemsPerPage,
     currentPage,
+    setTotal,
     setCurrentPage,
     setItemsPerPage,
   }), [total, itemsPerPage, currentPage, setCurrentPage, setItemsPerPage]);
