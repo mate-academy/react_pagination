@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import './App.css';
 import { getNumbers } from './utils';
 
@@ -17,35 +18,55 @@ enum PostProPage {
 
 export const App: React.FC = () => {
   const arrOfPages: string[][] = [];
-  const [itemPerPage, setItemPerPage] = useState(PostProPage.FIVE_PRO_PAGE);
-  const [curentPage, setCurentPage] = useState(1);
+  const [itemPerPage, setItemPerPage] =
+    useState<number>(PostProPage.FIVE_PRO_PAGE);
+  const [curentPage, setCurentPage] = useState<number>(1);
   const pagesNumber = Math.ceil(items.length / itemPerPage);
   const handelOnPageChange = (newPage: number) => {
     setCurentPage(newPage);
-  }
+  };
 
   for (let i = 1; i <= pagesNumber; i += 1) {
     arrOfPages.push([]);
-    for (let j: number = i * itemPerPage - itemPerPage; j < i * itemPerPage && j < items.length; j += 1) {
+    const firstItemNumber = i * itemPerPage - itemPerPage;
+    for (let j: number = firstItemNumber;
+      j < i * itemPerPage && j < items.length;
+      j += 1) {
       arrOfPages[i - 1].push(`Item ${j + 1}`);
     }
   }
 
-  const handelSetNumberOfItems = (event: any) => {
-    setItemPerPage(event.target.value);
-    setCurentPage(1)
-  }
+  const handelSetNumberOfItems =
+    (event: React.ChangeEvent<HTMLSelectElement>): void => {
+      setItemPerPage(+event.target.value);
+      setCurentPage(1);
+    };
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {curentPage} (items {curentPage * itemPerPage - itemPerPage + 1} - {
-          curentPage < pagesNumber ?
-            curentPage * arrOfPages[curentPage - 1].length :
-            items.length
-        } of {items.length})
+        Page
+        {' '}
+        {curentPage}
+        {' '}
+        (items
+        {' '}
+        {curentPage * itemPerPage - itemPerPage + 1}
+        {' '}
+        -
+        {' '}
+        {
+          curentPage < pagesNumber
+            ? curentPage * arrOfPages[curentPage - 1].length
+            : items.length
+        }
+        {' '}
+        of
+        {' '}
+        {items.length}
+        )
       </p>
 
       <div className="form-group row">
@@ -56,14 +77,25 @@ export const App: React.FC = () => {
             className="form-control"
             onChange={handelSetNumberOfItems}
           >
-            <option value={PostProPage.THREE_PRO_PAGE}>{PostProPage.THREE_PRO_PAGE}</option>
-            <option selected value={PostProPage.FIVE_PRO_PAGE}>{PostProPage.FIVE_PRO_PAGE}</option>
-            <option value={PostProPage.TEN_PRO_PAGE}>{PostProPage.TEN_PRO_PAGE}</option>
-            <option value={PostProPage.TWENTY_PRO_PAGE}>{PostProPage.TWENTY_PRO_PAGE}</option>
+            <option value={PostProPage.THREE_PRO_PAGE}>
+              {PostProPage.THREE_PRO_PAGE}
+            </option>
+            <option selected value={PostProPage.FIVE_PRO_PAGE}>
+              {PostProPage.FIVE_PRO_PAGE}
+            </option>
+            <option value={PostProPage.TEN_PRO_PAGE}>
+              {PostProPage.TEN_PRO_PAGE}
+            </option>
+            <option value={PostProPage.TWENTY_PRO_PAGE}>
+              {PostProPage.TWENTY_PRO_PAGE}
+            </option>
           </select>
         </div>
 
-        <label htmlFor="perPageSelector" className="col-form-label col">
+        <label
+          htmlFor="perPageSelector"
+          className="col-form-label col"
+        >
           items per page
         </label>
       </div>
@@ -76,10 +108,10 @@ export const App: React.FC = () => {
         onPageChange={handelOnPageChange}
       />
       <ul>
-        {arrOfPages[curentPage - 1].map((item, index) => {
+        {arrOfPages[curentPage - 1].map((item) => {
           return (
             <li
-              key={index}
+              key={uuidv4()}
               data-cy="item"
             >
               {item}
