@@ -1,5 +1,6 @@
-import React, { useContext } from 'react';
 import './App.css';
+
+import React, { useContext } from 'react';
 import { Pagination } from './components/Pagination';
 import { PageContext } from './PageContext/PageContext';
 import { getNumbers } from './utils';

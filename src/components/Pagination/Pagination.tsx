@@ -1,5 +1,6 @@
-import { useContext } from 'react';
 import cn from 'classnames';
+
+import { useContext } from 'react';
 import { PageContext } from '../../PageContext/PageContext';
 
 interface Props {
