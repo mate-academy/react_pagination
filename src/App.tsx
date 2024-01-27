@@ -26,10 +26,14 @@ export const App: React.FC = () => {
     setCurentPage(newPage);
   };
 
-  const getItem = (curentPage: number, itemPerPage: number, total: number = items.length): string[] => {
+  const getItem = (
+    curent: number,
+    itemPer: number,
+    total: number = items.length,
+  ): string[] => {
     const itemsArr: string[] = [];
-    const start: number = curentPage * itemPerPage - itemPerPage;
-    const end: number = Math.min(curentPage * itemPerPage, total)
+    const start: number = curent * itemPer - itemPer;
+    const end: number = Math.min(curent * itemPer, total);
 
     for (let i = start; i < end; i += 1) {
       itemsArr.push(`Item ${i + 1}`);
