@@ -4,21 +4,25 @@ import { getNumbers } from '../../utils';
 
 type Props = {
   total: number,
-  onPage: number,
+  perPage: number,
   currentPage: number,
-  buttonPageChange: (buttonPage: number) => void,
+  onPageChange: (buttonPage: number) => void,
 };
 
 export const Pagination: React.FC<Props> = ({
   total,
-  onPage,
+  perPage,
   currentPage,
-  buttonPageChange,
+  onPageChange,
 }) => {
-  const qtyPages = Math.ceil(total / onPage);
+  const qtyPages = Math.ceil(total / perPage);
   const buttonsOnPage = getNumbers(1, qtyPages);
   const choosePage = (elementButton: number) => {
-    buttonPageChange(elementButton);
+    if (elementButton <= buttonsOnPage.length
+      && elementButton >= 1
+      && elementButton !== currentPage) {
+      onPageChange(elementButton);
+    }
   };
 
   return (

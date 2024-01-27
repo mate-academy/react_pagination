@@ -9,18 +9,18 @@ const items = getNumbers(1, total)
   .map(n => n);
 
 export const App: React.FC = () => {
-  const [onPage, setOnPage] = useState(options[2]);
+  const [perPage, setPerPage] = useState(options[1]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const selectOption = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setOnPage(+event.target.value);
+  const perPageSelector = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setPerPage(+event.target.value);
     setCurrentPage(1);
   };
 
   function getItemsOnPage() {
     return items.filter(item => {
-      return +item > currentPage * onPage - onPage
-        && +item <= currentPage * onPage;
+      return +item > currentPage * perPage - perPage
+        && +item <= currentPage * perPage;
     });
   }
 
@@ -40,8 +40,8 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            value={onPage}
-            onChange={selectOption}
+            value={perPage}
+            onChange={perPageSelector} // selectOption
           >
             {options.map((option) => (
               <option key={option} value={option}>{option}</option>
@@ -56,9 +56,9 @@ export const App: React.FC = () => {
 
       <Pagination
         total={total}
-        onPage={onPage}
+        perPage={perPage}
         currentPage={currentPage}
-        buttonPageChange={(buttonPage) => setCurrentPage(buttonPage)}
+        onPageChange={(buttonPage) => setCurrentPage(buttonPage)} // buttonPageChange
       />
 
       <ul>
