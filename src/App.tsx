@@ -48,12 +48,12 @@ export const App: React.FC = () => {
       setCurentPage(1);
     };
 
-  const curentDiapozonStart = curentPage * itemPerPage - itemPerPage + 1;
-  const curentDiapozonEnd = curentPage < pagesNumber
+  const curentStart = curentPage * itemPerPage - itemPerPage + 1;
+  const curentEnd = curentPage < pagesNumber
     ? curentPage * getItem(curentPage, itemPerPage).length
     : items.length;
-  const pagDescribe = `Page ${curentPage}
-        (items ${curentDiapozonStart} - ${curentDiapozonEnd} of ${items.length})`;
+  const pagDescribe =
+    `Page ${curentPage} (items ${curentStart} - ${curentEnd} of ${items.length})`;
 
   return (
     <div className="container">
