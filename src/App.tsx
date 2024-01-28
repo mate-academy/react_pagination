@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import './App.css';
 import { getNumbers } from './utils';
 
@@ -17,6 +16,7 @@ enum PostProPage {
 }
 
 export const App: React.FC = () => {
+  let itemsArr: string[] = [];
   const [itemPerPage, setItemPerPage]
     = useState<number>(PostProPage.FIVE_PRO_PAGE);
   const [curentPage, setCurentPage] = useState<number>(1);
@@ -26,21 +26,10 @@ export const App: React.FC = () => {
     setCurentPage(newPage);
   };
 
-  const getItem = (
-    curent: number,
-    itemPer: number,
-    total: number = items.length,
-  ): string[] => {
-    const itemsArr: string[] = [];
-    const start: number = curent * itemPer - itemPer;
-    const end: number = Math.min(curent * itemPer, total);
+  const start: number = curentPage * itemPerPage - itemPerPage;
+  const end: number = Math.min(curentPage * itemPerPage, items.length);
 
-    for (let i = start; i < end; i += 1) {
-      itemsArr.push(`Item ${i + 1}`);
-    }
-
-    return itemsArr;
-  };
+  itemsArr = items.slice(start, end);
 
   const handelSetNumberOfItems
     = (event: React.ChangeEvent<HTMLSelectElement>): void => {
@@ -50,10 +39,10 @@ export const App: React.FC = () => {
 
   const curentStart = curentPage * itemPerPage - itemPerPage + 1;
   const curentEnd = curentPage < pagesNumber
-    ? curentPage * getItem(curentPage, itemPerPage).length
+    ? curentPage * itemsArr.length
     : items.length;
-  const pagDescribe =
-    `Page ${curentPage} (items ${curentStart} - ${curentEnd} of ${items.length})`;
+  const pagDescribe
+    = `Page ${curentPage} (items ${curentStart} - ${curentEnd} of ${items.length})`;
 
   return (
     <div className="container">
@@ -102,10 +91,10 @@ export const App: React.FC = () => {
         onPageChange={handelOnPageChange}
       />
       <ul>
-        {getItem(curentPage, itemPerPage).map((item) => {
+        {itemsArr.map((item) => {
           return (
             <li
-              key={uuidv4()}
+              key={item}
               data-cy="item"
             >
               {item}

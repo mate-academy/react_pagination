@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { v4 as uuidv4 } from 'uuid';
+import { getNumbers } from '../../utils';
 
 type Props = {
   total: number,
@@ -15,8 +15,8 @@ export const Pagination: React.FC<Props> = ({
   currentPage = 1,
   onPageChange,
 }) => {
-  const pages: number[] = [];
   const pagesNumber = Math.ceil(total / perPage);
+  const pages: number[] = getNumbers(1, pagesNumber);
 
   const handlePageNumberReduct = () => {
     if (currentPage > 1) {
@@ -29,10 +29,6 @@ export const Pagination: React.FC<Props> = ({
       onPageChange(currentPage + 1);
     }
   };
-
-  for (let i = 0; i < pagesNumber; i += 1) {
-    pages.push(i + 1);
-  }
 
   return (
     <ul className="pagination">
@@ -55,7 +51,7 @@ export const Pagination: React.FC<Props> = ({
       {pages.map((element) => {
         return (
           <li
-            key={uuidv4()}
+            key={element}
             className={
               classNames('page-item', {
                 active: element === currentPage,
