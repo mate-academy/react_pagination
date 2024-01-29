@@ -1,26 +1,30 @@
 import React, { useState } from 'react';
+import {
+  useSearchParams,
+} from 'react-router-dom';
 
-import { Pagination } from './components/Pagination';
+import { Pagination } from '../components/Pagination';
 
 const totalItems = 42;
 const showOptions = [3, 5, 10, 20];
 
-export const App: React.FC = () => {
-  const searchParam = window.location.search;
-  const castomPage = +searchParam[searchParam.indexOf('=') + 1] || 1;
-  const castomItemsShow = +searchParam[searchParam.lastIndexOf('=') + 1] || 5;
+export const Query: React.FC = () => {
+  const [searchParams] = useSearchParams();
+
+  const castomPage = searchParams.get('page') || 1;
+  const castomItemsShow = searchParams.get('perPage') || 5;
   const checkedCastomPage
-    = castomPage > Math.ceil(totalItems / castomItemsShow)
-      ? Math.ceil(totalItems / castomItemsShow)
+    = +castomPage > Math.ceil(totalItems / +castomItemsShow)
+      ? Math.ceil(totalItems / +castomItemsShow)
       : castomPage;
 
   if (!showOptions.includes(+castomItemsShow)) {
-    showOptions.push(castomItemsShow);
+    showOptions.push(+castomItemsShow);
     showOptions.sort((a, b) => a - b);
   }
 
-  const [showItems, setShowItems] = useState(castomItemsShow);
-  const [currentPage, setCurrentPage] = useState(checkedCastomPage);
+  const [showItems, setShowItems] = useState(+castomItemsShow);
+  const [currentPage, setCurrentPage] = useState(+checkedCastomPage);
 
   const fromItem = currentPage * showItems - showItems + 1;
   const toItem = (currentPage * showItems) > totalItems
@@ -78,4 +82,4 @@ export const App: React.FC = () => {
   );
 };
 
-export default App;
+export default Query;
