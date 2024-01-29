@@ -15,21 +15,14 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
-  let stop = 1;
-  const pages = getNumbers(1, stop).map(n => `${n}`);
-
-  function getPreparePages(pageChange: number) {
-    let preparePages = [...pages];
-
-    if (pageChange) {
-      stop = Math.ceil(total / perPage);
-      preparePages = getNumbers(1, stop).map(n => `${n}`);
-    }
+  function getPreparePages() {
+    const stop = Math.ceil(total / perPage);
+    const preparePages = getNumbers(1, stop);
 
     return preparePages;
   }
 
-  const visiblePages = getPreparePages(perPage);
+  const visiblePages = getPreparePages();
 
   return (
     <ul className="pagination">
@@ -59,7 +52,7 @@ export const Pagination: React.FC<Props> = ({
           className={cn('page-item', {
             active: currentPage === Number(x),
           })}
-          onClick={() => onPageChange(Number(x))}
+          onClick={() => onPageChange((x))}
           onKeyDown={() => onPageChange(Number(x))}
         >
           <a

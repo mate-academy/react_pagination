@@ -14,7 +14,7 @@ export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const startPoint = currentPage * perPage - perPage;
   const endPoint = currentPage * perPage;
-  const options = [3, 5, 10, 20].map(n => `${n}`);
+  const options = [3, 5, 10, 20];
 
   function getEnd(value: number) {
     let end = value;
