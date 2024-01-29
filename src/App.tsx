@@ -18,14 +18,9 @@ export const App: React.FC = () => {
     setCurrentPage(1); // скидаємо на першу сторінку (за замовчуванням)
   };
 
-  function getNumberOfPage() {
-    return items.filter(number => {
-      return +number > (currentPage * perPage) - perPage
-        && +number <= currentPage * perPage;
-    });
-  }
-
-  const pageItems = getNumberOfPage(); // створили масив з кількістю елементів сторінки
+  const lastItemOnPage = perPage * currentPage;
+  const firstItemOnPage = lastItemOnPage - perPage + 1;
+  const pageItems = items.slice(firstItemOnPage - 1, lastItemOnPage); // створили масив з кількістю елементів сторінки
 
   return (
     <div className="container">
@@ -61,7 +56,7 @@ export const App: React.FC = () => {
         total={total}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={(page) => setCurrentPage(page)}
+        onPageChange={setCurrentPage}
       />
 
       <ul>
