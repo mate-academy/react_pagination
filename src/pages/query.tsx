@@ -13,6 +13,10 @@ export const Query: React.FC = () => {
 
   const castomPage = searchParams.get('page') || 1;
   const castomItemsShow = searchParams.get('perPage') || 5;
+  const checkedCastomPage
+    = +castomPage > Math.ceil(totalItems / +castomItemsShow)
+      ? Math.ceil(totalItems / +castomItemsShow)
+      : castomPage;
 
   if (!showOptions.includes(+castomItemsShow)) {
     showOptions.push(+castomItemsShow);
@@ -20,7 +24,7 @@ export const Query: React.FC = () => {
   }
 
   const [showItems, setShowItems] = useState(+castomItemsShow);
-  const [currentPage, setCurrentPage] = useState(+castomPage);
+  const [currentPage, setCurrentPage] = useState(+checkedCastomPage);
 
   const fromItem = currentPage * showItems - showItems + 1;
   const toItem = (currentPage * showItems) > totalItems
