@@ -5,10 +5,7 @@ import { Pagination } from './components/Pagination';
 
 const itemsPerPageOptions = [3, 5, 10, 20];
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface AppProps {}
-
-export const App: React.FC<AppProps> = () => {
+export const App: React.FC = () => {
   const totalItems = 42;
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0]);
@@ -29,15 +26,8 @@ export const App: React.FC<AppProps> = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page
-        {currentPage}
-        (items
-        {Math.min((currentPage - 1) * itemsPerPage + 1, totalItems)}
-        -
-        {Math.min(currentPage * itemsPerPage, totalItems)}
-        of
-        {totalItems}
-        )
+        {`Page ${currentPage} (items ${Math.min((currentPage - 1) * itemsPerPage + 1, totalItems)}
+        - ${Math.min(currentPage * itemsPerPage, totalItems)} of ${totalItems})`}
       </p>
 
       <div className="form-group row">
