@@ -58,8 +58,7 @@ export const App: React.FC = () => {
         onPageChange={(page) => setCurrentPage(page)}
       />
       <ul>
-        {items
-          .filter((_, i) => i + 1 >= itemsCountFrom && i + 1 <= itemsCountTo)}
+        {items.slice(itemsCountFrom - 1, itemsCountTo)}
       </ul>
     </div>
   );
