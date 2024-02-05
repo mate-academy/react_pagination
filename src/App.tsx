@@ -3,10 +3,13 @@ import './App.css';
 
 import { Pagination } from './components/Pagination';
 
+const INITIAL_PER_PAGE = 5;
+const INITIAL_PAGE = 1;
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const App: React.FC = () => {
-  const [perPage, setPerPage] = useState(5);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(INITIAL_PER_PAGE);
+  const [currentPage, setCurrentPage] = useState(INITIAL_PAGE);
   const total = 42;
   const elemStart = perPage * (currentPage - 1) + 1;
   let elemEnd = elemStart + perPage - 1;
@@ -51,7 +54,7 @@ export const App: React.FC = () => {
         total={total}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={(page) => setCurrentPage(page)}
+        onPageChange={setCurrentPage}
       />
 
     </div>

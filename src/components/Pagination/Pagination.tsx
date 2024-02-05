@@ -22,6 +22,18 @@ export const Pagination: React.FC<Props> = ({
 
   const itemsLink = getNumbers(1, Math.ceil(total / perPage));
 
+  const handlePageClickLeft = () => {
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const handlePageClickRight = () => {
+    if (currentPage !== itemsLink[itemsLink.length - 1]) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
   return (
     <>
       <ul className="pagination">
@@ -36,25 +48,23 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#prev"
             aria-disabled={currentPage === 1}
-            onClick={() => {
-              if (currentPage > 1) {
-                onPageChange(currentPage - 1);
-              }
-            }}
+            onClick={handlePageClickLeft}
           >
             «
           </a>
         </li>
         {
           itemsLink.map(link => (
-            <li className={
-              cn(
-                'page-item',
-                {
-                  active: link === currentPage,
-                },
-              )
-            }
+            <li
+              className={
+                cn(
+                  'page-item',
+                  {
+                    active: link === currentPage,
+                  },
+                )
+              }
+              key={link}
             >
               <a
                 data-cy="pageLink"
@@ -83,11 +93,7 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#next"
             aria-disabled={itemsLink[itemsLink.length - 1] === currentPage}
-            onClick={() => {
-              if (currentPage !== itemsLink[itemsLink.length - 1]) {
-                onPageChange(currentPage + 1);
-              }
-            }}
+            onClick={handlePageClickRight}
           >
             »
           </a>
@@ -96,15 +102,16 @@ export const Pagination: React.FC<Props> = ({
 
       <ul>
         {
-          itemsPerPage.map(n => {
-            if (n <= total) {
-              return (
-                <li data-cy="item">{`Item ${n}`}</li>
-              );
-            }
-
-            return false;
-          })
+          itemsPerPage
+            .filter(value => value <= total)
+            .map(n => (
+              <li
+                data-cy="item"
+                key={n}
+              >
+                {`Item ${n}`}
+              </li>
+            ))
         }
       </ul>
     </>
