@@ -6,6 +6,7 @@ import { Pagination } from './components/Pagination';
 import { ArrayNumber } from './Types/ArrayNumber';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 const items = getNumbers(1, 42);
 
 const options: ArrayNumber = [3, 5, 10, 20];
@@ -25,7 +26,7 @@ function getPagesLength(array: ArrayNumber, number: number): ArrayNumber {
 }
 
 function getItemsLength(
-  current:number,
+  current: number,
   itemsPerPage: number,
   array: ArrayNumber,
 )
@@ -92,7 +93,7 @@ export const App: React.FC = () => {
       <Pagination
         currentPage={currentPage}
         pagesToShow={pagesToShow}
-        onPageChange={(page) => setCurrentPage(page)}
+        onPageChange={setCurrentPage}
       />
       <ul>
         {itemsToShow.map(item => (
