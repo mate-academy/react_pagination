@@ -21,12 +21,15 @@ export const App: React.FC = () => {
 
   const visibleItems = items.slice(startIndex, endIndex);
 
+  const visibleItemsText
+    = `Page ${currentPage} (items ${startIndex + 1} - ${endIndex} of ${items.length})`;
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${startIndex + 1} - ${endIndex} of ${items.length})`}
+        {visibleItemsText}
       </p>
 
       <div className="form-group row">
