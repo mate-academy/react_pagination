@@ -7,13 +7,14 @@ export const App: React.FC = () => {
   const perPageValues = [3, 5, 10, 20];
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(perPageValues[1]);
+  const message = `Page ${currentPage} (items ${(currentPage - 1) * perPage + 1} - ${Math.min(currentPage * perPage, totalPages)} of ${totalPages})`;
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${(currentPage - 1) * perPage + 1} - ${Math.min(currentPage * perPage, totalPages)} of ${totalPages})`}
+        {message}
       </p>
 
       <div className="form-group row">
