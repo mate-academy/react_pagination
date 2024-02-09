@@ -3,9 +3,9 @@ import React from 'react';
 import { getNumbers } from '../../utils';
 
 type Props = {
-  total: number, // total number of items to paginate
-  perPage: number, // number of items per page
-  currentPage: number, /* optional with 1 by default */
+  total: number,
+  perPage: number,
+  currentPage: number,
   onPageChange: (page: number) => void
 };
 
