@@ -53,7 +53,7 @@ export const Pagination: React.FC<Props> = ({
             aria-disabled={
               currentPage === links[0] ? 'true' : 'false'
             }
-            onClick={() => handlePrev()}
+            onClick={handlePrev}
           >
             «
           </a>
