@@ -47,6 +47,7 @@ export const App: React.FC = () => {
               <option
                 value={option}
                 onSelect={() => setPerPage(option)}
+                key={option}
               >
                 {option}
               </option>
