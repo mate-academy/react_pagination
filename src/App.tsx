@@ -20,6 +20,8 @@ export const App: React.FC = () => {
   const paginationItems: number[] = getNumbers(itemFrom, itemTo);
   const maxPagesCount: number = Math.ceil(total / perPage);
 
+  const paginationInfo = `Page ${currentPage} (items ${itemFrom} - ${itemTo} of ${total})`;
+
   if (currentPage > maxPagesCount) {
     setCurrentPage(1);
   }
@@ -29,7 +31,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${itemFrom} - ${itemTo} of ${total})`}
+        {paginationInfo}
       </p>
 
       <div className="form-group row">
