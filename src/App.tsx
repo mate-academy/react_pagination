@@ -17,6 +17,9 @@ export const App: React.FC = () => {
   const firstItemOnPage = (perPage * currentPage) - perPage + 1;
   const lastItemOnPage = perPage * currentPage;
   const visibleItems = [...items.slice(firstItemOnPage - 1, lastItemOnPage)];
+  const titleText = `Page ${currentPage} (items ${firstItemOnPage} - ${lastItemOnPage > totalItems
+    ? totalItems
+    : lastItemOnPage} of ${totalItems})`;
 
   const onPageChange = (page: number) => {
     setCurrentPage(page);
@@ -34,7 +37,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${firstItemOnPage} - ${lastItemOnPage > totalItems ? totalItems : lastItemOnPage} of ${totalItems})`}
+        {titleText}
       </p>
 
       <div className="form-group row">
@@ -67,7 +70,10 @@ export const App: React.FC = () => {
 
       <ul>
         {visibleItems.map(item => (
-          <li data-cy="item">
+          <li
+            data-cy="item"
+            key={item}
+          >
             {item}
           </li>
         ))}

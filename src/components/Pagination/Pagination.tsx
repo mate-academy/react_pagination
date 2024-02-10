@@ -18,6 +18,18 @@ export const Pagination: React.FC<Props> = ({
   const totalPages = Math.ceil(total / perPage);
   const pages = getNumbers(1, totalPages);
 
+  const handlePrevButtonClick = () => {
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const handleNextButtonClick = () => {
+    if (currentPage < totalPages) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
   return (
     <ul className="pagination">
       <li className={classNames('page-item', { disabled: currentPage === 1 })}>
@@ -28,9 +40,7 @@ export const Pagination: React.FC<Props> = ({
           aria-disabled={currentPage === 1
             ? 'true'
             : 'false'}
-          onClick={() => (
-            (currentPage > 1)
-            && onPageChange(currentPage - 1))}
+          onClick={handlePrevButtonClick}
         >
           «
         </a>
@@ -63,9 +73,7 @@ export const Pagination: React.FC<Props> = ({
           aria-disabled={currentPage === totalPages
             ? 'true'
             : 'false'}
-          onClick={() => (
-            (currentPage < totalPages)
-            && onPageChange(currentPage + 1))}
+          onClick={handleNextButtonClick}
         >
           »
         </a>
