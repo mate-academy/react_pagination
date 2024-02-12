@@ -19,18 +19,6 @@ export const App: React.FC = () => {
   //   itemNumbers.push(i);
   // }
 
-  const prevPage = () => {
-    if (currentPage !== 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const nextPage = () => {
-    if (currentPage < Math.ceil(items.length / itemsPerPage)) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
@@ -68,8 +56,6 @@ export const App: React.FC = () => {
         perPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={page => setCurrentPage(page)}
-        prevPage={prevPage}
-        nextPage={nextPage}
       />
       <ul>
         {itemNumbers.map(item => (
