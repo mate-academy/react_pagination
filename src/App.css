@@ -1,1 +1,8 @@
 /* not empty */
+.form-control {
+  width: auto;
+}
+
+/* li.disabled a[aria-disabled="true"] {
+  pointer-events: none;
+} */
