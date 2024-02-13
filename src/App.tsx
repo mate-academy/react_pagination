@@ -15,39 +15,24 @@ export const App: React.FC = () => {
 
   let items: string[] = [];
 
+  const handlePerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setPerPage(+e.target.value);
+    setCurrentPage(1);
+  };
+
   if (allPages.length !== currentPage) {
-    switch (currentPage) {
-      case 1:
-        items = getNumbers(1, perPage)
-          .map(n => `Item ${n}`);
-
-        break;
-
-      case 2:
-      case 3:
-      case 4:
-      case 5:
-      case 6:
-      case 7:
-      case 8:
-      case 9:
-      case 10:
-      case 11:
-      case 12:
-      case 13:
-      case 14:
-        items = getNumbers(perPage * (currentPage - 1) + 1, perPage
-        * currentPage)
-          .map(n => `Item ${n}`);
-
-        break;
-
-      default: break;
+    if (currentPage === 1) {
+      items = getNumbers(1, perPage)
+        .map(n => `Item ${n}`);
     }
+
+    items = getNumbers(perPage * (currentPage - 1) + 1, perPage
+        * currentPage)
+      .map(n => `Item ${n}`);
   }
 
   if (allPages.length === currentPage) {
-    items = getNumbers(perPage * (currentPage - 1) + 1, 42)
+    items = getNumbers(perPage * (currentPage - 1) + 1, total)
       .map(n => `Item ${n}`);
   }
 
@@ -66,10 +51,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={(e) => {
-              setPerPage(+e.target.value);
-              setCurrentPage(1);
-            }}
+            onChange={handlePerPageChange}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -92,8 +74,14 @@ export const App: React.FC = () => {
       />
       <ul>
         {
-          items.map(item => (
-            <li data-cy="item">{item}</li>
+          items.map((item, index) => (
+            <li
+              data-cy="item"
+              // eslint-disable-next-line react/no-array-index-key
+              key={index}
+            >
+              {item}
+            </li>
           ))
         }
       </ul>
