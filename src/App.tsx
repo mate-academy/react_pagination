@@ -65,9 +65,9 @@ export const App: React.FC = () => {
         </label>
       </div>
       <Pagination
-        total={total} // total number of items to paginate
-        perPage={perPage} // number of items per page
-        currentPage={currentPage} /* optional with 1 by default */
+        total={total}
+        perPage={perPage}
+        currentPage={currentPage}
         onPageChange={(page) => {
           setCurrentPage(page);
         }}
