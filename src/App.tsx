@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -13,28 +13,33 @@ export const App: React.FC = () => {
 
   const allPages = getNumbers(1, numberOfPages);
 
-  let items: string[] = [];
-
   const handlePerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(+e.target.value);
     setCurrentPage(1);
   };
 
-  if (allPages.length !== currentPage) {
-    if (currentPage === 1) {
-      items = getNumbers(1, perPage)
-        .map(n => `Item ${n}`);
+  const items = useMemo(() => {
+    let currentItems: string[] = [];
+
+    if (allPages.length !== currentPage) {
+      if (currentPage === 1) {
+        currentItems = getNumbers(1, perPage).map((n) => `Item ${n}`);
+      }
+
+      currentItems = getNumbers(
+        perPage * (currentPage - 1) + 1,
+        perPage * currentPage,
+      ).map((n) => `Item ${n}`);
     }
 
-    items = getNumbers(perPage * (currentPage - 1) + 1, perPage
-        * currentPage)
-      .map(n => `Item ${n}`);
-  }
+    if (allPages.length === currentPage) {
+      currentItems = getNumbers(perPage * (currentPage - 1) + 1, total).map(
+        (n) => `Item ${n}`,
+      );
+    }
 
-  if (allPages.length === currentPage) {
-    items = getNumbers(perPage * (currentPage - 1) + 1, total)
-      .map(n => `Item ${n}`);
-  }
+    return currentItems;
+  }, [allPages, currentPage, perPage]);
 
   return (
     <div className="container">
