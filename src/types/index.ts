@@ -1,1 +1,1 @@
-export * from './PaginationProps';
+export * from "./PaginationProps";

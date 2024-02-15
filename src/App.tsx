@@ -3,7 +3,6 @@ import "./App.css";
 import { getNumbers } from "./utils";
 import { Pagination } from "./components/Pagination";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items: string[] = getNumbers(1, 42).map((n) => `Item ${n}`);
 const totalItems: number = items.length;
 
@@ -16,6 +15,13 @@ export const App: React.FC = () => {
   if (lastItemNumber > totalItems) {
     lastItemNumber = totalItems;
   }
+
+  const handleItemsPerPageChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setPerPage(+event.target.value);
+    setCurrentPage(1);
+  };
 
   return (
     <div className="container">
@@ -32,10 +38,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={(e) => {
-              setPerPage(+e.target.value);
-              setCurrentPage(1);
-            }}
+            onChange={handleItemsPerPageChange}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -52,12 +55,14 @@ export const App: React.FC = () => {
         total={totalItems}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={(page) => setCurrentPage(page)}
+        onPageChange={setCurrentPage}
       />
       <ul>
-        {getNumbers(firstItemNumber, lastItemNumber).map((item) => {
-          return <li data-cy="item">Item {item}</li>;
-        })}
+        {getNumbers(firstItemNumber, lastItemNumber).map((item) => (
+          <li data-cy="item" key={item}>
+            Item {item}
+          </li>
+        ))}
       </ul>
     </div>
   );

@@ -15,6 +15,18 @@ export const Pagination: React.FC<PaginationProps> = ({
   const lastPage: number = Math.ceil(total / perPage);
   const pages: number[] = getNumbers(1, lastPage);
 
+  const handlePrevPageClick = () => {
+    if (currentPage !== 1) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const handleNextPageClick = () => {
+    if (currentPage !== lastPage) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
   return (
     <ul className="pagination">
       <li
@@ -27,30 +39,25 @@ export const Pagination: React.FC<PaginationProps> = ({
           className="page-link"
           href="#prev"
           aria-disabled={currentPage === 1}
-          onClick={() => {
-            if (currentPage !== 1) {
-              onPageChange(currentPage - 1);
-            }
-          }}
+          onClick={handlePrevPageClick}
         >
           «
         </a>
       </li>
 
-      {pages.map((page) => {
-        return (
-          <li
-            onClick={() => onPageChange(page)}
-            className={cn("page-item", {
-              active: currentPage === page,
-            })}
-          >
-            <a data-cy="pageLink" className="page-link" href={`#${page}`}>
-              {page}
-            </a>
-          </li>
-        );
-      })}
+      {pages.map((page) => (
+        <li
+          key={page}
+          onClick={() => onPageChange(page)}
+          className={cn("page-item", {
+            active: currentPage === page,
+          })}
+        >
+          <a data-cy="pageLink" className="page-link" href={`#${page}`}>
+            {page}
+          </a>
+        </li>
+      ))}
 
       <li
         className={cn("page-item", {
@@ -62,11 +69,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           className="page-link"
           href="#next"
           aria-disabled={currentPage === lastPage}
-          onClick={() => {
-            if (currentPage !== lastPage) {
-              onPageChange(currentPage + 1);
-            }
-          }}
+          onClick={handleNextPageClick}
         >
           »
         </a>
