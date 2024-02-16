@@ -3,8 +3,7 @@ import './App.css';
 import { getNumbers } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42)
-  .map(n => `Item ${n}`);
+const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   return (
@@ -20,8 +19,7 @@ export const App: React.FC = () => {
           <select
             data-cy="perPageSelector"
             id="perPageSelector"
-            className="form-control"
-          >
+            className="form-control">
             <option value="3">3</option>
             <option value="5">5</option>
             <option value="10">10</option>
@@ -41,45 +39,61 @@ export const App: React.FC = () => {
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled="true"
-          >
+            aria-disabled="true">
             «
           </a>
         </li>
         <li className="page-item active">
-          <a data-cy="pageLink" className="page-link" href="#1">1</a>
+          <a data-cy="pageLink" className="page-link" href="#1">
+            1
+          </a>
         </li>
         <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#2">2</a>
+          <a data-cy="pageLink" className="page-link" href="#2">
+            2
+          </a>
         </li>
         <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#3">3</a>
+          <a data-cy="pageLink" className="page-link" href="#3">
+            3
+          </a>
         </li>
         <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#4">4</a>
+          <a data-cy="pageLink" className="page-link" href="#4">
+            4
+          </a>
         </li>
         <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#5">5</a>
+          <a data-cy="pageLink" className="page-link" href="#5">
+            5
+          </a>
         </li>
         <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#6">6</a>
+          <a data-cy="pageLink" className="page-link" href="#6">
+            6
+          </a>
         </li>
         <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#7">7</a>
+          <a data-cy="pageLink" className="page-link" href="#7">
+            7
+          </a>
         </li>
         <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#8">8</a>
+          <a data-cy="pageLink" className="page-link" href="#8">
+            8
+          </a>
         </li>
         <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#9">9</a>
+          <a data-cy="pageLink" className="page-link" href="#9">
+            9
+          </a>
         </li>
         <li className="page-item">
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled="false"
-          >
+            aria-disabled="false">
             »
           </a>
         </li>
