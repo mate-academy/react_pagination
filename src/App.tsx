@@ -10,32 +10,36 @@ export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [onPage, setOnPage] = useState<number>(5);
 
-  const renderPerPage = (perPage: number, pageCurrent: number) => {
-    const renderOnPage = perPage * pageCurrent - perPage;
-    const sliceOnPage = copyItems.slice(renderOnPage, renderOnPage + perPage);
+  // const renderPerPage = (perPage: number, pageCurrent: number) => {
+  //   const renderOnPage = perPage * pageCurrent - perPage;
+  //   const sliceOnPage = copyItems.slice(renderOnPage, renderOnPage + perPage);
 
-    return sliceOnPage;
-  };
+  //   return sliceOnPage;
+  // };
 
-  const list = renderPerPage(onPage, currentPage);
-  const rest = list.length % onPage === 0;
+  // const list = renderPerPage(onPage, currentPage);
+  // const rest = list.length % onPage === 0;
 
-  const firstItem = rest
-    ? copyItems.indexOf(list[list.length - 1]) - onPage + 2
-    : copyItems.indexOf(list[list.length - 1]);
+  // const firstItem = rest
+  //   ? copyItems.indexOf(list[list.length - 1]) - onPage + 2
+  //   : copyItems.indexOf(list[list.length - 1]);
 
-  const lastItem = copyItems.indexOf(list[list.length - 1]) + 1;
+  // const lastItem = copyItems.indexOf(list[list.length - 1]) + 1;
   const onChange: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
     setOnPage(+e.target.value);
     setCurrentPage(1);
   };
+
+  const startIndex = currentPage * onPage - onPage;
+  const lastIndex = Math.min(startIndex + onPage, copyItems.length);
+  const visibleItems = items.slice(startIndex, lastIndex);
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${firstItem} - ${lastItem} of ${copyItems.length})`}
+        {`Page ${currentPage} (items ${startIndex + 1} - ${lastIndex} of ${copyItems.length})`}
       </p>
 
       <div className="form-group row">
@@ -44,7 +48,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            defaultValue="5"
+            value={onPage}
             onChange={onChange}
           >
             <option value="3">3</option>
@@ -60,11 +64,11 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={42}
+        total={copyItems.length}
         perPage={onPage}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
-        page={list}
+        visibleItems={visibleItems}
       />
     </div>
   );
