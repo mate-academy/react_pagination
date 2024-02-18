@@ -10,21 +10,6 @@ export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [onPage, setOnPage] = useState<number>(5);
 
-  // const renderPerPage = (perPage: number, pageCurrent: number) => {
-  //   const renderOnPage = perPage * pageCurrent - perPage;
-  //   const sliceOnPage = copyItems.slice(renderOnPage, renderOnPage + perPage);
-
-  //   return sliceOnPage;
-  // };
-
-  // const list = renderPerPage(onPage, currentPage);
-  // const rest = list.length % onPage === 0;
-
-  // const firstItem = rest
-  //   ? copyItems.indexOf(list[list.length - 1]) - onPage + 2
-  //   : copyItems.indexOf(list[list.length - 1]);
-
-  // const lastItem = copyItems.indexOf(list[list.length - 1]) + 1;
   const onChange: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
     setOnPage(+e.target.value);
     setCurrentPage(1);
@@ -68,8 +53,14 @@ export const App: React.FC = () => {
         perPage={onPage}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
-        visibleItems={visibleItems}
       />
+      <ul>
+        {visibleItems.map((item) => (
+          <li data-cy="item" key={item}>
+            {item}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
