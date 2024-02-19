@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -12,20 +12,17 @@ export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(options[1]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const perPageSelector = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const setPerPageSelector = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(+event.target.value);
     setCurrentPage(1);
   };
 
-  function getItemsOnPage() {
-    return items.filter(item => {
-      return (
-        item > currentPage * perPage - perPage && item <= currentPage * perPage
-      );
-    });
-  }
+  const itemsOnPage = useMemo(() => {
+    const indexOfFirstItem = currentPage * perPage - perPage;
+    const indexOfLastItem = currentPage * perPage;
 
-  const itemsOnPage = getItemsOnPage();
+    return items.slice(indexOfFirstItem, indexOfLastItem);
+  }, [currentPage, perPage]);
 
   return (
     <div className="container">
@@ -42,7 +39,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={perPageSelector}
+            onChange={setPerPageSelector}
           >
             {options.map(option => (
               <option key={option} value={option}>
