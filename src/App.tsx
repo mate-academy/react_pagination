@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
+// import { Pagination } from './components/Pagination';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
-const numbers = getNumbers(0, 8);
-const mappedNumbers = numbers.map(n => (n <= 9 ? n + 1 : n));
 
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
@@ -22,6 +21,9 @@ export const App: React.FC = () => {
     setTotal(totalPage);
     setCurrentPage(1);
   };
+
+  const totalPages = Math.ceil(totalPage / perPage);
+  const numbers = getNumbers(1, totalPages);
 
   return (
     <div className="container">
@@ -55,25 +57,36 @@ export const App: React.FC = () => {
           items per page
         </label>
       </div>
-
-      {/* Move this markup to Pagination */}
+      {/* <Pagination
+        totalPage={totalPage}
+        perPage={perPage}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+      /> */}
       <ul className="pagination">
-        <li className="page-item disabled">
+        <li className={`page-item ${currentPage <= 1 ? 'disabled' : ''}`}>
           <a
-            onClick={() => setCurrentPage(currentPage - 1)}
+            onClick={() => {
+              if (currentPage > 1) {
+                setCurrentPage(currentPage - 1);
+              }
+            }}
             data-cy="prevLink"
             className="page-link"
-            href="#prev"
-            aria-disabled="true"
+            href={`#${currentPage}`}
+            aria-disabled={currentPage <= 1 ? 'true' : 'false'}
           >
             «
           </a>
         </li>
-        {mappedNumbers.map(num => (
-          <li className={currentPage === num ? 'page-item active' : ''}>
+        {numbers.map(num => (
+          <li
+            key={num}
+            className={`page-item ${currentPage === num ? 'active' : ''}`}
+          >
             <a
               data-cy="pageLink"
-              onClick={() => setCurrentPage(currentPage + 1)}
+              onClick={() => setCurrentPage(num)}
               className="page-link"
               href={`#${num}`}
             >
@@ -81,12 +94,27 @@ export const App: React.FC = () => {
             </a>
           </li>
         ))}
-        <li className="page-item">
+        <li
+          className={`page-item ${
+            currentPage === totalPage || perPage * currentPage >= totalPage
+              ? 'disabled'
+              : ''
+          }`}
+        >
           <a
+            onClick={() => {
+              if (currentPage >= 1 && currentPage < totalPage) {
+                setCurrentPage(currentPage + 1);
+              }
+            }}
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled="false"
+            aria-disabled={
+              currentPage === totalPage || perPage * currentPage >= totalPage
+                ? 'true'
+                : 'false'
+            }
           >
             »
           </a>
