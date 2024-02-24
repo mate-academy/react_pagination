@@ -73,7 +73,7 @@ export const App: React.FC = () => {
       </div>
       <Routes>
         <Route
-          path="/"
+          path="/react_pagination/"
           element={
             <Pagination
               total={pagesNum}
