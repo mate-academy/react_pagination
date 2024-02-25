@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Routes, Route, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
 import './App.css';
@@ -71,19 +71,14 @@ export const App: React.FC = () => {
           items per page
         </label>
       </div>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Pagination
-              total={pagesNum}
-              perPage={perPage}
-              currentPage={currentPage}
-              onPageChange={onPageChange}
-            />
-          }
-        />
-      </Routes>
+
+      <Pagination
+        total={pagesNum}
+        perPage={perPage}
+        currentPage={currentPage}
+        onPageChange={onPageChange}
+      />
+
       <ul>
         {filteredItems.map(item => (
           <li key={item} data-cy="item">
