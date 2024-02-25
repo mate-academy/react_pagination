@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import {
-  useSearchParams,
-} from 'react-router-dom';
+import React, {
+  useState,
+  useEffect,
+} from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import { Pagination } from '../components/Pagination';
 
@@ -9,14 +10,19 @@ const totalItems = 42;
 const showOptions = [3, 5, 10, 20];
 
 export const Query: React.FC = () => {
-  const [searchParams] = useSearchParams();
+  const [search, setSearch] = useSearchParams();
 
-  const castomPage = searchParams.get('page') || 1;
-  const castomItemsShow = searchParams.get('perPage') || 5;
+  useEffect(() => {
+    setSearch({ page: '2', perPage: '7' });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const customPage = search.get('page') || 1;
+  const castomItemsShow = search.get('perPage') || 5;
   const checkedCastomPage
-    = +castomPage > Math.ceil(totalItems / +castomItemsShow)
+    = +customPage > Math.ceil(totalItems / +castomItemsShow)
       ? Math.ceil(totalItems / +castomItemsShow)
-      : castomPage;
+      : customPage;
 
   if (!showOptions.includes(+castomItemsShow)) {
     showOptions.push(+castomItemsShow);
@@ -75,11 +81,15 @@ export const Query: React.FC = () => {
           totalItems={totalItems}
           perPage={showItems}
           currentPage={currentPage}
-          onPageChange={(value: number) => setCurrentPage(value)}
+          fromItem={fromItem}
+          toItem={toItem}
+          onPageChange={(value: number, range: number) => {
+            if (value > 0 && value <= range) {
+              setCurrentPage(value);
+            }
+          }}
         />
       </div>
     </>
   );
 };
-
-export default Query;

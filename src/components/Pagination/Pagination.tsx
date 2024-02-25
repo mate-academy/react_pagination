@@ -7,13 +7,17 @@ type Props = {
   totalItems: number,
   perPage: number,
   currentPage: number,
-  onPageChange: (value: number) => void,
+  fromItem: number,
+  toItem: number
+  onPageChange: (value: number, range: number) => void,
 };
 
 export const Pagination: React.FC<Props> = ({
   totalItems,
   perPage,
   currentPage,
+  fromItem,
+  toItem,
   onPageChange,
 }) => {
   const items = getNumbers(1, totalItems)
@@ -21,10 +25,6 @@ export const Pagination: React.FC<Props> = ({
 
   const pagesCount = Math.ceil(items.length / perPage);
   const pages = getNumbers(1, pagesCount);
-  const fromItem = currentPage * perPage - perPage + 1;
-  const toItem = (currentPage * perPage) > totalItems
-    ? totalItems
-    : currentPage * perPage;
 
   const handlePageSelector = (event: MouseEvent<HTMLElement>) => {
     const value = (event.target as HTMLElement).textContent;
@@ -32,21 +32,15 @@ export const Pagination: React.FC<Props> = ({
     if (value) {
       switch (value) {
         case '«':
-          // eslint-disable-next-line
-          currentPage > 1
-            ? onPageChange(currentPage - 1)
-            : '';
+          onPageChange(currentPage - 1, pagesCount);
           break;
 
         case '»':
-          // eslint-disable-next-line
-          currentPage < pagesCount
-            ? onPageChange(currentPage + 1)
-            : '';
+          onPageChange(currentPage + 1, pagesCount);
           break;
 
         default:
-          onPageChange(+value);
+          onPageChange(+value, pagesCount);
           break;
       }
     }
