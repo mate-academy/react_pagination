@@ -7,7 +7,7 @@ import { Pagination } from './components/Pagination';
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const total: number = 42;
+  const total = 42;
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -20,19 +20,6 @@ export const App: React.FC = () => {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
-
-  // const handlePrevPage = () => {
-  //   if (currentPage !== 1) {
-  //     setCurrentPage(prev => prev - 1);
-  //   }
-  // };
-
-  // const handleNextPage = () => {
-  //   if (currentPage !== pages.length) {
-  //     setCurrentPage(next => next + 1);
-  //   }
-  // };
-
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
