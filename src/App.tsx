@@ -7,7 +7,7 @@ import { Pagination } from './components/Pagination';
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [total] = useState(42);
+  const total: number = 42;
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -19,27 +19,26 @@ export const App: React.FC = () => {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-  }
+  };
 
-  const handlePrevPage = () => {
-    if(currentPage !== 1) {
-      setCurrentPage(prev => prev - 1);
-    }
-  }
+  // const handlePrevPage = () => {
+  //   if (currentPage !== 1) {
+  //     setCurrentPage(prev => prev - 1);
+  //   }
+  // };
 
-  const handleNextPage = () => {
-    if (currentPage !== pages.length) {
-      setCurrentPage(next => next + 1)
-    }
-  }
-
+  // const handleNextPage = () => {
+  //   if (currentPage !== pages.length) {
+  //     setCurrentPage(next => next + 1);
+  //   }
+  // };
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-       {`Page ${currentPage} (items ${firstItem + 1} - ${lastItem} of ${total})`}
+        {`Page ${currentPage} (items ${firstItem + 1} - ${lastItem} of ${total})`}
       </p>
 
       <div className="form-group row">
@@ -49,7 +48,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={(event) => {
+            onChange={event => {
               setPerPage(+event.target.value);
               setCurrentPage(1);
             }}
@@ -70,13 +69,14 @@ export const App: React.FC = () => {
         pages={pages}
         currentPage={currentPage}
         onPageChange={handlePageChange}
-        onPrevPage={handlePrevPage}
-        onNextPage={handleNextPage}
+        setCurrentPage={setCurrentPage}
       />
 
       <ul>
         {visibleItems.map(item => (
-          <li data-cy="item" key={item}>{item}</li>
+          <li data-cy="item" key={item}>
+            {item}
+          </li>
         ))}
       </ul>
     </div>
