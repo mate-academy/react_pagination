@@ -6,6 +6,7 @@ import './App.css';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
+const perPageOptions = [3, 5, 10, 20];
 
 export const App: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -15,7 +16,6 @@ export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(currentPageFromUrl);
   const [perPage, setPerPage] = useState(perPageFromUrl);
 
-  const perPageOptions = [3, 5, 10, 20];
   const startIndex = currentPage === 1 ? 0 : currentPage * perPage - perPage;
   const endIndex = currentPage * perPage;
   const filteredItems = items.slice(startIndex, endIndex);
