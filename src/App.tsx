@@ -5,12 +5,19 @@ import { Pagination } from './components/Pagination';
 
 import './App.css';
 
+enum PerPageAmount {
+  Three = 3,
+  Five = 5,
+  Ten = 10,
+  Twenty = 20,
+}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(PerPageAmount.Five);
 
   const totalAmount = items.length;
   const firstIndex = (currentPage - 1) * perPage;
@@ -38,10 +45,10 @@ export const App: React.FC = () => {
               setCurrentPage(1);
             }}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            <option value="3">{PerPageAmount.Three}</option>
+            <option value="5">{PerPageAmount.Five}</option>
+            <option value="10">{PerPageAmount.Ten}</option>
+            <option value="20">{PerPageAmount.Twenty}</option>
           </select>
         </div>
 
