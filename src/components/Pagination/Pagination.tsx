@@ -1,5 +1,7 @@
 import React from 'react';
+import classNames from 'classnames';
 import { PaginationProps } from '../../interfaces/PaginationProps';
+import { getNumbers } from '../../utils';
 
 export const Pagination: React.FC<PaginationProps> = ({
   total,
@@ -16,32 +18,28 @@ export const Pagination: React.FC<PaginationProps> = ({
   };
 
   const renderPagination = () => {
-    const pages = [];
+    const pages = getNumbers(1, totalPages);
 
-    for (let i = 1; i <= totalPages; i += 1) {
-      pages.push(
-        <li
-          key={i}
-          className={`page-item ${currentPage === i ? 'active' : ''}`}
+    return pages.map(page => (
+      <li
+        key={page}
+        className={classNames('page-item', { active: currentPage === page })}
+      >
+        <a
+          data-cy="pageLink"
+          className="page-link"
+          href={`#${page}`}
+          onClick={() => handlePageChange(page)}
         >
-          <a
-            data-cy="pageLink"
-            className="page-link"
-            href={`#${i}`}
-            onClick={() => handlePageChange(i)}
-          >
-            {i}
-          </a>
-        </li>,
-      );
-    }
-
-    return pages;
+          {page}
+        </a>
+      </li>
+    ));
   };
 
   return (
     <ul className="pagination">
-      <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+      <li className={classNames('page-item', { disabled: currentPage === 1 })}>
         <a
           data-cy="prevLink"
           className="page-link"
@@ -58,7 +56,9 @@ export const Pagination: React.FC<PaginationProps> = ({
       </li>
       {renderPagination()}
       <li
-        className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}
+        className={classNames('page-item', {
+          disabled: currentPage === totalPages,
+        })}
       >
         <a
           data-cy="nextLink"

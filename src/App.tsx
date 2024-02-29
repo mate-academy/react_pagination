@@ -5,8 +5,8 @@ import { Pagination } from './components/Pagination';
 
 export const App: React.FC = () => {
   const total = 42;
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage, setItemsPerPage] = useState<number>(5);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   const items: string[] = getNumbers(1, total).map(n => `Item ${n}`);
 
   const handlePageChange = (page: number) => {
