@@ -9,6 +9,18 @@ export const App: React.FC = () => {
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const items: string[] = getNumbers(1, total).map(n => `Item ${n}`);
 
+  const signaturePage = (
+    numberPage: number,
+    availableItems: number,
+    allItems: number,
+  ) => {
+    return (
+      <p className="lead" data-cy="info">
+        {`Page ${numberPage} (items ${(numberPage - 1) * availableItems + 1} - ${Math.min(numberPage * availableItems, allItems)} of ${allItems})`}
+      </p>
+    );
+  };
+
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
@@ -18,13 +30,29 @@ export const App: React.FC = () => {
     setCurrentPage(1);
   };
 
+  const visibleItems = (
+    allItems: string[],
+    visiblePage: number,
+    countItems: number,
+  ) => {
+    return (
+      <ul>
+        {allItems
+          .slice((visiblePage - 1) * countItems, visiblePage * countItems)
+          .map(item => (
+            <li key={item} data-cy="item">
+              {item}
+            </li>
+          ))}
+      </ul>
+    );
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
-      <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${(currentPage - 1) * itemsPerPage + 1} - ${Math.min(currentPage * itemsPerPage, total)} of ${total})`}
-      </p>
+      {signaturePage(currentPage, itemsPerPage, total)}
 
       <div className="form-group row">
         <div className="col-3 col-sm-2 col-xl-1">
@@ -54,15 +82,7 @@ export const App: React.FC = () => {
         onPageChange={handlePageChange}
       />
 
-      <ul>
-        {items
-          .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
-          .map(item => (
-            <li key={item} data-cy="item">
-              {item}
-            </li>
-          ))}
-      </ul>
+      {visibleItems(items, currentPage, itemsPerPage)}
     </div>
   );
 };

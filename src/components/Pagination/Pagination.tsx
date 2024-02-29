@@ -17,6 +17,18 @@ export const Pagination: React.FC<PaginationProps> = ({
     }
   };
 
+  const goToPreviousPage = () => {
+    if (currentPage !== 1) {
+      handlePageChange(currentPage - 1);
+    }
+  };
+
+  const goToNextPage = () => {
+    if (currentPage !== totalPages) {
+      handlePageChange(currentPage + 1);
+    }
+  };
+
   const renderPagination = () => {
     const pages = getNumbers(1, totalPages);
 
@@ -44,11 +56,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          onClick={() => {
-            if (currentPage !== 1) {
-              handlePageChange(currentPage - 1);
-            }
-          }}
+          onClick={goToPreviousPage}
           aria-disabled={currentPage === 1}
         >
           «
@@ -64,11 +72,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          onClick={() => {
-            if (currentPage !== totalPages) {
-              handlePageChange(currentPage + 1);
-            }
-          }}
+          onClick={goToNextPage}
           aria-disabled={currentPage === totalPages}
         >
           »
