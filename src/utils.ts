@@ -1,9 +1,16 @@
-export function getNumbers(from: number, to: number): number[] {
-  const numbers = [];
+export function getNumbers(from = 0, to: number): number[] {
+  const arr: number[] = [];
 
-  for (let n = from; n <= to; n += 1) {
-    numbers.push(n);
+  for (let i = from; i < to; i += 1) {
+    arr.push(i);
   }
 
-  return numbers;
+  return arr;
+}
+
+export enum SelectOptions {
+  Three = 3,
+  Five = 5,
+  Ten = 10,
+  Twenty = 20,
 }
