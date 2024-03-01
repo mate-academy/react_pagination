@@ -12,8 +12,9 @@ export const App: React.FC = () => {
     setCurrentPage(1);
   };
 
+  const ITEMS = 42;
   const fromHere = (currentPage - 1) * perPage + 1;
-  const toHere = currentPage * perPage <= 42 ? currentPage * perPage : 42;
+  const toHere = currentPage * perPage <= ITEMS ? currentPage * perPage : ITEMS;
 
   const whatToShow = getNumbers(fromHere, toHere).map(n => `Item ${n}`);
 
@@ -48,7 +49,7 @@ export const App: React.FC = () => {
         </div>
 
         <Pagination
-          total={42}
+          total={ITEMS}
           perPage={perPage}
           currentPage={currentPage}
           onPageChange={page => {

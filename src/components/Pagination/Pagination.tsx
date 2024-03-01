@@ -1,3 +1,6 @@
+import classNames from 'classnames';
+import { getNumbers } from '../../utils';
+
 interface PaginationProps {
   total: number;
   perPage: number;
@@ -11,17 +14,21 @@ export const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   onPageChange,
 }) => {
-  const paginationArray = [];
-
   const pages = Math.ceil(total / perPage);
 
-  for (let i = 1; i <= pages; i += 1) {
-    paginationArray.push(i);
-  }
+  const numbers = getNumbers(1, pages);
+  const prevButtonClasses = classNames({
+    'page-item': true,
+    disabled: currentPage === 1,
+  });
+  const nextButtonClasses = classNames({
+    'page-item': true,
+    disabled: currentPage === pages,
+  });
 
   return (
     <ul className="pagination">
-      <li className={`page-item ${currentPage === 1 && 'disabled'}`}>
+      <li className={prevButtonClasses}>
         <a
           data-cy="prevLink"
           className="page-link"
@@ -37,8 +44,11 @@ export const Pagination: React.FC<PaginationProps> = ({
         </a>
       </li>
 
-      {paginationArray.map(item => (
-        <li className={`page-item ${currentPage === item && 'active'}`}>
+      {numbers.map(item => (
+        <li
+          key={item}
+          className={`page-item ${currentPage === item && 'active'}`}
+        >
           <a
             data-cy="pageLink"
             className="page-link"
@@ -52,7 +62,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         </li>
       ))}
 
-      <li className={`page-item ${currentPage === pages && 'disabled'}`}>
+      <li className={nextButtonClasses}>
         <a
           data-cy="nextLink"
           className="page-link"
