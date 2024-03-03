@@ -6,16 +6,9 @@ import { Pagination } from './components/Pagination';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
-enum PerPageAmount {
-  Three = 3,
-  Five = 5,
-  Ten = 10,
-  Twenty = 20,
-}
-
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(PerPageAmount.Five);
+  const [perPage, setPerPage] = useState(5);
 
   const totalAmount = items.length;
   const firstIndex = (currentPage - 1) * perPage;
@@ -43,10 +36,11 @@ export const App: React.FC = () => {
               setPerPage(+event.target.value);
             }}
           >
-            <option value="3">{PerPageAmount.Three}</option>
-            <option value="5">{PerPageAmount.Five}</option>
-            <option value="10">{PerPageAmount.Ten}</option>
-            <option value="20">{PerPageAmount.Twenty}</option>
+            {[3, 5, 10, 20].map(option => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
           </select>
         </div>
 
