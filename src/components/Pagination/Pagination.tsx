@@ -30,7 +30,7 @@ export const Pagination: React.FC<Props> = ({
   };
 
   return (
-    <div>
+    <>
       <ul className="pagination">
         <li className={cn('page-item', { disabled: currentPage === 1 })}>
           <a
@@ -70,6 +70,6 @@ export const Pagination: React.FC<Props> = ({
           </a>
         </li>
       </ul>
-    </div>
+    </>
   );
 };
