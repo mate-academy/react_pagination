@@ -8,10 +8,10 @@ const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   // const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState('10');
+  const [perPage, setPerPage] = useState(5);
 
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setPerPage(event.target.value);
+    setPerPage(parseInt(event.target.value, 10));
   };
 
   return (
@@ -42,7 +42,7 @@ export const App: React.FC = () => {
           items per page
         </label>
       </div>
-      <Pagination total={items} />
+      <Pagination total={items} perPage={perPage} />
     </div>
   );
 };

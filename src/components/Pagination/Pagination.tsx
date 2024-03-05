@@ -1,4 +1,9 @@
-export const Pagination = ({ total }) => (
+type Props = {
+  total: string[];
+  perPage: number;
+};
+
+export const Pagination: React.FC<Props> = ({ total }) => (
   <>
     <ul className="pagination">
       <li className="page-item disabled">
