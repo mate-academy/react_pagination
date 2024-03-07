@@ -1,36 +1,27 @@
 import React, { useState } from 'react';
 import './App.css';
-import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
+import {
+  getNumbers,
+  calculateItems,
+  handlePageChange,
+  handlePerPageChange,
+} from './utils';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
   const totalItems = 42; // Total number of items
-  // const totalPages = Math.ceil(totalItems / perPage);
 
-  const items = getNumbers(
-    (currentPage - 1) * perPage + 1,
-    Math.min(currentPage * perPage, totalItems),
-  ).map(n => `Item ${n}`);
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
-
-  const handlePerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setPerPage(parseInt(e.target.value, 10));
-    setCurrentPage(1);
-  };
+  const [startItem, endItem] = calculateItems(currentPage, perPage, totalItems);
+  const items = getNumbers(startItem, endItem).map(n => `Item ${n}`);
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {currentPage} (items {(currentPage - 1) * perPage + 1} -{' '}
-        {Math.min(currentPage * perPage, totalItems)} of {totalItems})
+        Page {currentPage} (items {startItem} - {endItem} of {totalItems})
       </p>
 
       <div className="form-group row">
@@ -40,7 +31,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={handlePerPageChange}
+            onChange={e => handlePerPageChange(e, setPerPage, setCurrentPage)}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -54,12 +45,11 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Use the Pagination component */}
       <Pagination
         total={totalItems}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={handlePageChange}
+        onPageChange={page => handlePageChange(page, setCurrentPage)}
       />
 
       <ul>

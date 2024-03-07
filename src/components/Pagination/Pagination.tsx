@@ -60,7 +60,6 @@ export const Pagination: React.FC<PaginationProps> = ({
         </a>
       </li>
 
-      {/* Page Links */}
       {Array.from({ length: totalPages }, (_, index) => index + 1).map(
         renderPageLink,
       )}
