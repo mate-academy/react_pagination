@@ -8,6 +8,13 @@ export function getNumbers(from: number, to: number): number[] {
   return numbers;
 }
 
+export function handlePageChange(
+  page: number,
+  setCurrentPage: (page: number) => void,
+) {
+  setCurrentPage(page);
+}
+
 export function calculateItems(
   currentPage: number,
   perPage: number,
@@ -17,13 +24,6 @@ export function calculateItems(
   const endItem = Math.min(currentPage * perPage, totalItems);
 
   return [startItem, endItem];
-}
-
-export function handlePageChange(
-  page: number,
-  setCurrentPage: (page: number) => void,
-) {
-  setCurrentPage(page);
 }
 
 export function handlePerPageChange(

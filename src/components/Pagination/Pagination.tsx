@@ -40,6 +40,25 @@ export const Pagination: React.FC<PaginationProps> = ({
     </li>
   );
 
+  const renderPageLinks = () =>
+    Array.from({ length: totalPages }, (_, index) => index + 1).map(
+      renderPageLink,
+    );
+
+  const handlePrevClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (currentPage !== 1) {
+      handlePageChange(currentPage - 1);
+    }
+  };
+
+  const handleNextClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (currentPage !== totalPages) {
+      handlePageChange(currentPage + 1);
+    }
+  };
+
   return (
     <ul className="pagination">
       {/* Previous Page Link */}
@@ -49,20 +68,14 @@ export const Pagination: React.FC<PaginationProps> = ({
           className="page-link"
           href="#prev"
           aria-disabled={currentPage === 1 ? 'true' : 'false'}
-          onClick={e => {
-            e.preventDefault();
-            if (currentPage !== 1) {
-              handlePageChange(currentPage - 1);
-            }
-          }}
+          onClick={handlePrevClick}
         >
           «
         </a>
       </li>
 
-      {Array.from({ length: totalPages }, (_, index) => index + 1).map(
-        renderPageLink,
-      )}
+      {/* Page Links */}
+      {renderPageLinks()}
 
       {/* Next Page Link */}
       <li
@@ -73,12 +86,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           className="page-link"
           href="#next"
           aria-disabled={currentPage === totalPages ? 'true' : 'false'}
-          onClick={e => {
-            e.preventDefault();
-            if (currentPage !== totalPages) {
-              handlePageChange(currentPage + 1);
-            }
-          }}
+          onClick={handleNextClick}
         >
           »
         </a>
