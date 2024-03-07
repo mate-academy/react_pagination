@@ -51,7 +51,9 @@ export const Pagination: React.FC<PaginationProps> = ({
           aria-disabled={currentPage === 1 ? 'true' : 'false'}
           onClick={e => {
             e.preventDefault();
-            handlePageChange(currentPage - 1);
+            if (currentPage !== 1) {
+              handlePageChange(currentPage - 1);
+            }
           }}
         >
           «
@@ -74,7 +76,9 @@ export const Pagination: React.FC<PaginationProps> = ({
           aria-disabled={currentPage === totalPages ? 'true' : 'false'}
           onClick={e => {
             e.preventDefault();
-            handlePageChange(currentPage + 1);
+            if (currentPage !== totalPages) {
+              handlePageChange(currentPage + 1);
+            }
           }}
         >
           »
