@@ -1,12 +1,25 @@
 import React, { useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
-import {
-  getNumbers,
-  calculateItems,
-  handlePageChange,
-  handlePerPageChange,
-} from './utils';
+import { getNumbers, calculateItems } from './utils';
+
+function handlePageChange(
+  page: number,
+  setCurrentPage: (page: number) => void,
+) {
+  setCurrentPage(page);
+}
+
+function handlePerPageChange(
+  e: React.ChangeEvent<HTMLSelectElement>,
+  setPerPage: (perPage: number) => void,
+  setCurrentPage: (page: number) => void,
+) {
+  const newPerPage = parseInt(e.target.value, 10);
+
+  setPerPage(newPerPage);
+  setCurrentPage(1);
+}
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,7 +27,9 @@ export const App: React.FC = () => {
   const totalItems = 42; // Total number of items
 
   const [startItem, endItem] = calculateItems(currentPage, perPage, totalItems);
-  const items = getNumbers(startItem, endItem).map(n => `Item ${n}`);
+  const items = getNumbers(endItem - startItem + 1, startItem - 1).map(
+    n => `Item ${n}`,
+  );
 
   return (
     <div className="container">

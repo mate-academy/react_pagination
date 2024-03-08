@@ -1,4 +1,5 @@
 import React from 'react';
+import { getNumbers } from '../../utils';
 
 interface PaginationProps {
   total: number;
@@ -40,10 +41,7 @@ export const Pagination: React.FC<PaginationProps> = ({
     </li>
   );
 
-  const renderPageLinks = () =>
-    Array.from({ length: totalPages }, (_, index) => index + 1).map(
-      renderPageLink,
-    );
+  const renderPageLinks = () => getNumbers(totalPages).map(renderPageLink);
 
   const handlePrevClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();

@@ -1,19 +1,12 @@
-export function getNumbers(from: number, to: number): number[] {
-  const numbers = [];
+// export function getNumbers(from: number, to: number): number[] {
+//   const numbers = [];
 
-  for (let n = from; n <= to; n += 1) {
-    numbers.push(n);
-  }
+//   for (let n = from; n <= to; n += 1) {
+//     numbers.push(n);
+//   }
 
-  return numbers;
-}
-
-export function handlePageChange(
-  page: number,
-  setCurrentPage: (page: number) => void,
-) {
-  setCurrentPage(page);
-}
+//   return numbers;
+// }
 
 export function calculateItems(
   currentPage: number,
@@ -26,13 +19,5 @@ export function calculateItems(
   return [startItem, endItem];
 }
 
-export function handlePerPageChange(
-  e: React.ChangeEvent<HTMLSelectElement>,
-  setPerPage: (perPage: number) => void,
-  setCurrentPage: (page: number) => void,
-) {
-  const newPerPage = parseInt(e.target.value, 10);
-
-  setPerPage(newPerPage);
-  setCurrentPage(1);
-}
+export const getNumbers = (totalPages: number, offset = 0) =>
+  Array.from({ length: totalPages }, (_, index) => index + 1 + offset);
