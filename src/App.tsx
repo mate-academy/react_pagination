@@ -58,7 +58,9 @@ export const App: React.FC = () => {
       />
       <ul>
         {currentPosts.map(post => (
-          <li data-cy="item">{post}</li>
+          <li key={post} data-cy="item">
+            {post}
+          </li>
         ))}
       </ul>
     </div>
