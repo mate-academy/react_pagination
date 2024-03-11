@@ -27,7 +27,7 @@ export const App: React.FC = () => {
 
       <p className="lead" data-cy="info">
         Page {currentPage} (items {firstItem + 1} -{' '}
-        {lastItem > 42 ? 42 : lastItem} of {total})
+        {lastItem > total ? total : lastItem} of {total})
       </p>
 
       <div className="form-group row">
