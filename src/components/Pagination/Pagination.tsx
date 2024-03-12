@@ -25,7 +25,7 @@ export const Pagination: React.FC<Props> = ({
           href="#prev"
           aria-disabled={selectedPage === PAGES_START_INDEX}
           onClick={() => {
-            if (selectedPage <= numbersOfPages.length) {
+            if (selectedPage > 1) {
               onPageChange(selectedPage - PAGES_STEP);
             }
           }}
