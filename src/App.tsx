@@ -30,9 +30,7 @@ export const App: React.FC = () => {
             value={itemsPerPage}
             onChange={e => {
               setItemsPerPage(e.target.value);
-              if (selectedPage !== 1) {
-                setSelectedPage(1);
-              }
+              setSelectedPage(1);
             }}
           >
             <option value="3">3</option>
