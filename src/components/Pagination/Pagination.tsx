@@ -11,7 +11,7 @@ type PaginationProps = {
 export const Pagination: React.FC<PaginationProps> = ({
   perPage,
   total,
-  currentPage,
+  currentPage = 1,
   onPageChange,
 }) => {
   const buttonsCount = Math.ceil(total / perPage);
