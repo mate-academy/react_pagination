@@ -1,8 +1,9 @@
 import cn from 'classnames';
+import { getNumbers } from '../../utils';
 
 type Props = {
   total: number;
-  perPage: string;
+  perPage: number;
   currentPage: number;
   onPageChange: (page: number) => void;
 };
@@ -13,40 +14,14 @@ export const Pagination = ({
   currentPage,
   onPageChange,
 }: Props) => {
-  const amountOfPages = Math.ceil(total / +perPage);
-  const pageList = [];
-  const itemList = [];
-
-  // eslint-disable-next-line no-plusplus
-  for (let i = 1; i <= amountOfPages; i++) {
-    pageList.push(
-      <li
-        key={i}
-        className={cn({
-          'page-item': true,
-          active: currentPage === i,
-        })}
-      >
-        <a
-          data-cy="pageLink"
-          className="page-link"
-          href={`#${currentPage}`}
-          onClick={() => onPageChange(i)}
-        >
-          {i}
-        </a>
-      </li>,
-    );
-  }
-
-  // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < total; i++) {
-    itemList.push(
-      <li key={i + 1} data-cy="item">
-        Item {i + 1}
-      </li>,
-    );
-  }
+  const amountOfPages = Math.ceil(total / perPage);
+  const pageList = getNumbers(1, amountOfPages)
+    .fill(0)
+    .map((_, i) => i + 1);
+  const itemList = getNumbers(1, total).map((_, i) => (
+    // eslint-disable-next-line react/no-array-index-key
+    <li key={i} data-cy="item">{`Item ${i + 1}`}</li>
+  ));
 
   return (
     <>
@@ -66,7 +41,24 @@ export const Pagination = ({
             «
           </a>
         </li>
-        {pageList}
+        {pageList.map(page => (
+          <li
+            key={page}
+            className={cn({
+              'page-item': true,
+              active: currentPage === page,
+            })}
+          >
+            <a
+              data-cy="pageLink"
+              className="page-link"
+              href={`#${currentPage}`}
+              onClick={() => onPageChange(page)}
+            >
+              {page}
+            </a>
+          </li>
+        ))}
         <li
           className={cn('page-item', {
             disabled: currentPage === amountOfPages,
@@ -88,10 +80,7 @@ export const Pagination = ({
         </li>
       </ul>
       <ul>
-        {itemList.slice(
-          +perPage * +currentPage - +perPage,
-          +perPage * +currentPage,
-        )}
+        {itemList.slice(perPage * currentPage - perPage, perPage * currentPage)}
       </ul>
     </>
   );

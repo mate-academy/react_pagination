@@ -3,18 +3,25 @@ import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
+enum PerPageAmount {
+  Three = 3,
+  Five = 5,
+  Ten = 10,
+  Twenty = 20,
+}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [perPage, setPerPage] = useState('5');
+  const [perPage, setPerPage] = useState<PerPageAmount>(PerPageAmount.Five);
   const [currentPage, setCurrentPage] = useState(1);
-  const firstItem = +perPage * +currentPage - +perPage + 1;
-  let lastItem = +perPage * +currentPage;
+  const firstItem = perPage * currentPage - perPage + 1;
+  let lastItem = perPage * currentPage;
 
   const handlePerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCurrentPage(1);
-    setPerPage(e.target.value);
+    setPerPage(+e.target.value);
   };
 
   if (lastItem > items.length) {
@@ -38,10 +45,17 @@ export const App: React.FC = () => {
             value={perPage}
             onChange={handlePerPageChange}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            {Object.values(PerPageAmount).map(option => {
+              if (Number.isNaN(+option)) {
+                return false;
+              }
+
+              return (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              );
+            })}
           </select>
         </div>
 
