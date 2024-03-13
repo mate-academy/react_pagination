@@ -6,8 +6,6 @@ import { Pagination } from './components/Pagination';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
-let numbersOfItems: number[] = [];
-
 function getPreperedItems(tools: string[], val: number, page: number) {
   const startIndex = val * (page - 1);
   let endIndex = startIndex + val;
@@ -16,17 +14,20 @@ function getPreperedItems(tools: string[], val: number, page: number) {
     endIndex = items.length;
   }
 
-  const preperedItems = tools.slice(startIndex, endIndex);
+  const visibleItems = tools.slice(startIndex, endIndex);
+  const numbersOfItems = [startIndex + 1, endIndex];
 
-  numbersOfItems = [startIndex + 1, endIndex];
-
-  return preperedItems;
+  return { visibleItems, numbersOfItems };
 }
 
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setPageChange] = useState(1);
-  const visibleItems = getPreperedItems(items, perPage, currentPage);
+  const { visibleItems, numbersOfItems } = getPreperedItems(
+    items,
+    perPage,
+    currentPage,
+  );
 
   return (
     <div className="container">
