@@ -10,12 +10,26 @@ export const App: React.FC = () => {
   const [optionVal, setOptionVal] = useState('3');
   const [pagesNr, setpagesNr] = useState(items.length / +optionVal);
   const [activePage, setActivePage] = useState(0);
+  const [activeButtons, setActiveButtons] = useState({
+    prev: true,
+    next: false,
+  });
 
   const handleActivePage = (page: number) => {
     setActivePage(page);
+
+    setActiveButtons({
+      prev: page === 0,
+      next: page === pagesNr - 1,
+    });
   };
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setActivePage(0);
+    setActiveButtons({
+      prev: true,
+      next: false,
+    });
     setOptionVal(event.target.value);
     setpagesNr(items.length / +event.target.value);
   };
@@ -65,12 +79,12 @@ export const App: React.FC = () => {
 
       {/* Move this markup to Pagination */}
       <ul className="pagination">
-        <li className="page-item disabled">
+        <li className={`page-item ${cn({ disabled: activeButtons.prev })}`}>
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled="true"
+            aria-disabled={activeButtons.prev}
           >
             «
           </a>
@@ -93,12 +107,12 @@ export const App: React.FC = () => {
           );
         })}
 
-        <li className="page-item">
+        <li className={`page-item ${cn({ disabled: activeButtons.next })}`}>
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled="false"
+            aria-disabled={activeButtons.next}
           >
             »
           </a>
