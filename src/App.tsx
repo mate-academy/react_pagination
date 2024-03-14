@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import cn from 'classnames';
 import './App.css';
 import { getNumbers } from './utils';
 
@@ -6,12 +7,39 @@ import { getNumbers } from './utils';
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
+  const [optionVal, setOptionVal] = useState('3');
+  const [pagesNr, setpagesNr] = useState(items.length / +optionVal);
+  const [activePage, setActivePage] = useState(0);
+
+  const handleActivePage = (page: number) => {
+    setActivePage(page);
+  };
+
+  const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setOptionVal(event.target.value);
+    setpagesNr(items.length / +event.target.value);
+  };
+
+  const pageNumber = [];
+
+  for (let i = 0; i < pagesNr; i += 1) {
+    pageNumber.push(i);
+  }
+
+  const startFromElement = +optionVal * activePage + 1;
+  const endOnElement = Math.min(
+    +optionVal * activePage + +optionVal,
+    items.length,
+  );
+  const itemsList = getNumbers(startFromElement, endOnElement);
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        Page {activePage + 1} (items {`${startFromElement} - ${endOnElement}`}{' '}
+        of {items.length})
       </p>
 
       <div className="form-group row">
@@ -19,7 +47,10 @@ export const App: React.FC = () => {
           <select
             data-cy="perPageSelector"
             id="perPageSelector"
-            className="form-control">
+            className="form-control"
+            value={optionVal}
+            onChange={handleOptionChange}
+          >
             <option value="3">3</option>
             <option value="5">5</option>
             <option value="10">10</option>
@@ -39,71 +70,48 @@ export const App: React.FC = () => {
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled="true">
+            aria-disabled="true"
+          >
             «
           </a>
         </li>
-        <li className="page-item active">
-          <a data-cy="pageLink" className="page-link" href="#1">
-            1
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#2">
-            2
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#3">
-            3
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#4">
-            4
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#5">
-            5
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#6">
-            6
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#7">
-            7
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#8">
-            8
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#9">
-            9
-          </a>
-        </li>
+        {pageNumber.map(item => {
+          return (
+            <li
+              key={item}
+              className={`page-item ${cn({ active: activePage === item })}`}
+            >
+              <a
+                onClick={() => handleActivePage(item)}
+                data-cy="pageLink"
+                className="page-link"
+                href={`#${item + 1}`}
+              >
+                {item + 1}
+              </a>
+            </li>
+          );
+        })}
+
         <li className="page-item">
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled="false">
+            aria-disabled="false"
+          >
             »
           </a>
         </li>
       </ul>
       <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
+        {itemsList.map(item => {
+          return (
+            <li key={item} data-cy="item">
+              Item {item}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
