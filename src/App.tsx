@@ -1,48 +1,33 @@
+// app.tsx
+
 import React, { useState } from 'react';
-import cn from 'classnames';
 import './App.css';
 import { getNumbers } from './utils';
+import { Pagination } from './components/Pagination';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [optionVal, setOptionVal] = useState('3');
-  const [pagesNr, setpagesNr] = useState(items.length / +optionVal);
+  const [optionVal, setOptionVal] = useState(5);
+  const [pagesNr, setpagesNr] = useState(items.length / optionVal);
   const [activePage, setActivePage] = useState(0);
-  const [activeButtons, setActiveButtons] = useState({
-    prev: true,
-    next: false,
-  });
 
-  const handleActivePage = (page: number) => {
-    setActivePage(page);
-
-    setActiveButtons({
-      prev: page === 0,
-      next: page === pagesNr - 1,
-    });
+  const handleOptionChange = (
+    event: React.ChangeEvent<HTMLSelectElement> | number,
+  ) => {
+    if (typeof event === 'number') {
+      setActivePage(event);
+    } else {
+      setActivePage(0);
+      setOptionVal(+event.target.value);
+      setpagesNr(items.length / +event.target.value);
+    }
   };
 
-  const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setActivePage(0);
-    setActiveButtons({
-      prev: true,
-      next: false,
-    });
-    setOptionVal(event.target.value);
-    setpagesNr(items.length / +event.target.value);
-  };
-
-  const pageNumber = [];
-
-  for (let i = 0; i < pagesNr; i += 1) {
-    pageNumber.push(i);
-  }
-
-  const startFromElement = +optionVal * activePage + 1;
+  const startFromElement = optionVal * activePage + 1;
   const endOnElement = Math.min(
-    +optionVal * activePage + +optionVal,
+    optionVal * activePage + optionVal,
     items.length,
   );
   const itemsList = getNumbers(startFromElement, endOnElement);
@@ -65,10 +50,10 @@ export const App: React.FC = () => {
             value={optionVal}
             onChange={handleOptionChange}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            <option value={3}>3</option>
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+            <option value={20}>20</option>
           </select>
         </div>
 
@@ -77,47 +62,12 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
-      <ul className="pagination">
-        <li className={`page-item ${cn({ disabled: activeButtons.prev })}`}>
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled={activeButtons.prev}
-          >
-            «
-          </a>
-        </li>
-        {pageNumber.map(item => {
-          return (
-            <li
-              key={item}
-              className={`page-item ${cn({ active: activePage === item })}`}
-            >
-              <a
-                onClick={() => handleActivePage(item)}
-                data-cy="pageLink"
-                className="page-link"
-                href={`#${item + 1}`}
-              >
-                {item + 1}
-              </a>
-            </li>
-          );
-        })}
-
-        <li className={`page-item ${cn({ disabled: activeButtons.next })}`}>
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled={activeButtons.next}
-          >
-            »
-          </a>
-        </li>
-      </ul>
+      <Pagination
+        total={pagesNr}
+        // perPage={optionVal}
+        currentPage={activePage}
+        onPageChange={handleOptionChange}
+      />
       <ul>
         {itemsList.map(item => {
           return (
