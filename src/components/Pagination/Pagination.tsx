@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import cn from 'classnames';
 
 type Props = {
   total: number;
-  // perPage: number;
+  perPage: number;
   currentPage: number;
   onPageChange: (page: number) => void;
 };
 
 export const Pagination: React.FC<Props> = ({
   total,
-  // perPage,
+  perPage,
   currentPage,
   onPageChange,
 }) => {
@@ -18,6 +18,13 @@ export const Pagination: React.FC<Props> = ({
     prev: true,
     next: false,
   });
+
+  useEffect(() => {
+    setActiveButtons({
+      prev: true,
+      next: false,
+    });
+  }, [perPage]);
 
   const pageNumber = [];
 

@@ -19,9 +19,9 @@ export const App: React.FC = () => {
     if (typeof event === 'number') {
       setActivePage(event);
     } else {
-      setActivePage(0);
       setOptionVal(+event.target.value);
       setpagesNr(items.length / +event.target.value);
+      setActivePage(0);
     }
   };
 
@@ -48,7 +48,10 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={optionVal}
-            onChange={handleOptionChange}
+            onChange={event => {
+              handleOptionChange(event);
+              setActivePage(0);
+            }}
           >
             <option value={3}>3</option>
             <option value={5}>5</option>
@@ -64,7 +67,7 @@ export const App: React.FC = () => {
 
       <Pagination
         total={pagesNr}
-        // perPage={optionVal}
+        perPage={optionVal}
         currentPage={activePage}
         onPageChange={handleOptionChange}
       />
