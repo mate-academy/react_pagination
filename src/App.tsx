@@ -20,15 +20,15 @@ export const App: React.FC = () => {
   const total = items.length;
   const startIndex = (currentPage - 1) * perPage + 1;
   const endIndex = Math.min(currentPage * perPage, total);
-  
+
   const visibleItems = items.filter(
-    (_, index) => 
-    index >= (currentPage - 1) * perPage && index < currentPage * perPage
-  )
+    (_, index) =>
+      index >= (currentPage - 1) * perPage && index < currentPage * perPage,
+  );
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-  }
+  };
 
   const handlePerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(+event.target.value);
@@ -70,10 +70,12 @@ export const App: React.FC = () => {
         currentPage={currentPage}
         onPageChange={handlePageChange}
       />
-      
+
       <ul>
         {visibleItems.map(item => (
-          <li data-cy="item">{item}</li>
+          <li data-cy="item" key={item}>
+            {item}
+          </li>
         ))}
       </ul>
     </div>

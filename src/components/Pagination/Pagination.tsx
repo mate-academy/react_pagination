@@ -1,10 +1,10 @@
-import cn from "classnames";
+import cn from 'classnames';
 
 interface Props {
-  total: number,
-  perPage: number,
-  currentPage: number,
-  onPageChange: (page: number) => void,
+  total: number;
+  perPage: number;
+  currentPage: number;
+  onPageChange: (page: number) => void;
 }
 
 export const Pagination: React.FC<Props> = ({
@@ -42,7 +42,7 @@ export const Pagination: React.FC<Props> = ({
         </a>
       </li>
       {pagesArray.map(page => (
-        <li 
+        <li
           key={page}
           className={cn('page-item', { active: page === currentPage })}
         >
@@ -50,17 +50,18 @@ export const Pagination: React.FC<Props> = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${page}`}
-            onClick={() => {onPageChange(page)}}
+            onClick={() => {
+              onPageChange(page);
+            }}
           >
             {page}
           </a>
         </li>
       ))}
 
-      
       <li
         className={cn('page-item', {
-          disabled: currentPage === pagesCount
+          disabled: currentPage === pagesCount,
         })}
       >
         <a
