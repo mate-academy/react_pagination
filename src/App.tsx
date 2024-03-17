@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -74,7 +73,9 @@ export const App: React.FC = () => {
 
       <ul>
         {visibleItems.map(item => (
-          <li data-cy="item">{item}</li>
+          <li data-cy="item" key={item}>
+            {item}
+          </li>
         ))}
       </ul>
     </div>
