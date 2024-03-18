@@ -6,11 +6,11 @@ import { Pagination } from './components/Pagination';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
-enum PerPage {
-  Three = 3,
-  Five = 5,
-  Ten = 10,
-  Twenty = 20,
+const PerPage = {
+  Three: 3,
+  Five: 5,
+  Ten: 10,
+  Twenty: 20,
 }
 
 export const App: React.FC = () => {
