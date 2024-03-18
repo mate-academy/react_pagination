@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import cn from 'classnames';
 import { getNumbers } from '../../utils';
 
@@ -9,17 +9,17 @@ type Props = {
   onPageChange: (page: number) => void;
 };
 
+function getPages(totalItemsQuantity: number, itemsQuantityPerPage: number) {
+  return getNumbers(1, Math.ceil(totalItemsQuantity / itemsQuantityPerPage));
+}
+
 export const Pagination: React.FC<Props> = ({
   total,
   perPage,
   currentPage,
   onPageChange,
 }) => {
-  const [pages, setPages] = useState<number[]>([]);
-
-  useEffect(() => {
-    setPages(getNumbers(1, Math.ceil(total / perPage)));
-  }, [total, perPage]);
+  const pages = getPages(total, perPage);
 
   return (
     <ul className="pagination">

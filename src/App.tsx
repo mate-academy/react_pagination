@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination/Pagination';
@@ -8,17 +8,21 @@ const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 const quantityPerPage = [3, 5, 10, 20];
 
+function getPreparedItems(
+  itemsToPrepare: string[],
+  itemsPerPage: number,
+  currentPage: number,
+) {
+  const start = (currentPage - 1) * itemsPerPage;
+  const end = itemsPerPage * currentPage;
+
+  return itemsToPrepare.slice(start, end);
+}
+
 export const App: React.FC = () => {
   const [itemsPerPage, setItemsPerPage] = useState(quantityPerPage[1]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsVisible, setItemsVisible] = useState(items);
-
-  useEffect(() => {
-    const start = (currentPage - 1) * itemsPerPage;
-    const end = itemsPerPage * currentPage;
-
-    setItemsVisible(items.slice(start, end));
-  }, [itemsPerPage, currentPage]);
+  const itemsVisible = getPreparedItems(items, itemsPerPage, currentPage);
 
   return (
     <div className="container">
