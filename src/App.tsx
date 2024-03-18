@@ -73,9 +73,8 @@ export const App: React.FC = () => {
       />
 
       <ul>
-        {visibleItems.map((item, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <li key={index} data-cy="item">
+        {visibleItems.map(item => (
+          <li key={item} data-cy="item">
             {item}
           </li>
         ))}
