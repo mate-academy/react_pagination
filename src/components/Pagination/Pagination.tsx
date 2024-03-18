@@ -33,12 +33,15 @@ export const Pagination: React.FC<Props> = ({
   }
 
   const handleDirectButton = (number: number) => {
-    const newPage = currentPage + number;
+    const newPage =
+      number === -1
+        ? Math.max(currentPage + number, 0)
+        : Math.min(currentPage + number, pageNumber.length - 1);
 
     onPageChange(newPage);
 
     setActiveButtons({
-      prev: newPage === 0,
+      prev: !newPage,
       next: newPage === pageNumber.length - 1,
     });
   };
@@ -48,7 +51,7 @@ export const Pagination: React.FC<Props> = ({
 
     setActiveButtons({
       prev: !page,
-      next: !!page,
+      next: page === pageNumber.length - 1,
     });
   };
 
