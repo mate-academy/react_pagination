@@ -32,7 +32,7 @@ export const Pagination: React.FC<Props> = ({
     pageNumber.push(i);
   }
 
-  const handledirectButton = (number: number) => {
+  const handleDirectButton = (number: number) => {
     const newPage = currentPage + number;
 
     onPageChange(newPage);
@@ -47,8 +47,8 @@ export const Pagination: React.FC<Props> = ({
     onPageChange(page);
 
     setActiveButtons({
-      prev: page === 0,
-      next: page === pageNumber.length - 1,
+      prev: !page,
+      next: !!page,
     });
   };
 
@@ -60,7 +60,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={activeButtons.prev}
-          onClick={() => handledirectButton(-1)}
+          onClick={() => handleDirectButton(-1)}
         >
           «
         </a>
@@ -90,7 +90,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={activeButtons.next}
-          onClick={() => handledirectButton(1)}
+          onClick={() => handleDirectButton(1)}
         >
           »
         </a>

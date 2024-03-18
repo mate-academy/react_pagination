@@ -10,7 +10,7 @@ const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   const [optionVal, setOptionVal] = useState(5);
-  const [pagesNr, setpagesNr] = useState(items.length / optionVal);
+  const [totalPages, setTotalPages] = useState(items.length / optionVal);
   const [activePage, setActivePage] = useState(0);
 
   const handleOptionChange = (
@@ -20,7 +20,7 @@ export const App: React.FC = () => {
       setActivePage(event);
     } else {
       setOptionVal(+event.target.value);
-      setpagesNr(items.length / +event.target.value);
+      setTotalPages(items.length / +event.target.value);
       setActivePage(0);
     }
   };
@@ -54,8 +54,11 @@ export const App: React.FC = () => {
             }}
           >
             <option value={3}>3</option>
+
             <option value={5}>5</option>
+
             <option value={10}>10</option>
+
             <option value={20}>20</option>
           </select>
         </div>
@@ -66,7 +69,7 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={pagesNr}
+        total={totalPages}
         perPage={optionVal}
         currentPage={activePage}
         onPageChange={handleOptionChange}
