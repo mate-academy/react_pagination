@@ -15,9 +15,11 @@ export const Pagination: React.FC<Props> = ({
 }) => {
   const pagesCount = Math.ceil(total / perPage);
   const pagesArray = Array.from({ length: pagesCount }, (_, i) => i + 1);
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === pagesCount;
 
   const goPrev = () => {
-    if (currentPage !== 1) {
+    if (!isFirstPage) {
       onPageChange(currentPage - 1);
     }
   };
@@ -30,12 +32,12 @@ export const Pagination: React.FC<Props> = ({
 
   return (
     <ul className="pagination">
-      <li className={cn('page-item', { disabled: currentPage === 1 })}>
+      <li className={cn('page-item', { disabled: isFirstPage })}>
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === 1}
+          aria-disabled={isFirstPage}
           onClick={goPrev}
         >
           «
@@ -59,14 +61,14 @@ export const Pagination: React.FC<Props> = ({
 
       <li
         className={cn('page-item', {
-          disabled: currentPage === pagesCount,
+          disabled: isLastPage,
         })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === pagesCount}
+          aria-disabled={isLastPage}
           onClick={goNext}
         >
           »

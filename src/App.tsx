@@ -53,10 +53,10 @@ export const App: React.FC = () => {
             className="form-control"
             onChange={handlePerPageChange}
           >
-            <option value="3">{PerPage.Three}</option>
-            <option value="5">{PerPage.Five}</option>
-            <option value="10">{PerPage.Ten}</option>
-            <option value="20">{PerPage.Twenty}</option>
+            <option value={PerPage.Three}>{PerPage.Three}</option>
+            <option value={PerPage.Five}>{PerPage.Five}</option>
+            <option value={PerPage.Ten}>{PerPage.Ten}</option>
+            <option value={PerPage.Twenty}>{PerPage.Twenty}</option>
           </select>
         </div>
 
@@ -73,8 +73,11 @@ export const App: React.FC = () => {
       />
 
       <ul>
-        {visibleItems.map(item => (
-          <li data-cy="item">{item}</li>
+        {visibleItems.map((item, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <li key={index} data-cy="item">
+            {item}
+          </li>
         ))}
       </ul>
     </div>
