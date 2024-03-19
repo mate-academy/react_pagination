@@ -58,10 +58,10 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${CurrentPage} (items `
-          + `${items.indexOf(visibleItems[0]) + 1} - `
-          + `${items.indexOf(visibleItems[visibleItems.length - 1]) + 1} of `
-          + `${items.length})`}
+        {`Page ${CurrentPage} (items ` +
+          `${items.indexOf(visibleItems[0]) + 1} - ` +
+          `${items.indexOf(visibleItems[visibleItems.length - 1]) + 1} of ` +
+          `${items.length})`}
       </p>
 
       <div className="form-group row">

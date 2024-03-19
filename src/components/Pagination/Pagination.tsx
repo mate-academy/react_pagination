@@ -20,16 +20,16 @@ export const Pagination: React.FC<Props> = ({
     <>
       <ul className="pagination">
         <li
-          className={cn('page-item', { 'disabled': CurrentPage === pages[0] })}
+          className={cn('page-item', { disabled: CurrentPage === pages[0] })}
           onClick={() =>
-            CurrentPage > pages[0] &&
-            setCurrentPage(CurrentPage - 1)}
+            CurrentPage > pages[0] && setCurrentPage(CurrentPage - 1)
+          }
         >
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled={ CurrentPage === pages[0] }
+            aria-disabled={CurrentPage === pages[0]}
           >
             «
           </a>
@@ -47,16 +47,19 @@ export const Pagination: React.FC<Props> = ({
           </li>
         ))}
         <li
-          className={cn('page-item', { 'disabled': CurrentPage === pages[pages.length - 1] })}
+          className={cn('page-item', {
+            disabled: CurrentPage === pages[pages.length - 1],
+          })}
           onClick={() =>
             CurrentPage < pages[pages.length - 1] &&
-            setCurrentPage(CurrentPage + 1)}
+            setCurrentPage(CurrentPage + 1)
+          }
         >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={ CurrentPage === pages[pages.length - 1] }
+            aria-disabled={CurrentPage === pages[pages.length - 1]}
           >
             »
           </a>
