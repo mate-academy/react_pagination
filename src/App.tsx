@@ -15,7 +15,7 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     navigate(`?page=${1}&perPage=${perPage}`);
-  }, []);
+  });
 
   return (
     <div className="container">
