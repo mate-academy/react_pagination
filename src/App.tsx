@@ -22,8 +22,11 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {page} (items {(page - 1) * perPage + 1} - {(page - 1) * perPage + perPage < items.length
-          ? (page - 1) * perPage + perPage : items.length} of {items.length})
+        Page {page} (items {(page - 1) * perPage + 1} -{' '}
+        {(page - 1) * perPage + perPage < items.length
+          ? (page - 1) * perPage + perPage
+          : items.length}{' '}
+        of {items.length})
       </p>
 
       <div className="form-group row">
