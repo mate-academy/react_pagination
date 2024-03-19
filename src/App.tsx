@@ -43,7 +43,9 @@ export const App: React.FC = () => {
             value={perPage}
           >
             {options.map(option => (
-              <option key={option} value={option}>{option}</option>
+              <option key={option} value={option}>
+                {option}
+              </option>
             ))}
           </select>
         </div>
