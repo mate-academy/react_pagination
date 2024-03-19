@@ -1,11 +1,12 @@
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createHashRouter, RouterProvider } from 'react-router-dom';
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
-    path: '/',
+    path: '/*',
     element: <App />,
   },
 ]);
@@ -13,5 +14,9 @@ const router = createBrowserRouter([
 const rootItem = document.getElementById('root') as HTMLDivElement;
 
 if (rootItem) {
-  createRoot(rootItem).render(<RouterProvider router={router} />);
+  createRoot(rootItem).render(
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>,
+  );
 }
