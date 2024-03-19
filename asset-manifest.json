@@ -1,12 +1,12 @@
 {
   "files": {
     "main.css": "/react_pagination/static/css/main.31d6cfe0.css",
-    "main.js": "/react_pagination/static/js/main.11f8dc83.js",
+    "main.js": "/react_pagination/static/js/main.5ab4f350.js",
     "index.html": "/react_pagination/index.html",
-    "main.11f8dc83.js.map": "/react_pagination/static/js/main.11f8dc83.js.map"
+    "main.5ab4f350.js.map": "/react_pagination/static/js/main.5ab4f350.js.map"
   },
   "entrypoints": [
     "static/css/main.31d6cfe0.css",
-    "static/js/main.11f8dc83.js"
+    "static/js/main.5ab4f350.js"
   ]
 }
