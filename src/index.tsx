@@ -1,12 +1,11 @@
-// import ReactDOM from 'react-dom';
-// import { createRoot } from 'react-dom/client';
-import { createRoot } from 'react-dom/client';
+// import React from 'react';
+import ReactDOM from 'react-dom/client';
 import { App } from './App';
 
-// ReactDOM.render(<App />, document.getElementById('root'));
-// createRoot(document.getElementById('root')) as HTMLElement.render(<App />);
-
-const container = document.getElementById('app');
-const root = createRoot(container!);
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement,
+);
 
 root.render(<App />);
+
+// ReactDOM.createRoot.render(<App />, document.getElementById('root'));
