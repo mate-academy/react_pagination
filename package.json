@@ -1,6 +1,6 @@
 {
   "name": "react_pagination",
-  "homepage": ".",
+  "homepage": "https://denys209818.github.io/react_pagination",
   "version": "0.1.0",
   "keywords": [],
   "author": "Mate Academy",
@@ -39,16 +39,16 @@
   },
   "scripts": {
     "start": "mate-scripts start -l",
-    "build": "mate-scripts build",
+    "build": "react-scripts build",
     "test": "mate-scripts test -l",
     "lint-js": "mate-scripts lint -j",
     "lint-css": "mate-scripts lint -s",
     "format": "prettier --write './src/**/*.{ts,tsx}'",
     "lint": "npm run format && npm run lint-js && npm run lint-css",
-    "update": "mate-scripts update",
+    "update": "react-scripts update",
     "postinstall": "npm run update && cypress verify",
     "predeploy": "npm run build",
-    "deploy": "mate-scripts deploy"
+    "deploy": "gh-pages -d build"
   },
   "browserslist": {
     "production": [
