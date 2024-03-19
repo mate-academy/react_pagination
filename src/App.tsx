@@ -5,10 +5,11 @@ import { Pagination } from './components/Pagination';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items: string[] = getNumbers(1, 42).map(n => `Item ${n}`);
+const options: number[] = [3, 5, 10, 20];
 
 export const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [perPage, setPerPage] = useState<number>(5);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
 
   const handlePageChange = (newPage: number): void => {
     setCurrentPage(newPage);
@@ -17,7 +18,7 @@ export const App: React.FC = () => {
   const handlePerPageChange = (
     e: React.ChangeEvent<HTMLSelectElement>,
   ): void => {
-    const newPerPage: number = parseInt(e.target.value);
+    const newPerPage = parseInt(e.target.value);
 
     setPerPage(newPerPage);
     setCurrentPage(1);
@@ -41,10 +42,9 @@ export const App: React.FC = () => {
             onChange={handlePerPageChange}
             value={perPage}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            {options.map(option => (
+              <option key={option} value={option}>{option}</option>
+            ))}
           </select>
         </div>
 

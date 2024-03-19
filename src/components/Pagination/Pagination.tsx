@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+
 interface PaginationProps {
   total: number;
   perPage: number;
@@ -21,7 +23,11 @@ export const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <ul className="pagination">
-      <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+      <li
+        className={classNames('page-item', {
+          'disabled': currentPage === 1,
+        })}
+      >
         <a
           data-cy="prevLink"
           className="page-link"
@@ -36,7 +42,9 @@ export const Pagination: React.FC<PaginationProps> = ({
       {Array.from({ length: totalPages }).map((_, index) => (
         <li
           key={index}
-          className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}
+          className={classNames('page-item', {
+            'active': currentPage === index + 1,
+          })}
         >
           <a
             data-cy="pageLink"
@@ -49,7 +57,9 @@ export const Pagination: React.FC<PaginationProps> = ({
         </li>
       ))}
       <li
-        className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}
+        className={classNames('page-item', {
+          'disabled': currentPage === totalPages,
+        })}
       >
         <a
           data-cy="nextLink"
