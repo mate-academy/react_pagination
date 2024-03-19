@@ -4,61 +4,31 @@ import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
 
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
-
-type TypeOfState = {
-  PageChange: string;
-  CurrentPage: number;
-};
-
-enum SelectFields {
-  colomns3 = '3',
-  colomns5 = '5',
-  colomns10 = '10',
-  colomns20 = '20',
-}
-
-function PrepearedItems(
-  oldItems: string[],
-  { PageChange, CurrentPage }: TypeOfState,
-) {
-  let prepearedItems: string[] = [...oldItems];
-
-  if (CurrentPage) {
-    const extraElements = (CurrentPage - 1) * Number(PageChange);
-
-    prepearedItems = prepearedItems.slice(extraElements);
-  }
-
-  switch (PageChange) {
-    case SelectFields.colomns3:
-      return prepearedItems.slice(0, 3);
-    case SelectFields.colomns5:
-      return prepearedItems.slice(0, 5);
-    case SelectFields.colomns10:
-      return prepearedItems.slice(0, 10);
-    case SelectFields.colomns20:
-      return prepearedItems.slice(0, 20);
-
-    default:
-      return prepearedItems;
-  }
-}
+const itemsPerPage = [3, 5, 10, 20];
 
 export const App: React.FC = () => {
-  const [PageChange, onPageChange] = useState('5');
-  const [Pages, setPages] = useState(9);
-  const [CurrentPage, setCurrentPage] = useState(1);
-  const visibleItems = PrepearedItems(items, {
-    PageChange,
-    CurrentPage,
-  });
+  const [perPage, setPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const visibleItems = items.slice(
+    (currentPage - 1) * perPage,
+    currentPage * perPage,
+  );
+
+  const onPageChange = () => {
+    const amountOfPages = Math.ceil(items.length / perPage);
+
+    return Array.from({ length: amountOfPages }, (_, index) => index + 1);
+  };
+
+  const amountPages = onPageChange();
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${CurrentPage} (items ` +
+        {`Page ${currentPage} (items ` +
           `${items.indexOf(visibleItems[0]) + 1} - ` +
           `${items.indexOf(visibleItems[visibleItems.length - 1]) + 1} of ` +
           `${items.length})`}
@@ -72,17 +42,15 @@ export const App: React.FC = () => {
             className="form-control"
             defaultValue="5"
             onChange={event => {
-              onPageChange(event.currentTarget.value);
-              setPages(
-                Math.ceil(items.length / Number(event.currentTarget.value)),
-              );
+              setPerPage(Number(event.target.value));
               setCurrentPage(1);
             }}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            {itemsPerPage.map(value => (
+              <option value={value} key={value}>
+                {value}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -92,10 +60,10 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        Pages={Pages}
-        CurrentPage={CurrentPage}
+        visibleItems={visibleItems}
+        currentPage={currentPage}
+        amountPages={amountPages}
         setCurrentPage={setCurrentPage}
-        PrepearedItems={visibleItems}
       />
     </div>
   );
