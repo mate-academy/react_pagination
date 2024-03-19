@@ -7,19 +7,16 @@ import { Pagination } from './components/Pagination';
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [perPageItems, setPerPageItems] = useState('5');
+  const [itemsPerPage, setItemsPerPage] = useState('5');
   const [selectedPage, setSelectedPage] = useState(1);
 
   const handlerSelectedPage = (numb: number) => {
     setSelectedPage(numb);
   };
 
-  const maxPage = Math.ceil(items.length / +perPageItems);
+  const maxPage = Math.ceil(items.length / +itemsPerPage);
 
-  const title =
-    selectedPage === 1
-      ? `Page ${selectedPage} (items 1 - ${+perPageItems * selectedPage} of 42)`
-      : `Page ${selectedPage} (items ${(selectedPage - 1) * +perPageItems + 1} - ${Math.min(+perPageItems * selectedPage, items.length)} of ${items.length})`;
+  const title = `Page ${selectedPage} (items ${(selectedPage - 1) * +itemsPerPage + 1} - ${Math.min(+itemsPerPage * selectedPage, items.length)} of ${items.length})`;
 
   return (
     <div className="container">
@@ -35,15 +32,18 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            value={perPageItems}
+            value={itemsPerPage}
             onChange={e => {
               setSelectedPage(1);
-              setPerPageItems(e.target.value);
+              setItemsPerPage(e.target.value);
             }}
           >
             <option value="3">3</option>
+
             <option value="5">5</option>
+
             <option value="10">10</option>
+
             <option value="20">20</option>
           </select>
         </div>
@@ -55,7 +55,7 @@ export const App: React.FC = () => {
 
       <Pagination
         items={items}
-        perPageItems={perPageItems}
+        itemsPerPage={itemsPerPage}
         selectedPage={selectedPage}
         maxPage={maxPage}
         handlerSelectedPage={handlerSelectedPage}

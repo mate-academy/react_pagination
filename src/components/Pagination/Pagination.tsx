@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { getNumbers } from '../../utils';
+import cn from 'classnames';
 
 type Props = {
   items: string[];
-  perPageItems: string;
+  itemsPerPage: string;
   selectedPage: number;
   maxPage: number;
   handlerSelectedPage: (numb: number) => void;
@@ -11,25 +12,43 @@ type Props = {
 
 export const Pagination = ({
   items,
-  perPageItems,
+  itemsPerPage,
   selectedPage,
   maxPage,
   handlerSelectedPage,
 }: Props) => {
+  const handlerPrevlink = () => {
+    if (selectedPage !== 1) {
+      handlerSelectedPage(selectedPage - 1);
+    }
+  };
+
+  const handlerNextLink = () => {
+    if (selectedPage !== maxPage) {
+      handlerSelectedPage(selectedPage + 1);
+    }
+  };
+
+  // const className = cn({
+  //   'page-item': true,
+  //   disabled: selectedPage === 1,
+  // });
+
   return (
     <>
       <ul className="pagination">
-        <li className={`page-item ${selectedPage === 1 ? 'disabled' : ''}`}>
+        <li
+          className={cn({
+            'page-item': true,
+            disabled: selectedPage === 1,
+          })}
+        >
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
             aria-disabled={selectedPage === 1}
-            onClick={() => {
-              if (selectedPage !== 1) {
-                handlerSelectedPage(selectedPage - 1);
-              }
-            }}
+            onClick={handlerPrevlink}
           >
             «
           </a>
@@ -37,7 +56,10 @@ export const Pagination = ({
         {getNumbers(1, maxPage).map(n => {
           return (
             <li
-              className={`page-item ${n === selectedPage ? 'active' : ''}`}
+              className={cn({
+                'page-item': true,
+                active: n === selectedPage,
+              })}
               key={n}
             >
               <a
@@ -52,36 +74,37 @@ export const Pagination = ({
           );
         })}
         <li
-          className={`page-item ${selectedPage === maxPage ? 'disabled' : ''}`}
+          className={cn({
+            'page-item': true,
+            disabled: selectedPage === maxPage,
+          })}
         >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
             aria-disabled={selectedPage === maxPage}
-            onClick={() => {
-              if (selectedPage !== maxPage) {
-                handlerSelectedPage(selectedPage + 1);
-              }
-            }}
+            onClick={handlerNextLink}
           >
             »
           </a>
         </li>
       </ul>
       <ul>
-        {items
-          .filter((_item, index) => {
-            const minItem = +perPageItems * (selectedPage - 1) + 1;
-            const maxItem = +perPageItems * selectedPage;
+        {items.map((item, index) => {
+          const minItem = +itemsPerPage * (selectedPage - 1) + 1;
+          const maxItem = +itemsPerPage * selectedPage;
 
-            return index + 1 >= minItem && index + 1 <= maxItem;
-          })
-          .map(item => (
-            <li data-cy="item" key={item}>
-              {item}
-            </li>
-          ))}
+          if (index + 1 >= minItem && index + 1 <= maxItem) {
+            return (
+              <li data-cy="item" key={item}>
+                {item}
+              </li>
+            );
+          }
+
+          return;
+        })}
       </ul>
     </>
   );
