@@ -10,6 +10,8 @@ type Types = {
   onPageChange: (page: number) => void;
 };
 
+type PageType = 'frontPage' | 'backPage';
+
 export const Pagination: React.FC<Types> = ({
   total,
   perPage,
@@ -20,6 +22,14 @@ export const Pagination: React.FC<Types> = ({
     { length: Math.ceil(total / perPage) },
     (_, index) => index + 1,
   );
+
+  const setNewCurrentPage = (pageNumber: number, key: PageType) => {
+    if (key === 'backPage' && pageNumber > 1) {
+      onPageChange(pageNumber - 1);
+    } else if (key === 'frontPage' && pageNumber < countOfPages.length) {
+      onPageChange(pageNumber + 1);
+    }
+  };
 
   return (
     <React.Fragment>
@@ -34,11 +44,7 @@ export const Pagination: React.FC<Types> = ({
             className="page-link"
             to={`?page=${currentPage - 1}&perPage=${perPage}`}
             aria-disabled={currentPage === 1 ? 'true' : 'false'}
-            onClick={() => {
-              if (currentPage > 1) {
-                onPageChange(currentPage - 1);
-              }
-            }}
+            onClick={() => setNewCurrentPage(currentPage, 'backPage')}
           >
             «
           </Link>
@@ -50,9 +56,7 @@ export const Pagination: React.FC<Types> = ({
                 active: element === currentPage,
               })}
               key={`li: ${element}`}
-              onClick={() => {
-                onPageChange(element);
-              }}
+              onClick={() => onPageChange(element)}
             >
               <Link
                 className="page-link"
@@ -77,11 +81,7 @@ export const Pagination: React.FC<Types> = ({
             aria-disabled={
               currentPage === countOfPages.length ? 'true' : 'false'
             }
-            onClick={() => {
-              if (currentPage < countOfPages.length) {
-                onPageChange(currentPage + 1);
-              }
-            }}
+            onClick={() => setNewCurrentPage(currentPage, 'frontPage')}
           >
             »
           </Link>

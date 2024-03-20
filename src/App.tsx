@@ -13,19 +13,20 @@ export const App: React.FC = () => {
   const pages = [3, 5, 10, 20];
   const navigate = useNavigate();
 
+  const leftLimitOnPage = (page - 1) * perPage + 1;
+  const rightLimitOnPage = (page - 1) * perPage + perPage;
+
   useEffect(() => {
     navigate(`?page=${1}&perPage=${perPage}`);
-  }, []);
+  }, [navigate, perPage]);
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {page} (items {(page - 1) * perPage + 1} -{' '}
-        {(page - 1) * perPage + perPage < items.length
-          ? (page - 1) * perPage + perPage
-          : items.length}{' '}
+        Page {page} (items {leftLimitOnPage} -{' '}
+        {rightLimitOnPage < items.length ? rightLimitOnPage : items.length}
         of {items.length})
       </p>
 
@@ -42,13 +43,11 @@ export const App: React.FC = () => {
               navigate(`?page=1&perPage=${e.target.value}`);
             }}
           >
-            {pages.map(pageNumber => {
-              return (
-                <option value={pageNumber} key={`page: ${pageNumber}`}>
-                  {pageNumber}
-                </option>
-              );
-            })}
+            {pages.map(pageNumber => (
+              <option value={pageNumber} key={`page: ${pageNumber}`}>
+                {pageNumber}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -62,7 +61,7 @@ export const App: React.FC = () => {
         currentPage={page}
         perPage={perPage}
         total={items.length}
-        onPageChange={(pageParam: number) => setPage(pageParam)}
+        onPageChange={setPage}
       />
 
       <List items={items} />
