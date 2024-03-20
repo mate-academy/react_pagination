@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+
 import { useState } from 'react';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -9,6 +10,8 @@ const items = getNumbers(1, 42).map(n => `Item ${n}`);
 export const App: React.FC = () => {
   const [chosenIPP, setChosenIPP] = useState(5);
   const [activePage, setActivePage] = useState(1);
+
+  const visibleItemsNum = chosenIPP * activePage;
 
   const handleIPPChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setChosenIPP(Number(event.target.value));
@@ -21,7 +24,7 @@ export const App: React.FC = () => {
 
       <p className="lead" data-cy="info">
         Page {activePage} (items{' '}
-        {`${chosenIPP * activePage - chosenIPP + 1} - ${activePage !== Math.ceil(items.length / chosenIPP) ? chosenIPP * activePage : items.length}`}{' '}
+        {`${visibleItemsNum - chosenIPP + 1} - ${activePage !== Math.ceil(items.length / chosenIPP) ? visibleItemsNum : items.length}`}{' '}
         of {items.length})
       </p>
 
