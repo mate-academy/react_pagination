@@ -26,7 +26,8 @@ export const App: React.FC = () => {
 
       <p className="lead" data-cy="info">
         Page {page} (items {leftLimitOnPage} -{' '}
-        {rightLimitOnPage < items.length ? rightLimitOnPage : items.length}
+        {(rightLimitOnPage < items.length ? rightLimitOnPage : items.length) +
+          ' '}
         of {items.length})
       </p>
 
