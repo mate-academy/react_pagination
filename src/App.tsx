@@ -30,9 +30,9 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={(event) => {
-              setPerPage(+event.target.value)
-              setCurrentPage(1)
+            onChange={event => {
+              setPerPage(+event.target.value);
+              setCurrentPage(1);
             }}
           >
             <option value="3">3</option>
@@ -56,7 +56,9 @@ export const App: React.FC = () => {
 
       <ul>
         {items.slice(indexFirstItem, indexLastItem).map(item => (
-          <li data-cy="item" key={item}>{item}</li>
+          <li data-cy="item" key={item}>
+            {item}
+          </li>
         ))}
       </ul>
     </div>
