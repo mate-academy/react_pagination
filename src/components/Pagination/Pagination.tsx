@@ -21,6 +21,9 @@ export const Pagination: React.FC<Props> = ({
   const sliceTo = currentPage * perPage;
   const slicedItems = total.slice(sliceFrom, sliceTo);
 
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === numberOfPages;
+
   const handleBack = () => {
     if (currentPage > 1) {
       onPageChange(currentPage - 1);
@@ -37,33 +40,33 @@ export const Pagination: React.FC<Props> = ({
     <>
       <ul className="pagination">
         <li
-          className={cn('page-item', { disabled: currentPage === 1 })}
+          className={cn('page-item', { disabled: isFirstPage })}
           onClick={handleBack}
         >
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled={currentPage === 1}
+            aria-disabled={isFirstPage}
           >
             «
           </a>
         </li>
-        {pagesToRender.map(pageN => (
+        {pagesToRender.map(page => (
           <li
-            className={cn('page-item', { active: currentPage === pageN })}
-            key={pageN}
-            value={pageN}
-            onClick={() => onPageChange(pageN)}
+            className={cn('page-item', { active: currentPage === page })}
+            key={page}
+            value={page}
+            onClick={() => onPageChange(page)}
           >
-            <a data-cy="pageLink" className="page-link" href={`#${pageN}`}>
-              {pageN}
+            <a data-cy="pageLink" className="page-link" href={`#${page}`}>
+              {page}
             </a>
           </li>
         ))}
         <li
           className={cn('page-item', {
-            disabled: currentPage === numberOfPages,
+            disabled: isLastPage,
           })}
           onClick={handleForward}
         >
@@ -71,7 +74,7 @@ export const Pagination: React.FC<Props> = ({
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={currentPage === numberOfPages}
+            aria-disabled={isLastPage}
           >
             »
           </a>
