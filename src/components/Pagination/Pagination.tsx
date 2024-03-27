@@ -1,4 +1,3 @@
-// import { event } from "cypress/types/jquery";
 import { getNumbers } from '../../utils';
 import cn from 'classnames';
 
@@ -20,20 +19,12 @@ export const Pagination: React.FC<Props> = ({
   const lastPage: number = Math.ceil(total.length / perPage.length);
   const arrPages: number[] = getNumbers(1, lastPage);
 
-  function handlePageChange(page: number) {
-    if (page !== lastPage || page !== 1) {
+  function handlePageClick(page: number) {
+    if (page !== 0 && page !== lastPage + 1) {
       onPageChange(page);
       start(1 + perPage.length * (page - 1));
     }
   }
-
-  const next =
-    currentPage !== lastPage
-      ? () => handlePageChange(currentPage + 1)
-      : undefined;
-
-  const prev =
-    currentPage !== 1 ? () => handlePageChange(currentPage - 1) : undefined;
 
   return (
     <>
@@ -44,7 +35,7 @@ export const Pagination: React.FC<Props> = ({
           })}
         >
           <a
-            onClick={prev}
+            onClick={() => handlePageClick(currentPage - 1)}
             data-cy="prevLink"
             className="page-link"
             href="#prev"
@@ -62,9 +53,7 @@ export const Pagination: React.FC<Props> = ({
             })}
           >
             <a
-              onClick={
-                currentPage !== item ? () => handlePageChange(item) : undefined
-              }
+              onClick={() => handlePageClick(item)}
               data-cy="pageLink"
               className="page-link"
               href="#1"
@@ -80,7 +69,7 @@ export const Pagination: React.FC<Props> = ({
           })}
         >
           <a
-            onClick={next}
+            onClick={() => handlePageClick(currentPage + 1)}
             data-cy="nextLink"
             className="page-link"
             href="#next"
@@ -103,7 +92,7 @@ export const Pagination: React.FC<Props> = ({
             );
           }
 
-          return;
+          return false;
         })}
       </ul>
     </>

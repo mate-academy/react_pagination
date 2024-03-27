@@ -1,36 +1,36 @@
-// import React, { useState } from 'react';
 import { useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
-// import { event } from 'cypress/types/jquery';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [lengthItem, setLengthItem] = useState('5');
-  const [currentPagin, setCurrentPagin] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState('5');
+  const [currentPage, setCurrentPage] = useState(1);
   const [startItem, setStartItem] = useState(1);
 
-  const lastPage = Math.ceil(items.length / +lengthItem);
+  const lastPage = Math.ceil(items.length / +itemsPerPage);
 
   const lastItemOfLastPage =
-    startItem + +lengthItem - 1 - (startItem + +lengthItem - 1 - items.length);
+    startItem +
+    +itemsPerPage -
+    1 -
+    (startItem + +itemsPerPage - 1 - items.length);
 
-  const lastItemOfPage = startItem + +lengthItem - 1;
+  const lastItemOfPage = startItem + +itemsPerPage - 1;
 
-  const visibleItems = getNumbers(startItem, +lengthItem + startItem - 1).map(
+  const visibleItems = getNumbers(startItem, +itemsPerPage + startItem - 1).map(
     n => `Item ${n}`,
   );
 
-  const titleOfCount =
-    currentPagin === lastPage ? lastItemOfLastPage : lastItemOfPage;
+  const lastItem =
+    currentPage === lastPage ? lastItemOfLastPage : lastItemOfPage;
 
-  const handlerItem = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleItemChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setStartItem(1);
-    setCurrentPagin(1);
-    setLengthItem(event.target.value);
+    setCurrentPage(1);
+    setItemsPerPage(event.target.value);
   };
 
   return (
@@ -38,7 +38,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {currentPagin} (items {startItem} - {titleOfCount} of 42)
+        Page {currentPage} (items {startItem} - {lastItem} of 42)
       </p>
 
       <div className="form-group row">
@@ -47,9 +47,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            onChange={event => {
-              handlerItem(event);
-            }}
+            onChange={handleItemChange}
             defaultValue={'5'}
           >
             <option value="3">3</option>
@@ -68,8 +66,8 @@ export const App: React.FC = () => {
         start={setStartItem}
         total={items}
         perPage={visibleItems}
-        currentPage={currentPagin}
-        onPageChange={setCurrentPagin}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
       />
     </div>
   );
