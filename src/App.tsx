@@ -13,18 +13,21 @@ export const App: React.FC = () => {
   const [currentPagin, setCurrentPagin] = useState(1);
   const [startItem, setStartItem] = useState(1);
 
-  const LAST_PAGE = Math.ceil(items.length / +lengthItem);
+  const lastPage = Math.ceil(items.length / +lengthItem);
 
-  const LAST_ITEM_OF_LAST_PAGE =
+  const lastItemOfLastPage =
     startItem + +lengthItem - 1 - (startItem + +lengthItem - 1 - items.length);
 
-  const LAST_ITEM_OF_PAGE = startItem + +lengthItem - 1;
+  const lastItemOfPage = startItem + +lengthItem - 1;
 
-  const VISIBLE_ITEMS = getNumbers(startItem, +lengthItem + startItem - 1).map(
+  const visibleItems = getNumbers(startItem, +lengthItem + startItem - 1).map(
     n => `Item ${n}`,
   );
 
-  const setNewValue = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const titleOfCount =
+    currentPagin === lastPage ? lastItemOfLastPage : lastItemOfPage;
+
+  const handlerItem = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setStartItem(1);
     setCurrentPagin(1);
     setLengthItem(event.target.value);
@@ -35,11 +38,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {currentPagin} (items {startItem} -{' '}
-        {currentPagin === LAST_PAGE
-          ? LAST_ITEM_OF_LAST_PAGE
-          : LAST_ITEM_OF_PAGE}{' '}
-        of 42)
+        Page {currentPagin} (items {startItem} - {titleOfCount} of 42)
       </p>
 
       <div className="form-group row">
@@ -49,7 +48,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             onChange={event => {
-              setNewValue(event);
+              handlerItem(event);
             }}
             defaultValue={'5'}
           >
@@ -68,7 +67,7 @@ export const App: React.FC = () => {
       <Pagination
         start={setStartItem}
         total={items}
-        perPage={VISIBLE_ITEMS}
+        perPage={visibleItems}
         currentPage={currentPagin}
         onPageChange={setCurrentPagin}
       />

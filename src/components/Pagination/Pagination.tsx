@@ -17,15 +17,23 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
-  const LAST_PAGE: number = Math.ceil(total.length / perPage.length);
-  const ARR_PAGES: number[] = getNumbers(1, LAST_PAGE);
+  const lastPage: number = Math.ceil(total.length / perPage.length);
+  const arrPages: number[] = getNumbers(1, lastPage);
 
   function handlePageChange(page: number) {
-    if (page !== LAST_PAGE || page !== 1) {
+    if (page !== lastPage || page !== 1) {
       onPageChange(page);
       start(1 + perPage.length * (page - 1));
     }
   }
+
+  const next =
+    currentPage !== lastPage
+      ? () => handlePageChange(currentPage + 1)
+      : undefined;
+
+  const prev =
+    currentPage !== 1 ? () => handlePageChange(currentPage - 1) : undefined;
 
   return (
     <>
@@ -36,11 +44,7 @@ export const Pagination: React.FC<Props> = ({
           })}
         >
           <a
-            onClick={
-              currentPage !== 1
-                ? () => handlePageChange(currentPage - 1)
-                : undefined
-            }
+            onClick={prev}
             data-cy="prevLink"
             className="page-link"
             href="#prev"
@@ -50,7 +54,7 @@ export const Pagination: React.FC<Props> = ({
           </a>
         </li>
 
-        {ARR_PAGES.map(item => (
+        {arrPages.map(item => (
           <li
             key={item}
             className={cn('page-item', {
@@ -72,19 +76,15 @@ export const Pagination: React.FC<Props> = ({
 
         <li
           className={cn('page-item', {
-            disabled: currentPage === ARR_PAGES.length,
+            disabled: currentPage === arrPages.length,
           })}
         >
           <a
-            onClick={
-              currentPage !== LAST_PAGE
-                ? () => handlePageChange(currentPage + 1)
-                : undefined
-            }
+            onClick={next}
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={currentPage === LAST_PAGE ? 'true' : 'false'}
+            aria-disabled={currentPage === lastPage ? 'true' : 'false'}
           >
             »
           </a>
@@ -93,9 +93,9 @@ export const Pagination: React.FC<Props> = ({
 
       <ul>
         {perPage.map(item => {
-          const NUMBER_OF_ITEM = item.split(' ');
+          const numberOfItem = item.split(' ');
 
-          if (+NUMBER_OF_ITEM[1] <= total.length) {
+          if (+numberOfItem[1] <= total.length) {
             return (
               <li key={item} data-cy="item">
                 {item}
