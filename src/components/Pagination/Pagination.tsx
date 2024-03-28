@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 type Props = {
   perPage: number;
@@ -10,13 +10,10 @@ type Props = {
 
 export const Pagination: React.FC<Props> = props => {
   const { perPage, currentPage, onPageChange, total } = props;
-  const [pages, setPages] = useState(perPage);
+  let pages = perPage;
+  const allPages = Math.ceil(total / perPage);
 
-  useEffect(() => {
-    const allPages = Math.ceil(total / perPage);
-
-    setPages(allPages);
-  }, [total, perPage]);
+  pages = allPages;
 
   const handleNextPage = () => {
     onPageChange(currentPage + 1);
