@@ -8,6 +8,10 @@ type Props = {
   total: number;
 };
 
+function getNumbers(n: number) {
+  return Array.from({ length: n }, (_, i) => i + 1);
+}
+
 export const Pagination: React.FC<Props> = props => {
   const { perPage, currentPage, onPageChange, total } = props;
   let pages = perPage;
@@ -51,7 +55,7 @@ export const Pagination: React.FC<Props> = props => {
             «
           </a>
         </li>
-        {Array.from({ length: pages }, (_, i) => i + 1).map(pageNumber => {
+        {getNumbers(pages).map(pageNumber => {
           return (
             <li
               key={pageNumber}
