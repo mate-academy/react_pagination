@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
+import { ItemsList } from './components/ItemsList/ItemsList';
 
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
@@ -32,22 +33,6 @@ export const App: React.FC = () => {
   const handleItemChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCurrentPage(1);
     setItemsPerPage(event.target.value);
-  };
-
-  const itemsMaping = (arr: number[]) => {
-    return arr.map(item => {
-      const visibleItem = item + 1;
-
-      if (visibleItem <= items.length) {
-        return (
-          <li key={item} data-cy="item">
-            {`Item ${visibleItem}`}
-          </li>
-        );
-      }
-
-      return false;
-    });
   };
 
   return (
@@ -87,7 +72,11 @@ export const App: React.FC = () => {
           onPageChange={setCurrentPage}
         />
 
-        <ul>{itemsMaping(visibleItems)}</ul>
+        <ul>
+          {items.length > 0 && (
+            <ItemsList items={visibleItems} total={items.length} />
+          )}
+        </ul>
       </div>
     </>
   );
