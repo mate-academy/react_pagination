@@ -38,58 +38,54 @@ export const Pagination: React.FC<Props> = props => {
   };
 
   return (
-    <React.Fragment>
-      <ul className="pagination">
-        <li
-          className={cn(`page-item`, {
-            disabled: currentPage === 1,
-          })}
-        >
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled={currentPage === 1}
-            onClick={currentPage > 1 ? handlePrevPage : undefined}
-          >
-            «
-          </a>
-        </li>
-        {getNumbers(pages).map(pageNumber => {
-          return (
-            <li
-              key={pageNumber}
-              className={cn(`page-item`, {
-                active: currentPage === pageNumber,
-              })}
-            >
-              <a
-                data-cy="pageLink"
-                className="page-link"
-                href={`#${pageNumber}`}
-                onClick={handleChangeCurrentPage}
-              >
-                {pageNumber}
-              </a>
-            </li>
-          );
+    <ul className="pagination">
+      <li
+        className={cn(`page-item`, {
+          disabled: currentPage === 1,
         })}
+      >
+        <a
+          data-cy="prevLink"
+          className="page-link"
+          href="#prev"
+          aria-disabled={currentPage === 1}
+          onClick={currentPage > 1 ? handlePrevPage : undefined}
+        >
+          «
+        </a>
+      </li>
+      {getNumbers(pages).map(pageNumber => (
         <li
+          key={pageNumber}
           className={cn(`page-item`, {
-            disabled: currentPage === pages,
+            active: currentPage === pageNumber,
           })}
         >
           <a
-            data-cy="nextLink"
+            data-cy="pageLink"
             className="page-link"
-            href="#next"
-            aria-disabled={currentPage === pages}
-            onClick={currentPage !== pages ? handleNextPage : undefined}
+            href={`#${pageNumber}`}
+            onClick={handleChangeCurrentPage}
           >
-            »
+            {pageNumber}
           </a>
         </li>
-      </ul>
-    </React.Fragment>
+      ))}
+      <li
+        className={cn(`page-item`, {
+          disabled: currentPage === pages,
+        })}
+      >
+        <a
+          data-cy="nextLink"
+          className="page-link"
+          href="#next"
+          aria-disabled={currentPage === pages}
+          onClick={currentPage !== pages ? handleNextPage : undefined}
+        >
+          »
+        </a>
+      </li>
+    </ul>
   );
 };
