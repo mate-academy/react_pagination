@@ -48,7 +48,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             onChange={handleItemChange}
-            defaultValue={'5'}
+            defaultValue={itemsPerPage}
           >
             <option value="3">3</option>
             <option value="5">5</option>

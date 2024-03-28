@@ -26,6 +26,22 @@ export const Pagination: React.FC<Props> = ({
     }
   }
 
+  const itemsMaping = (arr: string[]) => {
+    return arr.map(item => {
+      const numberOfItem = item.split(' ');
+
+      if (+numberOfItem[1] <= total.length) {
+        return (
+          <li key={item} data-cy="item">
+            {item}
+          </li>
+        );
+      }
+
+      return false;
+    });
+  };
+
   return (
     <>
       <ul className="pagination">
@@ -80,21 +96,7 @@ export const Pagination: React.FC<Props> = ({
         </li>
       </ul>
 
-      <ul>
-        {perPage.map(item => {
-          const numberOfItem = item.split(' ');
-
-          if (+numberOfItem[1] <= total.length) {
-            return (
-              <li key={item} data-cy="item">
-                {item}
-              </li>
-            );
-          }
-
-          return false;
-        })}
-      </ul>
+      <ul>{itemsMaping(perPage)}</ul>
     </>
   );
 };
