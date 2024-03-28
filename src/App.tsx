@@ -8,68 +8,88 @@ const items = getNumbers(1, 42).map(n => `Item ${n}`);
 export const App: React.FC = () => {
   const [itemsPerPage, setItemsPerPage] = useState('5');
   const [currentPage, setCurrentPage] = useState(1);
-  const [startItem, setStartItem] = useState(1);
 
   const lastPage = Math.ceil(items.length / +itemsPerPage);
 
   const lastItemOfLastPage =
-    startItem +
+    currentPage +
     +itemsPerPage -
     1 -
-    (startItem + +itemsPerPage - 1 - items.length);
+    (currentPage + +itemsPerPage - 1 - items.length);
 
-  const lastItemOfPage = startItem + +itemsPerPage - 1;
+  const lastItemOfPage = (currentPage - 1) * +itemsPerPage + +itemsPerPage;
 
-  const visibleItems = getNumbers(startItem, +itemsPerPage + startItem - 1).map(
-    n => `Item ${n}`,
-  );
+  const firstItem = (currentPage - 1) * +itemsPerPage + 1;
 
   const lastItem =
     currentPage === lastPage ? lastItemOfLastPage : lastItemOfPage;
 
+  const visibleItems = getNumbers(
+    (currentPage - 1) * +itemsPerPage,
+    (currentPage - 1) * +itemsPerPage + +itemsPerPage - 1,
+  );
+
   const handleItemChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setStartItem(1);
     setCurrentPage(1);
     setItemsPerPage(event.target.value);
   };
 
+  const itemsMaping = (arr: number[]) => {
+    return arr.map(item => {
+      const visibleItem = item + 1;
+
+      if (visibleItem <= items.length) {
+        return (
+          <li key={item} data-cy="item">
+            {`Item ${visibleItem}`}
+          </li>
+        );
+      }
+
+      return false;
+    });
+  };
+
   return (
-    <div className="container">
-      <h1>Items with Pagination</h1>
+    <>
+      <div className="container">
+        <h1>Items with Pagination</h1>
 
-      <p className="lead" data-cy="info">
-        Page {currentPage} (items {startItem} - {lastItem} of 42)
-      </p>
+        <p className="lead" data-cy="info">
+          Page {currentPage} (items {firstItem} - {lastItem} of 42)
+        </p>
 
-      <div className="form-group row">
-        <div className="col-3 col-sm-2 col-xl-1">
-          <select
-            data-cy="perPageSelector"
-            id="perPageSelector"
-            className="form-control"
-            onChange={handleItemChange}
-            defaultValue={itemsPerPage}
-          >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-          </select>
+        <div className="form-group row">
+          <div className="col-3 col-sm-2 col-xl-1">
+            <select
+              data-cy="perPageSelector"
+              id="perPageSelector"
+              className="form-control"
+              onChange={handleItemChange}
+              defaultValue={itemsPerPage}
+            >
+              <option value="3">3</option>
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+            </select>
+          </div>
+
+          <label htmlFor="perPageSelector" className="col-form-label col">
+            items per page
+          </label>
         </div>
 
-        <label htmlFor="perPageSelector" className="col-form-label col">
-          items per page
-        </label>
-      </div>
+        <Pagination
+          total={items}
+          visibleItems={visibleItems}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+        />
 
-      <Pagination
-        start={setStartItem}
-        total={items}
-        perPage={visibleItems}
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
-      />
-    </div>
+        <ul>{itemsMaping(visibleItems)}</ul>
+      </div>
+    </>
   );
 };
 

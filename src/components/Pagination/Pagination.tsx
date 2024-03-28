@@ -2,45 +2,26 @@ import { getNumbers } from '../../utils';
 import cn from 'classnames';
 
 type Props = {
-  start: (fun: number) => void;
   total: string[];
-  perPage: string[];
+  visibleItems: number[];
   currentPage: number;
   onPageChange: (fun: number) => void;
 };
 
 export const Pagination: React.FC<Props> = ({
-  start,
   total,
-  perPage,
+  visibleItems,
   currentPage,
   onPageChange,
 }) => {
-  const lastPage: number = Math.ceil(total.length / perPage.length);
+  const lastPage: number = Math.ceil(total.length / visibleItems.length);
   const arrPages: number[] = getNumbers(1, lastPage);
 
   function handlePageClick(page: number) {
     if (page !== 0 && page !== lastPage + 1) {
       onPageChange(page);
-      start(1 + perPage.length * (page - 1));
     }
   }
-
-  const itemsMaping = (arr: string[]) => {
-    return arr.map(item => {
-      const numberOfItem = item.split(' ');
-
-      if (+numberOfItem[1] <= total.length) {
-        return (
-          <li key={item} data-cy="item">
-            {item}
-          </li>
-        );
-      }
-
-      return false;
-    });
-  };
 
   return (
     <>
@@ -95,8 +76,6 @@ export const Pagination: React.FC<Props> = ({
           </a>
         </li>
       </ul>
-
-      <ul>{itemsMaping(perPage)}</ul>
     </>
   );
 };
