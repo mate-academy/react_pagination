@@ -37,7 +37,7 @@ export const Pagination: React.FC<Props> = props => {
   };
 
   return (
-    <>
+    <React.Fragment>
       <ul className="pagination">
         <li
           className={cn(`page-item`, {
@@ -89,6 +89,6 @@ export const Pagination: React.FC<Props> = props => {
           </a>
         </li>
       </ul>
-    </>
+    </React.Fragment>
   );
 };

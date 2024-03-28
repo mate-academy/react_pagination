@@ -35,7 +35,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             onChange={handleChangeOption}
-            defaultValue={itemsPerPage}
+            value={itemsPerPage}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -54,7 +54,7 @@ export const App: React.FC = () => {
         total={items.length}
         perPage={itemsPerPage}
         currentPage={currentPage}
-        onPageChange={(page: number) => setCurrentPage(page)}
+        onPageChange={setCurrentPage}
       />
       <ul>
         {visibleItems.map((item: string) => (
