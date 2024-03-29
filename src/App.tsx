@@ -35,6 +35,8 @@ export const App: React.FC = () => {
     setItemsPerPage(event.target.value);
   };
 
+  const itemsPerPageOptions = [3, 5, 10, 20];
+
   return (
     <>
       <div className="container">
@@ -53,10 +55,11 @@ export const App: React.FC = () => {
               onChange={handleItemChange}
               defaultValue={itemsPerPage}
             >
-              <option value="3">3</option>
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="20">20</option>
+              {itemsPerPageOptions.map(item => (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              ))}
             </select>
           </div>
 
