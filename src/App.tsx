@@ -32,7 +32,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {currentPage} (items {1 + itemsPerPage * (currentPage - 1)} -{' '}
+        Page {currentPage} (items {1 + itemsPerPage * (currentPage - 1)} -{' '}
         {itemsPerPage * currentPage > items.length
           ? items.length
           : itemsPerPage * currentPage}{' '}
