@@ -1,5 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
+import { getNumbers } from '../../utils';
 
 interface Props {
   total: number;
@@ -24,31 +25,27 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={currentPage <= 1}
-          onClick={() => onPageChange(currentPage - 1)}
+          onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
         >
           «
         </a>
       </li>
 
-      {[...Array(pageCount)].map((_, i) => {
-        const page = i + 1;
-
-        return (
-          <li
-            className={cn('page-item', { active: page === currentPage })}
-            key={page}
+      {getNumbers(1, pageCount).map(page => (
+        <li
+          className={cn('page-item', { active: page === currentPage })}
+          key={page}
+        >
+          <a
+            data-cy="pageLink"
+            className="page-link"
+            href={`#${page}`}
+            onClick={() => onPageChange(page)}
           >
-            <a
-              data-cy="pageLink"
-              className="page-link"
-              href={`#${page}`}
-              onClick={() => onPageChange(page)}
-            >
-              {page}
-            </a>
-          </li>
-        );
-      })}
+            {page}
+          </a>
+        </li>
+      ))}
 
       <li className={cn('page-item', { disabled: currentPage >= pageCount })}>
         <a
@@ -56,7 +53,9 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={currentPage >= pageCount}
-          onClick={() => onPageChange(currentPage + 1)}
+          onClick={() =>
+            currentPage < pageCount && onPageChange(currentPage + 1)
+          }
         >
           »
         </a>

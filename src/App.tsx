@@ -10,7 +10,6 @@ export const App: React.FC = () => {
   const [currentPage, setPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
 
-  const pageCount = Math.ceil(items.length / perPage);
   const showFrom = currentPage * perPage - perPage;
   const showTo =
     currentPage * perPage > items.length ? items.length : currentPage * perPage;
@@ -52,17 +51,7 @@ export const App: React.FC = () => {
         total={items.length}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={page => {
-          let targetPage = page;
-
-          if (targetPage > pageCount) {
-            targetPage = pageCount;
-          } else if (targetPage < 1) {
-            targetPage = 1;
-          }
-
-          setPage(targetPage);
-        }}
+        onPageChange={page => setPage(page)}
       />
 
       <ul>
