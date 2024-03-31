@@ -6,14 +6,13 @@ import { Pagination } from './components/Pagination';
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage, setItemsPerPage] = useState<number>(5);
-  const [pages, setPages] = useState<number[]>(
-    getNumbers(1, Math.ceil(items.length / itemsPerPage)),
-  );
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   const [itemsIndexOnCurrentPage, setItemsIndexOnCurrentPage] = useState(
     getNumbers(currentPage, itemsPerPage * currentPage),
   );
+  const total = items.length;
+  const pageCount = Math.ceil(total / itemsPerPage);
 
   useEffect(() => {
     setItemsIndexOnCurrentPage(
@@ -24,7 +23,6 @@ export const App: React.FC = () => {
           : itemsPerPage * currentPage - 1,
       ),
     );
-    setPages(getNumbers(1, Math.ceil(items.length / itemsPerPage)));
   }, [itemsPerPage, currentPage]);
 
   return (
@@ -67,7 +65,7 @@ export const App: React.FC = () => {
       <Pagination
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
-        pages={pages}
+        pageCount={pageCount}
       />
       <ul>
         {itemsIndexOnCurrentPage.map(itemIndex => (

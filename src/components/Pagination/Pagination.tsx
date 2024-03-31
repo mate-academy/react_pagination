@@ -1,16 +1,17 @@
 import classNames from 'classnames';
 import React from 'react';
+import { getNumbers } from '../../utils';
 
 type PaginationType = {
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-  pages: number[];
+  pageCount: number;
 };
 
 export const Pagination: React.FC<PaginationType> = ({
   currentPage,
   setCurrentPage,
-  pages,
+  pageCount,
 }) => {
   return (
     <ul className="pagination">
@@ -20,13 +21,13 @@ export const Pagination: React.FC<PaginationType> = ({
           className="page-link"
           href="#prev"
           aria-disabled={currentPage === 1 ? 'true' : 'false'}
-          onClick={() => setCurrentPage(currentPage - 1)}
+          onClick={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
         >
           «
         </a>
       </li>
 
-      {pages.map(page => (
+      {getNumbers(1, pageCount).map(page => (
         <li
           key={page}
           className={classNames('page-item', {
@@ -45,15 +46,17 @@ export const Pagination: React.FC<PaginationType> = ({
       ))}
       <li
         className={classNames('page-item', {
-          disabled: currentPage === pages.length,
+          disabled: currentPage === pageCount,
         })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          onClick={() => setCurrentPage(currentPage + 1)}
-          aria-disabled={currentPage === pages.length ? 'true' : 'false'}
+          onClick={() =>
+            currentPage < pageCount && setCurrentPage(currentPage + 1)
+          }
+          aria-disabled={currentPage === pageCount ? 'true' : 'false'}
         >
           »
         </a>
