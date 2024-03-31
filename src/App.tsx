@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -8,20 +8,15 @@ const items = getNumbers(1, 42).map(n => `Item ${n}`);
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
-  const [itemsIndexOnCurrentPage, setItemsIndexOnCurrentPage] = useState(
-    getNumbers(currentPage, itemsPerPage * currentPage),
-  );
   const total = items.length;
   const pageCount = Math.ceil(total / itemsPerPage);
 
-  useEffect(() => {
-    setItemsIndexOnCurrentPage(
-      getNumbers(
-        itemsPerPage * (currentPage - 1),
-        itemsPerPage * currentPage > items.length
-          ? items.length - 1
-          : itemsPerPage * currentPage - 1,
-      ),
+  const itemsIndexOnCurrentPage = useMemo(() => {
+    return getNumbers(
+      itemsPerPage * (currentPage - 1),
+      itemsPerPage * currentPage > items.length
+        ? items.length - 1
+        : itemsPerPage * currentPage - 1,
     );
   }, [itemsPerPage, currentPage]);
 
