@@ -11,12 +11,12 @@ export const App: React.FC = () => {
   const [pages, setPages] = useState<number[]>(
     getNumbers(1, Math.ceil(items.length / itemsPerPage)),
   );
-  const [itemsOnCurrentPage, setItemsOnCurrentPage] = useState(
+  const [itemsIndexOnCurrentPage, setItemsIndexOnCurrentPage] = useState(
     getNumbers(currentPage, itemsPerPage * currentPage),
   );
 
   useEffect(() => {
-    setItemsOnCurrentPage(
+    setItemsIndexOnCurrentPage(
       getNumbers(
         itemsPerPage * (currentPage - 1),
         itemsPerPage * currentPage > items.length
@@ -70,9 +70,9 @@ export const App: React.FC = () => {
         pages={pages}
       />
       <ul>
-        {itemsOnCurrentPage.map(n => (
-          <li key={n} data-cy="item">
-            {items[n]}
+        {itemsIndexOnCurrentPage.map(itemIndex => (
+          <li key={itemIndex} data-cy="item">
+            {items[itemIndex]}
           </li>
         ))}
       </ul>
