@@ -15,7 +15,7 @@ enum PageSpecs {
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [perPage, setPerPage] = useState<PageSpecs>(PageSpecs.Three);
+  const [perPage, setPerPage] = useState<PageSpecs>(PageSpecs.Five);
   const [currPage, setCurrPage] = useState<number>(1);
 
   const pagiPagesCount = Math.ceil(items.length / perPage);
