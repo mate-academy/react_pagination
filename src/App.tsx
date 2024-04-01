@@ -28,6 +28,7 @@ export const App: React.FC = () => {
 
   const onPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(Number(event.target.value) as PageSpecs);
+    setCurrPage(1);
   };
 
   return (
