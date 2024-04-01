@@ -7,11 +7,13 @@ import { Pagination } from './components/Pagination';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
+const PAGI_SPECS = [3, 5, 10, 20];
+
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState<number>(5);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const pagiTotal = 42;
+  const totalPages = 42;
 
   const firstItem = (currentPage - 1) * perPage + 1;
   const lastItem = Math.min(currentPage * perPage, items.length);
@@ -42,11 +44,13 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            onChange={(e) => onPerPageChange(Number(e.target.value))}
+            onChange={e => onPerPageChange(Number(e.target.value))}
             value={perPage}
           >
-            {[3, 5, 10, 20].map(num => (
-              <option value={num}>{num}</option>
+            {PAGI_SPECS.map(num => (
+              <option value={num} key={num}>
+                {num}
+              </option>
             ))}
           </select>
         </div>
@@ -58,15 +62,13 @@ export const App: React.FC = () => {
 
       {/* Move this markup to Pagination */}
       <Pagination
-        total={pagiTotal}
+        total={totalPages}
         perPage={perPage}
         currentPage={currentPage}
         onPageChange={onPageChange}
       />
       <ul>
-        {items
-          .slice(startIndx, endIndx)
-          .map((item, i) => (
+        {items.slice(startIndx, endIndx).map((item, i) => (
           <li data-cy="item" key={i}>
             {item}
           </li>
