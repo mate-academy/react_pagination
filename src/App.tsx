@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
 
-
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
-
-
 
 enum PageSpecs {
   Three = 3,
@@ -72,9 +69,7 @@ export const App: React.FC = () => {
         setCurrPage={setCurrPage}
       />
       <ul>
-        {items
-          .slice(startIndex, lastIndex)
-          .map((item, i) => (
+        {items.slice(startIndex, lastIndex).map((item, i) => (
           <li data-cy="item" key={i}>
             {item}
           </li>
