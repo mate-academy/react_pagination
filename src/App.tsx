@@ -4,31 +4,28 @@ import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
-enum PageSpecs {
-  Three = 3,
-  Five = 5,
-  Ten = 10,
-  Twenty = 20,
-}
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [perPage, setPerPage] = useState<PageSpecs>(PageSpecs.Five);
-  const [currPage, setCurrPage] = useState<number>(1);
+  const [perPage, setPerPage] = useState<number>(5);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const pagiPagesCount = Math.ceil(items.length / perPage);
+  const pagiTotal = 42;
 
-  const firstItem = (currPage - 1) * perPage + 1;
-  const lastItem = Math.min(currPage * perPage, items.length);
+  const firstItem = (currentPage - 1) * perPage + 1;
+  const lastItem = Math.min(currentPage * perPage, items.length);
 
-  const startIndex = (currPage - 1) * perPage;
-  const lastIndex = startIndex + perPage;
+  const startIndx = (currentPage - 1) * perPage;
+  const endIndx = startIndx + perPage;
 
-  const onPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setPerPage(Number(event.target.value) as PageSpecs);
-    setCurrPage(1);
+  const onPageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+
+  const onPerPageChange = (newPerPage: number) => {
+    setPerPage(newPerPage);
+    setCurrentPage(1);
   };
 
   return (
@@ -36,7 +33,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {currPage} (items {firstItem} - {lastItem} of {items.length})
+        Page {currentPage} (items {firstItem} - {lastItem} of {items.length})
       </p>
 
       <div className="form-group row">
@@ -45,16 +42,12 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            onChange={onPageChange}
+            onChange={(e) => onPerPageChange(Number(e.target.value))}
             value={perPage}
           >
-            <option value={PageSpecs.Three}>{PageSpecs.Three}</option>
-
-            <option value={PageSpecs.Five}>{PageSpecs.Five}</option>
-
-            <option value={PageSpecs.Ten}>{PageSpecs.Ten}</option>
-
-            <option value={PageSpecs.Twenty}>{PageSpecs.Twenty}</option>
+            {[3, 5, 10, 20].map(num => (
+              <option value={num}>{num}</option>
+            ))}
           </select>
         </div>
 
@@ -65,12 +58,15 @@ export const App: React.FC = () => {
 
       {/* Move this markup to Pagination */}
       <Pagination
-        total={pagiPagesCount}
-        currPage={currPage}
-        setCurrPage={setCurrPage}
+        total={pagiTotal}
+        perPage={perPage}
+        currentPage={currentPage}
+        onPageChange={onPageChange}
       />
       <ul>
-        {items.slice(startIndex, lastIndex).map((item, i) => (
+        {items
+          .slice(startIndx, endIndx)
+          .map((item, i) => (
           <li data-cy="item" key={i}>
             {item}
           </li>
