@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
-import { ItemList } from './components/ItemList';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
@@ -52,7 +51,6 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
       <Pagination
         total={total}
         perPage={split}
@@ -61,7 +59,13 @@ export const App: React.FC = () => {
         items={items}
       />
 
-      <ItemList visibleItems={visibleItems} />
+      <ul>
+        {visibleItems.map(item => (
+          <li key={item} data-cy="item">
+            {item}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
