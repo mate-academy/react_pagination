@@ -14,7 +14,7 @@ export const App: React.FC = () => {
 
   const pageFrom = split * (currentPage - 1);
   const pageTo = split * currentPage;
-  const visibleItems = [...items].slice(pageFrom, pageTo);
+  const visibleItems = items.slice(pageFrom, pageTo);
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCurrentPage(1);
@@ -56,7 +56,6 @@ export const App: React.FC = () => {
         perPage={split}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
-        items={items}
       />
 
       <ul>
