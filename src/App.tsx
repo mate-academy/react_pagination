@@ -13,11 +13,13 @@ export const App: React.FC = () => {
     setPerPage(+event.target.value);
     setCurrentPage(1);
   };
+
   const handlePageChange = (page: number) => {
     if (page > 0 && page <= Math.ceil(items.length / perPage)) {
       setCurrentPage(page);
     }
   };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
@@ -57,7 +59,9 @@ export const App: React.FC = () => {
         {items
           .slice((currentPage - 1) * perPage, currentPage * perPage)
           .map(item => (
-            <li data-cy="item">{item}</li>
+            <li data-cy="item" key={item}>
+              {item}
+            </li>
           ))}
       </ul>
     </div>
