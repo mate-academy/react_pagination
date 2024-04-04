@@ -9,7 +9,7 @@ const items = getNumbers(1, 42).map(n => `Item ${n}`);
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-  const onPageChange = items.filter((_, index) => {
+  const arrayOfPages = items.filter((_, index) => {
     return (
       index >= (currentPage - 1) * perPage && index < currentPage * perPage
     );
@@ -25,7 +25,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${onPageChange[0].split(' ')[1]} - ${onPageChange[onPageChange.length - 1].split(' ')[1]} of ${items.length})`}
+        {`Page ${currentPage} (items ${arrayOfPages[0].split(' ')[1]} - ${arrayOfPages[arrayOfPages.length - 1].split(' ')[1]} of ${items.length})`}
       </p>
 
       <div className="form-group row">
@@ -55,8 +55,14 @@ export const App: React.FC = () => {
         items={items}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
-        onPageChange={onPageChange}
       />
+      <ul>
+        {arrayOfPages.map(item => (
+          <li data-cy="item" key={item}>
+            {item}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
