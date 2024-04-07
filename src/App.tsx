@@ -9,12 +9,13 @@ const items = getNumbers(1, 42).map(n => `Item ${n}`);
 export const App: React.FC = () => {
   const [countOfPages, setCountOfPages] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-  const total = items.length;
+
+  const totalItems = items.length;
   const perPage = Math.ceil(items.length / countOfPages);
   const lastIndex = currentPage * countOfPages;
   const firstIndex = lastIndex - countOfPages;
   const pageNumbers = items.slice(firstIndex, lastIndex);
-  const infoPage = `Page ${currentPage} (items ${firstIndex + 1} - ${lastIndex < items.length ? lastIndex : items.length} of ${total})`;
+  const infoPage = `Page ${currentPage} (items ${firstIndex + 1} - ${lastIndex < items.length ? lastIndex : items.length} of ${totalItems})`;
 
   useEffect(() => {
     setCurrentPage(1);
