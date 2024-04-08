@@ -34,20 +34,20 @@ export const Pagination: FC<Props> = ({
             «
           </a>
         </li>
-        {getNumbers(1, pagesCount).map(n => (
+        {getNumbers(1, pagesCount).map(num => (
           <li
-            className={`page-item ${currentPage === n ? 'active' : ''}`}
-            key={n}
+            className={`page-item ${currentPage === num ? 'active' : ''}`}
+            key={num}
           >
             <a
               data-cy="pageLink"
               className="page-link"
-              href={`#${n}`}
+              href={`#${num}`}
               onClick={() => {
-                onPageChange(n);
+                onPageChange(num);
               }}
             >
-              {n}
+              {num}
             </a>
           </li>
         ))}
