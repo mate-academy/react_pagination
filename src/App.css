@@ -1,1 +1,3 @@
-/* not empty */
+.disable-pointer-events {
+  pointer-events: none;
+}
