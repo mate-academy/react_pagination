@@ -1,4 +1,6 @@
 import React from 'react';
+import { getNumbers } from '../../utils';
+import cn from 'classnames';
 
 type Props = {
   perPage: number;
@@ -11,7 +13,7 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
-  const numbers = [...Array.from(Array(perPage + 1).keys()).slice(1)];
+  const numbers = getNumbers(1, perPage);
 
   function prevPage() {
     if (currentPage !== 1) {
@@ -27,7 +29,7 @@ export const Pagination: React.FC<Props> = ({
 
   return (
     <ul className="pagination">
-      <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+      <li className={cn('page-item', { disabled: currentPage === 1 })}>
         <a
           data-cy="prevLink"
           className="page-link"
@@ -39,10 +41,7 @@ export const Pagination: React.FC<Props> = ({
         </a>
       </li>
       {numbers.map((n, i) => (
-        <li
-          className={`page-item ${currentPage === n ? 'active' : ''}`}
-          key={i}
-        >
+        <li className={cn('page-item', { active: currentPage === n })} key={i}>
           <a
             data-cy="pageLink"
             className="page-link"
@@ -53,7 +52,7 @@ export const Pagination: React.FC<Props> = ({
           </a>
         </li>
       ))}
-      <li className={`page-item ${currentPage === perPage ? 'disabled' : ''}`}>
+      <li className={cn('page-item', { disabled: currentPage === perPage })}>
         <a
           data-cy="nextLink"
           className="page-link"
