@@ -1,1 +1,4 @@
-/* not empty */
+.disabled {
+  cursor: not-allowed;
+}
+
