@@ -8,9 +8,7 @@ import { Pagination } from './components/Pagination';
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(DEFAULT_PERPAGE);
   const [currentPage, setCurrentPage] = useState(1);
-  let items = getNumbers(1, TOTAL);
-
-  items = prepareItems(items, perPage, currentPage);
+  const items = prepareItems(getNumbers(1, TOTAL), perPage, currentPage);
 
   return (
     <div className="container">
