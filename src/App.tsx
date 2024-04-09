@@ -1,33 +1,14 @@
 import React, { useState } from 'react';
 
 import './App.css';
-import { getNumbers } from './utils';
+import { getNumbers, prepareItems } from './utils';
+import { DEFAULT_PERPAGE, TOTAL } from './constants';
 import { Pagination } from './components/Pagination';
 
-const total = 42;
-
-function prepareItems(
-  itemsArray: number[],
-  itemPerPage: number,
-  currentPage: number,
-): number[] {
-  const firstNumber = (currentPage - 1) * itemPerPage + 1;
-  let lastNumber = itemPerPage * currentPage;
-
-  if (lastNumber > itemsArray[itemsArray.length - 1]) {
-    lastNumber = itemsArray[itemsArray.length - 1];
-  }
-
-  const indexOfFirst = itemsArray.indexOf(firstNumber);
-  const indexOfLast = itemsArray.indexOf(lastNumber);
-
-  return itemsArray.slice(indexOfFirst, indexOfLast + 1);
-}
-
 export const App: React.FC = () => {
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(DEFAULT_PERPAGE);
   const [currentPage, setCurrentPage] = useState(1);
-  let items = getNumbers(1, total);
+  let items = getNumbers(1, TOTAL);
 
   items = prepareItems(items, perPage, currentPage);
 
@@ -37,7 +18,7 @@ export const App: React.FC = () => {
 
       <p className="lead" data-cy="info">
         Page {currentPage} (items {items[0]} - {items[items.length - 1]} of{' '}
-        {total})
+        {TOTAL})
       </p>
 
       <div className="form-group row">
@@ -65,17 +46,15 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={total}
+        total={TOTAL}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={page => {
-          setCurrentPage(page);
-        }}
+        onPageChange={setCurrentPage}
       />
       <ul>
-        {items.map((item, index) => {
+        {items.map(item => {
           return (
-            <li key={index} data-cy="item">
+            <li key={item} data-cy="item">
               {`Item ${item}`}
             </li>
           );
