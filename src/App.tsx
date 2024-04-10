@@ -6,7 +6,7 @@ import { Pagination } from './components/Pagination';
 const maxItems = 42;
 
 export const App: React.FC = () => {
-  const [value, setValue] = useState<string>('3');
+  const [value, setValue] = useState<string>('5');
   const [column, setColumn] = useState<number>(0);
 
   const cheakChenge = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -37,6 +37,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             onChange={cheakChenge}
+            defaultValue={5}
           >
             <option value="3">3</option>
             <option value="5">5</option>
