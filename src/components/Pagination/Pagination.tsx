@@ -17,15 +17,23 @@ export const Pagination: React.FC<Props> = ({
   items,
   itemsPerPage,
 }) => {
-  const handlePageClick = (page: number) => {
-    onPageChange(page);
-  };
-
   const getCurrentPageItems = (): string[] => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
 
     return items.slice(startIndex, endIndex);
+  };
+
+  const handlePageClick = (page: number) => {
+    if (currentPage === 1 && page === currentPage - 1) {
+      return;
+    }
+
+    if (currentPage === totalPages && page === currentPage + 1) {
+      return;
+    }
+
+    onPageChange(page);
   };
 
   return (
