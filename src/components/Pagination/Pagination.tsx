@@ -6,6 +6,7 @@ interface Props {
   column: number;
   setColumn: (index: number) => void;
   maxItems: number;
+  getNumbers: (item1: number, item2: number) => number[];
 }
 
 export const Pagination: React.FC<Props> = ({
@@ -13,14 +14,13 @@ export const Pagination: React.FC<Props> = ({
   column,
   setColumn,
   maxItems,
+  getNumbers,
 }) => {
-  const Columns = Math.ceil(maxItems / Number(value));
+  const columns = Math.ceil(maxItems / Number(value));
 
   const arrayColumn: number[] = [];
 
-  for (let i = 0; i < Columns; i++) {
-    arrayColumn.push(i + 1);
-  }
+  getNumbers(1, columns).map(item => arrayColumn.push(item + 1));
 
   return (
     <ul className="pagination">
@@ -50,10 +50,8 @@ export const Pagination: React.FC<Props> = ({
       ))}
 
       <li
-        className={cn('page-item', { disabled: column + 1 === Columns })}
-        onClick={
-          column !== Columns - 1 ? () => setColumn(column + 1) : undefined
-        }
+        className={cn('page-item', { disabled: column + 1 === columns })}
+        onClick={() => column !== columns - 1 && setColumn(column + 1)}
       >
         <a
           data-cy="nextLink"

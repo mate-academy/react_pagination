@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
+import { getNumbers } from './utils'; // дать 2 значения в качестве аргументов и получить масив всех чисел
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const maxItems = 42;
@@ -18,9 +19,7 @@ export const App: React.FC = () => {
   const End = Math.min(Start + Number(value), maxItems);
   const Items: string[] = [];
 
-  for (let i = Start + 1; i <= End; i++) {
-    Items.push(`Item ${i}`);
-  }
+  getNumbers(Start + 1, End).map(item => Items.push(`Item ${item}`));
 
   return (
     <div className="container">
@@ -56,6 +55,7 @@ export const App: React.FC = () => {
         column={column}
         setColumn={setColumn}
         maxItems={maxItems}
+        getNumbers={getNumbers}
       />
       <ul>
         {Items.map(item => (
