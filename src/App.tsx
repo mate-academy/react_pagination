@@ -15,18 +15,18 @@ export const App: React.FC = () => {
     setColumn(0);
   };
 
-  const Start = column * Number(value);
-  const End = Math.min(Start + Number(value), maxItems);
-  const Items: string[] = [];
+  const start = column * Number(value);
+  const end = Math.min(start + Number(value), maxItems);
+  const items: string[] = [];
 
-  getNumbers(Start + 1, End).map(item => Items.push(`Item ${item}`));
+  getNumbers(start + 1, end).map(item => items.push(`Item ${item}`));
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {column + 1} (items {Start + 1} - {End} of 42)
+        Page {column + 1} (items {start + 1} - {end} of 42)
       </p>
 
       <div className="form-group row">
@@ -58,7 +58,7 @@ export const App: React.FC = () => {
         getNumbers={getNumbers}
       />
       <ul>
-        {Items.map(item => (
+        {items.map(item => (
           <li data-cy="item" key={item}>
             {item}
           </li>
