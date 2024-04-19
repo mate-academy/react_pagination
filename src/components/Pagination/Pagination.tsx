@@ -16,24 +16,31 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
 }) => {
   const pages = getNumbers(1, Math.ceil(totalItems / itemPerPage));
+  const handlePrev = () => {
+    if (currentPage !== pages.length) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentPage !== pages.length) {
+      onPageChange(currentPage + 1);
+    }
+  };
 
   return (
     <ul className="pagination">
       <li
         className={cn('page-item', {
-          disabled: currentPage === 1 ? true : false,
+          disabled: currentPage === 1,
         })}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === 1 ? 'true' : 'false'}
-          onClick={() => {
-            if (currentPage !== 1) {
-              onPageChange(currentPage - 1);
-            }
-          }}
+          aria-disabled={currentPage === 1}
+          onClick={handlePrev}
         >
           «
         </a>
@@ -55,18 +62,14 @@ export const Pagination: React.FC<Props> = ({
       ))}
       <li
         className={cn('page-item', {
-          disabled: currentPage >= pages.length ? true : false,
+          disabled: currentPage >= pages.length,
         })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          onClick={() => {
-            if (currentPage !== pages.length) {
-              onPageChange(currentPage + 1);
-            }
-          }}
+          onClick={handleNext}
           aria-disabled={currentPage === pages.length ? 'true' : 'false'}
         >
           »
