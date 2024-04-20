@@ -60,7 +60,9 @@ export const App: React.FC = () => {
       />
       <ul>
         {listOfItems.map(item => (
-          <li data-cy="item" key={item} value={item}>{`item ${item}`}</li>
+          <li data-cy="item" key={item} value={item}>
+            {item}
+          </li>
         ))}
       </ul>
     </div>
