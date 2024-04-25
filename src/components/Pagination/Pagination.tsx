@@ -15,6 +15,7 @@ export const Pagination: React.FC<PaginationProps> = ({
 }) => {
   const totalPages = Math.ceil(total / perPage);
   const pages = [];
+
   for (let i = 1; i <= totalPages; i++) {
     pages.push(i);
   }
@@ -23,6 +24,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   const endIndex = Math.min(startIndex + perPage - 1, total - 1);
 
   const itemsOnCurrentPage = [];
+
   for (let i = startIndex; i <= endIndex; i++) {
     itemsOnCurrentPage.push(i);
   }
