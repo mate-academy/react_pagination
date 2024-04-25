@@ -1,13 +1,13 @@
 import cn from 'classnames';
 
-type paginationTypes = {
+type PaginationTypes = {
   currentPageNumber: number;
   setCurrentPageNumber: (pageNumber: number) => void;
   currentPage: string[];
   totalPages: number;
 };
 
-export const Pagination: React.FC<paginationTypes> = ({
+export const Pagination: React.FC<PaginationTypes> = ({
   currentPageNumber,
   setCurrentPageNumber,
   currentPage,
