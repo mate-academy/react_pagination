@@ -23,6 +23,7 @@ export const App: React.FC = () => {
 
   function handlePerPageChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const newItemsPerPage = parseInt(e.target.value);
+
     setItemsPerPage(newItemsPerPage);
     setPageNumber(1);
   }
