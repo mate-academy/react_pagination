@@ -21,7 +21,7 @@ export const Pagination = ({
     arr.push(i);
   }
 
-  const handleClickButton = (button: string) => {
+  const handleClickButton = (button: 'prev' | 'next') => {
     if (button === 'prev' && currentPage !== 1) {
       return onPageChange(currentPage - 1);
     }
