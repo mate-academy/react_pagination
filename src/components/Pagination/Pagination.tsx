@@ -36,27 +36,21 @@ export const Pagination: React.FC<Props> = ({
   return (
     <ul className="pagination">
       <li
-        className={cn({
-          'page-item': true,
-          disabled: currentPage === 1 ? true : false,
-        })}
+        className={cn('page-item', { disabled: currentPage === 1 })}
         onClick={decrement}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === 1 ? true : false}
+          aria-disabled={currentPage === 1}
         >
           «
         </a>
       </li>
       {pages.map(page => (
         <li
-          className={cn({
-            'page-item': true,
-            active: currentPage === page,
-          })}
+          className={cn('page-item', { active: currentPage === page })}
           key={page}
           onClick={() => onPageChange(page)}
         >
@@ -66,17 +60,14 @@ export const Pagination: React.FC<Props> = ({
         </li>
       ))}
       <li
-        className={cn({
-          'page-item': true,
-          disabled: currentPage === maxPage ? true : false,
-        })}
+        className={cn('page-item', { disabled: currentPage === maxPage })}
         onClick={increment}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === maxPage ? true : false}
+          aria-disabled={currentPage === maxPage}
         >
           »
         </a>

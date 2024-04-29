@@ -80,10 +80,10 @@ export const App: React.FC = () => {
         total={items.length}
         perPage={Number(perPage)}
         currentPage={currentPage}
-        onPageChange={(page: number) => onChangePage(page)}
+        onPageChange={onChangePage}
       />
       <ul>
-        {[...items].slice(startEl - 1, endEl).map((el, index) => (
+        {items.slice(startEl - 1, endEl).map((el, index) => (
           <li data-cy="item" key={index}>
             {el}
           </li>
