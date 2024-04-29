@@ -16,6 +16,17 @@ export const Pagination: React.FC<Props> = ({
 }) => {
   const optPages = Math.ceil(total / perPage);
   const renderPages = getNumbers(1, optPages);
+  const incrementing = () => {
+    if (currentPage !== optPages) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
+  const decrementing = () => {
+    if (currentPage !== 1) {
+      onPageChange(currentPage - 1);
+    }
+  };
 
   return (
     <ul className="pagination">
@@ -24,15 +35,13 @@ export const Pagination: React.FC<Props> = ({
           'page-item': true,
           disabled: currentPage === 1,
         })}
-        onClick={
-          currentPage !== 1 ? () => onPageChange(currentPage - 1) : () => {}
-        }
+        onClick={decrementing}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === 1 ? `true` : `false`}
+          aria-disabled={currentPage === 1}
         >
           «
         </a>
@@ -57,17 +66,13 @@ export const Pagination: React.FC<Props> = ({
           'page-item': true,
           disabled: currentPage === optPages,
         })}
-        onClick={
-          currentPage !== optPages
-            ? () => onPageChange(currentPage + 1)
-            : () => {}
-        }
+        onClick={incrementing}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === optPages ? `true` : `false`}
+          aria-disabled={currentPage === optPages}
         >
           »
         </a>
