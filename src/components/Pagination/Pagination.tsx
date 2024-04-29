@@ -37,8 +37,12 @@ export const Pagination: React.FC<PaginationProps> = ({
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled="true"
-            onClick={() => onPageChange(currentPage - 1)}
+            aria-disabled={currentPage === 1 ? 'true' : 'false'}
+            onClick={() => {
+              if (currentPage !== 1) {
+                onPageChange(currentPage - 1);
+              }
+            }}
           >
             «
           </a>
@@ -66,8 +70,12 @@ export const Pagination: React.FC<PaginationProps> = ({
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled="false"
-            onClick={() => onPageChange(currentPage + 1)}
+            aria-disabled={currentPage === totalPages ? 'true' : 'false'}
+            onClick={() => {
+              if (currentPage !== totalPages) {
+                onPageChange(currentPage + 1);
+              }
+            }}
           >
             »
           </a>
@@ -75,7 +83,7 @@ export const Pagination: React.FC<PaginationProps> = ({
       </ul>
       <ul>
         {itemsOnCurrentPage.map(item => (
-          <li key={item} data-cy="item">{`Item ${item}`}</li>
+          <li key={item} data-cy="item">{`Item ${item + 1}`}</li>
         ))}
       </ul>
     </div>
