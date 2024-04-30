@@ -14,6 +14,11 @@ export const App: React.FC = () => {
   const startItem = (currentPage - 1) * perPage + 1;
   const endItem = Math.min(currentPage * perPage, TOTAL_ITEMS);
 
+  const handlePerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setPerPage(+e.target.value);
+    setCurrentPage(1);
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
@@ -28,10 +33,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            onChange={e => {
-              setPerPage(+e.target.value);
-              setCurrentPage(1);
-            }}
+            onChange={handlePerPageChange}
             value={perPage}
           >
             <option value="3">3</option>
