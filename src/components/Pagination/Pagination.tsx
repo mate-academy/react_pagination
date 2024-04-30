@@ -37,7 +37,7 @@ export const Pagination: React.FC<PaginationProps> = ({
     <ul className="pagination">
       <li
         className={classNames('page-item', {
-          disabled: currentPage === 1 ? true : false,
+          disabled: currentPage === 1,
         })}
       >
         <a
@@ -70,7 +70,7 @@ export const Pagination: React.FC<PaginationProps> = ({
 
       <li
         className={classNames('page-item', {
-          disabled: currentPage === maxPage ? true : false,
+          disabled: currentPage === maxPage,
         })}
       >
         <a
