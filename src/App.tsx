@@ -1,11 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
-// import cn from 'classnames';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
-// import { event } from 'cypress/types/jquery';
-// import { Pagination } from './components/Pagination';
 
 export const App: React.FC = () => {
   const totalAmount = 42;
