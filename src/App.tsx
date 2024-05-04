@@ -5,16 +5,15 @@ import { Pagination } from './components/Pagination';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items: string[] = getNumbers(1, 42).map(n => `Item ${n}`);
+const variantsOfItemsPerPage: number[] = [3, 5, 10, 20];
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
 
-  const IndexOfLastItem = currentPage * itemsPerPage;
-  const IndexOfFirstItem = IndexOfLastItem - itemsPerPage;
-  const currentItems = items.slice(IndexOfFirstItem, IndexOfLastItem);
-
-  const variantsOfItemsPerPage: number[] = [3, 5, 10, 20];
+  const lastItemIndex = currentPage * itemsPerPage;
+  const firstItemIndex = lastItemIndex - itemsPerPage;
+  const currentItems = items.slice(firstItemIndex, lastItemIndex);
 
   const handleItemPerPage = (e: ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(Number(e.target.value));
@@ -26,7 +25,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${IndexOfFirstItem + 1} - ${Math.min(IndexOfLastItem, items.length)} of ${items.length})`}
+        {`Page ${currentPage} (items ${firstItemIndex + 1} - ${Math.min(lastItemIndex, items.length)} of ${items.length})`}
       </p>
 
       <div className="form-group row">

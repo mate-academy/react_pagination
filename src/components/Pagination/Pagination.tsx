@@ -7,19 +7,21 @@ type Props = {
   setCurrentPage: (x: number) => void;
 };
 
+function getPageNumbers(total: number, perPage: number): number[] {
+  return Array.from(
+    { length: Math.ceil(total / perPage) },
+    (_, index) => index + 1,
+  );
+}
+
 export const Pagination: React.FC<Props> = ({
   perPage,
   total,
   currentPage,
   setCurrentPage,
 }) => {
-  const pageNumbers: number[] = [];
-
-  for (let i = 1; i <= Math.ceil(total / perPage); i++) {
-    pageNumbers.push(i);
-  }
-
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  const pageNumbers = getPageNumbers(total, perPage);
 
   const handlePrevPage = () => {
     if (currentPage !== 1) {
