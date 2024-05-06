@@ -25,13 +25,13 @@ export const App: React.FC = () => {
   const handlePageChange = (newPage: number) => setCurrentPage(newPage);
 
   const itemsRendering = () => {
-    const resultArr = [];
-
-    for (let i = firstItem; i < lastItem; i++) {
-      resultArr.push(<li data-cy="item">{items[i]}</li>);
-    }
-
-    return resultArr;
+    return [...items]
+      .map((item, index) => (
+        <li data-cy="item" key={index}>
+          {item}
+        </li>
+      ))
+      .slice(firstItem, lastItem);
   };
 
   return (
