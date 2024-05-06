@@ -1,17 +1,27 @@
-import React from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
+import { Pagination } from './components/Pagination';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
+  const totalAmount = 42;
+  const items = getNumbers(1, 42).map(n => `Item ${n}`);
+  const [value, setValue] = useState(5);
+  const [sortPage, setSortPage] = useState(1);
+
+  const handlePageChange = (page: number) => {
+    setSortPage(page);
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        Page {sortPage} (items {(sortPage - 1) * value + 1} -{' '}
+        {Math.min(sortPage * value, totalAmount)} of {totalAmount})
       </p>
 
       <div className="form-group row">
@@ -19,7 +29,13 @@ export const App: React.FC = () => {
           <select
             data-cy="perPageSelector"
             id="perPageSelector"
-            className="form-control">
+            className="form-control"
+            value={value}
+            onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+              setValue(Number(e.target.value));
+              setSortPage(1);
+            }}
+          >
             <option value="3">3</option>
             <option value="5">5</option>
             <option value="10">10</option>
@@ -33,7 +49,7 @@ export const App: React.FC = () => {
       </div>
 
       {/* Move this markup to Pagination */}
-      <ul className="pagination">
+      {/* <ul className="pagination">
         <li className="page-item disabled">
           <a
             data-cy="prevLink"
@@ -97,13 +113,21 @@ export const App: React.FC = () => {
             »
           </a>
         </li>
-      </ul>
+      </ul> */}
+      <Pagination
+        total={totalAmount}
+        perPage={value}
+        currentPage={sortPage}
+        onPageChange={handlePageChange}
+      />
       <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
+        {items
+          .slice((sortPage - 1) * value, sortPage * value)
+          .map((item, index) => (
+            <li key={index} data-cy="item">
+              {item}
+            </li>
+          ))}
       </ul>
     </div>
   );
