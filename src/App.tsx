@@ -5,7 +5,7 @@ import { Pagination } from './components/Pagination/';
 import { getNumbers } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42).map(n => `Item ${n}`);
+export const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
