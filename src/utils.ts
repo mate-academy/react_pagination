@@ -1,4 +1,4 @@
-export function getPages(from: number, to: number): number [] {
+export function getPages(from: number, to: number): number[] {
   const pages = [];
 
   for (let i = from; i < to; i++) {

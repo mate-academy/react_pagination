@@ -1,18 +1,21 @@
 import React from 'react';
-import {getPages} from "../../utils";
 
 interface PaginationProps {
   currentPage: number;
+  totalItems: number;
+  itemsPerPage: number;
   onPageChange: (page: number) => void;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ currentPage, onPageChange }) => {
-  const pages = getPages(1, 9).map(i => `${i}`);
+const Pagination: React.FC<PaginationProps> = ({ currentPage, totalItems, itemsPerPage, onPageChange }) => {
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
 
   return (
     <ul className="pagination">
       <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
         <button
+          data-cy="prevLink"
           className="page-link"
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
@@ -21,17 +24,18 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, onPageChange }) =>
         </button>
       </li>
       {pages.map(page => (
-        <li key={page} className={`page-item ${parseInt(page) === currentPage ? 'active' : ''}`}>
-          <button className="page-link" onClick={() => onPageChange(parseInt(page))}>
+        <li key={page} className={`page-item ${page === currentPage ? 'active' : ''}`}>
+          <button data-cy="pageLink" className="page-link" onClick={() => onPageChange(page)}>
             {page}
           </button>
         </li>
       ))}
-      <li className={`page-item ${currentPage === pages.length ? 'disabled' : ''}`}>
-      <button
+      <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+        <button
+          data-cy="nextLink"
           className="page-link"
           onClick={() => onPageChange(currentPage + 1)}
-          disabled={currentPage === pages.length}
+          disabled={currentPage === totalPages}
         >
           »
         </button>
