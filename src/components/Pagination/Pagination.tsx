@@ -1,4 +1,5 @@
 import React from 'react';
+import cn from 'classnames';
 
 type Props = {
   total: number;
@@ -24,24 +25,39 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
+  const visibleButtons = getButtons(total, perPage);
+
+  const handleClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    const target = event.target as HTMLAnchorElement;
+    const page = parseInt(target.dataset.page ?? '1');
+    onPageChange(page);
+  }
+  
+
   return (
     <ul className="pagination">
-      <li className="page-item disabled">
+      <li className={currentPage === 1 ? 'page-item disabled' : 'page-item'}>
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
           aria-disabled="true"
           data-page={currentPage - 1}
-          onClick={event =>
-            onPageChange(
-              parseInt((event.target as HTMLAnchorElement).dataset.page ?? '1'),
-            )
-          }
-        ></a>
+          onClick={handleClick}
+        >
+          «
+        </a>
       </li>
-      {getButtons(total, perPage).map((buttonNumber: number) => (
-        <li className="page-item active" key={buttonNumber}>
+
+      {visibleButtons.map((buttonNumber: number) => (
+        <li
+          className={
+            currentPage === buttonNumber
+              ? cn('page-item active')
+              : cn('page-item')
+          }
+          key={buttonNumber}
+        >
           <a
             data-cy="pageLink"
             className="page-link"
@@ -60,7 +76,13 @@ export const Pagination: React.FC<Props> = ({
         </li>
       ))}
 
-      <li className="page-item">
+      <li
+        className={
+          currentPage === visibleButtons[visibleButtons.length - 1]
+            ? 'page-item disabled'
+            : 'page-item'
+        }
+      >
         <a
           data-cy="nextLink"
           className="page-link"

@@ -1,5 +1,7 @@
 import React from 'react';
-import { useSearchParams } from 'react-router-dom';
+// import { useSearchParams } from 'react-router-dom';
+import { useState } from 'react';
+import type { ChangeEvent } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -7,25 +9,37 @@ import { Pagination } from './components/Pagination';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
-function getItems(itemsArr: string[], page: number, perPage: number) {
-  const indStart = (page - 1) * perPage;
+function getItems(itemsArr: string[], currentPage: number, perPage: number) {
+  const indStart = (currentPage - 1) * perPage;
 
-  return items.slice(indStart, indStart + perPage);
+  return itemsArr.slice(indStart, indStart + perPage);
 }
 
 export const App: React.FC = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const pageRaw = searchParams.get('page');
-  const perPageRaw = searchParams.get('perPage');
-  const page: number = pageRaw === null ? 1 : parseInt(pageRaw);
-  const perPage: number = perPageRaw === null ? 3 : parseInt(perPageRaw);
+  const [perPage, setPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const visibleItems = getItems(items, currentPage, perPage);
+  const itemFrom = visibleItems[0].split(' ');
+  const itemTo = visibleItems[visibleItems.length - 1].split(' ');
+
+  const handlerPerPage = (e: ChangeEvent<HTMLSelectElement>) => {
+    const newPerPage = e.target.value;
+
+    setPerPage(+newPerPage);
+    setCurrentPage(1);
+  };
+
+  const handlerOnPageChange = (nextPage: number) => {
+    setCurrentPage(nextPage);
+  };
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        Page {currentPage} (items {itemFrom[1]} - {itemTo[1]} of 42)
       </p>
 
       <div className="form-group row">
@@ -34,16 +48,14 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            onChange={event => {
-              const newPerPage = event.target.value;
-
-              setSearchParams({ perPage: newPerPage });
-            }}
+            onChange={handlerPerPage}
           >
-            <option value="3">3 елемента</option>
-            <option value="5">5 елементів</option>
-            <option value="10">10 елементів</option>
-            <option value="20">20 елементів</option>
+            <option value="3">3</option>
+            <option value="5" selected>
+              5
+            </option>
+            <option value="10">10</option>
+            <option value="20">20</option>
           </select>
         </div>
 
@@ -52,19 +64,18 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* <Router> */}
       <Pagination
         total={items.length}
         perPage={perPage}
-        currentPage={page}
-        onPageChange={(nextPage: number) => {
-          setSearchParams({ page: nextPage.toString() });
-        }}
+        currentPage={currentPage}
+        // onPageChange={(nextPage: number) => {
+        //   setCurrentPage(nextPage);
+        // }}
+        onPageChange={handlerOnPageChange}
       />
-      {/* </Router> */}
 
       <ul>
-        {getItems(items, page, perPage).map(item => (
+        {visibleItems.map(item => (
           <li data-cy="item" key={item}>
             {item}
           </li>
