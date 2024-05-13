@@ -19,7 +19,7 @@ export const App: React.FC = () => {
 
   const handlePerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(+event.target.value);
-    setCurrentPage(1); // Reset current page when changing items per page
+    setCurrentPage(1);
   };
 
   const handlePageChange = (page: number) => {

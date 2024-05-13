@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from "classnames";
+import classNames from 'classnames';
 
 interface PaginationProps {
   currentPage: number;
@@ -19,16 +19,16 @@ const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <ul className="pagination">
-      <li className={classNames ('page-item' , {
-        disabled: currentPage === 1,
-      })}
-          >
+      <li
+        className={classNames('page-item', {
+          disabled: currentPage === 1,
+        })}
+      >
         <button
           data-cy="prevLink"
           className="page-link"
-          onClick={() =>
-            currentPage !== 1 ? onPageChange(currentPage - 1) : null
-          }
+          onClick={() => onPageChange(currentPage - 1)}
+          disabled={currentPage === 1}
           aria-disabled={currentPage === 1}
         >
           «
@@ -37,8 +37,9 @@ const Pagination: React.FC<PaginationProps> = ({
       {pages.map(page => (
         <li
           key={page}
-          className={classNames ('page-item', {
-          active: page === currentPage})}
+          className={classNames('page-item', {
+            active: page === currentPage,
+          })}
         >
           <button
             data-cy="pageLink"
@@ -51,13 +52,15 @@ const Pagination: React.FC<PaginationProps> = ({
           </button>
         </li>
       ))}
-      <li className={classNames('page-item', {disabled: currentPage === totalPages})}>
+      <li
+        className={classNames('page-item', {
+          disabled: currentPage === totalPages,
+        })}
+      >
         <button
           data-cy="nextLink"
           className="page-link"
-          onClick={() =>
-            currentPage !== totalPages ? onPageChange(currentPage + 1) : null
-          }
+          onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
           aria-disabled={currentPage === totalPages}
         >
