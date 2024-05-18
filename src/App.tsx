@@ -16,13 +16,36 @@ export const App: React.FC = () => {
 
   const fromItem = (currPage - 1) * itemsPerPage + 1;
   const toItem = elements > total ? total : elements;
+  const showPage = `Page ${currPage} (items ${fromItem} - ${toItem} of ${total})`;
+  const groupOfPages = [3, 5, 10, 20];
+
+  const setItems = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setItemsPerPage(+event.target.value);
+    setCurrPage(() => {
+      const defaultPage = 1;
+
+      window.location.hash = `#${defaultPage}`;
+
+      return defaultPage;
+    });
+  };
+
+  const setPage = (page: number) => {
+    if (page === currPage) {
+      return;
+    }
+
+    if (page >= 1 && page <= numOfPages) {
+      setCurrPage(page);
+    }
+  };
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {currPage} (items {fromItem} - {toItem} of {total})
+        {showPage}
       </p>
 
       <div className="form-group row">
@@ -31,19 +54,10 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            onChange={event => {
-              setItemsPerPage(+event.target.value);
-              setCurrPage(() => {
-                const defaultPage = 1;
-
-                window.location.hash = `#${defaultPage}`;
-
-                return defaultPage;
-              });
-            }}
+            onChange={setItems}
             defaultValue={5}
           >
-            {[3, 5, 10, 20].map((option, numb) => (
+            {groupOfPages.map((option, numb) => (
               <option value={option} key={numb}>
                 {option}
               </option>
@@ -60,15 +74,7 @@ export const App: React.FC = () => {
         total={total}
         perPage={itemsPerPage}
         currentPage={currPage}
-        onPageChange={page => {
-          if (page === currPage) {
-            return;
-          }
-
-          if (page >= 1 && page <= numOfPages) {
-            setCurrPage(page);
-          }
-        }}
+        onPageChange={setPage}
       />
 
       <ul>
