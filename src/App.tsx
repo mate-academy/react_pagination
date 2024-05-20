@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import './App.css';
 import { getNumbers } from './utils';
 
@@ -72,8 +73,24 @@ export const Pagination: React.FC<PaginationProps> = ({
 };
 
 export const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const initialPage = Number(searchParams.get('page')) || 1;
+  const initialPerPage = Number(searchParams.get('perPage')) || 5;
+
+  const [currentPage, setCurrentPage] = useState(initialPage);
+  const [itemsPerPage, setItemsPerPage] = useState(initialPerPage);
+
+  useEffect(() => {
+    setSearchParams({
+      page: String(currentPage),
+      perPage: String(itemsPerPage),
+    });
+  }, [currentPage, itemsPerPage, setSearchParams]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   const handlePerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(Number(e.target.value));
@@ -118,7 +135,7 @@ export const App: React.FC = () => {
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
-        onPageChange={setCurrentPage}
+        onPageChange={handlePageChange}
       />
       <ul>
         {currentItems.map(item => (
