@@ -35,7 +35,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           «
         </a>
       </li>
-      {[...Array(totalPages)].map((_, index) => {
+      {getNumbers(1, totalPages).map((_, index) => {
         const page = index + 1;
 
         return (
@@ -84,15 +84,14 @@ export const App: React.FC = () => {
   const startIdx = (currentPage - 1) * itemsPerPage;
   const endIdx = startIdx + itemsPerPage;
   const currentItems = items.slice(startIdx, endIdx);
+  const currentPageText = `Page ${currentPage} (items ${startIdx + 1} - ${Math.min(endIdx, items.length)} of ${items.length})`;
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {currentPage}
-        {` `}(items {startIdx + 1} -{` `}
-        {Math.min(endIdx, items.length)} of {items.length})
+        {currentPageText}
       </p>
 
       <div className="form-group row">
