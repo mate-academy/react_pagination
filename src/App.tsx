@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -30,71 +30,73 @@ export const App: React.FC = () => {
   }
 
   return (
-    <div className="container">
-      <h1>Items with Pagination</h1>
+    <BrowserRouter>
+      <div className="container">
+        <h1>Items with Pagination</h1>
 
-      {page === 1 ? (
-        <p className="lead" data-cy="info">
-          Page {page} (items {1} - {elemsPerPage * page} of {items.length})
-        </p>
-      ) : (
-        <p className="lead" data-cy="info">
-          Page {page}
-          &nbsp;(items {(page - 1) * elemsPerPage + 1}
-          &nbsp;- {Math.min(elemsPerPage * page, lastPage)}
-          &nbsp;of {items.length})
-        </p>
-      )}
+        {page === 1 ? (
+          <p className="lead" data-cy="info">
+            Page {page} (items {1} - {elemsPerPage * page} of {items.length})
+          </p>
+        ) : (
+          <p className="lead" data-cy="info">
+            Page {page}
+            &nbsp;(items {(page - 1) * elemsPerPage + 1}
+            &nbsp;- {Math.min(elemsPerPage * page, lastPage)}
+            &nbsp;of {items.length})
+          </p>
+        )}
 
-      <div className="form-group row">
-        <div className="col-3 col-sm-2 col-xl-1">
-          <select
-            data-cy="perPageSelector"
-            id="perPageSelector"
-            className="form-control"
-            onChange={event => {
-              setPage(1);
-              setElemsPerPage(+event.target.value);
-            }}
-          >
-            <option value="3">{ElementsPerPage.three}</option>
-            <option value="5" selected>
-              {ElementsPerPage.five}
-            </option>
-            <option value="10">{ElementsPerPage.ten}</option>
-            <option value="20">{ElementsPerPage.twenty}</option>
-          </select>
+        <div className="form-group row">
+          <div className="col-3 col-sm-2 col-xl-1">
+            <select
+              data-cy="perPageSelector"
+              id="perPageSelector"
+              className="form-control"
+              onChange={event => {
+                setPage(1);
+                setElemsPerPage(+event.target.value);
+              }}
+            >
+              <option value="3">{ElementsPerPage.three}</option>
+              <option value="5" selected>
+                {ElementsPerPage.five}
+              </option>
+              <option value="10">{ElementsPerPage.ten}</option>
+              <option value="20">{ElementsPerPage.twenty}</option>
+            </select>
+          </div>
+
+          <label htmlFor="perPageSelector" className="col-form-label col">
+            items per page
+          </label>
         </div>
 
-        <label htmlFor="perPageSelector" className="col-form-label col">
-          items per page
-        </label>
-      </div>
-
-      <Pagination
-        total={items.length}
-        perPage={elemsPerPage}
-        currentPage={page}
-        onPageChange={(currentPage: number) => {
-          setPage(currentPage);
-        }}
-      />
-      <ul>
-        {itemsAndPage.map((item, index) => {
-          return (
-            <li data-cy="item" key={index}>
-              {item}
-            </li>
-          );
-        })}
-      </ul>
-      <Routes>
-        <Route
-          path={`?page=${page}&perPage=${elemsPerPage}`}
-          element={<App />}
+        <Pagination
+          total={items.length}
+          perPage={elemsPerPage}
+          currentPage={page}
+          onPageChange={(currentPage: number) => {
+            setPage(currentPage);
+          }}
         />
-      </Routes>
-    </div>
+        <ul>
+          {itemsAndPage.map((item, index) => {
+            return (
+              <li data-cy="item" key={index}>
+                {item}
+              </li>
+            );
+          })}
+        </ul>
+        <Routes>
+          <Route
+            path={`?page=${page}&perPage=${elemsPerPage}`}
+            element={<App />}
+          />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 };
 
