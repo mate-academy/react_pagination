@@ -30,7 +30,7 @@ export const Pagination: React.FC<Props> = ({
           className={classNames('page-link', {
             'a[area-disabled="false"]': currentPage !== 1,
           })}
-          to={`?page=${currentPage}&perPage=${perPage}`}
+          to={`?page=${currentPage - 1}&perPage=${perPage}`}
           aria-disabled="true"
           onClick={() => onPageChange(currentPage - 1)}
         >
@@ -47,7 +47,7 @@ export const Pagination: React.FC<Props> = ({
           <Link
             data-cy="pageLink"
             className="page-link"
-            to={`?page=${currentPage}&perPage=${perPage}`}
+            to={`?page=${count}&perPage=${perPage}`}
           >
             {count}
           </Link>
@@ -63,7 +63,7 @@ export const Pagination: React.FC<Props> = ({
           className={classNames('page-link', {
             'a[area-disabled="true"]': currentPage === paginationCount.length,
           })}
-          to={`?page=${currentPage}&perPage=${perPage}`}
+          to={`?page=${currentPage + 1}&perPage=${perPage}`}
           aria-disabled="false"
           onClick={() => onPageChange(currentPage + 1)}
         >
