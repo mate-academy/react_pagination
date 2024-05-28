@@ -55,7 +55,7 @@ export const App: React.FC = () => {
         onPageChange={setPage}
       />
       <ul>
-        {[...items].splice(start, perPage).map(item => (
+        {items.slice(start, end).map(item => (
           <li key={item} data-cy="item">
             {item}
           </li>
