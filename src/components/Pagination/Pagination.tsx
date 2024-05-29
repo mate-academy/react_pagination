@@ -2,22 +2,18 @@ import React from 'react';
 import cn from 'classnames';
 
 type Props = {
+  pages: number[];
   total: number;
   currentPage: number;
   onPageChange: (page: number) => void;
 };
 
 export const Pagination: React.FC<Props> = ({
+  pages,
   total,
   currentPage,
   onPageChange,
 }) => {
-  const pages = [];
-
-  for (let i = 1; i <= total; i++) {
-    pages.push(i);
-  }
-
   return (
     <ul className="pagination">
       <li

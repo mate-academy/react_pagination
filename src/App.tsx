@@ -10,7 +10,8 @@ const items = getNumbers(1, 42).map(n => `Item ${n}`);
 export const App: React.FC = () => {
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(items.length / itemsPerPage);
+  const totalItems = items.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const handleItemsPerPageChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
@@ -28,16 +29,23 @@ export const App: React.FC = () => {
     }
   };
 
+  const pages = [];
+
+  for (let i = 1; i <= totalPages; i++) {
+    pages.push(i);
+  }
+
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
+  const lastItemCor = Math.min(endIndex, totalItems);
   const currentItems = items.slice(startIndex, endIndex);
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
       <p className="lead" data-cy="info">
-        Page {currentPage} (items {startIndex + 1} -{' '}
-        {Math.min(endIndex, items.length)} of {items.length})
+        Page {currentPage} (items {startIndex + 1} - {lastItemCor} of{' '}
+        {totalItems})
       </p>
       <div className="form-group row">
         <div className="col-3 col-sm-2 col-xl-1">
@@ -60,13 +68,14 @@ export const App: React.FC = () => {
         </label>
       </div>
       <Pagination
+        pages={pages}
         total={totalPages}
         currentPage={currentPage}
         onPageChange={handlePageChange}
       />
       <ul>
-        {currentItems.map((item, index) => (
-          <li key={index} data-cy="item">
+        {currentItems.map(item => (
+          <li key={item} data-cy="item">
             {item}
           </li>
         ))}
