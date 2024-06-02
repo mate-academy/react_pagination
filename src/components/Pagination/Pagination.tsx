@@ -24,15 +24,15 @@ export const Pagination: React.FC<Props> = ({
   return (
     <ul className="pagination">
       <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-        <a
+        <button
           data-cy="prevLink"
           className="page-link"
-          href="prev"
-          aria-disabled={currentPage === 1 ? 'true' : 'false'}
-          onClick={onPrevPage}
+          aria-disabled={currentPage === 1}
+          onClick={currentPage === 1 ? undefined : onPrevPage}
+          disabled={currentPage === 1}
         >
           «
-        </a>
+        </button>
       </li>
 
       {pageNumbers.map(page => (
@@ -40,28 +40,27 @@ export const Pagination: React.FC<Props> = ({
           key={page}
           className={`page-item ${currentPage === page ? 'active' : ''}`}
         >
-          <a
+          <button
             data-cy="pageLink"
             className="page-link"
-            href={`#${page}`}
             onClick={() => onPageChange(page)}
           >
             {page}
-          </a>
+          </button>
         </li>
       ))}
       <li
         className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}
       >
-        <a
+        <button
           data-cy="nextLink"
           className="page-link"
-          href="#next"
-          aria-disabled={currentPage === totalPages ? 'true' : 'false'}
-          onClick={onNextPage}
+          aria-disabled={currentPage === totalPages}
+          onClick={currentPage === totalPages ? undefined : onNextPage}
+          disabled={currentPage === totalPages}
         >
           »
-        </a>
+        </button>
       </li>
     </ul>
   );
