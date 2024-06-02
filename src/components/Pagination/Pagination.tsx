@@ -1,4 +1,5 @@
 import React from 'react';
+import { getNumbers } from '../../utils';
 
 interface Props {
   itemsPerPage: number;
@@ -18,10 +19,11 @@ export const Pagination: React.FC<Props> = ({
   onNextPage,
 }) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const pageNumbers = getNumbers(1, totalPages);
 
   return (
     <ul className="pagination">
-      <li className="page-item disabled">
+      <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
         <a
           data-cy="prevLink"
           className="page-link"
@@ -33,26 +35,24 @@ export const Pagination: React.FC<Props> = ({
         </a>
       </li>
 
-      {[...Array(totalPages)].map((_, index) => {
-        const page = index + 1;
-
-        return (
-          <li
-            key={page}
-            className={`page-item ${currentPage === page ? 'active' : ''}`}
+      {pageNumbers.map(page => (
+        <li
+          key={page}
+          className={`page-item ${currentPage === page ? 'active' : ''}`}
+        >
+          <a
+            data-cy="pageLink"
+            className="page-link"
+            href={`#${page}`}
+            onClick={() => onPageChange(page)}
           >
-            <a
-              data-cy="pageLink"
-              className="page-link"
-              href={`#${page}`}
-              onClick={() => onPageChange(page)}
-            >
-              {page}
-            </a>
-          </li>
-        );
-      })}
-      <li className="page-item">
+            {page}
+          </a>
+        </li>
+      ))}
+      <li
+        className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}
+      >
         <a
           data-cy="nextLink"
           className="page-link"
