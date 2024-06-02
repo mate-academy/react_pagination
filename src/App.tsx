@@ -3,30 +3,26 @@ import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination/Pagination';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [currentPage, getCurrentPage] = useState(1);
-  const [itemsPerPage, getItemsPerPage] = useState(5); // кількість елементів на сторінці
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   const totalItems = items.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  // eslint-disable-next-line prettier/prettier
-  const handlePerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => { // Кількость елементів на сторінці
-    getItemsPerPage(Number(event.target.value));
-    getCurrentPage(1);
+  const handlePerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1);
   };
 
-  // eslint-disable-next-line prettier/prettier
-  const changePage = (pages: number) => { // Зміна сторінки
+  const changePage = (pages: number) => {
     if (pages >= 1 && pages <= totalPages) {
-      getCurrentPage(pages);
+      setCurrentPage(pages);
     }
   };
 
-  // eslint-disable-next-line prettier/prettier
-  const currentItems = items.slice( // Поточна сторінка
+  const currentItems = items.slice(
     (currentPage - 1) * itemsPerPage,
     Math.min(currentPage * itemsPerPage),
   );
@@ -67,7 +63,6 @@ export const App: React.FC = () => {
         onPageChange={changePage}
       />
 
-      {/* Move this markup to Pagination */}
       <ul>
         {currentItems.map(item => (
           <li data-cy="item" key={item}>
