@@ -53,6 +53,18 @@ export const App: React.FC = () => {
         currentPage={currentPage}
         onPageChange={(page: number) => setCurrentPage(page)}
       />
+
+      <ul>
+        {getNumbers(1, perPage).map(page => {
+          const itemNumber = perPage * (currentPage - 1) + page;
+
+          return itemNumber <= totalItems ? (
+            <li data-cy="item" key={itemNumber}>
+              Item {itemNumber}
+            </li>
+          ) : null;
+        })}
+      </ul>
     </div>
   );
 };
