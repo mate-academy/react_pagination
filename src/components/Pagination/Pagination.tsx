@@ -16,16 +16,23 @@ export const Pagination: React.FC<Props> = ({
   onPageChange,
 }) => {
   const totalPages = Math.ceil(totalItems / perPage);
+  const handleToNextPage = () => {
+    if (currentPage < totalPages) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
+  const handleToPreviousPage = () => {
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
+    }
+  };
 
   return (
     <ul className="pagination">
       <li
         className={cn('page-item', { disabled: currentPage === 1 })}
-        onClick={() => {
-          if (currentPage > 1) {
-            onPageChange(currentPage - 1);
-          }
-        }}
+        onClick={handleToPreviousPage}
       >
         <a
           data-cy="prevLink"
@@ -49,11 +56,7 @@ export const Pagination: React.FC<Props> = ({
       ))}
       <li
         className={cn('page-item', { disabled: currentPage === totalPages })}
-        onClick={() => {
-          if (currentPage < totalPages) {
-            onPageChange(currentPage + 1);
-          }
-        }}
+        onClick={handleToNextPage}
       >
         <a
           data-cy="nextLink"
