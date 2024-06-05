@@ -1,12 +1,11 @@
 import React, { ChangeEvent, useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
-
 import { Pagination } from './components/Pagination';
 
 export const App: React.FC = () => {
   const totalAmount = 42;
-  const items = getNumbers(1, 42).map(n => `Item ${n}`);
+  const items = getNumbers(1, totalAmount).map(n => `Item ${n}`);
   const [value, setValue] = useState(5);
   const [sortPage, setSortPage] = useState(1);
 
@@ -14,13 +13,20 @@ export const App: React.FC = () => {
     setSortPage(page);
   };
 
+  const handlePerPageChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setValue(Number(e.target.value));
+    setSortPage(1);
+  };
+
+  const startItem = (sortPage - 1) * value + 1;
+  const endItem = Math.min(sortPage * value, totalAmount);
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {sortPage} (items {(sortPage - 1) * value + 1} -{' '}
-        {Math.min(sortPage * value, totalAmount)} of {totalAmount})
+        Page {sortPage} (items {startItem} - {endItem} of {totalAmount})
       </p>
 
       <div className="form-group row">
@@ -30,10 +36,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={value}
-            onChange={(e: ChangeEvent<HTMLSelectElement>) => {
-              setValue(Number(e.target.value));
-              setSortPage(1);
-            }}
+            onChange={handlePerPageChange}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -53,6 +56,7 @@ export const App: React.FC = () => {
         currentPage={sortPage}
         onPageChange={handlePageChange}
       />
+
       <ul>
         {items
           .slice((sortPage - 1) * value, sortPage * value)
