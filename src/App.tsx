@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
+import { getPageNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -9,10 +10,7 @@ const items = getNumbers(1, 42).map(n => `Item ${n}`);
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-  const numberPages: number[] = getNumbers(
-    1,
-    Math.ceil(items.length / perPage),
-  );
+  const numberPages: number[] = getPageNumbers(items.length, perPage);
   const currentIndex = numberPages.indexOf(currentPage);
   const fromIndex = currentIndex * perPage;
   const toIndex =
@@ -57,7 +55,9 @@ export const App: React.FC = () => {
         perPage={perPage}
         currentPage={currentPage}
         onPageChange={(page: number) => {
-          setCurrentPage(page);
+          if (page !== 0 && page !== numberPages.length + 1) {
+            setCurrentPage(page);
+          }
         }}
       />
 

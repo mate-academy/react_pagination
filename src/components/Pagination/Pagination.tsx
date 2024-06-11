@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { getNumbers } from '../../utils';
+import { getPageNumbers } from '../../utils';
 
 type PaginationProps = {
   total: number;
@@ -14,7 +14,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   onPageChange,
 }) => {
-  const totalPages: number[] = getNumbers(1, Math.ceil(total / perPage));
+  const totalPages: number[] = getPageNumbers(total, perPage);
 
   return (
     <ul className="pagination">
@@ -25,7 +25,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled="true"
+          aria-disabled={currentPage === 1 ? 'true' : 'false'}
           onClick={e => {
             e.preventDefault();
             onPageChange(currentPage - 1);
@@ -63,7 +63,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled="true"
+          aria-disabled={currentPage === totalPages.length ? 'true' : 'false'}
           onClick={e => {
             e.preventDefault();
             onPageChange(currentPage + 1);
