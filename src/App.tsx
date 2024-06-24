@@ -21,19 +21,7 @@ export const App: React.FC = () => {
   const listEndsWith = Math.min(listStartsWith + perPage - 1, items.length - 1);
   const description = `Page ${currentPage} (items ${listStartsWith + 1} - ${listEndsWith + 1} of ${items.length})`;
 
-  const listOfPageSelectors = perPageSelectors.map(selector => (
-    <option key={'selector-' + selector} value={selector}>
-      {selector}
-    </option>
-  ));
-
-  const itemsList = [...items]
-    .slice(listStartsWith, listEndsWith + 1)
-    .map(item => (
-      <li data-cy="item" key={'item-' + item}>
-        {item}
-      </li>
-    ));
+  const itemsList = [...items].slice(listStartsWith, listEndsWith + 1);
 
   const onPageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -61,7 +49,11 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
           >
-            {listOfPageSelectors}
+            {perPageSelectors.map(selector => (
+              <option key={'selector-' + selector} value={selector}>
+                {selector}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -77,7 +69,13 @@ export const App: React.FC = () => {
         onPageChange={onPageChange}
       />
 
-      <ul>{itemsList}</ul>
+      <ul>
+        {itemsList.map(item => (
+          <li data-cy="item" key={'item-' + item}>
+            {item}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
