@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 type Props = {
   total: number;
   perPage: number;
@@ -18,6 +19,16 @@ export const Pagination: React.FC<Props> = ({
     }
 
     onPageChange(page);
+  };
+
+  const handlePrevNextPageChange = (direction: 'prev' | 'next') => {
+    if (direction === 'prev' && currentPage > 1) {
+      handlePageChange(currentPage - 1);
+    }
+
+    if (direction === 'next' && currentPage < totalPages) {
+      handlePageChange(currentPage + 1);
+    }
   };
 
   const renderPageNumbers = () => {
@@ -46,7 +57,7 @@ export const Pagination: React.FC<Props> = ({
 
   return (
     <ul className="pagination">
-      <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+      <li className={classNames('page-item', { disabled: currentPage === 1 })}>
         <a
           data-cy="prevLink"
           className="page-link"
@@ -54,9 +65,7 @@ export const Pagination: React.FC<Props> = ({
           aria-disabled={currentPage === 1}
           onClick={e => {
             e.preventDefault();
-            if (currentPage > 1) {
-              handlePageChange(currentPage - 1);
-            }
+            handlePrevNextPageChange('prev');
           }}
         >
           «
@@ -64,7 +73,9 @@ export const Pagination: React.FC<Props> = ({
       </li>
       {renderPageNumbers()}
       <li
-        className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}
+        className={classNames('page-item', {
+          disabled: currentPage === totalPages,
+        })}
       >
         <a
           data-cy="nextLink"
@@ -73,9 +84,7 @@ export const Pagination: React.FC<Props> = ({
           aria-disabled={currentPage === totalPages}
           onClick={e => {
             e.preventDefault();
-            if (currentPage < totalPages) {
-              handlePageChange(currentPage + 1);
-            }
+            handlePrevNextPageChange('next');
           }}
         >
           »

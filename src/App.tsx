@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import './App.css';
-import { getNumbers } from './utils';
+
+import { items, ALL_OPTIONS } from './constants/constants';
 import { v4 as uuidv4 } from 'uuid';
 import { Pagination } from './components/Pagination';
-
-const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
+
+  const startPageItem = (currentPage - 1) * perPage + 1;
+  const endPageItem = Math.min(currentPage * perPage, items.length);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -29,8 +31,8 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {currentPage} (items {(currentPage - 1) * perPage + 1} -{' '}
-        {Math.min(currentPage * perPage, items.length)} of {items.length})
+        Page {currentPage} (items {startPageItem} - {endPageItem} of{' '}
+        {items.length})
       </p>
 
       <div className="form-group row">
@@ -42,7 +44,7 @@ export const App: React.FC = () => {
             value={perPage}
             onChange={handlePerPageChange}
           >
-            {[3, 5, 10, 20].map((number: number) => {
+            {ALL_OPTIONS.map((number: number) => {
               return (
                 <option key={uuidv4()} value={number}>
                   {number}
