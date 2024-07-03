@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import { PerPageSelector } from './components/PerPageSelector';
 import { Pagination } from './components/Pagination';
@@ -10,13 +11,37 @@ const items: string[] = getNumbers(1, 42).map(n => `Item ${n}`);
 const perPageOptions: number[] = [3, 5, 10, 20];
 
 export const App: React.FC = () => {
-  const [perPage, setPerPage] = useState<number>(perPageOptions[1]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const perPageFromUrl = Number.parseInt(searchParams.get('perPage') || '');
+  const pageFromUrl = Number.parseInt(searchParams.get('page') || '');
+
+  const [perPage, setPerPage] = useState<number>(
+    !!perPageFromUrl && perPageFromUrl > 0 ? perPageFromUrl : perPageOptions[1],
+  );
+  const [currentPage, setCurrentPage] = useState<number>(
+    !!pageFromUrl && pageFromUrl > 0 ? pageFromUrl : 1,
+  );
+
+  const updatePerPage = (newPerPage: number) => {
+    setPerPage(newPerPage);
+    setCurrentPage(1);
+    setSearchParams({ perPage: newPerPage + '', page: '1' });
+  };
+
+  const updatePage = (newPage: number) => {
+    setCurrentPage(newPage);
+
+    setSearchParams(params => {
+      params.set('page', newPage + '');
+
+      return params;
+    });
+  };
 
   const maxPage: number = Math.ceil(items.length / perPage);
 
   if (maxPage < currentPage) {
-    setCurrentPage(maxPage);
+    updatePage(maxPage);
   }
 
   const firstVisibleIndex: number = (currentPage - 1) * perPage;
@@ -29,11 +54,6 @@ export const App: React.FC = () => {
     firstVisibleIndex,
     lastVisibleIndex,
   );
-
-  const updatePerPage = (newPerPage: number) => {
-    setPerPage(newPerPage);
-    setCurrentPage(1);
-  };
 
   return (
     <div className="container">
@@ -55,7 +75,7 @@ export const App: React.FC = () => {
         total={items.length}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={setCurrentPage}
+        onPageChange={updatePage}
       />
 
       <ul>
