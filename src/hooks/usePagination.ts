@@ -15,14 +15,28 @@ export const usePagination = ({ items }: Props) => {
   const pageParam = searchParams.get('page');
   const perPageParam = searchParams.get('perPage');
 
-  const currentPage = pageParam ? +pageParam : initialPage;
   const selectedPerPage = perPageParam ? +perPageParam : initialPerPage;
+
+  const currentPage = useMemo(() => {
+    const totalPages = Math.ceil(totalItems / selectedPerPage);
+    const currentPageCandidate = pageParam ? +pageParam : initialPage;
+
+    return currentPageCandidate > totalPages
+      ? totalPages
+      : currentPageCandidate;
+  }, [selectedPerPage, totalItems, pageParam]);
 
   const itemsToShow = useMemo(() => {
     const idxFrom = currentPage * selectedPerPage - selectedPerPage;
-    const idxTo = idxFrom + selectedPerPage - 1;
+    const idxToCandidate = idxFrom + selectedPerPage - 1;
+    const isLastItems = idxToCandidate > totalItems;
+    const idxTo = isLastItems ? totalItems : idxToCandidate;
 
-    return items.filter((_v, idx) => idx >= idxFrom && idx <= idxTo);
+    return {
+      showFrom: idxFrom + 1,
+      showTo: isLastItems ? idxTo : idxTo + 1,
+      itemsToShow: items.filter((_v, idx) => idx >= idxFrom && idx <= idxTo),
+    };
   }, [currentPage, selectedPerPage]);
 
   const onPageChange = (page: number) => {
@@ -32,13 +46,14 @@ export const usePagination = ({ items }: Props) => {
 
   const onPerPageChange = (selected: string) => {
     searchParams.set('perPage', selected);
+    searchParams.set('page', '1');
     setSearchParams(searchParams);
   };
 
   return {
+    ...itemsToShow,
     currentPage,
     selectedPerPage,
-    itemsToShow,
     totalItems,
     onPageChange,
     onPerPageChange,

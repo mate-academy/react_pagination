@@ -11,6 +11,8 @@ const items = getNumbers(1, 42).map(n => `Item ${n}`);
 export const App: React.FC = () => {
   const {
     itemsToShow,
+    showFrom,
+    showTo,
     currentPage,
     selectedPerPage,
     totalItems,
@@ -23,7 +25,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items 1 - ${selectedPerPage} of ${totalItems})`}
+        {`Page ${currentPage} (items ${showFrom} - ${showTo} of ${totalItems})`}
       </p>
 
       <div className="form-group row">

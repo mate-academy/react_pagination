@@ -13,9 +13,9 @@ export const Pagination: React.FC<Props> = ({
   total,
   onPageChange,
 }) => {
-  const pagesQty = total / perPage;
+  const pagesQty = Math.ceil(total / perPage);
 
-  const hasNextPage = currentPage < pagesQty - 1;
+  const hasNextPage = currentPage <= pagesQty - 1;
   const hasPrevPage = currentPage > 1;
 
   return (
@@ -32,7 +32,10 @@ export const Pagination: React.FC<Props> = ({
             aria-disabled={!hasPrevPage}
             onClick={event => {
               event.preventDefault();
-              onPageChange(currentPage - 1);
+
+              if (hasPrevPage) {
+                onPageChange(currentPage - 1);
+              }
             }}
           >
             «
@@ -75,7 +78,10 @@ export const Pagination: React.FC<Props> = ({
             aria-disabled={!hasNextPage}
             onClick={event => {
               event.preventDefault();
-              onPageChange(currentPage + 1);
+
+              if (hasNextPage) {
+                onPageChange(currentPage + 1);
+              }
             }}
           >
             »
