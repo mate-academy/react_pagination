@@ -15,11 +15,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   onPageChange,
 }) => {
   const totalPages = Math.ceil(total / perPage);
-  const pages = [];
-
-  for (let i = 1; i <= totalPages; i++) {
-    pages.push(i);
-  }
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   const handlePrevClick = (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
@@ -90,5 +86,3 @@ export const Pagination: React.FC<PaginationProps> = ({
     </ul>
   );
 };
-
-export default Pagination;
