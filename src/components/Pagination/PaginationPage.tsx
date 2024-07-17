@@ -9,7 +9,6 @@ type Props = {
 export const PaginationPage = ({ page, currentPage, onClick }: Props) => {
   return (
     <li
-      key={page}
       className={classNames('page-item', { active: page === currentPage })}
       onClick={() => onClick(page)}
     >

@@ -1,6 +1,7 @@
 import { PaginationPage } from './PaginationPage';
 import { Page } from '../../types/page';
 import classNames from 'classnames';
+import { getNumbers } from '../../utils';
 
 type Props = {
   total: number;
@@ -41,22 +42,14 @@ export const Pagination = ({
     onPageChange(prev => ({ ...prev, currentPage: page }));
   };
 
-  const renderPageNumbers = () => {
-    const pages = [];
-
-    for (let page = 1; page <= maxPages; page++) {
-      pages.push(
-        <PaginationPage
-          key={page}
-          page={page}
-          currentPage={currentPage}
-          onClick={handleClickPage}
-        />,
-      );
-    }
-
-    return pages;
-  };
+  const renderPageNumbers = getNumbers(1, maxPages).map(page => (
+    <PaginationPage
+      key={page}
+      page={page}
+      currentPage={currentPage}
+      onClick={handleClickPage}
+    />
+  ));
 
   return (
     <ul className="pagination">
@@ -72,7 +65,7 @@ export const Pagination = ({
         </a>
       </li>
 
-      {renderPageNumbers()}
+      {renderPageNumbers}
 
       <li
         className={classNames('page-item', {
