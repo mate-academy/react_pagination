@@ -15,6 +15,24 @@ export const Pagination: React.FC<Props> = ({
 }) => {
   const pagination = Math.ceil(total.length / perPage);
 
+  function onClickHandler(
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+    chek: number,
+  ) {
+    e.preventDefault();
+    if (chek === 1) {
+      if (currentPage > 1 && onPageChange) {
+        onPageChange(currentPage - 1);
+      }
+    }
+
+    if (chek === 2) {
+      if (currentPage < pagination && onPageChange) {
+        onPageChange(currentPage + 1);
+      }
+    }
+  }
+
   return (
     <>
       <ul className="pagination">
@@ -23,12 +41,7 @@ export const Pagination: React.FC<Props> = ({
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            onClick={e => {
-              e.preventDefault();
-              if (currentPage > 1 && onPageChange) {
-                onPageChange(currentPage - 1);
-              }
-            }}
+            onClick={e => onClickHandler(e, 1)}
             aria-disabled={currentPage === 1 ? 'true' : 'false'}
           >
             «
@@ -56,12 +69,7 @@ export const Pagination: React.FC<Props> = ({
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            onClick={e => {
-              e.preventDefault();
-              if (currentPage < pagination && onPageChange) {
-                onPageChange(currentPage + 1);
-              }
-            }}
+            onClick={e => onClickHandler(e, 2)}
             aria-disabled={currentPage === pagination ? 'true' : 'false'}
           >
             »
@@ -72,7 +80,7 @@ export const Pagination: React.FC<Props> = ({
         {Array.from({ length: perPage }, (_, index) => {
           const item = total[currentPage * perPage - perPage + index];
 
-          return item !== undefined ? (
+          return !!item ? (
             <li data-cy="item" key={item}>
               {item}
             </li>
