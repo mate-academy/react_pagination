@@ -10,6 +10,9 @@ export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentOption, setCurrentOption] = useState(5);
 
+  const currentResultMultiply = currentPage * currentOption;
+  const firstPage = currentResultMultiply - currentOption + 1;
+
   function handleOpptionValue(e: React.ChangeEvent<HTMLSelectElement>) {
     setCurrentPage(1);
     setCurrentOption(+e.target.value);
@@ -20,10 +23,10 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {currentPage} (items{' '}
-        {currentPage * currentOption - currentOption + 1} -{' '}
-        {items.length > currentPage * currentOption
-          ? currentPage * currentOption
+        {/* eslint-disable-next-line max-len */}
+        Page {currentPage} (items {firstPage} -{' '}
+        {items.length > currentResultMultiply
+          ? currentResultMultiply
           : items.length}{' '}
         of {items.length})
       </p>
