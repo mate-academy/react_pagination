@@ -1,21 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import './App.css';
 import { getNumbers } from './utils';
-import { ListItems } from './components/ListItems';
 import { Pagination } from './components/Pagination';
+import { ListItems } from './components/ListItems';
 
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 const defaultItemPerPage = 5;
+const defaultPage = 1;
 
 export const App: React.FC = () => {
-  const [itemsPerPage, setItemsPerPage] = useState(defaultItemPerPage);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const currentPage = Number(searchParams.get('page')) || defaultPage;
+  const itemsPerPage =
+    Number(searchParams.get('perPage')) || defaultItemPerPage;
   const pagesNumber = Math.ceil(items.length / itemsPerPage);
+
+  useEffect(() => {
+    if (!searchParams.get('page') || !searchParams.get('perPage')) {
+      setSearchParams({
+        page: `${currentPage}`,
+        perPage: `${itemsPerPage}`,
+      });
+    }
+  }, []);
+
   const startIndexOnCurrentPage = (currentPage - 1) * itemsPerPage;
   const endIndexOnCurrentPage =
-    currentPage < pagesNumber
-      ? currentPage * itemsPerPage
-      : startIndexOnCurrentPage + items.length - startIndexOnCurrentPage;
+    currentPage < pagesNumber ? currentPage * itemsPerPage : items.length;
 
   return (
     <div className="container">
@@ -34,8 +47,12 @@ export const App: React.FC = () => {
             className="form-control"
             defaultValue={defaultItemPerPage}
             onChange={e => {
-              setItemsPerPage(Number(e.target.value));
-              setCurrentPage(1);
+              const perPage = e.target.value;
+
+              setSearchParams({
+                page: `${defaultPage}`,
+                perPage: perPage,
+              });
             }}
           >
             <option value="3">3</option>
@@ -54,7 +71,7 @@ export const App: React.FC = () => {
         total={pagesNumber}
         perPage={itemsPerPage}
         currentPage={currentPage}
-        onPageChange={setCurrentPage}
+        onPageChange={setSearchParams}
       />
       <ListItems
         items={items}

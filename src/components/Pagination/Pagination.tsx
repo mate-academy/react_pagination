@@ -1,16 +1,18 @@
 import React from 'react';
 import cn from 'classnames';
 import { getNumbers } from '../../utils';
+import { SearchParams } from '../../types/SearchParams';
 
 type Props = {
   total: number;
   perPage: number;
   currentPage: number;
-  onPageChange: (pageNumber: number) => void;
+  onPageChange: ({ page, perPage }: SearchParams) => void;
 };
 
 export const Pagination: React.FC<Props> = ({
   total,
+  perPage,
   currentPage,
   onPageChange,
 }) => {
@@ -22,11 +24,13 @@ export const Pagination: React.FC<Props> = ({
         <a
           data-cy="prevLink"
           className="page-link"
-          href="#prev"
           aria-disabled={currentPage === 1}
           onClick={() => {
             if (currentPage > 1) {
-              onPageChange(currentPage - 1);
+              onPageChange({
+                page: `${currentPage - 1}`,
+                perPage: `${perPage}`,
+              });
             }
           }}
         >
@@ -41,11 +45,13 @@ export const Pagination: React.FC<Props> = ({
           <a
             data-cy="pageLink"
             className="page-link"
-            href={`#${pageNumber}`}
             onClick={e => {
               e.preventDefault();
               if (currentPage !== pageNumber) {
-                onPageChange(pageNumber);
+                onPageChange({
+                  page: `${pageNumber}`,
+                  perPage: `${perPage}`,
+                });
               }
             }}
           >
@@ -57,11 +63,13 @@ export const Pagination: React.FC<Props> = ({
         <a
           data-cy="nextLink"
           className="page-link"
-          href="#next"
           aria-disabled={currentPage === total}
           onClick={() => {
             if (currentPage < total) {
-              onPageChange(currentPage + 1);
+              onPageChange({
+                page: `${currentPage + 1}`,
+                perPage: `${perPage}`,
+              });
             }
           }}
         >
