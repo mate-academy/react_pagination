@@ -1,31 +1,18 @@
-import React, { useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import React, { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 import { ListItems } from './components/ListItems';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 const defaultItemPerPage = 5;
 const defaultPage = 1;
 
 export const App: React.FC = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const currentPage = Number(searchParams.get('page')) || defaultPage;
-  const itemsPerPage =
-    Number(searchParams.get('perPage')) || defaultItemPerPage;
+  const [itemsPerPage, setItemsPerPage] = useState(defaultItemPerPage);
+  const [currentPage, setCurrentPage] = useState(defaultPage);
   const pagesNumber = Math.ceil(items.length / itemsPerPage);
-
-  useEffect(() => {
-    if (!searchParams.get('page') || !searchParams.get('perPage')) {
-      setSearchParams({
-        page: `${currentPage}`,
-        perPage: `${itemsPerPage}`,
-      });
-    }
-  }, []);
-
   const startIndexOnCurrentPage = (currentPage - 1) * itemsPerPage;
   const endIndexOnCurrentPage =
     currentPage < pagesNumber ? currentPage * itemsPerPage : items.length;
@@ -47,12 +34,8 @@ export const App: React.FC = () => {
             className="form-control"
             defaultValue={defaultItemPerPage}
             onChange={e => {
-              const perPage = e.target.value;
-
-              setSearchParams({
-                page: `${defaultPage}`,
-                perPage: perPage,
-              });
+              setItemsPerPage(Number(e.target.value));
+              setCurrentPage(defaultPage);
             }}
           >
             <option value="3">3</option>
@@ -71,7 +54,7 @@ export const App: React.FC = () => {
         total={pagesNumber}
         perPage={itemsPerPage}
         currentPage={currentPage}
-        onPageChange={setSearchParams}
+        onPageChange={setCurrentPage}
       />
       <ListItems
         items={items}
