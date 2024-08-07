@@ -9,4 +9,3 @@ export function getNumbers(from: number, to: number): number[] {
 }
 
 export const TOTAL_ITEMS = 42;
-export const SELECTOR_OPTIONS: number[] = [3, 5, 10, 20];

@@ -1,21 +1,29 @@
 import React, { useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
-import { getNumbers, TOTAL_ITEMS, SELECTOR_OPTIONS } from './utils';
-// import { values } from 'cypress/types/lodash';
+import { getNumbers, TOTAL_ITEMS } from './utils';
+import { SELECTOR_OPTIONS } from './constansts';
+
+interface Options {
+  itemsArr: string[];
+  currentPage: number;
+  perPage: number;
+}
 
 const items = getNumbers(1, TOTAL_ITEMS).map(n => `Item ${n}`);
 
-function useItems(itemsArr: string[], currentPage: number, perPage: number) {
-  const useItemsList: string[] = [...itemsArr];
+function useItems(options: Options) {
+  const { itemsArr, currentPage, perPage } = options;
+  const startIndex = (currentPage - 1) * perPage;
+  const endIndex = startIndex + perPage;
 
-  return useItemsList.splice((currentPage - 1) * perPage, perPage);
+  return itemsArr.slice(startIndex, endIndex);
 }
 
 export const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [perPage, setPerPage] = useState<number>(5);
-  const itemsInUse = useItems(items, currentPage, perPage);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const itemsInUse = useItems({ itemsArr: items, currentPage, perPage });
 
   const handlePrePageClick = (
     event: React.ChangeEvent<HTMLSelectElement>,
