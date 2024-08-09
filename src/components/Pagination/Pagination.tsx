@@ -15,7 +15,7 @@ export const Pagination: React.FC<Props> = ({
 }) => {
   const countPagintion: number = Math.ceil(total / perPage);
 
-  const handlePageClick = (page: number) => {
+  const handleNextPageClick = (page: number) => {
     setCurrentPage(page);
   };
 
@@ -31,18 +31,21 @@ export const Pagination: React.FC<Props> = ({
     }
   };
 
+  const currentPageBoolean = currentPage === 1;
+  const countPagintionBoolean = currentPage === countPagintion;
+
   return (
     <ul className="pagination">
       <li
         className={classNames('page-item', {
-          disabled: currentPage === 1,
+          disabled: currentPageBoolean,
         })}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === 1}
+          aria-disabled={currentPageBoolean}
           onClick={minusPageClick}
         >
           «
@@ -59,7 +62,7 @@ export const Pagination: React.FC<Props> = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${page}`}
-            onClick={() => handlePageClick(page)}
+            onClick={() => handleNextPageClick(page)}
           >
             {page}
           </a>
@@ -67,14 +70,14 @@ export const Pagination: React.FC<Props> = ({
       ))}
       <li
         className={classNames('page-item', {
-          disabled: currentPage === countPagintion,
+          disabled: countPagintionBoolean,
         })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === countPagintion}
+          aria-disabled={countPagintionBoolean}
           onClick={plassPageClick}
         >
           »
