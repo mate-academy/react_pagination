@@ -1,4 +1,6 @@
 import React from 'react';
+import classNames from 'classnames';
+import { getNumbers } from '../../utils';
 
 interface PaginationProps {
   total: number;
@@ -14,7 +16,7 @@ const Pagination: React.FC<PaginationProps> = ({
   onPageChange,
 }) => {
   const numberOfPages = Math.ceil(total / perPage);
-  const pages = Array.from({ length: numberOfPages }, (_, i) => i + 1);
+  const pages = getNumbers(1, numberOfPages);
 
   const handlePrevClick = (
     currentEvent: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
@@ -36,12 +38,12 @@ const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <ul className="pagination">
-      <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+      <li className={classNames('page-item', { disabled: currentPage === 1 })}>
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === 1 ? 'true' : 'false'}
+          aria-disabled={currentPage === 1}
           onClick={handlePrevClick}
         >
           «
@@ -49,15 +51,15 @@ const Pagination: React.FC<PaginationProps> = ({
       </li>
       {pages.map(page => (
         <li
-          className={`page-item ${page === currentPage ? 'active' : ''}`}
+          className={classNames('page-item', { active: page === currentPage })}
           key={page}
         >
           <a
             data-cy="pageLink"
             className="page-link"
             href={`#${page}`}
-            onClick={e => {
-              e.preventDefault();
+            onClick={event => {
+              event.preventDefault();
               onPageChange(page);
             }}
           >
@@ -66,13 +68,15 @@ const Pagination: React.FC<PaginationProps> = ({
         </li>
       ))}
       <li
-        className={`page-item ${currentPage === numberOfPages ? 'disabled' : ''}`}
+        className={classNames('page-item', {
+          disabled: currentPage === numberOfPages,
+        })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === numberOfPages ? 'true' : 'false'}
+          aria-disabled={currentPage === numberOfPages}
           onClick={handleNextClick}
         >
           »

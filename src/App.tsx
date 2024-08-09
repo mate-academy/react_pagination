@@ -6,11 +6,15 @@ import Pagination from './components/Pagination/Pagination';
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [itemsPerPage, setItemsPerPage] = useState<number>(5);
-  const [activePage, setActivePage] = useState<number>(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [activePage, setActivePage] = useState(1);
 
   const startNum = itemsPerPage * activePage - itemsPerPage;
   const finishNum = itemsPerPage * activePage;
+  const countOfItems = items.length;
+  const firstItemNumberOnPage = startNum + 1;
+  const lastItemNumberOnPage =
+    finishNum <= countOfItems ? finishNum : countOfItems;
 
   const filteredItemsPerPage = items.slice(startNum, finishNum);
 
@@ -28,9 +32,8 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {activePage} (items {startNum + 1} -{' '}
-        {finishNum <= items.length ? finishNum : items.length} of {items.length}
-        )
+        Page {activePage} (items {firstItemNumberOnPage} -{' '}
+        {lastItemNumberOnPage} of {countOfItems})
       </p>
 
       <div className="form-group row">
