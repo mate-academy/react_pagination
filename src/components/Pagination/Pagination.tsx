@@ -27,12 +27,12 @@ export const Pagination: React.FC<Props> = ({
     currentPage === getNumOfPages[getNumOfPages.length - 1];
 
   const moveLink = (pageNum: number, direction: string) => {
-    if (pageNum > getNumOfPages[0] && direction === LinkDirection.Forward) {
+    if (pageNum >= getNumOfPages[0] && direction === LinkDirection.Forward) {
       onPageChange(pageNum);
     }
 
     if (
-      pageNum < getNumOfPages[getNumOfPages.length - 1] &&
+      pageNum <= getNumOfPages[getNumOfPages.length - 1] &&
       direction === LinkDirection.Back
     ) {
       onPageChange(pageNum);
