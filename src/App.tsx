@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import './App.css';
 
 import React, { useEffect, useState } from 'react';
@@ -13,8 +12,6 @@ import { Pagination } from './components/Pagination/Pagination';
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 const RoutedApp: React.FC = () => {
-  console.log('router');
-
   const query = useUrlQuery();
   const navigate = useNavigate();
 
@@ -87,8 +84,6 @@ const RoutedApp: React.FC = () => {
 };
 
 export const App: React.FC = () => {
-  console.log('router');
-
   return (
     <BrowserRouter>
       <Routes>
