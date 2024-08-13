@@ -10,9 +10,12 @@ const items = getNumbers(1, 42).map(n => `Item ${n}`);
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(PER_CHANGE_OPTIONS[1]);
   const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(items.length / perPage);
   const firstItem = (currentPage - 1) * perPage + 1;
-  const lastItem = (currentPage - 1) * perPage + perPage;
-
+  const lastItem =
+    currentPage >= totalPages
+      ? items.length
+      : (currentPage - 1) * perPage + perPage;
 
   return (
     <div className="container">
