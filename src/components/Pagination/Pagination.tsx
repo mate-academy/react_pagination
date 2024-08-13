@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 
 import { getNumbers } from '../../utils';
@@ -28,16 +27,36 @@ export const Pagination: React.FC<Props> = ({
     Math.min(currentPage * perPage, total),
   );
 
+  const goToPage = (newPage: number) => {
+    if (newPage === currentPage) {
+      return;
+    }
+
+    onPageChange(newPage);
+  };
+
+  const goToPrevPage = () => {
+    if (currentPage === 1) {
+      return;
+    }
+
+    goToPage(currentPage - 1);
+  };
+
+  const goToNextPage = () => {
+    if (currentPage === totalPages) {
+      return;
+    }
+
+    goToPage(currentPage + 1);
+  };
+
   return (
     <>
       <ul className="pagination">
         <li className={classNames('page-item', { disabled: isOnFirstPage })}>
           <a
-            onClick={() => {
-              if (!isOnFirstPage) {
-                onPageChange(currentPage - 1);
-              }
-            }}
+            onClick={goToPrevPage}
             data-cy="prevLink"
             className="page-link"
             href="#prev"
@@ -55,11 +74,7 @@ export const Pagination: React.FC<Props> = ({
               className={classNames('page-item', { active: isActive })}
             >
               <a
-                onClick={() => {
-                  if (!isActive) {
-                    onPageChange(page);
-                  }
-                }}
+                onClick={() => goToPage(page)}
                 data-cy="pageLink"
                 className="page-link"
                 href={`#${page}`}
@@ -71,11 +86,7 @@ export const Pagination: React.FC<Props> = ({
         })}
         <li className={classNames('page-item', { disabled: isOnLastPage })}>
           <a
-            onClick={() => {
-              if (!isOnLastPage) {
-                onPageChange(currentPage + 1);
-              }
-            }}
+            onClick={goToNextPage}
             data-cy="nextLink"
             className="page-link"
             href="#next"
