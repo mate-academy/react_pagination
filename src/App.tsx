@@ -28,7 +28,8 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {currentPage} (items {startIndex + 1} - {Math.min(endIndex, totalItems)} of {totalItems})
+        Page {currentPage} (items {startIndex + 1} -{' '}
+        {Math.min(endIndex, totalItems)} of {totalItems})
       </p>
 
       <div className="form-group row">
@@ -61,7 +62,9 @@ export const App: React.FC = () => {
 
       <ul>
         {currentItems.map(item => (
-          <li key={item} data-cy="item">{item}</li>
+          <li key={item} data-cy="item">
+            {item}
+          </li>
         ))}
       </ul>
     </div>
