@@ -92,6 +92,7 @@ export const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/react_pagination/" Component={RoutedApp} />
         <Route path="/" Component={RoutedApp} />
       </Routes>
     </BrowserRouter>
