@@ -22,20 +22,14 @@ const RoutedApp: React.FC = () => {
     maybeParseInt(query.get('page')) ?? 1,
   );
 
-  //const [perPage, setPerPage] = useState<number>(5);
-  //const [currentPage, setCurrentPage] = useState<number>(1);
-
   useEffect(() => {
     if (!query.get('page') || !query.get('perPage')) {
-      //history.replace(`?page=${currentPage}&perPage=${perPage}`);
       navigate(`?page=${currentPage}&perPage=${perPage}`);
     }
   }, [perPage, query, navigate, currentPage]);
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
-
-    //history.push(`?page=${newPage}&perPage=${perPage}`);
     navigate(`?page=${newPage}&perPage=${perPage}`);
   };
 
@@ -43,7 +37,6 @@ const RoutedApp: React.FC = () => {
     setPerPage(newPerPage);
     setCurrentPage(1);
 
-    //history.push(`?page=${1}&perPage=${newPerPage}`);
     navigate(`?page=${currentPage}&perPage=${newPerPage}`);
   };
 
