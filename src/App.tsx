@@ -4,12 +4,13 @@ import { PerPageSelector } from './components/PerPageSelector';
 import { PER_CHANGE_OPTIONS } from './constants';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
+import { Page } from './components/Page';
 
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(PER_CHANGE_OPTIONS[1]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setcurrentPage] = useState(1);
   const totalPages = Math.ceil(items.length / perPage);
   const firstItem = (currentPage - 1) * perPage + 1;
   const lastItem =
@@ -30,7 +31,7 @@ export const App: React.FC = () => {
           perPageOptions={PER_CHANGE_OPTIONS}
           onChange={val => {
             setPerPage(val);
-            setCurrentPage(1);
+            setcurrentPage(1);
           }}
         />
 
@@ -38,22 +39,17 @@ export const App: React.FC = () => {
           items per page
         </label>
       </div>
+
       <Pagination
         total={items.length}
         perPage={perPage}
         currentPage={currentPage}
         onPageChange={page => {
-          setCurrentPage(page);
+          setcurrentPage(page);
         }}
       />
-      <ul>
-        <li data-cy="item"> Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
-      </ul>
-      ;
+
+      <Page items={items.slice(firstItem - 1, lastItem)} />
     </div>
   );
 };
