@@ -73,7 +73,8 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             onClick={handleNextPage}
             disabled={currentPage >= Math.ceil(items.length / perPage)}
-            aria-disabled={currentPage >= Math.ceil(items.length / perPage)}
+            aria-disabled={currentPage >= Math.ceil(items.length / perPage) ? 'true' : 'false'}
+
           >
             »
           </button>
