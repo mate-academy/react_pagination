@@ -16,10 +16,6 @@ export const App: React.FC = () => {
     setCurrentPage(1);
   };
 
-  const handleChangePage = (page: number) => {
-    setCurrentPage(page);
-  };
-
   const firstItemIndex = (currentPage - 1) * perPage + 1;
   const lastItemIndex = Math.min(currentPage * perPage, items.length);
 
@@ -57,7 +53,7 @@ export const App: React.FC = () => {
         currentPage={currentPage}
         items={items}
         perPage={perPage}
-        onPageChange={handleChangePage}
+        onPageChange={setCurrentPage}
       />
     </div>
   );

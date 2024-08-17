@@ -14,44 +14,39 @@ export const Pagination: React.FC<Props> = ({
   perPage,
   onPageChange,
 }) => {
-  const handlePrevPage = (event: React.MouseEvent) => {
-    event.preventDefault();
-    if (currentPage > 1) {
-      onPageChange(currentPage - 1);
-    }
-  };
+  const totalPages = Math.ceil(items.length / perPage);
 
-  const handleNextPage = (event: React.MouseEvent) => {
-    event.preventDefault();
-    if (currentPage < Math.ceil(items.length / perPage)) {
-      onPageChange(currentPage + 1);
-    }
-  };
+  const currentItems = items.slice(
+    (currentPage - 1) * perPage,
+    currentPage * perPage,
+  );
+
+  const isPrevDisabled = currentPage === 1;
+  const isNextDisabled = currentPage === totalPages;
+
+  const paginationNumbers = getNumbers(1, totalPages);
 
   return (
     <>
       <ul className="pagination">
-        <li
-          className={cn('page-item', {
-            disabled: currentPage === 1,
-          })}
-        >
+        <li className={cn('page-item', { disabled: isPrevDisabled })}>
           <button
             data-cy="prevLink"
             className="page-link"
-            onClick={handlePrevPage}
-            disabled={currentPage === 1}
-            aria-disabled={currentPage === 1 ? 'true' : 'false'}
+            onClick={(event) => {
+              event.preventDefault();
+              if (!isPrevDisabled) onPageChange(currentPage - 1);
+            }}
+            disabled={isPrevDisabled}
+            aria-disabled={isPrevDisabled}
           >
             «
           </button>
         </li>
-        {getNumbers(1, Math.ceil(items.length / perPage)).map(num => (
+        {paginationNumbers.map(num => (
           <li
             key={num}
-            className={cn('page-item', {
-              active: currentPage === num,
-            })}
+            className={cn('page-item', { active: currentPage === num })}
           >
             <button
               data-cy="pageLink"
@@ -63,31 +58,27 @@ export const Pagination: React.FC<Props> = ({
             </button>
           </li>
         ))}
-        <li
-          className={cn('page-item', {
-            disabled: currentPage === Math.ceil(items.length / perPage),
-          })}
-        >
+        <li className={cn('page-item', { disabled: isNextDisabled })}>
           <button
             data-cy="nextLink"
             className="page-link"
-            onClick={handleNextPage}
-            disabled={currentPage >= Math.ceil(items.length / perPage)}
-            aria-disabled={currentPage >= Math.ceil(items.length / perPage) ? 'true' : 'false'}
-
+            onClick={(event) => {
+              event.preventDefault();
+              if (!isNextDisabled) onPageChange(currentPage + 1);
+            }}
+            disabled={isNextDisabled}
+            aria-disabled={isNextDisabled}
           >
             »
           </button>
         </li>
       </ul>
       <ul>
-        {items
-          .slice((currentPage - 1) * perPage, currentPage * perPage)
-          .map(item => (
-            <li key={item} data-cy="item">
-              {item}
-            </li>
-          ))}
+        {currentItems.map(item => (
+          <li key={item} data-cy="item">
+            {item}
+          </li>
+        ))}
       </ul>
     </>
   );
