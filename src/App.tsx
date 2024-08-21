@@ -3,17 +3,12 @@ import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
-const items = getNumbers(1, 42).map(n => `Item ${n}`);
-
 export const App: React.FC = () => {
-  const [arrItems, setArrayItems] = useState<string[]>([]);
+  const items = getNumbers(1, 42).map(n => `Item ${n}`);
   const [perPage, setPerPage] = useState<number>(5);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  useEffect(() => {
-    setArrayItems(items);
-  }, []);
-
+  // Reset the current page to 1 whenever the items per page changes.
   useEffect(() => {
     setCurrentPage(1);
   }, [perPage]);
@@ -21,7 +16,7 @@ export const App: React.FC = () => {
   const total = items.length;
   const lastItemIndex = currentPage * perPage;
   const firstItemIndex = lastItemIndex - perPage;
-  const currentItems = arrItems.slice(firstItemIndex, lastItemIndex);
+  const currentItems = items.slice(firstItemIndex, lastItemIndex);
 
   return (
     <div className="container">

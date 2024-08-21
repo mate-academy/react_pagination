@@ -17,20 +17,16 @@ export const Pagination: React.FC<PaginationProps> = ({
   setCurrentPage,
   currentPage,
 }) => {
-  const pageNumbers: number[] = [];
-
-  for (let i = 1; i <= Math.ceil(total / perPage); i++) {
-    pageNumbers.push(i);
-  }
-
-  const totalPages = getNumbers(1, Math.ceil(total / perPage)).length;
+  const pageNumbers = getNumbers(1, Math.ceil(total / perPage));
 
   const moveLeft = () => {
     setCurrentPage(currentPage > 1 ? currentPage - 1 : currentPage);
   };
 
   const moveRight = () => {
-    setCurrentPage(currentPage < totalPages ? currentPage + 1 : currentPage);
+    setCurrentPage(
+      currentPage < pageNumbers.length ? currentPage + 1 : currentPage,
+    );
   };
 
   return (
@@ -38,7 +34,10 @@ export const Pagination: React.FC<PaginationProps> = ({
       <ul className="pagination">
         <li
           className={cn('page-item', { disabled: currentPage === 1 })}
-          onClick={moveLeft}
+          onClick={event => {
+            event.preventDefault();
+            moveLeft();
+          }}
         >
           <a
             data-cy="prevLink"
@@ -55,7 +54,10 @@ export const Pagination: React.FC<PaginationProps> = ({
             className={cn('page-item', {
               active: currentPage === num,
             })}
-            onClick={() => setCurrentPage(num)}
+            onClick={event => {
+              event.preventDefault();
+              setCurrentPage(num);
+            }}
           >
             <a data-cy="pageLink" className="page-link" href={`#${num}`}>
               {num}
@@ -64,15 +66,18 @@ export const Pagination: React.FC<PaginationProps> = ({
         ))}
         <li
           className={cn('page-item', {
-            disabled: currentPage === totalPages,
+            disabled: currentPage === pageNumbers.length,
           })}
-          onClick={moveRight}
+          onClick={event => {
+            event.preventDefault();
+            moveRight();
+          }}
         >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={currentPage === totalPages}
+            aria-disabled={currentPage === pageNumbers.length}
           >
             »
           </a>
