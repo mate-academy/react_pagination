@@ -8,7 +8,7 @@ export const App: React.FC = () => {
   const [perPage, setPerPage] = useState<number>(5);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  // Reset the current page to 1 whenever the items per page changes.
+  //Reset the current page to 1 whenever the items per page changes.
   useEffect(() => {
     setCurrentPage(1);
   }, [perPage]);
