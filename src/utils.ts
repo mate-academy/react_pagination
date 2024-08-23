@@ -7,3 +7,14 @@ export function getNumbers(from: number, to: number): number[] {
 
   return numbers;
 }
+
+export function getAmountOfItems(
+  items: string[],
+  currentPage: string,
+  pageSize: string,
+) {
+  const startIndex = (Number(currentPage) - 1) * Number(pageSize);
+  const part = items.slice(startIndex, startIndex + Number(pageSize));
+
+  return part;
+}
