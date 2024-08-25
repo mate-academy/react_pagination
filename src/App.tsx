@@ -15,9 +15,10 @@ const getPageItems = (
 };
 
 const ITEMS_COUNT = 42;
+const PER_PAGE_COUNT = 5;
 
 export const App: React.FC = () => {
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(PER_PAGE_COUNT);
   const [currentPage, setCurrentPage] = useState(1);
 
   const pageItems = getPageItems(ITEMS_COUNT, perPage, currentPage);
@@ -49,7 +50,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             onChange={handlePerPageSelectorChange}
-            defaultValue={5}
+            defaultValue={PER_PAGE_COUNT}
           >
             <option value="3">3</option>
             <option value="5">5</option>
