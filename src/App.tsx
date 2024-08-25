@@ -65,18 +65,13 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={ITEMS_COUNT} // total number of items to paginate
-        perPage={perPage} // number of items per page
-        currentPage={currentPage} /* optional with 1 by default */
+        total={ITEMS_COUNT}
+        perPage={perPage}
+        currentPage={currentPage}
         onPageChange={handlePageChange}
       />
 
       <ul>
-        {/* {getNumbers(1, ITEMS_COUNT).map((n, index) => (
-          <li data-cy="item" key={index}>
-            Item {n}
-          </li>
-        ))} */}
         {pageItems.map((n, index) => (
           <li data-cy="item" key={index}>
             Item {n}
