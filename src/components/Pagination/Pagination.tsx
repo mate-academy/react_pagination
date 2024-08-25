@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { getNumbers } from '../../utils';
 
@@ -16,16 +17,20 @@ export const Pagination: React.FC<Props> = ({
   onPageChange,
 }) => {
   const paginationItemsCount = Math.ceil(total / perPage);
-  const next = currentPage >= paginationItemsCount;
-  const previous = currentPage === 1;
+  const nextPage = currentPage >= paginationItemsCount;
+  const previousPage = currentPage === 1;
 
-  const handleNextLinkClick = () => {
+  const handleNextLinkClick = (event: React.MouseEvent<HTMLLIElement>) => {
+    event.stopPropagation();
+
     if (currentPage !== paginationItemsCount) {
       onPageChange(currentPage + 1);
     }
   };
 
-  const handlePreviousLinkClick = () => {
+  const handlePreviousLinkClick = (event: React.MouseEvent<HTMLLIElement>) => {
+    event.stopPropagation();
+
     if (currentPage !== 1) {
       onPageChange(currentPage - 1);
     }
@@ -34,17 +39,17 @@ export const Pagination: React.FC<Props> = ({
   return (
     <ul className="pagination">
       <li
-        className={classNames(['page-item', previous ? 'disabled' : ''])}
-        onClick={handlePreviousLinkClick}
+        className={classNames(['page-item', previousPage ? 'disabled' : ''])}
+        onClick={e => handlePreviousLinkClick(e)}
       >
-        <a
+        <Link
           data-cy="prevLink"
           className="page-link"
-          href="#prev"
-          aria-disabled={previous}
+          to="prev"
+          aria-disabled={previousPage}
         >
           «
-        </a>
+        </Link>
       </li>
 
       {getNumbers(1, paginationItemsCount).map((item, index) => {
@@ -59,25 +64,25 @@ export const Pagination: React.FC<Props> = ({
             onClick={() => onPageChange(page)}
             key={index}
           >
-            <a data-cy="pageLink" className="page-link" href={`#${item}`}>
+            <Link data-cy="pageLink" className="page-link" to={String(item)}>
               {item}
-            </a>
+            </Link>
           </li>
         );
       })}
 
       <li
-        className={classNames(['page-item', next ? 'disabled' : ''])}
-        onClick={handleNextLinkClick}
+        className={classNames(['page-item', nextPage ? 'disabled' : ''])}
+        onClick={e => handleNextLinkClick(e)}
       >
-        <a
+        <Link
           data-cy="nextLink"
           className="page-link"
-          href="#next"
-          aria-disabled={next}
+          to="next"
+          aria-disabled={nextPage}
         >
           »
-        </a>
+        </Link>
       </li>
     </ul>
   );
