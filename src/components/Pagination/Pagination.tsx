@@ -1,5 +1,5 @@
-import classNames from 'classnames';
 import React from 'react';
+import classNames from 'classnames';
 
 type PaginationProps = {
   total: number;
@@ -37,7 +37,8 @@ export const Pagination: React.FC<PaginationProps> = ({
             className="page-link"
             href="#prev"
             aria-disabled={currentPage === 1}
-            onClick={() => {
+            onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+              e.preventDefault();
               if (currentPage > 1) {
                 onPageChange(currentPage - 1);
               }
@@ -57,7 +58,8 @@ export const Pagination: React.FC<PaginationProps> = ({
               data-cy="pageLink"
               className="page-link"
               href={`#${page}`}
-              onClick={() => {
+              onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+                e.preventDefault();
                 onPageChange(page);
               }}
             >
@@ -76,7 +78,8 @@ export const Pagination: React.FC<PaginationProps> = ({
             className="page-link"
             href="#next"
             aria-disabled={currentPage === arrayOfPages.length}
-            onClick={() => {
+            onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+              e.preventDefault();
               if (currentPage < arrayOfPages.length) {
                 onPageChange(currentPage + 1);
               }
