@@ -26,6 +26,36 @@ export const Pagination: React.FC<PaginationProps> = ({
     },
   );
 
+  const handlePageMove = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+    direction?: string,
+    page?: number,
+  ) => {
+    e.preventDefault();
+    switch (direction) {
+      case 'prev':
+        if (currentPage > 1) {
+          onPageChange(currentPage - 1);
+        }
+
+        break;
+
+      case 'next':
+        if (currentPage < arrayOfPages.length) {
+          onPageChange(currentPage + 1);
+        }
+
+        break;
+
+      default:
+        if (page !== undefined) {
+          onPageChange(page);
+        }
+
+        break;
+    }
+  };
+
   return (
     <div>
       <ul className="pagination">
@@ -37,12 +67,7 @@ export const Pagination: React.FC<PaginationProps> = ({
             className="page-link"
             href="#prev"
             aria-disabled={currentPage === 1}
-            onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-              e.preventDefault();
-              if (currentPage > 1) {
-                onPageChange(currentPage - 1);
-              }
-            }}
+            onClick={e => handlePageMove(e, 'prev')}
           >
             «
           </a>
@@ -58,10 +83,7 @@ export const Pagination: React.FC<PaginationProps> = ({
               data-cy="pageLink"
               className="page-link"
               href={`#${page}`}
-              onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-                e.preventDefault();
-                onPageChange(page);
-              }}
+              onClick={e => handlePageMove(e, undefined, page)}
             >
               {page}
             </a>
@@ -78,12 +100,7 @@ export const Pagination: React.FC<PaginationProps> = ({
             className="page-link"
             href="#next"
             aria-disabled={currentPage === arrayOfPages.length}
-            onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-              e.preventDefault();
-              if (currentPage < arrayOfPages.length) {
-                onPageChange(currentPage + 1);
-              }
-            }}
+            onClick={e => handlePageMove(e, 'next')}
           >
             »
           </a>

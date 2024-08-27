@@ -22,13 +22,17 @@ export const App: React.FC = () => {
     }
   };
 
+  const startValue = currentPage * perPage - perPage + 1;
+  const endValue = currentPage * perPage;
+  const perPageValues = [3, 5, 10, 20];
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {currentPage} (items {currentPage * perPage - perPage + 1} -{' '}
-        {currentPage * perPage < 42 ? currentPage * perPage : 42} of 42)
+        Page {currentPage} (items {startValue} - {endValue < 42 ? endValue : 42}{' '}
+        of 42)
       </p>
 
       <div className="form-group row">
@@ -40,7 +44,7 @@ export const App: React.FC = () => {
             value={perPage}
             onChange={handlePerPageChange}
           >
-            {[3, 5, 10, 20].map(num => (
+            {perPageValues.map(num => (
               <option key={num} value={num}>
                 {num}
               </option>
