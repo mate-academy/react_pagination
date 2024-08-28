@@ -6,16 +6,27 @@ import { Pagination } from './components/Pagination';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
+function getStartAndEndItemsIndex(
+  itemsPerPage: number,
+  currentPage: number,
+  total: number,
+) {
+  const start = itemsPerPage * currentPage - itemsPerPage;
+  const end = start + itemsPerPage > total ? total : start + itemsPerPage;
+
+  return [start, end];
+}
+
 function prepareItems(
   allItems: string[],
   itemsPerPage: number,
   currentPage: number,
 ) {
-  const start = itemsPerPage * currentPage - itemsPerPage;
-  const end =
-    start + itemsPerPage > allItems.length
-      ? allItems.length
-      : start + itemsPerPage;
+  const [start, end] = getStartAndEndItemsIndex(
+    itemsPerPage,
+    currentPage,
+    allItems.length,
+  );
 
   return allItems.slice(start, end);
 }
@@ -26,18 +37,18 @@ export const App: React.FC = () => {
 
   const visibleItems = prepareItems(items, itemsPerPage, currentPage);
 
-  const startItem = itemsPerPage * currentPage - itemsPerPage;
-  const endItem =
-    startItem + itemsPerPage > items.length
-      ? items.length
-      : startItem + itemsPerPage;
+  const [start, end] = getStartAndEndItemsIndex(
+    itemsPerPage,
+    currentPage,
+    items.length,
+  );
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {currentPage} (items {startItem + 1} - {endItem} of {items.length})
+        Page {currentPage} (items {start + 1} - {end} of {items.length})
       </p>
 
       <div className="form-group row">
@@ -46,15 +57,19 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
+            value={itemsPerPage}
             onChange={event => {
-              setItemsPerPage(+event.target.value);
-              setCurrentPage(1);
+              if (
+                +event.target.value > 0 &&
+                +event.target.value <= items.length
+              ) {
+                setItemsPerPage(+event.target.value);
+                setCurrentPage(1);
+              }
             }}
           >
             <option value="3">3</option>
-            <option value="5" selected>
-              5
-            </option>
+            <option value="5">5</option>
             <option value="10">10</option>
             <option value="20">20</option>
           </select>

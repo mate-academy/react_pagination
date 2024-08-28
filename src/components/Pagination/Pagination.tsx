@@ -14,13 +14,16 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
+  if (perPage <= 0) {
+    throw new Error('The number of items to display must be greater than 0');
+  }
+
   const countLinks = Math.ceil(total / perPage);
   const links = getNumbers(1, countLinks);
 
   return (
     <ul className="pagination">
       <li
-        // className="page-item disabled"
         className={cn('page-item', {
           disabled: currentPage === 1,
         })}
@@ -54,7 +57,6 @@ export const Pagination: React.FC<Props> = ({
         </li>
       ))}
       <li
-        // className="page-item"
         className={cn('page-item', {
           disabled: currentPage === countLinks,
         })}
