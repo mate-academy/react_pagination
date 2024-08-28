@@ -42,13 +42,23 @@ export const App: React.FC = () => {
     currentPage,
     items.length,
   );
+  const infoLine = `Page ${currentPage} (items ${start + 1} - ${end} of ${items.length})`; // ?
+
+  const handleChangeItemsPerPage = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    if (+event.target.value > 0 && +event.target.value <= items.length) {
+      setItemsPerPage(+event.target.value);
+      setCurrentPage(1);
+    }
+  };
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {currentPage} (items {start + 1} - {end} of {items.length})
+        {infoLine}
       </p>
 
       <div className="form-group row">
@@ -58,15 +68,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={itemsPerPage}
-            onChange={event => {
-              if (
-                +event.target.value > 0 &&
-                +event.target.value <= items.length
-              ) {
-                setItemsPerPage(+event.target.value);
-                setCurrentPage(1);
-              }
-            }}
+            onChange={e => handleChangeItemsPerPage(e)}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -84,9 +86,7 @@ export const App: React.FC = () => {
         total={items.length} // total number of items to paginate
         perPage={itemsPerPage} // number of items per page
         currentPage={currentPage} /* optional with 1 by default */
-        onPageChange={(page: number) => {
-          setCurrentPage(page);
-        }}
+        onPageChange={setCurrentPage}
       />
 
       <ul>
