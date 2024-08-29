@@ -8,13 +8,13 @@ export function getNumbers(from: number, to: number): number[] {
   return numbers;
 }
 
-export function getAmountOfItems(
+export function getPartItems(
   items: string[],
-  currentPage: string,
-  pageSize: string,
+  currentPage: number,
+  pageSize: number,
 ) {
-  const startIndex = (Number(currentPage) - 1) * Number(pageSize);
-  const part = items.slice(startIndex, startIndex + Number(pageSize));
+  const startIndex = (currentPage - 1) * pageSize;
+  const part = items.slice(startIndex, startIndex + pageSize);
 
   return part;
 }

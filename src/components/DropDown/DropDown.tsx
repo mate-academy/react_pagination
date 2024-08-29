@@ -1,16 +1,16 @@
 import React from 'react';
 
 type Props = {
-  value: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
-  setPage: React.Dispatch<React.SetStateAction<string>>;
+  value: number;
+  setValue: React.Dispatch<React.SetStateAction<number>>;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export const DropDown: React.FC<Props> = ({ value, setValue, setPage }) => {
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault();
-    setValue(event.target.value);
-    setPage('1');
+    setValue(Number(event.target.value));
+    setPage(1);
   };
 
   return (
