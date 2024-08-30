@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { getPartItems } from '../../utils';
 
 type Props = {
@@ -8,6 +8,7 @@ type Props = {
   currentPage: number;
   setElements: React.Dispatch<React.SetStateAction<string[]>>;
   onPageChange: React.Dispatch<React.SetStateAction<number>>;
+  elements: string[];
 };
 
 export const Pagination: React.FC<Props> = ({
@@ -17,17 +18,9 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   setElements,
   onPageChange,
+  elements,
 }) => {
-  const amountOfButton = Math.ceil(total / Number(perPage));
-  const buttons = [];
-
-  const handlePageClick = (
-    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-    pageNumber: number,
-  ) => {
-    event.preventDefault();
-    onPageChange(pageNumber);
-  };
+  const pages = Math.ceil(total / Number(perPage));
 
   useEffect(() => {
     const updatedElements = getPartItems(items, currentPage, perPage);
@@ -35,33 +28,44 @@ export const Pagination: React.FC<Props> = ({
     setElements(updatedElements);
   }, [currentPage, perPage, items, setElements]);
 
-  const currentAmountOfItems = getPartItems(items, currentPage, perPage);
-
-  const elements = currentAmountOfItems.map(item => (
+  const selectedElements = elements.map(item => (
     <li key={item} data-cy="item">
       {item}
     </li>
   ));
 
-  for (let i = 1; i <= amountOfButton; i += 1) {
-    buttons.push(
-      <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
-        <a
-          onClick={event => handlePageClick(event, i)}
-          data-cy="pageLink"
-          className="page-link"
-          href={`#${i}`}
+  const visibleButtons = useMemo(() => {
+    const handlePageClick = (pageNumber: number) => {
+      onPageChange(pageNumber);
+    };
+
+    const buttons = [];
+
+    for (let i = 1; i <= pages; i += 1) {
+      buttons.push(
+        <li
+          key={i}
+          className={`page-item ${currentPage === i ? 'active' : ''}`}
         >
-          {i}
-        </a>
-      </li>,
-    );
-  }
+          <a
+            onClick={() => handlePageClick(i)}
+            data-cy="pageLink"
+            className="page-link"
+            href={`#${i}`}
+          >
+            {i}
+          </a>
+        </li>,
+      );
+    }
+
+    return buttons;
+  }, [onPageChange, pages, currentPage]);
 
   return (
     <>
       <ul className="pagination">
-        <li className={`page-item ${currentPage === 1 ? 'disabled' : null}`}>
+        <li className={`page-item ${currentPage === 1 && 'disabled'}`}>
           <a
             onClick={() => {
               if (currentPage !== 1) {
@@ -76,26 +80,24 @@ export const Pagination: React.FC<Props> = ({
             «
           </a>
         </li>
-        {buttons}
-        <li
-          className={`page-item ${currentPage === amountOfButton ? 'disabled' : null}`}
-        >
+        {visibleButtons}
+        <li className={`page-item ${currentPage === pages && 'disabled'}`}>
           <a
             onClick={() => {
-              if (currentPage !== amountOfButton) {
+              if (currentPage !== pages) {
                 onPageChange(currentPage + 1);
               }
             }}
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={currentPage === amountOfButton ? 'true' : 'false'}
+            aria-disabled={currentPage === pages ? 'true' : 'false'}
           >
             »
           </a>
         </li>
       </ul>
-      <ul>{elements}</ul>
+      <ul>{selectedElements}</ul>
     </>
   );
 };

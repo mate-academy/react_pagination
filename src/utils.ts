@@ -12,7 +12,11 @@ export function getPartItems(
   items: string[],
   currentPage: number,
   pageSize: number,
-) {
+): string[] {
+  if (!currentPage || !pageSize) {
+    return items;
+  }
+
   const startIndex = (currentPage - 1) * pageSize;
   const part = items.slice(startIndex, startIndex + pageSize);
 

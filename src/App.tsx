@@ -12,12 +12,17 @@ export const App: React.FC = () => {
   const [page, setPage] = useState(1);
   const [elements, setElements] = useState<string[]>([]);
 
+  const startRange = elements[0] ? elements[0].split(' ')[1] : 1;
+  const endRange = elements[elements.length - 1]
+    ? elements[elements.length - 1].split(' ')[1]
+    : 5;
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${page} (items ${elements[0] && elements[0].split(' ')[1]} - ${elements[elements.length - 1] && elements[elements.length - 1].split(' ')[1]} of ${items.length})`}
+        {`Page ${page} (items ${startRange} - ${endRange} of ${items.length})`}
       </p>
 
       <DropDown value={perPage} setValue={setPerPage} setPage={setPage} />
@@ -28,6 +33,7 @@ export const App: React.FC = () => {
         onPageChange={setPage}
         setElements={setElements}
         items={items}
+        elements={elements}
       />
     </div>
   );

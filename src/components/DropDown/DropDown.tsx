@@ -8,7 +8,6 @@ type Props = {
 
 export const DropDown: React.FC<Props> = ({ value, setValue, setPage }) => {
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    event.preventDefault();
     setValue(Number(event.target.value));
     setPage(1);
   };
