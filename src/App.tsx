@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
-// import { event } from 'cypress/types/jquery';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const DEFAULT_PAGE = 1;
@@ -13,10 +12,11 @@ export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(DEFAULT_PAGE);
 
   const startItem = (currentPage - 1) * itemsPerPage;
-  const endItem =
-    startItem + itemsPerPage > items.length
-      ? items.length
-      : startItem + itemsPerPage;
+  let endItem = startItem + itemsPerPage;
+
+  if (endItem > items.length) {
+    endItem = items.length;
+  }
 
   const handlerPageChange = (value: number) => {
     setCurrentPage(value);
@@ -27,7 +27,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${startItem + 1} - ${endItem} of 42)`}
+        {`Page ${currentPage} (items ${startItem + 1} - ${endItem} of ${items.length})`}
       </p>
 
       <div className="form-group row">
@@ -36,17 +36,14 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
+            value={itemsPerPage}
             onChange={event => {
               setItemsPerPage(Number(event.target.value));
               setCurrentPage(DEFAULT_PAGE);
             }}
           >
             {[3, 5, 10, 20].map(number => (
-              <option
-              value={number}
-              key={number}
-              selected={number === itemsPerPage}
-              >
+              <option value={number} key={number}>
                 {number}
               </option>
             ))}
