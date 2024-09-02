@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useMemo, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -8,7 +8,6 @@ import { Pagination } from './components/Pagination';
 
 export const App: React.FC = () => {
   const location = useLocation();
-  const navigate = useNavigate();
 
   const queryParams = new URLSearchParams(location.search);
   const initialPage = parseInt(queryParams.get('page') || '1', 10);
@@ -19,33 +18,22 @@ export const App: React.FC = () => {
 
   const items = useMemo(() => getNumbers(1, 42).map(n => `Item ${n}`), []);
 
-  useEffect(() => {
-    const params = new URLSearchParams();
-
-    params.set('page', currentPage.toString());
-    params.set('perPage', perPage.toString());
-    navigate({ search: `?${params.toString()}` });
-  }, [currentPage, perPage, navigate]);
-
   const startIndex = (currentPage - 1) * perPage;
   const currentItems = items.slice(startIndex, startIndex + perPage);
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
 
   const handlePerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(parseInt(event.target.value, 10));
     setCurrentPage(1);
   };
 
+  const pageInfo = `Page ${currentPage} (items ${startIndex + 1} - ${Math.min(startIndex + perPage, items.length)} of ${items.length})`;
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {currentPage} (items {startIndex + 1} -{' '}
-        {Math.min(startIndex + perPage, items.length)} of {items.length})
+        {pageInfo}
       </p>
 
       <div className="form-group row">
@@ -73,12 +61,12 @@ export const App: React.FC = () => {
         total={items.length}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={handlePageChange}
+        onPageChange={setCurrentPage}
       />
 
       <ul>
-        {currentItems.map((item, index) => (
-          <li key={index} data-cy="item">
+        {currentItems.map(item => (
+          <li key={item} data-cy="item">
             {item}
           </li>
         ))}
