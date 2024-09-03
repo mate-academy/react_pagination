@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import './App.css';
-import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 import { PaginationInfo } from './components/PaginationInfo';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items: number[] = getNumbers(1, 42).map(n => n);
+const items: number[] = Array.from({ length: 42 }, (_, el) => el + 1);
 
 const perPageOptions = [3, 5, 10, 20].map((el, i) => {
   return { id: i, val: el };
@@ -24,7 +22,7 @@ export const App: React.FC = () => {
     const contArr: PageItem[][] = [];
     let globId = 0;
 
-    if (!chunkSize) {
+    if (typeof chunkSize !== 'number' || chunkSize <= 0) {
       return [];
     }
 
@@ -44,7 +42,7 @@ export const App: React.FC = () => {
   }
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(perPageOptions[1].val);
+  const [perPage, setPerPage] = useState(5);
   const pagesContainer = buildPagesContainer(items, perPage);
   const currentPageContainer = pagesContainer[currentPage - 1];
 
@@ -77,7 +75,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             onChange={handlePagePerSelection}
-            defaultValue={5}
+            defaultValue={perPageOptions[1].val}
           >
             {perPageOptions.map(p => (
               <option key={p.id} value={`${p.val}`}>

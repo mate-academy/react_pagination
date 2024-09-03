@@ -15,7 +15,7 @@ export const Pagination: React.FC<Props> = ({
   onPageChange,
 }) => {
   const perPageSelectors: number =
-    total % Number(perPage) ? Math.floor(total / perPage) + 1 : total / perPage;
+    total % perPage ? Math.floor(total / perPage) + 1 : total / perPage;
 
   return (
     <>
