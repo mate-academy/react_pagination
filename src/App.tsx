@@ -54,9 +54,9 @@ export const App: React.FC = () => {
     }
   }
 
-  function handlePagePerSelection(val: any) {
+  function handlePagePerSelection(event: React.ChangeEvent<HTMLSelectElement>) {
     setCurrentPage(1);
-    setPerPage(parseInt(val.target.value));
+    setPerPage(parseInt(event.target.value));
   }
 
   return (
