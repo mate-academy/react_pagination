@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const DEFAULT_PAGE = 1;
+const OPTIONS_OF_SELECT = [3, 5, 10, 20];
 const items: string[] = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
@@ -17,6 +18,11 @@ export const App: React.FC = () => {
   if (endItem > items.length) {
     endItem = items.length;
   }
+
+  const handlerSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setItemsPerPage(Number(event.target.value));
+    setCurrentPage(DEFAULT_PAGE);
+  };
 
   const handlerPageChange = (value: number) => {
     setCurrentPage(value);
@@ -37,12 +43,9 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={itemsPerPage}
-            onChange={event => {
-              setItemsPerPage(Number(event.target.value));
-              setCurrentPage(DEFAULT_PAGE);
-            }}
+            onChange={handlerSelectChange}
           >
-            {[3, 5, 10, 20].map(number => (
+            {OPTIONS_OF_SELECT.map(number => (
               <option value={number} key={number}>
                 {number}
               </option>

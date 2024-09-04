@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import { getNumbers } from '../../utils';
 import cn from 'classnames';
 
 type Props = {
-  totalItems: string[];
+  totalItems: Array<string>;
   itemsPerPage: number;
   currentPage: number;
   onPageChange: (value: number) => void;
@@ -22,6 +22,28 @@ export const Pagination: React.FC<Props> = ({
   const numberOfPages: number = Math.ceil(totalItems.length / itemsPerPage);
   const pages = getNumbers(1, numberOfPages);
 
+  function isArrayOfStrings(array: string[]): array is string[] {
+    return (
+      Array.isArray(array) && array.every(item => typeof item === 'string')
+    );
+  }
+
+  const handlerPrevPageChange = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+
+    if (currentPage !== pages[0]) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const handlerNextPageChange = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+
+    if (currentPage !== pages[pages.length - 1]) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
   return (
     <>
       <ul className="pagination">
@@ -35,11 +57,7 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#prev"
             aria-disabled={currentPage === pages[0]}
-            onClick={event => {
-              event.preventDefault();
-
-              return currentPage !== pages[0] && onPageChange(currentPage - 1);
-            }}
+            onClick={handlerPrevPageChange}
           >
             «
           </a>
@@ -73,25 +91,19 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#next"
             aria-disabled={currentPage === pages[pages.length - 1]}
-            onClick={event => {
-              event.preventDefault();
-
-              return (
-                currentPage !== pages[pages.length - 1] &&
-                onPageChange(currentPage + 1)
-              );
-            }}
+            onClick={handlerNextPageChange}
           >
             »
           </a>
         </li>
       </ul>
       <ul>
-        {totalItems.slice(startItem, endItem).map(item => (
-          <li data-cy="item" key={item}>
-            {item}
-          </li>
-        ))}
+        {isArrayOfStrings(totalItems) &&
+          totalItems.slice(startItem, endItem).map(item => (
+            <li data-cy="item" key={item}>
+              {item}
+            </li>
+          ))}
       </ul>
     </>
   );
