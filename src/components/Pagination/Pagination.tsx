@@ -1,4 +1,5 @@
 import React from 'react';
+import { getNumbers } from '../../utils';
 
 type PaginationProps = {
   total: number;
@@ -15,7 +16,7 @@ export const Pagination: React.FC<PaginationProps> = ({
 }) => {
   const totalPages = Math.ceil(total / perPage);
 
-  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+  const pages = getNumbers(1, totalPages);
 
   const handlePageChange = (page: number) => {
     if (page !== currentPage && page > 0 && page <= totalPages) {

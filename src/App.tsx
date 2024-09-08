@@ -61,8 +61,8 @@ export const App: React.FC = () => {
       />
 
       <ul>
-        {currentItems.map((item, index) => (
-          <li key={index} data-cy="item">
+        {currentItems.map(item => (
+          <li key={item} data-cy="item">
             {item}
           </li>
         ))}
