@@ -17,6 +17,8 @@ export const App: FC = () => {
 
   const items = getNumbers(startIndex + 1, endIndex).map(n => `Item ${n}`);
 
+  const infoText = `Page ${currentPage} (items ${startIndex + 1} - ${endIndex} of ${TOTAL_ITEMS})`;
+
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(Number(event.target.value));
     setCurrentPage(1);
@@ -31,8 +33,7 @@ export const App: FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {currentPage} (items {startIndex + 1} - {endIndex} of {TOTAL_ITEMS}
-        )
+        {infoText}
       </p>
 
       <div className="form-group row">

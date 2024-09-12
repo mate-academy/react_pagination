@@ -1,6 +1,8 @@
 import { FC } from 'react';
 import cn from 'classnames';
 
+import { getNumbers } from '../../utils';
+
 interface Props {
   total: number;
   perPage: number;
@@ -16,16 +18,18 @@ export const Pagination: FC<Props> = ({
 }) => {
   const totalPages = Math.ceil(total / perPage);
 
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === totalPages;
+
   const handlePageChange = (page: number) => {
     if (page !== currentPage && page > 0 && page <= totalPages) {
       onPageChange(page);
     }
   };
 
-  const paginationLinks = Array.from(
-    { length: totalPages },
-    (_, i) => i + 1,
-  ).map(page => (
+  const paginationCount = getNumbers(1, totalPages);
+
+  const paginationLinks = paginationCount.map(page => (
     <li
       key={page}
       className={cn('page-item ', { active: currentPage === page })}
@@ -43,12 +47,12 @@ export const Pagination: FC<Props> = ({
 
   return (
     <ul className="pagination">
-      <li className={cn('page-item', { disabled: currentPage === 1 })}>
+      <li className={cn('page-item', { disabled: isFirstPage })}>
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === 1 ? 'true' : 'false'}
+          aria-disabled={isFirstPage}
           onClick={() => handlePageChange(currentPage - 1)}
         >
           «
@@ -57,12 +61,12 @@ export const Pagination: FC<Props> = ({
 
       {paginationLinks}
 
-      <li className={cn('page-item', { disabled: currentPage === totalPages })}>
+      <li className={cn('page-item', { disabled: isLastPage })}>
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === totalPages ? 'true' : 'false'}
+          aria-disabled={isLastPage}
           onClick={() => handlePageChange(currentPage + 1)}
         >
           »
