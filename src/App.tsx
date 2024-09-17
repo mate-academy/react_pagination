@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -6,17 +6,25 @@ import { Pagination } from './components/Pagination';
 export const App: React.FC = () => {
   const totalItems: number = 42;
   const values = [3, 5, 10, 20];
-  const [numItems, setNumItems] = useState(5);
 
+  const [numItems, setNumItems] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
-  let from = 1;
-  let to = numItems;
+  const [from, setFrom] = useState(1);
+  const [to, setTo] = useState(numItems);
 
-  if (currentPage) {
-    from = (currentPage - 1) * numItems + 1;
-    to = Math.min(currentPage * numItems, totalItems);
-  }
+  useEffect(() => {
+    let newFrom = 1;
+    let newTo = numItems;
+
+    if (currentPage) {
+      newFrom = (currentPage - 1) * numItems + 1;
+      newTo = Math.min(currentPage * numItems, totalItems);
+    }
+
+    setFrom(newFrom);
+    setTo(newTo);
+  }, [currentPage, numItems, totalItems]);
 
   const items = getNumbers(from, to).map(n => `Item ${n}`);
 
