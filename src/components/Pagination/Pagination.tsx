@@ -5,7 +5,7 @@ type Props = {
   total: number;
   perPage: number;
   currentPage: number;
-  onPageChange: (page: number) => void;
+  onPageChange?: (page: number) => void;
 };
 
 export const Pagination = ({

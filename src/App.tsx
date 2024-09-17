@@ -13,15 +13,9 @@ export const App: React.FC = () => {
   let from = 1;
   let to = numItems;
 
-  if (currentPage && currentPage !== 1) {
-    for (let page = 2; page <= currentPage; page++) {
-      from = to + 1;
-      to = numItems * page;
-
-      if (to > totalItems) {
-        to = totalItems;
-      }
-    }
+  if (currentPage) {
+    from = (currentPage - 1) * numItems + 1;
+    to = Math.min(currentPage * numItems, totalItems);
   }
 
   const items = getNumbers(from, to).map(n => `Item ${n}`);
