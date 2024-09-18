@@ -22,7 +22,6 @@ export const Pagination: React.FC<Props> = ({
     currentPage * perPage < total ? currentPage * perPage : total,
   ).map((n: number) => `Item ${n}`);
   const links = getNumbers(1, maxNumPages).map((n: number) => n);
-  const visibleItems = items.slice(0, perPage);
 
   return (
     <>
@@ -35,7 +34,8 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#prev"
             aria-disabled={`${currentPage === 1 ? 'true' : 'false'}`}
-            onClick={() => {
+            onClick={event => {
+              event.preventDefault();
               if (currentPage !== 1) {
                 onPageChange(currentPage - 1);
               }
@@ -53,7 +53,8 @@ export const Pagination: React.FC<Props> = ({
               data-cy="pageLink"
               className="page-link"
               href={`#${num}`}
-              onClick={() => {
+              onClick={event => {
+                event.preventDefault();
                 if (currentPage !== num) {
                   onPageChange(num);
                 }
@@ -73,7 +74,8 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#next"
             aria-disabled={`${currentPage === maxNumPages ? 'true' : 'false'}`}
-            onClick={() => {
+            onClick={event => {
+              event.preventDefault();
               if (currentPage !== maxNumPages) {
                 onPageChange(currentPage + 1);
               }
@@ -84,8 +86,8 @@ export const Pagination: React.FC<Props> = ({
         </li>
       </ul>
       <ul>
-        {visibleItems.map((item: string, i: number) => (
-          <li data-cy="item" key={item + i}>
+        {items.map((item: string) => (
+          <li data-cy="item" key={item}>
             {item}
           </li>
         ))}
