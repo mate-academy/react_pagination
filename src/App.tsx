@@ -21,7 +21,7 @@ export const App: React.FC = () => {
     setCurrentPage(1);
   };
 
-  const startIndex = (currentPage - 1) * perPage + 1;
+  const startIndex = Math.min((currentPage - 1) * perPage + 1, total);
   const endIndex = Math.min(startIndex + perPage - 1, total);
   const currentItems = items.slice(startIndex - 1, endIndex);
 
@@ -65,8 +65,8 @@ export const App: React.FC = () => {
       />
 
       <ul>
-        {currentItems.map((item, index) => (
-          <li key={index} data-cy="item">
+        {currentItems.map(item => (
+          <li key={item} data-cy="item">
             {item}
           </li>
         ))}
