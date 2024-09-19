@@ -27,7 +27,12 @@ export const Pagination: React.FC<Props> = ({
           aria-disabled={currentPage === 1 ? 'true' : 'false'}
           onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
             event.preventDefault();
-            onPageChange(currentPage - 1);
+
+            const newPage = currentPage - 1;
+
+            if (newPage >= 1) {
+              onPageChange(newPage);
+            }
           }}
         >
           «
@@ -65,7 +70,12 @@ export const Pagination: React.FC<Props> = ({
           aria-disabled={currentPage === linksAmount ? 'true' : 'false'}
           onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
             event.preventDefault();
-            onPageChange(currentPage + 1);
+
+            const newPage = currentPage + 1;
+
+            if (newPage <= linksAmount) {
+              onPageChange(newPage);
+            }
           }}
         >
           »

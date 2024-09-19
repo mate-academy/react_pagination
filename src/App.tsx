@@ -17,11 +17,7 @@ export const App: React.FC = () => {
   const visibleItems = items.slice(firstVisibleItemIndex, lastVisibleItemIndex);
 
   const handlePageChange = (newPage: number) => {
-    const maxPage = Math.ceil(items.length / perPage);
-
-    if (newPage >= 1 && newPage <= maxPage) {
-      setCurrentPage(newPage);
-    }
+    setCurrentPage(newPage);
   };
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -43,7 +39,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            defaultValue={perPage}
+            value={perPage}
             onChange={handleSelectChange}
           >
             {optionsPerPage.map(value => (
