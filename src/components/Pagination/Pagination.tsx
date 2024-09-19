@@ -16,7 +16,7 @@ export const Pagination: React.FC<Props> = ({
   onPageChange,
 }) => {
   const maxNumPages = Math.ceil(total / perPage);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   const items = getNumbers(
     (currentPage - 1) * perPage + 1,
     currentPage * perPage < total ? currentPage * perPage : total,
