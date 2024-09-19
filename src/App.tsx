@@ -12,7 +12,7 @@ export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const firstVisibleItemIndex = (currentPage - 1) * perPage;
-  const lastVisibleItemIndex = Math.min(42, currentPage * perPage);
+  const lastVisibleItemIndex = Math.min(items.length, currentPage * perPage);
 
   const visibleItems = items.slice(firstVisibleItemIndex, lastVisibleItemIndex);
 
@@ -43,7 +43,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            defaultValue={optionsPerPage[1]}
+            defaultValue={perPage}
             onChange={handleSelectChange}
           >
             {optionsPerPage.map(value => (
