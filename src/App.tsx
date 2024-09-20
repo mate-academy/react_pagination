@@ -6,28 +6,31 @@ import { getNumbers } from './utils';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 export const App: React.FC = () => {
-
-  const [perPage, setPerPage] = useState(5)
+  const [perPage, setPerPage] = useState<number>(5);
   const [page, setPage] = useState<number>(1);
 
   const total = 42;
 
-  const handlePerPageValueChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handlePerPageValueChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
     setPerPage(Number(event.target.value));
-  }
+  };
 
   const items = getNumbers(1, total).map(n => `Item ${n}`);
 
   const getCurrentItems = () => {
     const startIndex = (page - 1) * perPage;
     const endIndex = startIndex + perPage;
+
     return items.slice(startIndex, endIndex);
   };
 
   const currentItems = getCurrentItems();
 
   const firstItemNumber = currentItems[0]?.match(/\d+/)?.[0];
-  const lastItemNumber = currentItems[currentItems.length - 1]?.match(/\d+/)?.[0]
+  const lastItemNumber =
+    currentItems[currentItems.length - 1]?.match(/\d+/)?.[0];
 
   return (
     <div className="container">
@@ -45,7 +48,7 @@ export const App: React.FC = () => {
             className="form-control"
             onChange={handlePerPageValueChange}
             defaultValue={5}
-            >
+          >
             <option value="3">3</option>
             <option value="5">5</option>
             <option value="10">10</option>
@@ -59,14 +62,12 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-      total={total}
-      perPage={perPage}
-      // onPageChange={(page) => { ... }}
-      page={page}
-      setPage={setPage}
-      getCurrentItems={getCurrentItems}
+        total={total}
+        perPage={perPage}
+        page={page}
+        setPage={setPage}
+        getCurrentItems={getCurrentItems}
       />
-
     </div>
   );
 };
