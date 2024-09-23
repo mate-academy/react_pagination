@@ -9,18 +9,15 @@ export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
 
-  // Функція для зміни сторінки
   const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page);
   }, []);
 
-
   const handlePerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(Number(e.target.value));
-    setCurrentPage(1); // Повертаємо на першу сторінку при зміні кількості елементів на сторінку
+    setCurrentPage(1); // Повертаємо на першу сторінку при зміні кількості на сторінку
   };
 
-  // Визначення елементів для поточної сторінки
   const startIndex = (currentPage - 1) * perPage;
   const paginatedItems = items.slice(startIndex, startIndex + perPage);
 
@@ -36,7 +33,7 @@ export const App: React.FC = () => {
       <div className="form-group row">
         <div className="col-3 col-sm-2 col-xl-1">
           <select
-            data-cy="perPageSelector"
+            data-cy="perPageSelector" // Додаємо атрибут для Cypress
             id="perPageSelector"
             className="form-control"
             value={perPage}
