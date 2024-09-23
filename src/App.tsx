@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Pagination } from './components/Pagination';
 import './App.css';
 import { getNumbers } from './utils';
@@ -9,15 +9,18 @@ export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
 
-  const handlePageChange = (page: number) => {
+  // Функція для зміни сторінки
+  const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page);
-  };
+  }, []);
+
 
   const handlePerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(Number(e.target.value));
-    setCurrentPage(1); // Повертаємо на першу сторінку при зміні кількості на сторінку
+    setCurrentPage(1); // Повертаємо на першу сторінку при зміні кількості елементів на сторінку
   };
 
+  // Визначення елементів для поточної сторінки
   const startIndex = (currentPage - 1) * perPage;
   const paginatedItems = items.slice(startIndex, startIndex + perPage);
 
@@ -26,7 +29,8 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {currentPage} (items {startIndex + 1} - {Math.min(startIndex + perPage, items.length)} of {items.length})
+        Page {currentPage} (items {startIndex + 1} -{' '}
+        {Math.min(startIndex + perPage, items.length)} of {items.length})
       </p>
 
       <div className="form-group row">
@@ -51,8 +55,10 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {paginatedItems.map((item, index) => (
-          <li key={index} data-cy="item">{item}</li>
+        {paginatedItems.map((item) => (
+          <li key={item} data-cy="item">
+            {item}
+          </li>
         ))}
       </ul>
 
