@@ -15,11 +15,14 @@ export const Pagination: React.FC<PaginationProps> = ({
 }) => {
   const totalPages = Math.ceil(total / perPage);
 
-  const handlePageClick = useCallback((page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      onPageChange(page);
-    }
-  }, [onPageChange, totalPages]);
+  const handlePageClick = useCallback(
+    (page: number) => {
+      if (page >= 1 && page <= totalPages) {
+        onPageChange(page);
+      }
+    },
+    [onPageChange, totalPages],
+  );
 
   const handlePrevClick = useCallback(() => {
     if (currentPage > 1) {
@@ -40,13 +43,14 @@ export const Pagination: React.FC<PaginationProps> = ({
         <button
           className="page-link"
           data-cy="prevLink"
-          aria-disabled={currentPage === 1}
           onClick={handlePrevClick}
           disabled={currentPage === 1}
         >
           «
         </button>
       </li>
+
+      {/* Creating an array from an object with a length property to generate page numbers */}
 
       {Array.from({ length: totalPages }, (_, index) => (
         <li
@@ -63,11 +67,12 @@ export const Pagination: React.FC<PaginationProps> = ({
         </li>
       ))}
 
-      <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+      <li
+        className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}
+      >
         <button
           className="page-link"
           data-cy="nextLink"
-          aria-disabled={currentPage === totalPages}
           onClick={handleNextClick}
           disabled={currentPage === totalPages}
         >

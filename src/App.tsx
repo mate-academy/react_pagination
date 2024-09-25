@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { Pagination } from './components/Pagination';
 import './App.css';
 import { getNumbers } from './utils';
@@ -9,11 +9,7 @@ export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
 
-  const handlePageChange = useCallback((page: number) => {
-    setCurrentPage(page);
-  }, []);
-
-  const handlePerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handlePerPageSelectionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(Number(e.target.value));
     setCurrentPage(1); // на 1 ст. при зміні к-ті на ст.
   };
@@ -37,7 +33,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={handlePerPageChange}
+            onChange={handlePerPageSelectionChange}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -52,8 +48,8 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {paginatedItems.map((item) => (
-          <li key={item} data-cy="item">
+        {paginatedItems.map(item => (
+          <li key={item} data-cy="identifier">
             {item}
           </li>
         ))}
@@ -63,7 +59,7 @@ export const App: React.FC = () => {
         total={items.length}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={handlePageChange}
+        onPageChange={setCurrentPage}
       />
     </div>
   );
