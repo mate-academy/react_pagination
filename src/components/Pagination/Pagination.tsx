@@ -1,97 +1,79 @@
-import { getNumbers, getPaginatedItems } from '../../utils';
-import classNames from 'classnames';
+import React, { useCallback } from 'react';
 
-type Props = {
+interface PaginationProps {
   total: number;
   perPage: number;
-  currentPage?: number;
-  setCurrentPage: (arg: number) => void;
-};
+  currentPage: number;
+  onPageChange: (page: number) => void;
+}
 
-export const Pagination = ({
+export const Pagination: React.FC<PaginationProps> = ({
   total,
   perPage,
-  currentPage = 1,
-  setCurrentPage,
-}: Props) => {
-  const pages = getNumbers(1, Math.ceil(total / perPage));
-  const items = getNumbers(1, total).map(n => `Item ${n}`);
-  const paginatedItems = getPaginatedItems(items, perPage);
+  currentPage,
+  onPageChange,
+}) => {
+  const totalPages = Math.ceil(total / perPage);
 
-  const isCurrentPageFirst = currentPage === 1;
-  const isCurrentPageLast = currentPage === pages.length;
-
-  const handleBackwardsClick = () => {
-    if (!isCurrentPageFirst) {
-      setCurrentPage(currentPage - 1);
+  const handlePageClick = useCallback((page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      onPageChange(page);
     }
-  };
+  }, [onPageChange, totalPages]);
 
-  const handleForwardsClick = () => {
-    if (!isCurrentPageLast) {
-      setCurrentPage(currentPage + 1);
+  const handlePrevClick = useCallback(() => {
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
     }
-  };
+  }, [currentPage, onPageChange]);
+
+  // Функція для кліку на наступну сторінку
+  const handleNextClick = useCallback(() => {
+    if (currentPage < totalPages) {
+      onPageChange(currentPage + 1);
+    }
+  }, [currentPage, onPageChange, totalPages]);
 
   return (
-    <>
-      <ul className="pagination">
-        <li
-          className={classNames('page-item', { disabled: isCurrentPageFirst })}
+    <ul className="pagination">
+      <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+        <button
+          className="page-link"
+          data-cy="prevLink"
+          aria-disabled={currentPage === 1}
+          onClick={handlePrevClick}
+          disabled={currentPage === 1}
         >
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled={isCurrentPageFirst}
-            onClick={handleBackwardsClick}
-          >
-            «
-          </a>
-        </li>
-        {pages.map((page, i) => {
-          const pageNumber = i + 1;
+          «
+        </button>
+      </li>
 
-          return (
-            <li
-              key={page}
-              className={classNames('page-item', {
-                active: currentPage === pageNumber,
-              })}
-            >
-              <a
-                data-cy="pageLink"
-                className="page-link"
-                href={`#${pageNumber}`}
-                onClick={() => setCurrentPage(pageNumber)}
-              >
-                {page}
-              </a>
-            </li>
-          );
-        })}
+      {Array.from({ length: totalPages }, (_, index) => (
         <li
-          className={classNames('page-item', { disabled: isCurrentPageLast })}
+          key={index}
+          className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}
         >
-          <a
-            data-cy="nextLink"
+          <button
             className="page-link"
-            href="#next"
-            aria-disabled={isCurrentPageLast}
-            onClick={handleForwardsClick}
+            data-cy="pageLink"
+            onClick={() => handlePageClick(index + 1)}
           >
-            »
-          </a>
+            {index + 1}
+          </button>
         </li>
-      </ul>
+      ))}
 
-      <ul>
-        {paginatedItems[currentPage - 1].map(item => (
-          <li key={item} data-cy="item">
-            {item}
-          </li>
-        ))}
-      </ul>
-    </>
+      <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+        <button
+          className="page-link"
+          data-cy="nextLink"
+          aria-disabled={currentPage === totalPages}
+          onClick={handleNextClick}
+          disabled={currentPage === totalPages}
+        >
+          »
+        </button>
+      </li>
+    </ul>
   );
 };
