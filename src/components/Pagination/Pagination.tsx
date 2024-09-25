@@ -25,7 +25,7 @@ export const Pagination: React.FC<Props> = ({
   const disabledPrevLink = currentPage === pages[0];
   const disabledNextLink = currentPage === totalPages;
 
-  const moveLink = (pageNum: number, direction: string) => {
+  const moveLink = (pageNum: number, direction: LinkDirection) => {
     if (direction === LinkDirection.Back && pageNum >= pages[0]) {
       onPageChange(pageNum);
     }

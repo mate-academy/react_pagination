@@ -6,7 +6,6 @@ import { Pagination } from './components/Pagination';
 const TOTAL_ITEMS = 42;
 const ITEMS_PER_PAGE_OPTIONS = [3, 5, 10, 20];
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, TOTAL_ITEMS).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,6 +13,8 @@ export const App: React.FC = () => {
 
   const startItem = perPage * currentPage - perPage + 1;
   const endItem = Math.min(perPage * currentPage, TOTAL_ITEMS);
+
+  const items = getNumbers(startItem, endItem).map(n => `Item ${n}`);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -23,8 +24,6 @@ export const App: React.FC = () => {
     setPerPage(Number(event.target.value));
     setCurrentPage(1);
   };
-
-  const visibleItems = items.slice(startItem - 1, endItem);
 
   return (
     <div className="container">
@@ -56,7 +55,6 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
       <Pagination
         total={TOTAL_ITEMS}
         perPage={perPage}
@@ -65,7 +63,7 @@ export const App: React.FC = () => {
       />
 
       <ul>
-        {visibleItems.map(item => (
+        {items.map(item => (
           <li key={item} data-cy="item">
             {item}
           </li>
