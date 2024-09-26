@@ -1,1 +1,49 @@
-/* not empty */
+[data-cy='item'] {
+  list-style: disc;
+}
+
+.active {
+  color: white;
+  background-color: blue;
+}
+
+h1 {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.lead {
+  font-size: 20px;
+}
+
+.form-group {
+  display: flex;
+}
+
+.col-xl-1 {
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+.pagination {
+  justify-content: start;
+}
+
+.page-item {
+  display: inline-block;
+  width: 50px;
+  height: 40px;
+  border: 1px solid #ccc;
+  background-color: #f8f9fa;
+  text-align: center;
+  line-height: 40px;
+}
+
+.page-item.active {
+  background-color: #007bff;
+  transform: scale(1.1);
+}
+
+.page-item.active .page-link {
+  color: white;
+}
