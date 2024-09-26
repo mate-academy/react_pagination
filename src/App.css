@@ -1,1 +1,26 @@
-/* not empty */
+.pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+.page-item {
+  margin: 0 5px;
+}
+
+.page-item .page-link {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.page-item.disabled .page-link {
+  pointer-events: none;
+  color: #ccc;
+}
+
+.page-item.active .page-link {
+  background-color: #007bff;
+  color: white;
+}
