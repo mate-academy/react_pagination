@@ -19,7 +19,8 @@ export const App: React.FC = () => {
           <select
             data-cy="perPageSelector"
             id="perPageSelector"
-            className="form-control">
+            className="form-control"
+          >
             <option value="3">3</option>
             <option value="5">5</option>
             <option value="10">10</option>
@@ -39,7 +40,8 @@ export const App: React.FC = () => {
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled="true">
+            aria-disabled="true"
+          >
             «
           </a>
         </li>
@@ -93,7 +95,8 @@ export const App: React.FC = () => {
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled="false">
+            aria-disabled="false"
+          >
             »
           </a>
         </li>
