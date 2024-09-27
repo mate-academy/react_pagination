@@ -1,1 +1,1 @@
-export const Pagination = () => {};
+import { getNumbers } from '../../utils';
