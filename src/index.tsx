@@ -1,6 +1,8 @@
 import { createRoot } from 'react-dom/client';
 
-import 'bulma/css/bulma.css';
+//import 'bulma/css/bulma.css';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 
 import { App } from './App';
