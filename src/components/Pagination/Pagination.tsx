@@ -4,7 +4,6 @@ import {
   getLinkDataCy,
   getLinkHref,
   getLinkTextContent,
-  handleClickPagination,
 } from './pagination-utils';
 
 export interface Props {
@@ -21,17 +20,28 @@ export const Pagination: React.FC<Props> = ({
   onPageChange,
 }) => {
   const pagesAmount = Math.ceil(total / perPage);
+  const listOfPages = [...Array(pagesAmount + 2)].map((_n, i) => i + 1);
+
+  function getOnClickCallback(index: number) {
+    switch (index) {
+      case 0:
+        return currentPage !== 1
+          ? () => onPageChange(currentPage - 1)
+          : () => {};
+
+      case pagesAmount + 1:
+        return currentPage !== pagesAmount
+          ? () => onPageChange(currentPage + 1)
+          : () => {};
+
+      default:
+        return () => onPageChange(index);
+    }
+  }
 
   return (
-    <ul
-      className="pagination"
-      onClick={(event: React.MouseEvent<HTMLUListElement>) =>
-        handleClickPagination(event, currentPage, pagesAmount, onPageChange)
-      }
-    >
-      {[...Array(pagesAmount + 2)].map((_item, index) => {
-        const key = Math.random().toFixed(5).slice(2);
-
+    <ul className="pagination">
+      {listOfPages.map((item, index) => {
         const isPrevDisabled = currentPage === 1 && index === 0;
         const isNextDisabled =
           currentPage === pagesAmount && index === pagesAmount + 1;
@@ -43,8 +53,10 @@ export const Pagination: React.FC<Props> = ({
         });
 
         return (
-          <li key={key} className={listItemClassName}>
+          <li key={item} className={listItemClassName}>
             <a
+              key={item}
+              onClick={getOnClickCallback(index)}
               data-cy={getLinkDataCy(index, pagesAmount)}
               className="page-link"
               href={getLinkHref(index, pagesAmount)}

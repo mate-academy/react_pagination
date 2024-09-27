@@ -3,39 +3,46 @@ import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
-type Intial<T extends number[]> = {
+type Intial<OptionsList extends number[]> = {
   total: number;
-  perPageOptions: T;
-  perPageInitial: T[number];
+  perPageOptions: OptionsList;
+  perPageInitial: OptionsList[number];
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-const intialData: Intial<[3, 5, 10, 20]> = {
+const initialData: Intial<[3, 5, 10, 20]> = {
   total: 42,
   perPageOptions: [3, 5, 10, 20],
   perPageInitial: 5,
 };
 
-const items = getNumbers(1, intialData.total).map(n => `Item ${n}`);
+const items = getNumbers(1, initialData.total).map((n, i) => ({
+  id: i,
+  item: `Item ${n}`,
+}));
 
 export const App: React.FC = () => {
-  const [perPage, setPerPage] = useState(intialData.perPageInitial);
+  const [perPage, setPerPage] = useState(initialData.perPageInitial);
   const [activePage, setActivePage] = useState(1);
 
   const firstItemOnPage = perPage * activePage - perPage + 1;
   const lastItemOnPage =
-    perPage * activePage > intialData.total
-      ? intialData.total
+    perPage * activePage > initialData.total
+      ? initialData.total
       : perPage * activePage;
 
   const getCurrentItems = (): string =>
     `${firstItemOnPage} - ${lastItemOnPage}`;
 
+  const itemsToDispaly = items.filter((_item, i) => {
+    return i + 1 >= firstItemOnPage && i + 1 <= lastItemOnPage;
+  });
+
   function handleSelectEvent(event: React.ChangeEvent<HTMLSelectElement>) {
     setActivePage(1);
     setPerPage(
-      Number(event.target.value) as (typeof intialData.perPageOptions)[number],
+      Number(event.target.value) as (typeof initialData.perPageOptions)[number],
     );
   }
 
@@ -56,11 +63,9 @@ export const App: React.FC = () => {
             className="form-control"
             value={perPage}
           >
-            {[...intialData.perPageOptions].map(opt => {
-              const key = Math.random().toFixed(5).slice(2);
-
+            {[...initialData.perPageOptions].map(opt => {
               return (
-                <option key={key} value={opt}>
+                <option key={opt} value={opt}>
                   {opt}
                 </option>
               );
@@ -74,7 +79,7 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={intialData.total}
+        total={initialData.total}
         perPage={perPage}
         currentPage={activePage}
         onPageChange={page => {
@@ -82,16 +87,11 @@ export const App: React.FC = () => {
         }}
       />
       <ul>
-        {items.map((item, index) => {
-          const key = Math.random().toFixed(5).slice(2);
-
+        {itemsToDispaly.map(({ id, item }) => {
           return (
-            index + 1 >= firstItemOnPage &&
-            index + 1 <= lastItemOnPage && (
-              <li key={key} data-cy="item">
-                {item}
-              </li>
-            )
+            <li key={id} data-cy="item">
+              {item}
+            </li>
           );
         })}
       </ul>
