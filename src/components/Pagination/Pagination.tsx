@@ -14,8 +14,7 @@ export const Pagination = ({
   currentPage = 1,
   onPageChange,
 }: PropsPagination) => {
-  const items = getNumbers(1, total);
-  const totalPages = Math.ceil(items.length / perPage);
+  const totalPages = Math.ceil(getNumbers(1, total).length / perPage);
   const totalPagesArr = getNumbers(1, totalPages);
 
   return (

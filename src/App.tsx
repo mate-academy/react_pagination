@@ -5,10 +5,11 @@ import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
 const total = 42;
+const startingPage = 5;
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(startingPage);
 
   const items = getNumbers(1, total);
   const totalPages = Math.ceil(items.length / perPage);
@@ -28,7 +29,7 @@ export const App: React.FC = () => {
 
   function showSubtitle(): string {
     if (currentPage === totalPages) {
-      return `Page ${currentPage} (items ${indexOfFirstItem + 1} - ${items[items.length - 1]} of ${total})`;
+      return `Page ${currentPage} (items ${indexOfFirstItem + 1} - ${items.length} of ${total})`;
     }
 
     return `Page ${currentPage} (items ${indexOfFirstItem + 1} - ${indexOfLastItem} of ${total})`;
@@ -63,7 +64,6 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
       <Pagination
         total={total}
         perPage={perPage}
