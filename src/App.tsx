@@ -1,25 +1,17 @@
 import React, { useState } from 'react';
-import cn from 'classnames';
 
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type PropsPagination = {
-  total: number;
-  perPage: number;
-  currentPage: number;
-  onPageChange: () => void;
-};
+const total = 42;
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(3);
-  const total = 42;
+  const [perPage, setPerPage] = useState(5);
+
   const items = getNumbers(1, total);
   const totalPages = Math.ceil(items.length / perPage);
-  const totalPagesArr = getNumbers(1, totalPages);
 
   const indexOfLastItem = currentPage * perPage;
   const indexOfFirstItem = indexOfLastItem - perPage;
@@ -57,6 +49,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             onChange={handleSelectChange}
+            value={perPage}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -71,47 +64,12 @@ export const App: React.FC = () => {
       </div>
 
       {/* Move this markup to Pagination */}
-      <ul className="pagination">
-        <li className={cn('page-item', { disabled: currentPage === 1 })}>
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled={currentPage === 1}
-            onClick={() => handleClick(currentPage - 1)}
-          >
-            «
-          </a>
-        </li>
-        {totalPagesArr.map(p => (
-          <li
-            className={cn('page-item', { active: currentPage === p })}
-            key={p}
-          >
-            <a
-              data-cy="pageLink"
-              className="page-link"
-              href={`#${p}`}
-              onClick={() => handleClick(p)}
-            >
-              {p}
-            </a>
-          </li>
-        ))}
-        <li
-          className={cn('page-item', { disabled: currentPage === totalPages })}
-        >
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled={currentPage === totalPages}
-            onClick={() => handleClick(currentPage + 1)}
-          >
-            »
-          </a>
-        </li>
-      </ul>
+      <Pagination
+        total={total}
+        perPage={perPage}
+        currentPage={currentPage}
+        onPageChange={handleClick}
+      />
       <ul>
         {currentItems.map(n => (
           <li data-cy="item" key={n}>{`Item ${n}`}</li>
