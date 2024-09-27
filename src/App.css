@@ -1,1 +1,21 @@
 /* not empty */
+.pagination {
+  width: 20%;
+}
+
+.page-item{
+  padding-inline: 10px;
+  border: 1px solid grey;
+}
+
+.page-item.active {
+  background: blue;
+}
+
+.active .page-link{
+  color: white;
+}
+
+li.disabled a[aria-disabled="true"] {
+  color: gray;
+}
