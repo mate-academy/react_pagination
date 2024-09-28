@@ -14,13 +14,13 @@ const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
-  const totalPages = Math.ceil(total / perPage);
+  let totalPages = 0;
 
-  const pagesList = [];
-
-  for (let i = 1; i <= totalPages; i++) {
-    pagesList.push(i);
+  if (perPage !== 0) {
+    totalPages = Math.ceil(total / perPage);
   }
+
+  const pagesList = Array.from({ length: totalPages }, (_, index) => index + 1);
 
   const showPages = pagesList.map(page => (
     <li
@@ -38,6 +38,16 @@ const Pagination: React.FC<Props> = ({
     </li>
   ));
 
+  const handlePrevClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    onPageChange(currentPage - 1);
+  };
+
+  const handleNextClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    onPageChange(currentPage + 1);
+  };
+
   return (
     <ul className="pagination">
       <li className={cn('page-item', { disabled: currentPage === 1 })}>
@@ -46,9 +56,7 @@ const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={currentPage === 1}
-          onClick={() => {
-            onPageChange(currentPage - 1);
-          }}
+          onClick={handlePrevClick}
         >
           «
         </a>
@@ -56,7 +64,9 @@ const Pagination: React.FC<Props> = ({
       {showPages}
       <li
         className={cn('page-item', {
-          disabled: currentPage === pagesList[pagesList.length - 1],
+          disabled:
+            currentPage ===
+            (pagesList.length > 0 ? pagesList[pagesList.length - 1] : 1),
         })}
       >
         <a
@@ -64,9 +74,7 @@ const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={`${currentPage === pagesList[pagesList.length - 1]}`}
-          onClick={() => {
-            onPageChange(currentPage + 1);
-          }}
+          onClick={handleNextClick}
         >
           »
         </a>
