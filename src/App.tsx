@@ -10,6 +10,12 @@ export const App: React.FC = () => {
   const [perPage, setPerPage] = React.useState<number>(5);
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const itemsListSize = items.length;
+  const currentRange = [
+    currentPage * perPage - perPage + 1,
+    currentPage < Math.ceil(itemsListSize / perPage)
+      ? currentPage * perPage
+      : itemsListSize,
+  ];
 
   function onPerPageChange(e: React.ChangeEvent<HTMLSelectElement>): void {
     setPerPage(+e.target.value);
@@ -21,9 +27,8 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {currentPage} (items {`${currentPage * perPage - perPage + 1}`} -{' '}
-        {`${currentPage < Math.ceil(itemsListSize / perPage) ? currentPage * perPage : itemsListSize}`}{' '}
-        of {`${itemsListSize}`})
+        Page {currentPage} (items {`${currentRange[0]}`} -{' '}
+        {`${currentRange[1]}`} of {`${itemsListSize}`})
       </p>
 
       <div className="form-group row">
@@ -52,6 +57,7 @@ export const App: React.FC = () => {
         total={itemsListSize}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
+        key={currentPage}
       />
 
       <ul>

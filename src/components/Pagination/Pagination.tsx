@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { getNumbers } from '../../utils';
 import cn from 'classnames';
 
@@ -15,7 +15,19 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
-  const pagesList: number[] = getNumbers(1, Math.ceil(total / perPage));
+  const pagesList = useMemo(() => {
+    return getNumbers(1, Math.ceil(total / perPage));
+  }, [total, perPage]);
+
+  const prevOrNextPageClick = useMemo(() => {
+    return (direction: 'prev' | 'next') => {
+      if (direction === 'prev' && currentPage > 1) {
+        onPageChange(currentPage - 1);
+      } else if (direction === 'next' && currentPage < pagesList.length) {
+        onPageChange(currentPage + 1);
+      }
+    };
+  }, [currentPage, pagesList.length, onPageChange]);
 
   return (
     <ul className="pagination">
@@ -25,9 +37,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={currentPage === 1}
-          onClick={
-            currentPage === 1 ? undefined : () => onPageChange(currentPage - 1)
-          }
+          onClick={() => prevOrNextPageClick('prev')}
         >
           «
         </a>
@@ -59,11 +69,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={currentPage === pagesList.length}
-          onClick={
-            currentPage === pagesList.length
-              ? undefined
-              : () => onPageChange(currentPage + 1)
-          }
+          onClick={() => prevOrNextPageClick('next')}
         >
           »
         </a>
