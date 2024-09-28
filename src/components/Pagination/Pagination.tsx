@@ -40,12 +40,18 @@ const Pagination: React.FC<Props> = ({
 
   const handlePrevClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    onPageChange(currentPage - 1);
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
+    }
   };
 
   const handleNextClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    onPageChange(currentPage + 1);
+    const lastPage = pagesList.length > 0 ? pagesList[pagesList.length - 1] : 1;
+
+    if (currentPage < lastPage) {
+      onPageChange(currentPage + 1);
+    }
   };
 
   return (
