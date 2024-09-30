@@ -20,13 +20,17 @@ export const Pagination: React.FC<Props> = ({
   const isSelectedFirstPage = currentPage === 1;
   const isSelectedLastPage = currentPage === totalPages;
 
-  const handleSelectPrevPage = () => {
+  const handleSelectPrevPage = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+
     if (!isSelectedFirstPage) {
       onPageChange(currentPage - 1);
     }
   };
 
-  const handleSelectNextPage = () => {
+  const handleSelectNextPage = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+
     if (!isSelectedLastPage) {
       onPageChange(currentPage + 1);
     }
@@ -61,7 +65,10 @@ export const Pagination: React.FC<Props> = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${pageNumber}`}
-            onClick={() => onPageChange(pageNumber)}
+            onClick={event => {
+              event.preventDefault();
+              onPageChange(pageNumber);
+            }}
           >
             {pageNumber}
           </a>
