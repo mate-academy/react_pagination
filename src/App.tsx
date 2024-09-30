@@ -4,8 +4,8 @@ import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
-const items = getNumbers(1, 42).map(n => `Item ${n}`);
-const TOTAL_ITEMS = items.length;
+const TOTAL_ITEMS = 42;
+const items = getNumbers(1, TOTAL_ITEMS).map(n => `Item ${n}`);
 const itemsPerPage = [3, 5, 10, 20];
 
 export const App: React.FC = () => {
