@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
+import { Pagination } from './components/Pagination';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
+  const [total] = useState(items);
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
@@ -101,13 +104,7 @@ export const App: React.FC = () => {
           </a>
         </li>
       </ul>
-      <ul>
-        {items.map(item => (
-          <li key={item} data-cy="item">
-            {item}
-          </li>
-        ))}
-      </ul>
+      <Pagination total={total} />
     </div>
   );
 };
