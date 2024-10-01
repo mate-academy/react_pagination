@@ -16,11 +16,15 @@ export const Pagination = ({
   const totalPages = Math.ceil(total.length / perPage);
 
   const handlePrevClick = () => {
-    onPageChange(currentPage - 1);
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
+    }
   };
 
   const handleNextClick = () => {
-    onPageChange(currentPage + 1);
+    if (currentPage < totalPages) {
+      onPageChange(currentPage + 1);
+    }
   };
 
   return (
@@ -31,7 +35,7 @@ export const Pagination = ({
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled="true"
+            aria-disabled={currentPage === 1}
             onClick={handlePrevClick}
           >
             «
@@ -63,7 +67,7 @@ export const Pagination = ({
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled="false"
+            aria-disabled={currentPage === totalPages}
             onClick={handleNextClick}
           >
             »
