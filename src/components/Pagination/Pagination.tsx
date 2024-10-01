@@ -15,15 +15,24 @@ export const Pagination = ({
 }: PaginationProps) => {
   const totalPages = Math.ceil(total.length / perPage);
 
+  const handlePrevClick = () => {
+    onPageChange(currentPage - 1);
+  };
+
+  const handleNextClick = () => {
+    onPageChange(currentPage + 1);
+  };
+
   return (
     <>
       <ul className="pagination">
-        <li className="page-item disabled">
+        <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
             aria-disabled="true"
+            onClick={handlePrevClick}
           >
             «
           </a>
@@ -47,12 +56,15 @@ export const Pagination = ({
             </li>
           );
         })}
-        <li className="page-item">
+        <li
+          className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}
+        >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
             aria-disabled="false"
+            onClick={handleNextClick}
           >
             »
           </a>
