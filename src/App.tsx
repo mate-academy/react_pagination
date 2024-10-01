@@ -12,7 +12,7 @@ export const App: React.FC = () => {
 
   const from = (currentPage - 1) * Number(perPage) + 1;
   const to =
-    currentPage * Number(perPage) > 42 ? 42 : currentPage * Number(perPage);
+    currentPage * perPage > totalItems ? totalItems : currentPage * perPage;
 
   return (
     <div className="container">
@@ -28,15 +28,14 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
+            value={perPage}
             onChange={event => {
               setPerPage(Number(event.target.value));
               setCurrentPage(1);
             }}
           >
             <option value="3">3</option>
-            <option value="5" selected>
-              5
-            </option>
+            <option value="5">5</option>
             <option value="10">10</option>
             <option value="20">20</option>
           </select>
@@ -54,8 +53,8 @@ export const App: React.FC = () => {
         onPageChange={setCurrentPage}
       />
       <ul>
-        {getNumbers(from, to).map((n, index) => (
-          <li key={index} data-cy="item">
+        {getNumbers(from, to).map(n => (
+          <li key={n} data-cy="item">
             Item {n}
           </li>
         ))}

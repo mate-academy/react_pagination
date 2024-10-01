@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import React, { useState } from 'react';
+import React from 'react';
 
 type Props = {
   total: number;
@@ -16,27 +16,23 @@ export const Pagination: React.FC<Props> = ({
 }) => {
   const numberOfPages: number = Math.ceil(total / perPage);
 
-  const [activePage, setActivePage] = useState('1');
-
   return (
     <ul className="pagination">
       <li
         className={cn('page-item', {
           disabled: currentPage === 1,
-          active: activePage === 'prev',
+          active: currentPage === 1,
         })}
       >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === 1 ? true : false}
+          aria-disabled={currentPage === 1}
           onClick={() => {
             if (currentPage !== 1) {
               onPageChange(currentPage - 1);
             }
-
-            setActivePage('prev');
           }}
         >
           «
@@ -50,16 +46,16 @@ export const Pagination: React.FC<Props> = ({
             <li
               key={index + 1}
               className={cn('page-item', {
-                active: activePage === `${index + 1}`,
+                active: currentPage === index + 1,
               })}
             >
               <a
                 data-cy="pageLink"
                 className="page-link"
                 href="#1"
-                onClick={() => {
+                onClick={e => {
+                  e.preventDefault();
                   onPageChange(index + 1);
-                  setActivePage(`${index + 1}`);
                 }}
               >
                 {index + 1}
@@ -71,20 +67,18 @@ export const Pagination: React.FC<Props> = ({
       <li
         className={cn('page-item', {
           disabled: currentPage === numberOfPages,
-          active: activePage === 'next',
+          active: currentPage === numberOfPages,
         })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === numberOfPages ? true : false}
+          aria-disabled={currentPage === numberOfPages}
           onClick={() => {
             if (currentPage < numberOfPages) {
               onPageChange(currentPage + 1);
             }
-
-            setActivePage('next');
           }}
         >
           »
