@@ -1,11 +1,12 @@
+import React, { useMemo } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
 interface PaginationProps {
   total: number;
   perPage: number;
   currentPage?: number;
   onPageChange: (page: number) => void;
+  items: string[];
 }
 
 export const Pagination: React.FC<PaginationProps> = ({
@@ -13,8 +14,16 @@ export const Pagination: React.FC<PaginationProps> = ({
   perPage,
   currentPage = 1,
   onPageChange,
+  items,
 }) => {
   const totalPages = Math.ceil(total / perPage);
+
+  const [startIndex, endIndex] = useMemo(() => {
+    const start = (currentPage - 1) * perPage;
+    const end = Math.min(start + perPage, total);
+
+    return [start, end];
+  }, [currentPage, perPage, total]);
 
   const handlePageChange = (page: number) => {
     if (page !== currentPage && page >= 1 && page <= totalPages) {
@@ -22,62 +31,69 @@ export const Pagination: React.FC<PaginationProps> = ({
     }
   };
 
-  return (
-    <ul className="pagination">
-      <li className={classNames('page-item', { disabled: currentPage === 1 })}>
-        <a
-          data-cy="prevLink"
-          className="page-link"
-          href="#prev"
-          aria-disabled={currentPage === 1}
-          onClick={e => {
-            e.preventDefault();
-            handlePageChange(currentPage - 1);
-          }}
-        >
-          «
-        </a>
-      </li>
+  const currentItems = items.slice(startIndex, endIndex);
 
-      {Array.from({ length: totalPages }, (_, index) => (
+  return (
+    <div>
+      <ul>
+        {currentItems.map((item, index) => (
+          <li key={index} data-cy="item">
+            {item}
+          </li>
+        ))}
+      </ul>
+      <ul className="pagination">
         <li
-          key={index + 1}
+          className={classNames('page-item', { disabled: currentPage === 1 })}
+        >
+          <button
+            data-cy="prevLink"
+            className="page-link"
+            aria-disabled={currentPage === 1}
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            «
+          </button>
+        </li>
+
+        {Array.from({ length: totalPages }, (_, index) => {
+          const pageNumber = index + 1;
+
+          return (
+            <li
+              key={pageNumber}
+              className={classNames('page-item', {
+                active: currentPage === pageNumber,
+              })}
+            >
+              <button
+                data-cy="pageLink"
+                className="page-link"
+                onClick={() => handlePageChange(pageNumber)}
+              >
+                {pageNumber}
+              </button>
+            </li>
+          );
+        })}
+
+        <li
           className={classNames('page-item', {
-            active: currentPage === index + 1,
+            disabled: currentPage === totalPages,
           })}
         >
-          <a
-            data-cy="pageLink"
+          <button
+            data-cy="nextLink"
             className="page-link"
-            href={`#${index + 1}`}
-            onClick={e => {
-              e.preventDefault();
-              handlePageChange(index + 1);
-            }}
+            aria-disabled={currentPage === totalPages}
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
           >
-            {index + 1}
-          </a>
+            »
+          </button>
         </li>
-      ))}
-
-      <li
-        className={classNames('page-item', {
-          disabled: currentPage === totalPages,
-        })}
-      >
-        <a
-          data-cy="nextLink"
-          className="page-link"
-          href="#next"
-          aria-disabled={currentPage === totalPages}
-          onClick={e => {
-            e.preventDefault();
-            handlePageChange(currentPage + 1);
-          }}
-        >
-          »
-        </a>
-      </li>
-    </ul>
+      </ul>
+    </div>
   );
 };

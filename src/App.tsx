@@ -53,12 +53,12 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
       <Pagination
         total={items.length}
         perPage={perPage}
         currentPage={currentPage}
         onPageChange={handlePageChange}
+        items={[]}
       />
       <ul>
         {paginatedItems.map(item => (
