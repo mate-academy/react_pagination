@@ -4,12 +4,14 @@ type PaginationProps = {
   total: string[];
   perPage: number;
   currentPage: number;
+  onPageChange: (newPage: number) => void;
 };
 
 export const Pagination = ({
   total,
   perPage,
   currentPage,
+  onPageChange,
 }: PaginationProps) => {
   const totalPages = Math.ceil(total.length / perPage);
 
@@ -34,7 +36,12 @@ export const Pagination = ({
               key={page}
               className={`page-item ${page === currentPage ? 'active' : ''}`}
             >
-              <a data-cy="pageLink" className="page-link" href={`#${page}`}>
+              <a
+                data-cy="pageLink"
+                className="page-link"
+                href={`#${page}`}
+                onClick={() => onPageChange(page)}
+              >
                 {page}
               </a>
             </li>

@@ -16,6 +16,10 @@ export const App: React.FC = () => {
     setCurrentPage(1);
   };
 
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
@@ -45,7 +49,12 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      <Pagination total={total} perPage={perPage} currentPage={currentPage} />
+      <Pagination
+        total={total}
+        perPage={perPage}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };
