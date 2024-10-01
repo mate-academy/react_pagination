@@ -20,6 +20,9 @@ export const App: React.FC = () => {
     setCurrentPage(newPage);
   };
 
+  const startIndex = (currentPage - 1) * perPage;
+  const currentItems = total.slice(startIndex, startIndex + perPage);
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
@@ -55,6 +58,14 @@ export const App: React.FC = () => {
         currentPage={currentPage}
         onPageChange={handlePageChange}
       />
+
+      <ul>
+        {currentItems.map(item => (
+          <li key={item} data-cy="item">
+            {item}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

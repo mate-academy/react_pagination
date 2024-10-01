@@ -70,13 +70,6 @@ export const Pagination = ({
           </a>
         </li>
       </ul>
-      <ul>
-        {total.map(item => (
-          <li key={item} data-cy="item">
-            {item}
-          </li>
-        ))}
-      </ul>
     </>
   );
 };
