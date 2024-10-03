@@ -4,23 +4,24 @@ import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
+const TOTAL_ITEMS = 42;
+
 const options = [3, 5, 10, 20];
 
 export const App: React.FC = () => {
   const [perPageCount, setPerPageCount] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const totalItems = 42;
+  const firstItemIndexOnPage = (currentPage - 1) * perPageCount;
 
-  const firstItemOnPage = (currentPage - 1) * perPageCount;
+  const lastItemIndexOnPage = firstItemIndexOnPage + perPageCount;
 
-  const lastItemOnPage = firstItemOnPage + perPageCount;
+  const amountOfItems = getNumbers(
+    firstItemIndexOnPage + 1,
+    lastItemIndexOnPage,
+  ).filter(number => number <= TOTAL_ITEMS);
 
-  const amountOfItems = getNumbers(1, 42).filter(
-    a => a >= firstItemOnPage + 1 && a <= lastItemOnPage,
-  );
-
-  const visibleItems = amountOfItems.map(n => `Item ${n}`);
+  const visibleItems = amountOfItems.map(number => `Item ${number}`);
 
   const handleChangeOption = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPageCount(+event.target.value);
@@ -42,7 +43,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPageCount}
-            onChange={event => handleChangeOption(event)}
+            onChange={handleChangeOption}
           >
             {options.map(option => (
               <option key={option} value={`${option}`}>
@@ -58,7 +59,7 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={totalItems}
+        total={TOTAL_ITEMS}
         perPage={perPageCount}
         currentPage={currentPage}
         onPageChange={(page: number) => setCurrentPage(page)}
