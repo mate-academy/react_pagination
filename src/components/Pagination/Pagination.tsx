@@ -17,16 +17,14 @@ export const Pagination: FC<Props> = ({
 }) => {
   const amountOfPages = getNumbers(1, Math.ceil(total / perPage));
 
-  const handlePageChange = (
-    event: React.MouseEvent<HTMLLIElement, MouseEvent>,
-  ) => {
+  const handlePageChange = (event: React.MouseEvent<HTMLElement>) => {
     const element = event.target as HTMLElement;
     const page = element.textContent;
 
     onPageChange(Number(page));
   };
 
-  const handleArrowPageChange = (direction: string) => {
+  const handleArrowPageChange = (direction: 'prev' | 'next') => {
     if (direction === 'next' && currentPage !== amountOfPages.length) {
       onPageChange(currentPage + 1);
     }
@@ -35,6 +33,8 @@ export const Pagination: FC<Props> = ({
       onPageChange(currentPage - 1);
     }
   };
+
+  const isDisabledButton = currentPage === amountOfPages.length;
 
   return (
     <ul className="pagination">
@@ -54,9 +54,13 @@ export const Pagination: FC<Props> = ({
         <li
           className={cn('page-item', { active: currentPage === page })}
           key={page}
-          onClick={handlePageChange}
         >
-          <a data-cy="pageLink" className="page-link" href={`#${page}`}>
+          <a
+            data-cy="pageLink"
+            className="page-link"
+            href={`#${page}`}
+            onClick={handlePageChange}
+          >
             {page}
           </a>
         </li>
@@ -64,14 +68,14 @@ export const Pagination: FC<Props> = ({
 
       <li
         className={cn('page-item', {
-          disabled: currentPage === amountOfPages.length,
+          disabled: isDisabledButton,
         })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === amountOfPages.length}
+          aria-disabled={isDisabledButton}
           onClick={() => handleArrowPageChange('next')}
         >
           »

@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import './App.css';
-import { getNumbers } from './utils';
+import { getNumbers, PER_PAGE } from './utils';
 import { Pagination } from './components/Pagination';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [selectedPerPageValue, setSelectedPerPageValue] = useState<number>(5);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [selectedPerPageValue, setSelectedPerPageValue] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const handlePerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedPerPageValue(Number(event.target.value));
@@ -16,16 +16,18 @@ export const App: React.FC = () => {
   };
 
   const onPageChange = (page: number) => {
-    setCurrentPage(page);
+    if (page !== currentPage) {
+      setCurrentPage(page);
+    }
   };
 
   const indexOfLastItem = currentPage * selectedPerPageValue;
   const indexOfFirstItem = indexOfLastItem - selectedPerPageValue;
 
-  const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
-
   const itemFrom = indexOfFirstItem + 1;
   const itemTo = Math.min(indexOfLastItem, items.length);
+
+  const currentItems = getNumbers(itemFrom, itemTo).map(n => `Item ${n}`);
 
   return (
     <div className="container">
@@ -41,13 +43,14 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
+            value={selectedPerPageValue}
             onChange={handlePerPageChange}
-            defaultValue={selectedPerPageValue}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            {PER_PAGE.map(number => (
+              <option value={number} key={number}>
+                {number}
+              </option>
+            ))}
           </select>
         </div>
 
