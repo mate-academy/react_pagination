@@ -34,16 +34,17 @@ export const Pagination: FC<Props> = ({
     }
   };
 
-  const isDisabledButton = currentPage === amountOfPages.length;
+  const isLastPage = currentPage === amountOfPages.length;
+  const isFirstPage = currentPage === 1;
 
   return (
     <ul className="pagination">
-      <li className={cn('page-item', { disabled: currentPage === 1 })}>
+      <li className={cn('page-item', { disabled: isFirstPage })}>
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === 1}
+          aria-disabled={isFirstPage}
           onClick={() => handleArrowPageChange('prev')}
         >
           «
@@ -68,14 +69,14 @@ export const Pagination: FC<Props> = ({
 
       <li
         className={cn('page-item', {
-          disabled: isDisabledButton,
+          disabled: isLastPage,
         })}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={isDisabledButton}
+          aria-disabled={isLastPage}
           onClick={() => handleArrowPageChange('next')}
         >
           »
