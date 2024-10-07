@@ -6,10 +6,9 @@ import { Pagination } from './components/Pagination';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 const options: number[] = [3, 5, 10, 20];
-const DEFAULT_ITEMS = 3;
 
 export const App: React.FC = () => {
-  const [itemsPerPage, setItemsPerPage] = useState<number>(DEFAULT_ITEMS);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(options[1]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const firstItem = (currentPage - 1) * itemsPerPage;
   const lastItem = firstItem + itemsPerPage;
@@ -55,6 +54,7 @@ export const App: React.FC = () => {
         currentPage={currentPage}
         onPageChange={setCurrentPage}
       />
+
       <ul>
         {itemsOnPage.map(item => (
           <li key={item} data-cy="item">
