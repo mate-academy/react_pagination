@@ -7,3 +7,5 @@ export function getNumbers(from: number, to: number): number[] {
 
   return numbers;
 }
+
+export const PER_PAGE = [3, 5, 10, 20];
