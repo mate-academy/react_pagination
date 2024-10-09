@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import cn from 'classnames';
 
 interface Props {
   total: number;
@@ -30,7 +30,7 @@ export const Pagination: React.FC<Props> = ({
   return (
     <ul className="pagination">
       <li
-        className={classNames('page-item', {
+        className={cn('page-item', {
           disabled: currentPage === 1,
         })}
       >
@@ -50,7 +50,7 @@ export const Pagination: React.FC<Props> = ({
 
         return (
           <li
-            className={classNames('page-item', {
+            className={cn('page-item', {
               active: currentPage === page,
             })}
             key={page}
@@ -68,7 +68,7 @@ export const Pagination: React.FC<Props> = ({
       })}
 
       <li
-        className={classNames('page-item', {
+        className={cn('page-item', {
           disabled: currentPage === totalPages,
         })}
       >
