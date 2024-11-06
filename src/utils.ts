@@ -7,3 +7,11 @@ export function getNumbers(from: number, to: number): number[] {
 
   return numbers;
 }
+
+export function preparePageItems(
+  pageItems: string[],
+  itemsPerPage: number,
+  curPage: number,
+) {
+  return pageItems.slice(itemsPerPage * (curPage - 1), itemsPerPage * curPage);
+}
