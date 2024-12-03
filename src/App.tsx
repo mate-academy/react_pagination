@@ -1,17 +1,64 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
+import { Pagination } from './components/Pagination';
+import cn from 'classnames';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42).map(n => `Item ${n}`);
+interface Item {
+  id: number;
+  title: string;
+}
+const items: Item[] = getNumbers(1, 42).map(digitForId => ({
+  id: digitForId,
+  title: `Item ${digitForId}`,
+}));
+
+interface Props {
+  currentPage: number;
+  perPage: number;
+}
+const visibleItems = (props: Props) => {
+  const { currentPage, perPage } = props;
+  const start = currentPage * perPage - perPage;
+  const end = currentPage * perPage;
+
+  return items.slice(start, end);
+};
 
 export const App: React.FC = () => {
+  const [total] = useState<Item[]>(items);
+  const [visiblePages, setVisiblePages] = useState(9);
+  const [perPage, setPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages: number[] = getNumbers(1, Math.ceil(total.length / perPage));
+  const showPages = visibleItems({ currentPage, perPage });
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handleNextPage = (sign: '+' | '-') => {
+    if (sign === '+') {
+      setCurrentPage(currentPage + 1);
+    } else {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setPerPage(+event.target.value);
+    setCurrentPage(1);
+    setVisiblePages(() => Math.ceil(items.length / +event.target.value));
+  };
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        {`Page ${currentPage} (items ${(currentPage - 1) * perPage + 1} - ${visiblePages === currentPage ? total.length : currentPage * perPage} of
+        ${items.length})`}
       </p>
 
       <div className="form-group row">
@@ -19,7 +66,10 @@ export const App: React.FC = () => {
           <select
             data-cy="perPageSelector"
             id="perPageSelector"
-            className="form-control">
+            className="form-control"
+            value={perPage}
+            onChange={handleSelectChange}
+          >
             <option value="3">3</option>
             <option value="5">5</option>
             <option value="10">10</option>
@@ -32,78 +82,53 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
       <ul className="pagination">
-        <li className="page-item disabled">
+        <li className={cn('page-item', { disabled: currentPage === 1 })}>
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled="true">
+            aria-disabled={currentPage === 1}
+            onClick={() => {
+              handleNextPage('-');
+            }}
+          >
             «
           </a>
         </li>
-        <li className="page-item active">
-          <a data-cy="pageLink" className="page-link" href="#1">
-            1
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#2">
-            2
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#3">
-            3
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#4">
-            4
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#5">
-            5
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#6">
-            6
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#7">
-            7
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#8">
-            8
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#9">
-            9
-          </a>
-        </li>
-        <li className="page-item">
+        {totalPages.map(page => (
+          <Pagination
+            key={page}
+            page={page}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+          />
+        ))}
+
+        <li
+          className={cn('page-item', {
+            disabled: currentPage === visiblePages,
+          })}
+        >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled="false">
+            onClick={() => handleNextPage('+')}
+            aria-disabled={currentPage === visiblePages}
+          >
             »
           </a>
         </li>
       </ul>
       <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
+        {showPages.map(item => {
+          return (
+            <li key={item.id} data-cy="item">
+              {item.title}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
