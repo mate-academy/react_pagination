@@ -7,3 +7,14 @@ export function getNumbers(from: number, to: number): number[] {
 
   return numbers;
 }
+
+export function getPagesCount(to: number, itemsPerPage: number): number[] {
+  const countPages = Math.ceil(to / itemsPerPage);
+  const pages: number[] = [];
+
+  for (let i = 1; i <= countPages; i++) {
+    pages.push(i);
+  }
+
+  return pages;
+}
