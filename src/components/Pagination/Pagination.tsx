@@ -1,20 +1,19 @@
 import cn from 'classnames';
 
 type Props = {
-  visiblePages: number;
+  total: number;
   currentPage: number;
+  perPage: number;
   onPageClick: (page: number) => void;
-  onPrevClick: () => void;
-  onNextClick: () => void;
 };
 
 export const Pagination: React.FC<Props> = ({
-  visiblePages,
+  total,
   currentPage,
+  perPage,
   onPageClick,
-  onPrevClick,
-  onNextClick,
 }) => {
+  const visiblePages = Math.ceil(total / perPage);
   const arrVisiblePages = Array.from(
     { length: visiblePages },
     (_, index) => index + 1,
@@ -31,7 +30,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={prevPageDisabled}
-          onClick={onPrevClick}
+          onClick={() => currentPage > 1 && onPageClick(currentPage - 1)}
         >
           «
         </a>
@@ -59,7 +58,9 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#next"
           aria-disabled={nextPageDisabled}
-          onClick={onNextClick}
+          onClick={() =>
+            currentPage < visiblePages && onPageClick(currentPage + 1)
+          }
         >
           »
         </a>

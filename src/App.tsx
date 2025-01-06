@@ -14,20 +14,12 @@ export const App: React.FC = () => {
   const firstItem = (currentPage - 1) * perPage + 1;
   const lastItem = Math.min(currentPage * perPage, TOTAL_ITEMS);
 
-  const visiblePages = Math.ceil(TOTAL_ITEMS / perPage);
-
   const handlePageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(+e.currentTarget.value);
     setCurrentPage(1);
   };
 
   const handlePageClick = (page: number) => setCurrentPage(page);
-
-  const handlePrevClick = () =>
-    currentPage > 1 && setCurrentPage(currentPage - 1);
-
-  const handleNextClick = () =>
-    currentPage < visiblePages && setCurrentPage(currentPage + 1);
 
   return (
     <div className="container">
@@ -59,11 +51,10 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        visiblePages={visiblePages}
+        total={TOTAL_ITEMS}
         currentPage={currentPage}
+        perPage={perPage}
         onPageClick={handlePageClick}
-        onPrevClick={handlePrevClick}
-        onNextClick={handleNextClick}
       />
 
       <ul>
