@@ -4,14 +4,14 @@ type Props = {
   total: number;
   currentPage: number;
   perPage: number;
-  onPageClick: (page: number) => void;
+  onPageChange: (page: number) => void;
 };
 
 export const Pagination: React.FC<Props> = ({
   total,
   currentPage,
   perPage,
-  onPageClick,
+  onPageChange,
 }) => {
   const visiblePages = Math.ceil(total / perPage);
   const arrVisiblePages = Array.from(
@@ -30,7 +30,7 @@ export const Pagination: React.FC<Props> = ({
           className="page-link"
           href="#prev"
           aria-disabled={prevPageDisabled}
-          onClick={() => currentPage > 1 && onPageClick(currentPage - 1)}
+          onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
         >
           «
         </a>
@@ -45,7 +45,7 @@ export const Pagination: React.FC<Props> = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${page}`}
-            onClick={() => onPageClick(page)}
+            onClick={() => onPageChange(page)}
           >
             {page}
           </a>
@@ -59,7 +59,7 @@ export const Pagination: React.FC<Props> = ({
           href="#next"
           aria-disabled={nextPageDisabled}
           onClick={() =>
-            currentPage < visiblePages && onPageClick(currentPage + 1)
+            currentPage < visiblePages && onPageChange(currentPage + 1)
           }
         >
           »

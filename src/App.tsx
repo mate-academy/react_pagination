@@ -54,7 +54,7 @@ export const App: React.FC = () => {
         total={TOTAL_ITEMS}
         currentPage={currentPage}
         perPage={perPage}
-        onPageClick={handlePageClick}
+        onPageChange={handlePageClick}
       />
 
       <ul>
