@@ -19,10 +19,6 @@ export const Pagination: React.FC<Props> = ({
     onPageChange(1);
   }, [perPage, onPageChange]);
 
-  const lastOfindex = perPage * currentPage;
-  const firstOfindex = lastOfindex - perPage;
-  const itemsPerPage = total.slice(firstOfindex, lastOfindex);
-
   const pageItem = Math.ceil(total.length / perPage);
 
   function getPageNumber(page: number): number[] {
@@ -37,6 +33,14 @@ export const Pagination: React.FC<Props> = ({
 
   const pagesPerPage = getPageNumber(pageItem);
 
+  const handlePageChange = (direction: 'next' | 'prev') => {
+    if (direction === 'prev' && currentPage > 1) {
+      onPageChange(currentPage - 1);
+    } else if (direction === 'next' && currentPage < pagesPerPage.length) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
   return (
     <Fragment>
       <ul className="pagination">
@@ -48,7 +52,7 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#prev"
             aria-disabled={currentPage === 1}
-            onClick={() => onPageChange(currentPage - 1)}
+            onClick={() => handlePageChange('prev')}
           >
             «
           </a>
@@ -76,18 +80,11 @@ export const Pagination: React.FC<Props> = ({
             className="page-link"
             href="#next"
             aria-disabled={currentPage === pagesPerPage.length}
-            onClick={() => onPageChange(currentPage + 1)}
+            onClick={() => handlePageChange('next')}
           >
             »
           </a>
         </li>
-      </ul>
-      <ul>
-        {itemsPerPage.map(item => (
-          <li data-cy="item" key={item}>
-            {item}
-          </li>
-        ))}
       </ul>
     </Fragment>
   );

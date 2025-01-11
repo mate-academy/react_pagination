@@ -9,13 +9,18 @@ const items = getNumbers(1, 42).map(n => `Item ${n}`);
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
+  const totalItems = 42;
+
+  const lastOfindex = perPage * currentPage;
+  const firstOfindex = lastOfindex - perPage;
+  const itemsPerPage = items.slice(firstOfindex, lastOfindex);
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        {`Page ${currentPage} (items ${firstOfindex + 1} - ${Math.min(lastOfindex, totalItems)} of ${totalItems})`}
       </p>
 
       <div className="form-group row">
@@ -45,6 +50,13 @@ export const App: React.FC = () => {
         currentPage={currentPage}
         onPageChange={setCurrentPage}
       />
+      <ul>
+        {itemsPerPage.map(item => (
+          <li data-cy="item" key={item}>
+            {item}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
