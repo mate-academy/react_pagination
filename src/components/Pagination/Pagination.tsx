@@ -15,9 +15,9 @@ export const Pagination: React.FC<Props> = ({
   onPageChange,
 }) => {
   const pages = [];
-  const pagesCount = total / perPage + 1;
+  const pagesCount = Math.ceil(total / perPage);
 
-  for (let i = 1; i < pagesCount; i++) {
+  for (let i = 1; i <= pagesCount; i++) {
     pages.push(
       <li
         className={classNames('page-item', currentPage === i ? 'active' : '')}
@@ -57,16 +57,16 @@ export const Pagination: React.FC<Props> = ({
       <li
         className={classNames(
           'page-item',
-          currentPage === pages.length ? 'disabled' : '',
+          currentPage === pagesCount ? 'disabled' : '',
         )}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === pages.length ? 'true' : 'false'}
+          aria-disabled={currentPage === pagesCount ? 'true' : 'false'}
           onClick={() => {
-            if (currentPage !== pages.length) {
+            if (currentPage !== pagesCount) {
               onPageChange(currentPage + 1);
             }
           }}
