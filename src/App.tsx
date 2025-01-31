@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
+import { Pagination } from './components/Pagination';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
+  const [perPage, setPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const startIdx = (currentPage - 1) * perPage;
+  const visibleItems = items.slice(
+    (currentPage - 1) * perPage,
+    currentPage * perPage,
+  );
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        Page {currentPage} (items {startIdx + 1} -{' '}
+        {startIdx + visibleItems.length} of {items.length})
       </p>
 
       <div className="form-group row">
@@ -19,7 +30,13 @@ export const App: React.FC = () => {
           <select
             data-cy="perPageSelector"
             id="perPageSelector"
-            className="form-control">
+            className="form-control"
+            value={perPage}
+            onChange={e => {
+              setPerPage(Number((e.target as HTMLSelectElement).value));
+              setCurrentPage(1);
+            }}
+          >
             <option value="3">3</option>
             <option value="5">5</option>
             <option value="10">10</option>
@@ -32,14 +49,43 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
-      <ul className="pagination">
+      {/* Pagination component */}
+
+      <Pagination
+        total={items.length}
+        perPage={perPage}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+      />
+
+      {/* Display paginated items */}
+
+      <ul>
+        {visibleItems.map(item => (
+          <li key={item} data-cy="item">
+            {item}
+          </li>
+        ))}
+        {/* <li data-cy="item">Item 1</li>
+        <li data-cy="item">Item 2</li>
+        <li data-cy="item">Item 3</li>
+        <li data-cy="item">Item 4</li>
+        <li data-cy="item">Item 5</li> */}
+      </ul>
+    </div>
+  );
+};
+
+export default App;
+
+/* <ul className="pagination">
         <li className="page-item disabled">
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled="true">
+            aria-disabled="true"
+          >
             «
           </a>
         </li>
@@ -93,20 +139,9 @@ export const App: React.FC = () => {
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled="false">
+            aria-disabled="false"
+          >
             »
           </a>
         </li>
-      </ul>
-      <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
-      </ul>
-    </div>
-  );
-};
-
-export default App;
+      </ul> */
