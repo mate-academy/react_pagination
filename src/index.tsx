@@ -1,5 +1,10 @@
-import { createRoot } from 'react-dom/client';
+import ReactDOM from 'react-dom/client';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
 
-import { App } from './App';
-
-createRoot(document.getElementById('root') as HTMLElement).render(<App />);
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
+);
