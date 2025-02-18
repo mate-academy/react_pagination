@@ -1,35 +1,30 @@
-# React Pagination
+# Pagination
 
-> Here is the [working version](https://mate-academy.github.io/react_pagination/)
+## 🎮 About the Project
+The **Pagination** component is a stateless React component that efficiently renders a paginated list, displaying only the items corresponding to the current page. This component is a common solution for handling large datasets by breaking them into pages and allowing navigation between them.
 
-You a given a list of items and markup for the `Pagination`. Implement the 
-`Pagination` as a stateless component to show only the items for a current page.
+## 🚀 Tech Stack
+- **HTML** (BEM methodology for structured markup)  
+- **CSS** (Bulma for responsive and clean styles)  
+- **JavaScript** (Pagination logic)  
+- **TypeScript** (For type safety)  
+- **React** (Stateless functional component)  
+- **ReactDOM** (Rendering the component to the DOM)  
 
-1. The `Pagination` should be used with the next props:
-    ```jsx harmony
-    <Pagination
-      total={42} // total number of items to paginate
-      perPage={5} // number of items per page
-      currentPage={1} /* optional with 1 by default */
-      onPageChange={(page) => { ... }}
-    />
-    ```
-1. Keep the HTML stucture `data-cy` attributes;
-1. Show all the existing pages considering `total` and `perPage`
-1. Current page should be highlighted with `li.active`;
-1. `onPageChange` callback should be triggered only if page was changed;
-1. The `App` should listen to the `onPageChange` and save a new page;
-1. `«` and `»` links should open the prev and the next pages accordingly
-    - disable each of them if it is already the first or the last page (use `li.disabled` and `a[aria-disabled="true"]`)
-1. Show the pagination info inside `data-cy="info"` in the next format `Page 1 (items 1 - 5 of 42)`;
-1. Implement the `<select data-cy="perPageSelector">` with `3`, `5`, `10`, `20` options to change the `perPage`;
-    - show the 1st page after changing a `perPage`;
-1. (*) Use React Router to save `?page=2&perPage=7` in the URL and apply them on page load
+## 🛠️ Tools & Dependencies
+- **ESLint** – Code quality and linting  
+- **Prettier** – Code formatting  
+- **Cypress** – End-to-end testing  
+- **Mochawesome** – Test reporting  
+- **Babel** – JavaScript compiler  
 
-## Instructions
+## 📌 Features
+✅ Stateless **Pagination** component that shows items for the current page  
+✅ Handles large datasets by splitting them into pages  
+✅ Built with **TypeScript** for type safety  
 
-- Install Prettier Extention and use this [VSCode settings](https://mate-academy.github.io/fe-program/tools/vscode/settings.json) to enable format on save.
-- Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).
-- Use the [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript).
-- Open one more terminal and run tests with `npm test` to ensure your solution is correct.
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_pagination/) and add it to the PR description.
+## 🌐 Demo
+🔗 [Live Demo](https://AndriiZakharenko.github.io/pagination/)
+
+## 📜 License
+This project is forked from 💻 [Mate Academy](https://github.com/mate-academy/react_pagination)
