@@ -10,17 +10,15 @@ export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemsPerPage] = useState<number>(5);
 
-  // Оновлюємо значення для відображення елементів
   const startIndex: number = (currentPage - 1) * itemsPerPage;
   const endIndex: number =
     startIndex + itemsPerPage < items.length
       ? startIndex + itemsPerPage
       : items.length;
 
-  // Функція для зміни перPage
   const handleItemsPerPageChange = (value: number) => {
     setItemsPerPage(value);
-    setCurrentPage(1); // Після зміни перPage обов'язково повертаємось на першу сторінку
+    setCurrentPage(1);
   };
 
   return (
