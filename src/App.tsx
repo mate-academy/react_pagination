@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { useSearchParams } from 'react-router-dom';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
@@ -7,27 +9,26 @@ import { Pagination } from './components/Pagination';
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [pagination, setPagination] = useState({
-    perPage: 5,
-    currentPage: 1,
-  });
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const perPage = parseInt(searchParams.get('perPage') || '5', 10);
+  const currentPage = parseInt(searchParams.get('page') || '1', 10);
+
   const totalItemsCount = items.length;
   const perPageOptions = [3, 5, 10, 20];
-  const itemsStartIndex = (pagination.currentPage - 1) * pagination.perPage;
-  const itemsEndIndex = Math.min(
-    itemsStartIndex + pagination.perPage,
-    totalItemsCount,
-  );
+
+  const itemsStartIndex = (currentPage - 1) * perPage;
+  const itemsEndIndex = Math.min(itemsStartIndex + perPage, totalItemsCount);
 
   const handlePageChange = (page: number) => {
-    setPagination({ ...pagination, currentPage: page });
+    setSearchParams({
+      page: page.toString(),
+      perPage: perPage.toString(),
+    });
   };
 
   const handleSelectPerPage = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setPagination({
-      currentPage: 1,
-      perPage: parseInt(e.target.value, 10),
-    });
+    setSearchParams({ page: '1', perPage: e.target.value });
   };
 
   const showPaginatedItems = () => {
@@ -43,8 +44,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {pagination.currentPage} (items {itemsStartIndex + 1} -{' '}
-        {itemsEndIndex} of {totalItemsCount})
+        {`Page ${currentPage} (items ${itemsStartIndex + 1} - ${itemsEndIndex} of ${totalItemsCount})`}
       </p>
 
       <div className="form-group row">
@@ -53,7 +53,7 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            value={pagination.perPage}
+            value={perPage}
             onChange={handleSelectPerPage}
           >
             {perPageOptions.map(n => (
@@ -71,8 +71,8 @@ export const App: React.FC = () => {
 
       <Pagination
         total={totalItemsCount}
-        perPage={pagination.perPage}
-        currentPage={pagination.currentPage}
+        perPage={perPage}
+        currentPage={currentPage}
         onPageChange={handlePageChange}
       />
 
