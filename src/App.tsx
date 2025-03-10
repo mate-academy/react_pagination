@@ -1,53 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
+import { Select } from './components/Select';
+import { ItemList } from './components/ItemList';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+
+  const itemFrom = currentPage * perPage - perPage + 1;
+  const itemTo = Math.min(itemFrom + perPage - 1, items.length);
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        Page {currentPage} (items {itemFrom} - {itemTo} of {items.length})
       </p>
 
-      <div className="form-group row">
-        <div className="col-3 col-sm-2 col-xl-1">
-          <select
-            data-cy="perPageSelector"
-            id="perPageSelector"
-            className="form-control"
-          >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-          </select>
-        </div>
-
-        <label htmlFor="perPageSelector" className="col-form-label col">
-          items per page
-        </label>
-      </div>
+      <Select
+        perPage={perPage}
+        onItemAmount={value => {
+          setPerPage(value);
+          setCurrentPage(1);
+        }}
+      />
 
       <Pagination
         total={items.length}
-        perPage={5}
-        currentPage={1}
-        onPageChange={() => {}}
+        perPage={perPage}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
       />
 
-      <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
-      </ul>
+      <ItemList itemFrom={itemFrom} itemTo={itemTo} />
     </div>
   );
 };
