@@ -2,7 +2,7 @@
 
 > Here is the [working version](https://mate-academy.github.io/react_pagination/)
 
-You a given a list of items and markup for the `Pagination`. Implement the 
+You a given a list of items and markup for the `Pagination`. Implement the
 `Pagination` as a stateless component to show only the items for a current page.
 
 1. The `Pagination` should be used with the next props:
