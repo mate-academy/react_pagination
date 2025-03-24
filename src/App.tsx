@@ -3,15 +3,13 @@ import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 import { useState } from 'react';
-import { ActiveTab } from './types/ActiveTab';
-import { ItemsPerPage } from './types/ItemsPerPage';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [itemsPerPage, setItemsPerPage] = useState(ItemsPerPage.Five);
-  const [activeTab, setActiveTab] = useState(ActiveTab.first);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(5);
+  const [activeTab, setActiveTab] = useState<number>(1);
 
   // Вычисление индексов для текущей страницы
   const fromItem: number = (activeTab - 1) * itemsPerPage;
