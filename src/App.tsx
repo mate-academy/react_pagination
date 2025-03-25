@@ -11,12 +11,13 @@ export const App: React.FC = () => {
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const totalItems = items.length;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = Math.min(currentPage * itemsPerPage, items.length);
   const itemsToShow = items.slice(startIndex, endIndex);
 
   const paginationInfo = `
-    Page ${currentPage} (items ${startIndex + 1} - ${endIndex} of ${items.length})
+    Page ${currentPage} (items ${startIndex + 1} - ${endIndex} of ${totalItems})
   `;
 
   return (
@@ -52,7 +53,7 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={items.length}
+        total={totalItems}
         perPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={page => setCurrentPage(page)}
