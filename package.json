@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@cypress/react18": "^2.0.1",
-    "@mate-academy/scripts": "^1.9.12",
+    "@mate-academy/scripts": "^2.1.1",
     "@mate-academy/students-ts-config": "*",
     "@mate-academy/stylelint-config": "*",
     "@types/node": "^20.14.10",
@@ -78,5 +78,8 @@
       "_comment": "Add `cypressComponents: true` to enable component tests",
       "cypress": true
     }
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-win32-x64-msvc": "4.6.1"
   }
 }
