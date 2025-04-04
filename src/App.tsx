@@ -23,6 +23,7 @@ export const App: React.FC = () => {
 
   const handlePerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newPerPage = Number(event.target.value);
+
     setPerPage(newPerPage);
     setCurrentPage(1);
     setSearchParams({ page: '1', perPage: String(newPerPage) });

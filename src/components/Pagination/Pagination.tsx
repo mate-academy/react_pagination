@@ -31,7 +31,9 @@ export const Pagination: React.FC<PaginationProps> = ({
           aria-disabled={currentPage === 1 ? 'true' : undefined} // Use 'undefined' for false instead of "false"
           onClick={e => {
             e.preventDefault();
-            if (currentPage > 1) handlePageChange(currentPage - 1);
+            if (currentPage > 1) {
+              handlePageChange(currentPage - 1);
+            }
           }}
         >
           «
@@ -56,13 +58,13 @@ export const Pagination: React.FC<PaginationProps> = ({
         className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}
       >
         <a
-          data-cy="prevLink"
+          data-cy="nextLink"
           className="page-link"
-          href="#prev"
+          href="#next"
           aria-disabled={currentPage === 1 ? 'true' : undefined} // Use 'undefined' for false instead of "false"
           onClick={e => {
             e.preventDefault();
-            if (currentPage > 1) handlePageChange(currentPage + 1);
+            if (currentPage < totalPages) handlePageChange(currentPage + 1);
           }}
         >
           »
