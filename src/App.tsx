@@ -4,7 +4,7 @@ import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42).map(n => `Item ${n}`); // 5simbol
+const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   const [itemsPerPage, setItemPerPage] = useState(5);
@@ -16,7 +16,7 @@ export const App: React.FC = () => {
       <p className="lead" data-cy="info">
         Page {page} ({'items'} {0 + itemsPerPage * (page - 1) + 1} -{' '}
         {itemsPerPage * page > items.length
-          ? +items[items.length - 1].substring(5)
+          ? items.length
           : itemsPerPage * page}{' '}
         of {items.length})
       </p>
