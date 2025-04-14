@@ -24,7 +24,7 @@ You a given a list of items and markup for the `Pagination`. Implement the
 1. Show the pagination info inside `data-cy="info"` in the next format `Page 1 (items 1 - 5 of 42)`;
 1. Implement the `<select data-cy="perPageSelector">` with `3`, `5`, `10`, `20` options to change the `perPage`;
     - show the 1st page after changing a `perPage`;
-1. (*) Use React Router to save `?page=2&perPage=7` in the URL and apply them on page load
+1. (*) Use React Router to save `?page=2&perPage=7` in the URL and apply them on page load.
 
 ## Instructions
 
