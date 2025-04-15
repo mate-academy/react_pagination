@@ -3,7 +3,6 @@ import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 import React, { useState } from 'react';
 
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
@@ -15,15 +14,13 @@ export const App: React.FC = () => {
   const endIndex = startIndex + perPage;
   const visibleItems = items.slice(startIndex, endIndex);
 
-
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {currentPage} (items
-        {startIndex + 1} - {Math.min(endIndex, items.length)}
-        of {items.length})
+        Page {currentPage} (items {startIndex + 1} -{' '}
+        {Math.min(endIndex, items.length)} of {items.length})
       </p>
 
       <div className="form-group row">
@@ -64,7 +61,7 @@ export const App: React.FC = () => {
       <ul>
         {visibleItems.map(item => (
           <li data-cy="item" key={item}>
-            Item {item}
+            {item}
           </li>
         ))}
       </ul>
