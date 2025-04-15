@@ -1,25 +1,51 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import { Pagination } from './components/Pagination';
 import { getNumbers } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42).map(n => `Item ${n}`);
+const itemsFromServer = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
+  const getVisibleItems = (
+    items: string[],
+    page: number,
+    itemsPerPage: number,
+  ): string[] => items.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+
+  const [pageInfo, setPageInfo] = useState({
+    page: 1,
+    itemsPerPage: 5,
+  });
+  const [itemsToDisplay, setItemsToDisplay] = useState(itemsFromServer);
+
+  useEffect(() => {
+    setItemsToDisplay(
+      getVisibleItems(itemsFromServer, pageInfo.page, pageInfo.itemsPerPage),
+    );
+  }, [pageInfo]);
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        {`Page ${pageInfo.page} (items ${(pageInfo.page - 1) * pageInfo.itemsPerPage + 1} - ${pageInfo.page * pageInfo.itemsPerPage < itemsFromServer.length ? pageInfo.page * pageInfo.itemsPerPage : itemsFromServer.length} of ${itemsFromServer.length})`}
       </p>
-
       <div className="form-group row">
         <div className="col-3 col-sm-2 col-xl-1">
           <select
             data-cy="perPageSelector"
             id="perPageSelector"
-            className="form-control">
+            className="form-control"
+            onChange={event =>
+              setPageInfo({
+                page: 1,
+                itemsPerPage: Number(event.target.value),
+              })
+            }
+            defaultValue="5"
+          >
             <option value="3">3</option>
             <option value="5">5</option>
             <option value="10">10</option>
@@ -31,82 +57,21 @@ export const App: React.FC = () => {
           items per page
         </label>
       </div>
-
-      {/* Move this markup to Pagination */}
-      <ul className="pagination">
-        <li className="page-item disabled">
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled="true">
-            «
-          </a>
-        </li>
-        <li className="page-item active">
-          <a data-cy="pageLink" className="page-link" href="#1">
-            1
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#2">
-            2
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#3">
-            3
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#4">
-            4
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#5">
-            5
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#6">
-            6
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#7">
-            7
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#8">
-            8
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#9">
-            9
-          </a>
-        </li>
-        <li className="page-item">
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled="false">
-            »
-          </a>
-        </li>
-      </ul>
+      <Pagination
+        total={itemsFromServer.length}
+        perPage={pageInfo.itemsPerPage}
+        currentPage={pageInfo.page}
+        onPageChange={(pageNum: number) =>
+          setPageInfo({ ...pageInfo, page: pageNum })
+        }
+      />
       <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
+        {itemsToDisplay.map(item => (
+          <li data-cy="item" key={item}>
+            {item}
+          </li>
+        ))}
       </ul>
     </div>
   );
 };
-
-export default App;
