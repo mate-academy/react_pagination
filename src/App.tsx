@@ -1,17 +1,26 @@
-import React from 'react';
+import * as React from 'react';
+import { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
+import { Pagination } from './components/Pagination';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42).map(n => `Item ${n}`);
+const TOTAL = 42;
+const items = getNumbers(1, TOTAL).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
+  const [pageNumber, setPageNumber] = useState(1);
+  const [numberPerPage, setNumberPerPage] = useState(5);
+  const prevElementsNumber = numberPerPage * (pageNumber - 1);
+  const firstElementIndex = prevElementsNumber + 1;
+  const lastElementIndex = Math.min(TOTAL, prevElementsNumber + numberPerPage);
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        Page {pageNumber} (items {firstElementIndex} - {lastElementIndex} of 42)
       </p>
 
       <div className="form-group row">
@@ -19,7 +28,13 @@ export const App: React.FC = () => {
           <select
             data-cy="perPageSelector"
             id="perPageSelector"
-            className="form-control">
+            className="form-control"
+            value={numberPerPage}
+            onChange={event => {
+              setPageNumber(1);
+              setNumberPerPage(Number(event.target.value));
+            }}
+          >
             <option value="3">3</option>
             <option value="5">5</option>
             <option value="10">10</option>
@@ -32,8 +47,16 @@ export const App: React.FC = () => {
         </label>
       </div>
 
+      <Pagination
+        total={TOTAL}
+        perPage={numberPerPage}
+        currentPage={pageNumber}
+        itemsList={items.slice(firstElementIndex - 1, lastElementIndex)}
+        onPageChange={setPageNumber}
+      />
+
       {/* Move this markup to Pagination */}
-      <ul className="pagination">
+      {/* <ul className="pagination">
         <li className="page-item disabled">
           <a
             data-cy="prevLink"
@@ -97,14 +120,14 @@ export const App: React.FC = () => {
             »
           </a>
         </li>
-      </ul>
-      <ul>
+      </ul> */}
+      {/* <ul>
         <li data-cy="item">Item 1</li>
         <li data-cy="item">Item 2</li>
         <li data-cy="item">Item 3</li>
         <li data-cy="item">Item 4</li>
         <li data-cy="item">Item 5</li>
-      </ul>
+      </ul> */}
     </div>
   );
 };
