@@ -26,7 +26,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${startIndex + 1} - ${endIndex} of 42)`}
+        {`Page ${currentPage} (items ${startIndex + 1} - ${endIndex} of ${items.length})`}
       </p>
 
       <div className="form-group row">
@@ -36,7 +36,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             onChange={handleItemsPerPageChange}
-            defaultValue={5}
+            defaultValue={itemsPerPage}
           >
             <option value="3">3</option>
             <option value="5">5</option>
