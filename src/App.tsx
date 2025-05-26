@@ -7,6 +7,10 @@ export function getAvailablePages(
   itemsList: string[],
   itemsPerPage: number,
 ): number[] {
+  if (itemsPerPage <= 0) {
+    return [];
+  }
+
   const pages: number[] = [];
   let itemsLeft = itemsList.length;
   let pageCount = 0;
