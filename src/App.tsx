@@ -15,7 +15,8 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {currentPage} (items {Math.min((currentPage - 1) * +page + 1)} -{' '}
+        Page {`${currentPage} `}
+        (items {Math.min((currentPage - 1) * +page + 1)} -{' '}
         {Math.min(currentPage * +page, items.length)} of {items.length})
       </p>
 
