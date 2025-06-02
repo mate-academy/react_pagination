@@ -15,7 +15,7 @@ export const Pagination: React.FC<PropsPaginator> = ({
 }) => {
   const totalPages = Math.ceil(total / perPage);
   const prevDisabled = currentPage === 1;
-  const nextDiable = currentPage === totalPages;
+  const nextDisable = currentPage === totalPages;
 
   return (
     <ul className="pagination">
@@ -50,13 +50,13 @@ export const Pagination: React.FC<PropsPaginator> = ({
         );
       })}
 
-      <li className={`page-item ${nextDiable ? 'disabled' : ''}`}>
+      <li className={`page-item ${nextDisable ? 'disabled' : ''}`}>
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={nextDiable}
-          onClick={() => !nextDiable && onPageChange(currentPage + 1)}
+          aria-disabled={nextDisable}
+          onClick={() => !nextDisable && onPageChange(currentPage + 1)}
         >
           »
         </a>

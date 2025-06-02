@@ -20,7 +20,7 @@ export const App: React.FC = () => {
     }
   };
 
-  const handlePerPaegChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handlePerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(Number(event.target.value));
     setPage(1);
   };
@@ -40,7 +40,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={handlePerPaegChange}
+            onChange={handlePerPageChange}
           >
             {[3, 5, 10, 20].map(value => (
               <option key={value} value={value}>
