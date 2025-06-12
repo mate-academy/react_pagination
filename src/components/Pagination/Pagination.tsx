@@ -1,5 +1,5 @@
 import React from 'react';
-import { ItemList } from '../ItemList/ItemLiss';
+import { ItemList } from '../ItemList/ItemList';
 
 type Props = {
   total: number;
