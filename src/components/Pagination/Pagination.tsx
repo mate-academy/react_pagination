@@ -62,7 +62,7 @@ export const Pagination: React.FC<Props> = ({
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={currentPage < pageCount ? 'true' : 'false'}
+            aria-disabled={currentPage >= pageCount ? 'true' : 'false'}
             onClick={event => {
               event.preventDefault();
               if (currentPage < pageCount) {
