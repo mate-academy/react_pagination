@@ -16,11 +16,12 @@ export const Pagination: React.FC<Props> = ({
   setCurrentPage,
   onPageChange,
 }: Props) => {
+  const amountAofPages: number = Math.ceil(total / perPage);
 
-  const amountAofPages: number =
-    total % perPage !== 0 ? total / perPage + 1 : total / perPage;
-
-  const pages: number[] = Array.from({length: amountAofPages}, (_, i) => i + 1);
+  const pages: number[] = Array.from(
+    { length: amountAofPages },
+    (_, i) => i + 1,
+  );
 
   return (
     <ul className="pagination">
@@ -38,18 +39,17 @@ export const Pagination: React.FC<Props> = ({
         </a>
       </li>
       {pages.map(page => {
-        const isActive = currentPage;
         return (
           <li
             key={page}
-            className={classNames('page-item', { active: page === isActive })}
+            className={classNames('page-item', { active: page === currentPage })}
           >
             <a
               data-cy="pageLink"
               className="page-link"
               href={`#${currentPage}`}
               onClick={() => {
-                isActive === currentPage && onPageChange(page);
+                page !== currentPage && onPageChange(page);
               }}
             >
               {page}

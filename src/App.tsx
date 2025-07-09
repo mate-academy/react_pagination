@@ -12,7 +12,7 @@ export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const onPageChange = (page: number) => {
-      setCurrentPage(page);
+    setCurrentPage(page);
   };
 
   return (
@@ -52,14 +52,18 @@ export const App: React.FC = () => {
         total={total}
         perPage={perPage}
         currentPage={currentPage}
-        setCurrentPage = {setCurrentPage}
+        setCurrentPage={setCurrentPage}
         onPageChange={onPageChange}
       />
       <ul>
         {items
           .slice(perPage * currentPage - perPage, perPage * currentPage)
           .map(item => {
-            return <li key={item} data-cy="item">{item}</li>;
+            return (
+              <li key={item} data-cy="item">
+                {item}
+              </li>
+            );
           })}
       </ul>
     </div>
