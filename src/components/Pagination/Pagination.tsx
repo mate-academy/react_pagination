@@ -15,13 +15,17 @@ export const Pagination: React.FC<Props> = ({
 }) => {
   const totalPages = Math.ceil(total / perPage);
 
-  const handlePrevClick = () => {
+  const handlePrevClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+
     if (currentPage > 1) {
       onPageChange(currentPage - 1);
     }
   };
 
-  const handleNextClick = () => {
+  const handleNextClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+
     if (currentPage < totalPages) {
       onPageChange(currentPage + 1);
     }
@@ -56,7 +60,10 @@ export const Pagination: React.FC<Props> = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${index + 1}`}
-            onClick={() => onPageChange(index + 1)}
+            onClick={event => {
+              event.preventDefault();
+              onPageChange(index + 1);
+            }}
           >
             {index + 1}
           </a>
