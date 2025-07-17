@@ -23,6 +23,7 @@ export const App: React.FC = () => {
 
     setItemsPerPage(newItemsPerPage);
     setNumberOfPages(Math.ceil(42 / newItemsPerPage));
+    setPageActive(1);
   }
 
   return (
