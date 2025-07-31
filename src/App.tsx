@@ -16,8 +16,9 @@ export const App: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams('?page=1&perPage=5');
 
+  const numPages: number = Math.ceil(items.length / perPage);
   const startIndex: number = Math.abs((currentPage - 1) * perPage) + 1;
-  const endIndex: number = startIndex + perPage;
+  const endIndex: number = startIndex + perPage - 1;
   const visibleItems: string[] = items.slice(startIndex - 1, endIndex);
 
   return (
@@ -26,7 +27,9 @@ export const App: React.FC = () => {
         <h1>Items with Pagination</h1>
 
         <p className="lead" data-cy="info">
-          Page {currentPage} (items {startIndex} - {endIndex} of {items.length})
+          Page {currentPage} (items {startIndex} -{' '}
+          {currentPage === numPages ? items.length : endIndex} of {items.length}
+          )
         </p>
 
         <div className="form-group row">
@@ -58,8 +61,7 @@ export const App: React.FC = () => {
         </div>
 
         <Pagination
-          total={42}
-          perPage={perPage}
+          numPages={numPages}
           currentPage={currentPage}
           onPageChange={newPage => {
             if (newPage !== currentPage) {

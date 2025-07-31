@@ -1,8 +1,12 @@
 import { v4 } from 'uuid';
 
-export const Pagination = ({ total, perPage, currentPage, onPageChange }) => {
-  const numPages = Math.ceil(total / perPage);
-
+export const Pagination = ({
+  total,
+  numPages,
+  perPage,
+  currentPage,
+  onPageChange,
+}) => {
   const numPagesArray = [];
 
   for (let varAux = 1; varAux < numPages + 1; varAux++) {
@@ -50,7 +54,9 @@ export const Pagination = ({ total, perPage, currentPage, onPageChange }) => {
             </>
           );
         })}
-        <li className={`page-item${currentPage === numPagesArray.length ? ' disabled' : ''}`}>
+        <li
+          className={`page-item${currentPage === numPagesArray.length ? ' disabled' : ''}`}
+        >
           <a
             data-cy="nextLink"
             className="page-link"
