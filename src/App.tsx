@@ -41,7 +41,7 @@ export const App: React.FC = () => {
                 if (newPerPage !== perPage) {
                   setPerPage(() => Number(newPerPage));
                   setCurrentPage(1);
-                  setSearchParams(`?page=${currentPage}&perPage=${newPerPage}`);
+                  setSearchParams(`?page=1&perPage=${newPerPage}`);
                 }
               }}
               data-cy="perPageSelector"

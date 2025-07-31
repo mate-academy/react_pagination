@@ -1,12 +1,4 @@
-import { v4 } from 'uuid';
-
-export const Pagination = ({
-  total,
-  numPages,
-  perPage,
-  currentPage,
-  onPageChange,
-}) => {
+export const Pagination = ({ numPages, currentPage, onPageChange }) => {
   const numPagesArray = [];
 
   for (let varAux = 1; varAux < numPages + 1; varAux++) {
@@ -15,12 +7,13 @@ export const Pagination = ({
 
   return (
     <>
-      <ul key={v4()} className="pagination">
+      <ul key={numPages} className="pagination">
         <li
-          key={v4()}
+          key={0}
           className={`page-item${currentPage === 1 ? ' disabled' : ''}`}
         >
           <a
+            key={0.1}
             onClick={() => {
               if (currentPage !== 1) {
                 onPageChange(currentPage - 1);
@@ -38,12 +31,14 @@ export const Pagination = ({
           return (
             <>
               <li
+                key={numPage}
                 onClick={() => {
                   onPageChange(numPage);
                 }}
                 className={`page-item${numPage === currentPage ? ' active' : ''}`}
               >
                 <a
+                  key={numPage / 10}
                   data-cy="page-link"
                   className="page-link"
                   href={`#${numPage}`}
