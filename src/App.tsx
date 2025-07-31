@@ -1,22 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
+import { useSearchParams } from 'react-router';
+import { Pagination } from './components/Pagination';
+import { v4 as uuidv4 } from 'uuid';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
+
+  const [currentPage, setCurrentPage] = useState<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14>(1)
+  const [perPage, setPerPage] = useState<3 | 5 | 10 | 20>(3);
+
+  const [searchParams, setSearchParams] = useSearchParams("?page=1&perPage=5");
+
+  const startIndex:number = (currentPage - 1) * perPage;
+  const endIndex:number = startIndex + perPage;
+  const visibleItems:string[] = items.slice(startIndex, endIndex);
+  
   return (
+    <>
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        Page {currentPage} (items {Math.abs(startIndex + 1)} - {endIndex} of {items.length})
       </p>
 
       <div className="form-group row">
         <div className="col-3 col-sm-2 col-xl-1">
           <select
+            onChange={(event) => {
+
+              const newPerPage = Number(event.target.value);
+
+              if(newPerPage !== perPage) {
+                setPerPage(() => Number(newPerPage));
+                setCurrentPage(1);
+                setSearchParams(`?page=${currentPage}&perPage=${newPerPage}`);
+              }
+            }}
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control">
@@ -32,80 +56,31 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
-      <ul className="pagination">
-        <li className="page-item disabled">
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled="true">
-            «
-          </a>
-        </li>
-        <li className="page-item active">
-          <a data-cy="pageLink" className="page-link" href="#1">
-            1
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#2">
-            2
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#3">
-            3
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#4">
-            4
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#5">
-            5
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#6">
-            6
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#7">
-            7
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#8">
-            8
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#9">
-            9
-          </a>
-        </li>
-        <li className="page-item">
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled="false">
-            »
-          </a>
-        </li>
-      </ul>
+      <Pagination
+        total={42}
+        perPage={perPage}
+        currentPage={currentPage}
+        onPageChange={(newPage) => {
+          if(newPage !== currentPage) {
+            setCurrentPage(newPage);
+            setSearchParams(`?page=${newPage}&perPage=${perPage}`);
+          }
+        }}
+      />
+      
       <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
+        {
+          visibleItems.map((item) => {
+            return (
+              <React.Fragment key={item}>
+                <li data-cy="item">{item}</li>
+              </React.Fragment>
+            )
+          })
+        }
       </ul>
     </div>
+    </>
   );
 };
 
