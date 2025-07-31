@@ -1,69 +1,73 @@
-import { v4 } from "uuid";
+import { v4 } from 'uuid';
 
-export const Pagination = ({
-    total,
-    perPage,
-    currentPage,
-    onPageChange,
-}) => {
+export const Pagination = ({ total, perPage, currentPage, onPageChange }) => {
+  const numPages = Math.ceil(total / perPage);
 
-    const numPages = Math.ceil(total / perPage);
+  const numPagesArray = [];
 
-    const numPagesArray = [];
+  for (let varAux = 1; varAux < numPages + 1; varAux++) {
+    numPagesArray.push(varAux);
+  }
 
-    for(let varAux = 1; varAux < numPages + 1; varAux++) {
-        numPagesArray.push(varAux);
-    }
-
-    return(
-        <>
-        <ul key={v4()} className="pagination">
-            <li key={v4()} className={`page-item${currentPage === 1 ? ' disabled' : ''}`}>
-                <a 
-                    onClick={() => {
-                        if(currentPage !== 1) {
-                            onPageChange(currentPage - 1);
-                        }
-                    }}
-                    className="page-link" href="#prev" data-cy="prevLink" aria-disabled={currentPage === 1 ? 'true' : 'false'}>
-                    «
-                </a>
-            </li>
-            {
-                numPagesArray.map((numPage) => {
-                    return(
-                        <>
-                        
-                        <li
-                            onClick={() => {
-                                onPageChange(numPage)
-                            }}
-                            className={`page-item${numPage === currentPage ? ' active' : ''}`}
-                        >
-                            <a data-cy="page-link" className="page-link" href={`#${numPage}`}>{numPage}</a>
-                        </li>
-                        
-                        </>
-                    )
-                })
-            }
-            <li className="page-item">
+  return (
+    <>
+      <ul key={v4()} className="pagination">
+        <li
+          key={v4()}
+          className={`page-item${currentPage === 1 ? ' disabled' : ''}`}
+        >
+          <a
+            onClick={() => {
+              if (currentPage !== 1) {
+                onPageChange(currentPage - 1);
+              }
+            }}
+            className="page-link"
+            href="#prev"
+            data-cy="prevLink"
+            aria-disabled={currentPage === 1 ? 'true' : 'false'}
+          >
+            «
+          </a>
+        </li>
+        {numPagesArray.map(numPage => {
+          return (
+            <>
+              <li
+                onClick={() => {
+                  onPageChange(numPage);
+                }}
+                className={`page-item${numPage === currentPage ? ' active' : ''}`}
+              >
                 <a
-                    data-cy="nextLink"
-                    className="page-link"
-                    href="#next"
-                    aria-disabled={currentPage === numPagesArray.length ? 'true' : 'false'}
-                    onClick={() => {
-                        if(currentPage !== numPagesArray.length) {
-                            onPageChange(currentPage + 1);
-                        }
-                    }}
+                  data-cy="page-link"
+                  className="page-link"
+                  href={`#${numPage}`}
                 >
-                    »
+                  {numPage}
                 </a>
-            </li>
-        </ul>
-        </>
-    )
-
+              </li>
+            </>
+          );
+        })}
+        <li className={`page-item${currentPage === numPagesArray.length ? ' disabled' : ''}`}>
+          <a
+            data-cy="nextLink"
+            className="page-link"
+            href="#next"
+            aria-disabled={
+              currentPage === numPagesArray.length ? 'true' : 'false'
+            }
+            onClick={() => {
+              if (currentPage !== numPagesArray.length) {
+                onPageChange(currentPage + 1);
+              }
+            }}
+          >
+            »
+          </a>
+        </li>
+      </ul>
+    </>
+  );
 };

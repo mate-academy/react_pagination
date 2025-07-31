@@ -4,13 +4,9 @@ import { App } from './App';
 import { BrowserRouter } from 'react-router';
 
 createRoot(document.getElementById('root') as HTMLElement).render(
-    <>
-    
+  <>
     <BrowserRouter>
-
-        <App/>
-    
+      <App />
     </BrowserRouter>
-    
-    </>
+  </>,
 );
