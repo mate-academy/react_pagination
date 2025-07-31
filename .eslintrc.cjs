@@ -34,7 +34,6 @@ module.exports = {
     'import',
     'react-hooks',
     '@typescript-eslint',
-    'prettier'
   ],
   rules: {
     // JS
