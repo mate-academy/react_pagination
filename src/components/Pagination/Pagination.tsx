@@ -1,31 +1,38 @@
 interface Props {
-  totalPags: number;
+  total: number;
   currentPage: number;
-  setCurrentPage: (page: number) => void;
+  perPage: number
+  onPageChange: (page:number) => void
 }
 
 export const Pagination: React.FC<Props> = ({
-  totalPags,
+  total,
   currentPage,
-  setCurrentPage,
+  perPage,
+  onPageChange
 }) => {
-  const handleCurrPage = (index: number, event: React.MouseEvent) => {
+
+  const handlePageClick = (page:number, event: React.MouseEvent) => {
     event.preventDefault();
-    setCurrentPage(index);
-  };
+    if (page !== currentPage) {
+      onPageChange(page);
+    }
+  }
+
+  const totalPags = Math.ceil(total / perPage);
 
   const goPrev = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
 
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+      onPageChange(currentPage - 1);
     }
   };
 
   const goNext = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     if (currentPage < totalPags) {
-      setCurrentPage(currentPage + 1);
+      onPageChange(currentPage + 1);
     }
   };
 
@@ -56,7 +63,7 @@ export const Pagination: React.FC<Props> = ({
                 data-cy="pageLink"
                 className="page-link"
                 href={`#${page}`}
-                onClick={event => handleCurrPage(page, event)}
+                onClick={event => handlePageClick(page, event)}
               >
                 {page}
               </a>
