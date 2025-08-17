@@ -35,6 +35,7 @@ export const App: React.FC = () => {
             <option value="3">3</option>
             <option value="5">5</option>
             <option value="10">10</option>
+            option value="20">20</option>
           </select>
         </div>
 
