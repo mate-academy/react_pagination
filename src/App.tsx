@@ -16,7 +16,7 @@ export const App: React.FC = () => {
 
   const [pageValues, setPageValues] = useSearchParams();
   const currentPage = Number(pageValues.get('page')) || 1;
-  const perPage = Number(pageValues.get('perPage')) || perPageOptions[2];
+  const perPage = Number(pageValues.get('perPage')) || perPageOptions[1];
 
   const currentPageStart = 1 + perPage * (currentPage - 1);
   const currentPageEnd = Math.min(perPage * currentPage, items.length);
@@ -75,8 +75,8 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={items.length} // total number of items to paginate
-        perPage={perPage} // number of items per page
+        total={items.length}
+        perPage={perPage}
         currentPage={currentPage}
         onPageChange={handlePageChange}
       />
