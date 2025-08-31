@@ -1,0 +1,46 @@
+.pagination {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  gap: 16px;
+
+  &__button {
+    width: 32px;
+    padding: 6px;
+    background: none;
+
+    border: 1px solid lightgray;
+    cursor: pointer;
+
+    &:hover {
+      border-color: gray;
+    }
+  }
+
+  &__dots {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    &-button {
+      font-family: Mont-Regular, sans-serif;
+      width: 32px;
+      padding: 5.5px;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 21px;
+      letter-spacing: 0%;
+      color: gray;
+
+      &--active {
+        color: var(--color-bg);
+        background-color: gray;
+      }
+    }
+  }
+}
