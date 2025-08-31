@@ -3,35 +3,37 @@ import React from 'react';
 type Props = {
   total: number;
   perPage: number;
-  currentPage: number;
+  currentPage?: number;
   onPageChange: (page: number) => void;
 };
 
 export const Pagination: React.FC<Props> = ({
   total,
   perPage,
-  currentPage,
+  currentPage = 1,
   onPageChange,
 }) => {
   const totalPages = Math.ceil(total / perPage);
 
-  if (totalPages === 0) {
-    return null;
-  }
+  const handlePageChange = (page: number) => {
+    if (page !== currentPage && page >= 1 && page <= totalPages) {
+      onPageChange(page);
+    }
+  };
 
   return (
     <ul className="pagination">
-      <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+      <li
+        className={`page-item ${currentPage === 1 || totalPages === 0 ? 'disabled' : ''}`}
+      >
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === 1}
+          aria-disabled={currentPage === 1 || totalPages === 0}
           onClick={e => {
             e.preventDefault();
-            if (currentPage > 1) {
-              onPageChange(currentPage - 1);
-            }
+            handlePageChange(currentPage - 1);
           }}
         >
           «
@@ -49,7 +51,7 @@ export const Pagination: React.FC<Props> = ({
             href={`#${page}`}
             onClick={e => {
               e.preventDefault();
-              onPageChange(page);
+              handlePageChange(page);
             }}
           >
             {page}
@@ -58,18 +60,18 @@ export const Pagination: React.FC<Props> = ({
       ))}
 
       <li
-        className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}
+        className={`page-item ${
+          currentPage === totalPages || totalPages === 0 ? 'disabled' : ''
+        }`}
       >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === totalPages}
+          aria-disabled={currentPage === totalPages || totalPages === 0}
           onClick={e => {
             e.preventDefault();
-            if (currentPage < totalPages) {
-              onPageChange(currentPage + 1);
-            }
+            handlePageChange(currentPage + 1);
           }}
         >
           »

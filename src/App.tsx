@@ -1,27 +1,29 @@
 import React, { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
-import { Pagination } from './components/Pagination';
+import { Pagination } from './components/Pagination/Pagination';
 
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [itemsPerPage, setItemsPerPage] = useState(5);
-  const [currPage, setCurrPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const totalItems = items.length;
+  const total = items.length;
 
-  const startIndex = (currPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
+  const startIndex = (currentPage - 1) * perPage;
+  const endIndex = startIndex + perPage;
   const visibleItems = items.slice(startIndex, endIndex);
+
+  const start = total === 0 ? 0 : startIndex + 1;
+  const end = total === 0 ? 0 : Math.min(endIndex, total);
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {currPage} (items {startIndex + 1} -{' '}
-        {Math.min(endIndex, totalItems)} of {totalItems})
+        Page {currentPage} (items {start} - {end} of {total})
       </p>
 
       <div className="form-group row">
@@ -30,10 +32,10 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            value={itemsPerPage}
+            value={perPage}
             onChange={e => {
-              setItemsPerPage(Number(e.target.value));
-              setCurrPage(1);
+              setPerPage(Number(e.target.value));
+              setCurrentPage(1);
             }}
           >
             <option value="3">3</option>
@@ -47,11 +49,12 @@ export const App: React.FC = () => {
           items per page
         </label>
       </div>
+
       <Pagination
-        total={totalItems}
-        perPage={itemsPerPage}
-        currentPage={currPage}
-        onPageChange={setCurrPage}
+        total={total}
+        perPage={perPage}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
       />
 
       <ul>
