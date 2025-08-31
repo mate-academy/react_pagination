@@ -48,9 +48,9 @@ export const App: React.FC = () => {
         </label>
       </div>
       <Pagination
-        totalItems={totalItems}
-        itemsPerPage={itemsPerPage}
-        currPage={currPage}
+        total={totalItems}
+        perPage={itemsPerPage}
+        currentPage={currPage}
         onPageChange={setCurrPage}
       />
 
