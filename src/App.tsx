@@ -20,11 +20,16 @@ export const App: React.FC = () => {
     setCurrentPage(1);
   };
 
-  const itemStart = (currentPage - 1) * perPage;
-  const itemEnd = Math.min(currentPage * perPage, itemsQty);
+  // Compute from/to defensively for display
+  const from = itemsQty === 0 ? 0 : (currentPage - 1) * perPage + 1;
+  const to = Math.min(currentPage * perPage, itemsQty);
+
+  // Derive slice indices from display values
+  const sliceStart = from === 0 ? 0 : from - 1;
+  const sliceEnd = to;
 
   const getItems = () => {
-    return items.slice(itemStart, itemEnd);
+    return items.slice(sliceStart, sliceEnd);
   };
 
   return (
@@ -32,7 +37,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${itemStart + 1} - ${itemEnd} of ${itemsQty})`}
+        {`Page ${currentPage} (items ${from} - ${to} of ${itemsQty})`}
       </p>
 
       <div className="form-group row">

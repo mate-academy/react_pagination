@@ -4,7 +4,7 @@ import cn from 'classnames';
 type Props = {
   total: number;
   perPage: number;
-  currentPage: number;
+  currentPage?: number;
   onPageChange: (page: number) => void;
 };
 
@@ -14,9 +14,10 @@ export const Pagination: React.FC<Props> = ({
   currentPage,
   onPageChange,
 }) => {
-  const totalPages = Math.ceil(total / perPage);
-  const isFirstPage = currentPage === 1;
-  const isLastPage = currentPage === totalPages;
+  const safeCurrent = currentPage ?? 1;
+  const totalPages = Math.max(0, Math.ceil(total / perPage));
+  const isFirstPage = safeCurrent <= 1;
+  const isLastPage = totalPages === 0 || safeCurrent >= totalPages;
 
   return (
     <ul className="pagination">
@@ -28,8 +29,15 @@ export const Pagination: React.FC<Props> = ({
           aria-disabled={isFirstPage}
           onClick={e => {
             e.preventDefault();
-            if (!isFirstPage) {
-              onPageChange(currentPage - 1);
+            const target = Math.max(1, safeCurrent - 1);
+
+            if (
+              totalPages > 0 &&
+              target >= 1 &&
+              target <= totalPages &&
+              target !== safeCurrent
+            ) {
+              onPageChange(target);
             }
           }}
         >
@@ -41,7 +49,7 @@ export const Pagination: React.FC<Props> = ({
 
         return (
           <li
-            className={cn('page-item', { active: currentPage === pageNumber })}
+            className={cn('page-item', { active: safeCurrent === pageNumber })}
             key={pageNumber}
           >
             <a
@@ -50,7 +58,13 @@ export const Pagination: React.FC<Props> = ({
               href={`#${pageNumber}`}
               onClick={e => {
                 e.preventDefault();
-                if (currentPage !== pageNumber) {
+
+                if (
+                  totalPages > 0 &&
+                  pageNumber >= 1 &&
+                  pageNumber <= totalPages &&
+                  pageNumber !== safeCurrent
+                ) {
                   onPageChange(pageNumber);
                 }
               }}
@@ -68,8 +82,15 @@ export const Pagination: React.FC<Props> = ({
           aria-disabled={isLastPage}
           onClick={e => {
             e.preventDefault();
-            if (!isLastPage) {
-              onPageChange(currentPage + 1);
+            const target = Math.min(totalPages, safeCurrent + 1);
+
+            if (
+              totalPages > 0 &&
+              target >= 1 &&
+              target <= totalPages &&
+              target !== safeCurrent
+            ) {
+              onPageChange(target);
             }
           }}
         >
