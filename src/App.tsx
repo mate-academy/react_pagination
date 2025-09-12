@@ -16,10 +16,8 @@ export const App: React.FC = () => {
     setCurrentPage(1);
   };
 
-  const total = items.length;
-  const startIndex = total === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1;
-
-  const endIndex = Math.min(currentPage * itemsPerPage, total);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
 
   const currentItems = items.slice(startIndex, endIndex);
 
@@ -28,7 +26,8 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {currentPage} (items {startIndex} - {endIndex} of {total})
+        Page {currentPage} (items {startIndex + 1} -{' '}
+        {Math.min(endIndex, items.length)} of {items.length})
       </p>
 
       <div className="form-group row">
