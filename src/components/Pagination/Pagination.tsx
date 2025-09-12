@@ -5,81 +5,78 @@ import cn from 'classnames';
 type Props = {
   total: number;
   perPage: number;
-  currentPage: number;
+  currentPage?: number;
   onPageChange(page: number): void;
 };
 
 export const Pagination: React.FC<Props> = ({
   total,
   perPage,
-  currentPage,
+  currentPage = 1,
   onPageChange,
 }) => {
-  const onPageChangeHandler = (page: number) => {
-    onPageChange(page);
-  };
-
-  const pages = Math.ceil(total / perPage);
+  const pages = perPage > 0 ? Math.ceil(total / perPage) : 0;
 
   return (
-    <>
-      <ul className="pagination">
-        <li className={cn('page-item active', { disabled: currentPage === 1 })}>
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled={currentPage === 1}
-            onClick={e => {
-              e.preventDefault();
-              if (currentPage > 1) {
-                onPageChangeHandler(currentPage - 1);
-              }
-            }}
-          >
-            «
-          </a>
-        </li>
-        {getNumbers(1, pages).map(num => (
-          <li
-            key={num}
-            className={cn('page-item', { active: currentPage === num })}
-          >
-            <a
-              data-cy="pageLink"
-              className="page-link"
-              href={`${num}`}
-              onClick={e => {
-                e.preventDefault();
-                onPageChangeHandler(num);
-              }}
-            >
-              {num}
-            </a>
-          </li>
-        ))}
+    <ul className="pagination">
+      {/* Prev */}
+      <li className={cn('page-item', { disabled: currentPage === 1 })}>
+        <a
+          data-cy="prevLink"
+          className="page-link"
+          href="#prev"
+          aria-disabled={currentPage === 1}
+          onClick={e => {
+            e.preventDefault();
+            if (currentPage > 1) {
+              onPageChange(currentPage - 1);
+            }
+          }}
+        >
+          «
+        </a>
+      </li>
 
+      {/* Numbers */}
+      {getNumbers(1, pages).map(num => (
         <li
-          className={cn('page-item active', {
-            disabled: currentPage === pages,
-          })}
+          key={num}
+          className={cn('page-item', { active: currentPage === num })}
         >
           <a
-            data-cy="nextLink"
+            data-cy="pageLink"
             className="page-link"
-            href="#next"
-            aria-disabled={pages === currentPage ? 'true' : 'false'}
+            href={`#${num}`}
+            aria-disabled={currentPage === num}
             onClick={e => {
               e.preventDefault();
-              if (currentPage < pages) {
-                onPageChangeHandler(currentPage + 1);
+              if (num !== currentPage) {
+                onPageChange(num);
               }
             }}
           >
-            »
+            {num}
           </a>
         </li>
-      </ul>
-    </>
+      ))}
+
+      {/* Next */}
+      <li className={cn('page-item', { disabled: currentPage === pages })}>
+        <a
+          data-cy="nextLink"
+          className="page-link"
+          href="#next"
+          aria-disabled={currentPage === pages}
+          onClick={e => {
+            e.preventDefault();
+            if (currentPage < pages) {
+              onPageChange(currentPage + 1);
+            }
+          }}
+        >
+          »
+        </a>
+      </li>
+    </ul>
   );
 };
