@@ -5,7 +5,6 @@ interface PaginationProps {
   perPage: number;
   currentPage: number;
   onPageChange: (page: number) => void;
-  items: string[];
 }
 
 export const Pagination: React.FC<PaginationProps> = ({
@@ -13,17 +12,16 @@ export const Pagination: React.FC<PaginationProps> = ({
   perPage,
   currentPage = 1,
   onPageChange,
-  items,
 }) => {
-  const firstItemIndex = total > 0 ? (currentPage - 1) * perPage : 0;
-  const lastItemIndex = Math.min(currentPage * perPage, total);
+  const totalPages = Math.ceil(total / perPage);
 
   return (
     <>
       <ul className="pagination">
         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
           <a
-            onClick={() => {
+            onClick={e => {
+              e.preventDefault();
               if (currentPage > 1) {
                 onPageChange(currentPage - 1);
               }
@@ -37,7 +35,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           </a>
         </li>
 
-        {getNumbers(1, Math.ceil(total / perPage)).map(n => (
+        {getNumbers(1, totalPages).map(n => (
           <li
             key={n}
             className={`page-item ${currentPage === n ? 'active' : ''}`}
@@ -59,29 +57,22 @@ export const Pagination: React.FC<PaginationProps> = ({
         ))}
 
         <li
-          className={`page-item ${currentPage === Math.ceil(total / perPage) ? 'disabled' : ''}`}
+          className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}
         >
           <a
             onClick={() => {
-              if (currentPage < Math.ceil(total / perPage)) {
+              if (currentPage < totalPages) {
                 onPageChange(currentPage + 1);
               }
             }}
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={currentPage === Math.ceil(total / perPage)}
+            aria-disabled={currentPage === totalPages}
           >
             »
           </a>
         </li>
-      </ul>
-      <ul>
-        {items.slice(firstItemIndex, lastItemIndex).map(n => (
-          <li key={n} data-cy="item">
-            {n}
-          </li>
-        ))}
       </ul>
     </>
   );

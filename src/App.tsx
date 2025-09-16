@@ -10,18 +10,20 @@ export const App: React.FC = () => {
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(3);
 
-  const total = 42;
-  const firstItemIndex = total > 0 ? (page - 1) * itemsPerPage : 0;
-  const lastItemIndex = Math.min(page * itemsPerPage, total);
+  const total = items.length;
+  const from = total === 0 ? 0 : (page - 1) * itemsPerPage + 1;
+  const to = Math.min(page * itemsPerPage, total);
+  const pageItems = items.slice(
+    (page - 1) * itemsPerPage,
+    (page - 1) * itemsPerPage + itemsPerPage,
+  );
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {page} (items{' '}
-        {`${firstItemIndex + 1} - ${lastItemIndex <= total ? lastItemIndex : total}`}{' '}
-        of {total})
+        Page {page} (items {`${from} - ${to <= total ? to : total}`} of {total})
       </p>
 
       <div className="form-group row">
@@ -48,13 +50,20 @@ export const App: React.FC = () => {
         </label>
       </div>
 
+      <ul>
+        {pageItems.map((item, index) => (
+          <li key={index} data-cy="item">
+            {item}
+          </li>
+        ))}
+      </ul>
+
       {/* Move this markup to Pagination */}
       <Pagination
         total={total}
         perPage={itemsPerPage}
         currentPage={page}
         onPageChange={setPage}
-        items={items}
       />
     </div>
   );
