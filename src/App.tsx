@@ -10,9 +10,9 @@ export const App: React.FC = () => {
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(3);
 
-  const startIndex = (page - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
   const total = 42;
+  const firstItemIndex = total > 0 ? (page - 1) * itemsPerPage : 0;
+  const lastItemIndex = Math.min(page * itemsPerPage, total);
 
   return (
     <div className="container">
@@ -20,14 +20,18 @@ export const App: React.FC = () => {
 
       <p className="lead" data-cy="info">
         Page {page} (items{' '}
-        {`${startIndex + 1} - ${endIndex <= total ? endIndex : total}`} of{' '}
-        {total})
+        {`${firstItemIndex + 1} - ${lastItemIndex <= total ? lastItemIndex : total}`}{' '}
+        of {total})
       </p>
 
       <div className="form-group row">
         <div className="col-3 col-sm-2 col-xl-1">
           <select
-            onChange={e => setItemsPerPage(Number(e.target.value))}
+            value={itemsPerPage}
+            onChange={e => {
+              setItemsPerPage(Number(e.target.value));
+              setPage(1);
+            }}
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"

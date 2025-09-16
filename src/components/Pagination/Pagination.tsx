@@ -11,12 +11,12 @@ interface PaginationProps {
 export const Pagination: React.FC<PaginationProps> = ({
   total,
   perPage,
-  currentPage,
+  currentPage = 1,
   onPageChange,
   items,
 }) => {
-  const startIndex = (currentPage - 1) * perPage;
-  const endIndex = startIndex + perPage;
+  const firstItemIndex = total > 0 ? (currentPage - 1) * perPage : 0;
+  const lastItemIndex = Math.min(currentPage * perPage, total);
 
   return (
     <>
@@ -43,8 +43,11 @@ export const Pagination: React.FC<PaginationProps> = ({
             className={`page-item ${currentPage === n ? 'active' : ''}`}
           >
             <a
-              onClick={() => {
-                onPageChange(n);
+              onClick={e => {
+                e.preventDefault();
+                if (n !== currentPage) {
+                  onPageChange(n);
+                }
               }}
               data-cy="pageLink"
               className="page-link"
@@ -74,7 +77,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         </li>
       </ul>
       <ul>
-        {items.slice(startIndex, endIndex).map(n => (
+        {items.slice(firstItemIndex, lastItemIndex).map(n => (
           <li key={n} data-cy="item">
             {n}
           </li>
