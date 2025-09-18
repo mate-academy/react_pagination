@@ -1,13 +1,17 @@
-import { items } from '../../App';
 type Props = {
+  items: string[];
   total: number;
   perPage: number;
-  currentPage: number;
+  currentPage?: number;
   onPageChange: (value: number) => void;
 };
 
 function getCountOfPages(totalItems: number, countOfVisisbleItems: number) {
   const arr = [];
+
+  if (totalItems <= 0) {
+    return;
+  }
 
   for (let i = 1; i <= Math.ceil(totalItems / countOfVisisbleItems); i++) {
     arr.push(i);
@@ -28,9 +32,10 @@ function getVisibleItems(
 }
 
 export const Pagination: React.FC<Props> = ({
+  items,
   total,
   perPage,
-  currentPage,
+  currentPage = 1,
   onPageChange,
 }) => {
   const countOfPages = getCountOfPages(total, perPage);
@@ -47,7 +52,7 @@ export const Pagination: React.FC<Props> = ({
             aria-disabled={currentPage === 1 ? true : false}
             onClick={e => {
               e.preventDefault();
-              if (currentPage > countOfPages[0]) {
+              if (countOfPages && currentPage > 1) {
                 onPageChange(currentPage - 1);
               }
             }}
@@ -55,39 +60,46 @@ export const Pagination: React.FC<Props> = ({
             «
           </a>
         </li>
-        {countOfPages.map(page => (
-          <li
-            className={`page-item ${page === currentPage ? 'active' : ''}`}
-            key={page}
-          >
-            <a
-              data-cy="pageLink"
-              className="page-link"
-              href={`#${page}`}
-              onClick={e => {
-                e.preventDefault();
-                onPageChange(page);
-              }}
+        {countOfPages &&
+          countOfPages.map(page => (
+            <li
+              className={`page-item ${page === currentPage ? 'active' : ''}`}
+              key={page}
             >
-              {page}
-            </a>
-          </li>
-        ))}
+              <a
+                data-cy="pageLink"
+                className="page-link"
+                href={`#${page}`}
+                onClick={e => {
+                  e.preventDefault();
+                  if (page !== currentPage) {
+                    onPageChange(page);
+                  }
+                }}
+              >
+                {page}
+              </a>
+            </li>
+          ))}
         <li
-          className={`page-item ${currentPage === countOfPages[countOfPages.length - 1] ? 'disabled' : ''}`}
+          className={`page-item ${countOfPages && currentPage === countOfPages[countOfPages.length - 1] ? 'disabled' : ''}`}
         >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
             aria-disabled={
+              countOfPages &&
               currentPage === countOfPages[countOfPages.length - 1]
                 ? true
                 : false
             }
             onClick={e => {
               e.preventDefault();
-              if (currentPage < countOfPages[countOfPages.length - 1]) {
+              if (
+                countOfPages &&
+                currentPage < countOfPages[countOfPages.length - 1]
+              ) {
                 onPageChange(currentPage + 1);
               }
             }}

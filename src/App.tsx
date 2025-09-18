@@ -7,20 +7,18 @@ import { Pagination } from './components/Pagination';
 export const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 function getIndexOfStartEnd(
-  arr: string[],
+  total: number,
   page: number,
   amountOfItems: number,
 ): string {
-  const start = arr.slice(
-    page * amountOfItems - amountOfItems,
-    page * amountOfItems,
-  );
+  const startIndex = (page - 1) * amountOfItems + 1;
+  const endIndex = Math.min(page * amountOfItems, total);
 
-  return `${items.indexOf(start[0]) + 1} - ${items.indexOf(start[start.length - 1]) + 1}`;
+  return total > 0 ? `${startIndex} - ${endIndex}` : '0 - 0';
 }
 
 export const App: React.FC = () => {
-  const [perPage, setPerPAge] = useState(5);
+  const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
   return (
@@ -29,7 +27,8 @@ export const App: React.FC = () => {
 
       <p className="lead" data-cy="info">
         Page {currentPage} (items{' '}
-        {getIndexOfStartEnd(items, currentPage, perPage)} of {items.length})
+        {getIndexOfStartEnd(items.length, currentPage, perPage)} of{' '}
+        {items.length})
       </p>
 
       <div className="form-group row">
@@ -40,7 +39,7 @@ export const App: React.FC = () => {
             className="form-control"
             value={perPage}
             onChange={e => {
-              setPerPAge(Number(e.target.value));
+              setPerPage(Number(e.target.value));
               setCurrentPage(1);
             }}
           >
@@ -58,12 +57,11 @@ export const App: React.FC = () => {
 
       {/* Move this markup to Pagination */}
       <Pagination
+        items={items}
         total={items.length}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={(page: React.SetStateAction<number>) => {
-          return setCurrentPage(page);
-        }}
+        onPageChange={(page: number) => setCurrentPage(page)}
       />
     </div>
   );
