@@ -10,7 +10,7 @@ function getCountOfPages(totalItems: number, countOfVisisbleItems: number) {
   const arr = [];
 
   if (totalItems <= 0) {
-    return;
+    return [];
   }
 
   for (let i = 1; i <= Math.ceil(totalItems / countOfVisisbleItems); i++) {
@@ -18,17 +18,6 @@ function getCountOfPages(totalItems: number, countOfVisisbleItems: number) {
   }
 
   return arr;
-}
-
-function getVisibleItems(
-  allItems: string[],
-  amountOfVisibleItems: number,
-  page: number,
-) {
-  const start = (page - 1) * amountOfVisibleItems;
-  const end = start + amountOfVisibleItems;
-
-  return allItems.slice(start, end);
 }
 
 export const Pagination: React.FC<Props> = ({
@@ -39,7 +28,6 @@ export const Pagination: React.FC<Props> = ({
   onPageChange,
 }) => {
   const countOfPages = getCountOfPages(total, perPage);
-  const dividedItems = getVisibleItems(items, perPage, currentPage);
 
   return (
     <>
@@ -109,7 +97,7 @@ export const Pagination: React.FC<Props> = ({
         </li>
       </ul>
       <ul>
-        {dividedItems.map(item => (
+        {items.map(item => (
           <li key={item} data-cy="item">
             {item}
           </li>

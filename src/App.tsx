@@ -6,6 +6,17 @@ import { Pagination } from './components/Pagination';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
+function getVisibleItems(
+  allItems: string[],
+  amountOfVisibleItems: number,
+  page: number,
+) {
+  const start = (page - 1) * amountOfVisibleItems;
+  const end = start + amountOfVisibleItems;
+
+  return allItems.slice(start, end);
+}
+
 function getIndexOfStartEnd(
   total: number,
   page: number,
@@ -20,6 +31,8 @@ function getIndexOfStartEnd(
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
+
+  const prepearedItems = getVisibleItems(items, perPage, currentPage);
 
   return (
     <div className="container">
@@ -57,7 +70,7 @@ export const App: React.FC = () => {
 
       {/* Move this markup to Pagination */}
       <Pagination
-        items={items}
+        items={prepearedItems}
         total={items.length}
         perPage={perPage}
         currentPage={currentPage}
