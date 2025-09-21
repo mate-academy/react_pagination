@@ -1,5 +1,9 @@
 {
   "extends": "@mate-academy/students-ts-config",
+  "compilerOptions": {
+    "jsx": "react"
+  },
+
   "include": [
     "src"
   ]
