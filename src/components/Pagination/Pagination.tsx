@@ -10,13 +10,13 @@ type Props = {
 };
 
 function changePage(
-  e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+  event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
   page: number,
-  f: Props['onPageChange'],
+  func: Props['onPageChange'],
 ) {
-  e.preventDefault();
+  event.preventDefault();
 
-  f(page);
+  func(page);
 }
 
 export const Pagination = ({
@@ -26,7 +26,7 @@ export const Pagination = ({
   currentPage,
   onPageChange,
 }: Props) => {
-  const totalPages: number = Math.ceil(total / perPage);
+  const totalPages = Math.ceil(total / perPage);
 
   return (
     <>
@@ -41,9 +41,9 @@ export const Pagination = ({
             className="page-link"
             href="#prev"
             aria-disabled={currentPage === 1}
-            onClick={e => {
+            onClick={event => {
               if (currentPage !== 1) {
-                changePage(e, currentPage - 1, onPageChange);
+                changePage(event, currentPage - 1, onPageChange);
               }
             }}
           >
@@ -52,7 +52,7 @@ export const Pagination = ({
         </li>
 
         {Array.from({ length: totalPages }, (_, i) => {
-          const index: number = i + 1;
+          const index = i + 1;
 
           return (
             <li
@@ -65,7 +65,7 @@ export const Pagination = ({
                 data-cy="pageLink"
                 className="page-link"
                 href={`#${index}`}
-                onClick={e => changePage(e, index, onPageChange)}
+                onClick={event => changePage(event, index, onPageChange)}
               >
                 {index}
               </a>
@@ -83,9 +83,9 @@ export const Pagination = ({
             className="page-link"
             href="#next"
             aria-disabled={currentPage === totalPages}
-            onClick={e => {
+            onClick={event => {
               if (currentPage !== totalPages) {
-                changePage(e, currentPage + 1, onPageChange);
+                changePage(event, currentPage + 1, onPageChange);
               }
             }}
           >

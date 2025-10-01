@@ -19,15 +19,15 @@ export const App: React.FC = () => {
 
   const currentPage = parseInt(searchParams.get('page') || '1', 10);
   const perPage = parseInt(
-    searchParams.get('perPage') || '5',
+    searchParams.get('perPage') || String(PerPageOptions.Five),
     10,
   ) as PerPageOptions;
 
-  const totalItems: number = items.length;
-  const itemsStart: number = perPage * currentPage - perPage;
-  const itemsEnd: number = Math.min(perPage * currentPage, totalItems);
+  const totalItems = items.length;
+  const itemsStart = perPage * currentPage - perPage;
+  const itemsEnd = Math.min(perPage * currentPage, totalItems);
 
-  const preparedItems: string[] = items.slice(itemsStart, itemsEnd);
+  const preparedItems = items.slice(itemsStart, itemsEnd);
 
   function handlePerPageChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const selectedValue = Number(e.target.value) as PerPageOptions;
@@ -63,7 +63,7 @@ export const App: React.FC = () => {
             value={perPage}
           >
             {Object.values(PerPageOptions)
-              .filter(v => typeof v === 'number')
+              .filter(value => typeof value === 'number')
               .map(value => (
                 <option key={value} value={value}>
                   {value}
