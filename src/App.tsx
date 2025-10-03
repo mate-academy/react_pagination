@@ -12,7 +12,7 @@ enum PerPageOptions {
   Twenty = 20,
 }
 
-const items: string[] = getNumbers(1, 42).map(n => `Item ${n}`);
+const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
