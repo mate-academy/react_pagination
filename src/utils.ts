@@ -7,3 +7,13 @@ export function getNumbers(from: number, to: number): number[] {
 
   return numbers;
 }
+
+export const getPages = (totalPages: number): number[] => {
+  const pages: number[] = [];
+
+  for (let p = 1; p <= totalPages; p += 1) {
+    pages.push(p);
+  }
+
+  return pages;
+};

@@ -19,6 +19,7 @@ export const App: React.FC = () => {
 
   const handlePerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const nextPerPage = Number(e.target.value);
+
     if (nextPerPage !== perPage) {
       setPerPage(nextPerPage);
       setCurrentPage(1);
@@ -69,7 +70,9 @@ export const App: React.FC = () => {
 
       <ul>
         {visibleItems.map(item => (
-          <li key={item} data-cy="item">{item}</li>
+          <li key={item} data-cy="item">
+            {item}
+          </li>
         ))}
       </ul>
     </div>
