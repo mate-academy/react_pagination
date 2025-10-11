@@ -29,6 +29,7 @@ export const App: React.FC = () => {
       <div className="form-group row">
         <div className="col-3 col-sm-2 col-xl-1">
           <select
+            id="perPageSelector"
             data-cy="perPageSelector"
             className="form-control"
             value={perPage}

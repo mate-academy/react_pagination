@@ -3,7 +3,7 @@ import type { MouseEvent } from 'react';
 type PaginationProps = {
   total: number;
   perPage: number;
-  currentPage?: 1;
+  currentPage?: number;
   onPageChange: (page: number) => void;
 };
 
