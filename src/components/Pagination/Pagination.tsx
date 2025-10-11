@@ -1,7 +1,9 @@
+import type { MouseEvent } from 'react';
+
 type PaginationProps = {
   total: number;
   perPage: number;
-  currentPage: number;
+  currentPage?: 1;
   onPageChange: (page: number) => void;
 };
 
@@ -13,7 +15,10 @@ export const Pagination = ({
 }: PaginationProps) => {
   const totalPages = Math.ceil(total / perPage);
 
-  const handleClick = (e: React.MouseEvent, page: number) => {
+  const prevDisabled = currentPage <= 1 || totalPages === 0;
+  const nextDisabled = currentPage >= totalPages || totalPages === 0;
+
+  const handleClick = (e: MouseEvent<HTMLAnchorElement>, page: number) => {
     e.preventDefault();
     if (page < 1 || page > totalPages || page === currentPage) {
       return;
@@ -25,12 +30,12 @@ export const Pagination = ({
   return (
     <ul className="pagination">
       {/* Prev */}
-      <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+      <li className={`page-item ${prevDisabled ? 'disabled' : ''}`}>
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={currentPage === 1 ? 'true' : 'false'}
+          aria-disabled={prevDisabled}
           onClick={e => handleClick(e, currentPage - 1)}
         >
           «
@@ -55,14 +60,12 @@ export const Pagination = ({
       ))}
 
       {/* Next */}
-      <li
-        className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}
-      >
+      <li className={`page-item ${nextDisabled ? 'disabled' : ''}`}>
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={currentPage === totalPages ? 'true' : 'false'}
+          aria-disabled={nextDisabled}
           onClick={e => handleClick(e, currentPage + 1)}
         >
           »

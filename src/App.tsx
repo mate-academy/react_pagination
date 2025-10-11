@@ -9,11 +9,12 @@ const items = getNumbers(1, 42).map(n => `Item ${n}`);
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
-
   const total = items.length;
   const startIndex = (currentPage - 1) * perPage;
   const endIndex = startIndex + perPage;
   const visibleItems = items.slice(startIndex, endIndex);
+  const displayStart = total === 0 ? 0 : startIndex + 1;
+  const displayEnd = total === 0 ? 0 : Math.min(endIndex, total);
 
   return (
     <div className="container">
@@ -21,7 +22,7 @@ export const App: React.FC = () => {
 
       {/* Інформаційний рядок */}
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${startIndex + 1} - ${Math.min(endIndex, total)} of ${total})`}
+        Page {currentPage} (items {displayStart} - {displayEnd} of {total})
       </p>
 
       {/* Селектор кількості елементів на сторінці */}
