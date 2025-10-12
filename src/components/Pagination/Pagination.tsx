@@ -19,7 +19,7 @@ export const Pagination = ({
   currentPage = 1,
   onPageChange,
 }: Props) => {
-  const totalPage = Math.ceil(total / perPage);
+  const totalPage = perPage > 0 ? Math.ceil(total / perPage) : 0;
   const pages = [];
   const isFirstPage: boolean = currentPage <= 1;
   const isLastPage: boolean = currentPage >= totalPage;
@@ -66,7 +66,7 @@ export const Pagination = ({
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={isFirstPage ? 'true' : 'false'}
+          aria-disabled={isFirstPage ? 'true' : undefined}
           onClick={e => handlePrevClick(e)}
         >
           «
@@ -100,7 +100,7 @@ export const Pagination = ({
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={isLastPage ? 'true' : 'false'}
+          aria-disabled={isLastPage ? 'true' : undefined}
           onClick={e => handleNextClick(e)}
         >
           »
