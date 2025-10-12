@@ -12,8 +12,13 @@ export const App: React.FC = () => {
   const [item] = useState(items);
 
   const startIndex = (currentPage - 1) * perPage;
+  const start = item.length === 0 ? 0 : startIndex + 1;
+  const end = Math.min(startIndex + perPage, item.length);
   const visibleItem = item.slice(startIndex, startIndex + perPage);
-  const textInfo = `Page ${currentPage} (items ${startIndex + 1} - ${Math.min(startIndex + perPage, item.length)} of ${item.length})`;
+  const textInfo =
+    item.length === 0
+      ? 'Page 1 (items 0 - 0 of 0)'
+      : `Page ${currentPage} (items ${start} - ${end} of ${item.length})`;
 
   const handlerChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const valueStr = Number(e.target.value);
