@@ -7,16 +7,25 @@ import { Pagination } from './components/Pagination';
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [optionValue, setOptionValue] = useState(5);
-  const perPage = Math.round(items.length / optionValue);
-  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageNumberPerPage = perPage * currentPage;
+  const pageNumberPerPageValidated =
+    pageNumberPerPage > items.length
+      ? pageNumberPerPage - (pageNumberPerPage - items.length)
+      : pageNumberPerPage;
+
+  const handlePerPageChange = (perPageArg: number) => {
+    setPerPage(perPageArg);
+    setCurrentPage(1);
+  };
 
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${page} (items 1 - ${perPage} of 42)`}
+        {`Page ${currentPage} (items ${pageNumberPerPage - perPage + 1} - ${pageNumberPerPageValidated} of ${items.length})`}
       </p>
 
       <div className="form-group row">
@@ -25,7 +34,8 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            onChange={event => setOptionValue(+event.target.value)}
+            onChange={event => handlePerPageChange(+event.target.value)}
+            defaultValue={5}
           >
             <option value={3}>3</option>
             <option value={5}>5</option>
@@ -39,13 +49,12 @@ export const App: React.FC = () => {
         </label>
       </div>
 
-      {/* Move this markup to Pagination */}
       <Pagination
         items={items}
         total={42}
         perPage={perPage}
-        currentPage={1}
-        onPageChange={pageArg => setPage(pageArg)}
+        currentPage={currentPage}
+        onPageChange={pageArg => setCurrentPage(pageArg)}
       ></Pagination>
     </div>
   );
