@@ -45,7 +45,7 @@ export const Pagination = ({
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled="true"
+            aria-disabled={currentPage === 1}
           >
             «
           </a>
