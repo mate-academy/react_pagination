@@ -4,17 +4,20 @@ import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
-const items = getNumbers(1, 42).map(n => `Item ${n}`);
+const items = getNumbers(1, 42).map(num => `Item ${num}`);
 const PER_PAGE_OPTIONS = [3, 5, 10, 20] as const;
 
-const clamp = (n: number, min: number, max: number) => Math.min(max, Math.max(min, n));
+const clamp = (n: number, min: number, max: number) =>
+  Math.min(max, Math.max(min, n));
 
 export const App: React.FC = () => {
   const total = items.length;
   const [searchParams, setSearchParams] = useSearchParams();
 
   const perPageFromUrl = Number(searchParams.get('perPage')) || 5;
-  const initialPerPage = PER_PAGE_OPTIONS.includes(perPageFromUrl as (typeof PER_PAGE_OPTIONS)[number])
+  const initialPerPage = PER_PAGE_OPTIONS.includes(
+    perPageFromUrl as (typeof PER_PAGE_OPTIONS)[number],
+  )
     ? perPageFromUrl
     : 5;
 
@@ -69,8 +72,10 @@ export const App: React.FC = () => {
             value={perPage}
             onChange={handlePerPageChange}
           >
-            {PER_PAGE_OPTIONS.map(v => (
-              <option key={v} value={v}>{v}</option>
+            {PER_PAGE_OPTIONS.map(option => (
+              <option key={option} value={option}>
+                {option}
+              </option>
             ))}
           </select>
         </div>
