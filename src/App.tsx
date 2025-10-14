@@ -1,20 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
+const PER_PAGE_OPTIONS = [3, 5, 10, 20] as const;
+
+const clamp = (n: number, min: number, max: number) => Math.min(max, Math.max(min, n));
 
 export const App: React.FC = () => {
   const total = items.length;
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const [perPage, setPerPage] = useState<number>(5);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const perPageFromUrl = Number(searchParams.get('perPage')) || 5;
+  const initialPerPage = PER_PAGE_OPTIONS.includes(perPageFromUrl as (typeof PER_PAGE_OPTIONS)[number])
+    ? perPageFromUrl
+    : 5;
+
+  const [perPage, setPerPage] = useState<number>(initialPerPage);
+  const totalPages = Math.max(1, Math.ceil(total / perPage));
+
+  const pageFromUrl = Number(searchParams.get('page')) || 1;
+  const [currentPage, setCurrentPage] = useState<number>(
+    clamp(pageFromUrl, 1, totalPages),
+  );
+
+  useEffect(() => {
+    const next = new URLSearchParams(searchParams);
+    next.set('page', String(currentPage));
+    next.set('perPage', String(perPage));
+    setSearchParams(next, { replace: true });
+  }, [currentPage, perPage, searchParams, setSearchParams]);
 
   const startIndex = (currentPage - 1) * perPage;
   const endIndex = Math.min(startIndex + perPage, total);
-
   const visibleItems = items.slice(startIndex, endIndex);
 
   const handlePerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -49,10 +69,9 @@ export const App: React.FC = () => {
             value={perPage}
             onChange={handlePerPageChange}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            {PER_PAGE_OPTIONS.map(v => (
+              <option key={v} value={v}>{v}</option>
+            ))}
           </select>
         </div>
 
