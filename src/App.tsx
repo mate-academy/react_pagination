@@ -1,13 +1,28 @@
-import React, { useState } from 'react';
+/* eslint-disable import/no-extraneous-dependencies */
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
+import { useSearchParams } from 'react-router-dom';
 
 const TOTAL_PAGES = 42;
 
 export const App: React.FC = () => {
-  const [perPage, setPerPage] = useState<number>(5);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const pageFromUrl = Number(searchParams.get('page')) || 1;
+  const perPageFromUrl = Number(searchParams.get('perPage')) || 5;
+
+  const [currentPage, setCurrentPage] = useState(pageFromUrl);
+  const [perPage, setPerPage] = useState(perPageFromUrl);
+
+  useEffect(() => {
+    setSearchParams({
+      page: String(currentPage),
+      perPage: String(perPage),
+    });
+  }, [currentPage, perPage, setSearchParams]);
+
   const fromItem = (currentPage - 1) * perPage + 1;
   const toItem = Math.min(currentPage * perPage, TOTAL_PAGES);
   const items = getNumbers(fromItem, toItem).map(n => `Item ${n}`);
@@ -45,12 +60,14 @@ export const App: React.FC = () => {
           items per page
         </label>
       </div>
+
       <Pagination
         total={TOTAL_PAGES}
         perPage={perPage}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
-      ></Pagination>
+      />
+
       <ul>
         {items.map((item, index) => (
           <li key={index} data-cy="item">
@@ -61,5 +78,3 @@ export const App: React.FC = () => {
     </div>
   );
 };
-
-export default App;
