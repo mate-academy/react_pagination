@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -10,26 +10,21 @@ const TOTAL_PAGES = 42;
 export const App: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const pageFromUrl = Number(searchParams.get('page')) || 1;
-  const perPageFromUrl = Number(searchParams.get('perPage')) || 5;
-
-  const [currentPage, setCurrentPage] = useState(pageFromUrl);
-  const [perPage, setPerPage] = useState(perPageFromUrl);
-
-  useEffect(() => {
-    setSearchParams({
-      page: String(currentPage),
-      perPage: String(perPage),
-    });
-  }, [currentPage, perPage, setSearchParams]);
+  const perPage = Number(searchParams.get('perPage')) || 5;
+  const currentPage = Number(searchParams.get('page')) || 1;
 
   const fromItem = (currentPage - 1) * perPage + 1;
   const toItem = Math.min(currentPage * perPage, TOTAL_PAGES);
   const items = getNumbers(fromItem, toItem).map(n => `Item ${n}`);
 
   const handlePerChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setPerPage(Number(event.target.value));
-    setCurrentPage(1);
+    const value = event.target.value;
+
+    setSearchParams({ perPage: value, page: '1' });
+  };
+
+  const handlePageChange = (page: number) => {
+    setSearchParams({ perPage: String(perPage), page: String(page) });
   };
 
   return (
@@ -43,10 +38,10 @@ export const App: React.FC = () => {
       <div className="form-group row">
         <div className="col-3 col-sm-2 col-xl-1">
           <select
-            value={perPage}
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
+            value={perPage}
             onChange={handlePerChange}
           >
             <option value="3">3</option>
@@ -65,7 +60,7 @@ export const App: React.FC = () => {
         total={TOTAL_PAGES}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={setCurrentPage}
+        onPageChange={handlePageChange}
       />
 
       <ul>
