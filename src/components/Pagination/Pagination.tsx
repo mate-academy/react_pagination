@@ -1,85 +1,80 @@
-type PaginationProps = {
+import cn from 'classnames';
+import React from 'react';
+
+type Props = {
   total: number;
   perPage: number;
   currentPage?: number;
   onPageChange: (page: number) => void;
 };
 
-import * as React from 'react';
-
-export const Pagination: React.FC<PaginationProps> = ({
+export const Pagination: React.FC<Props> = ({
   total,
   perPage,
   currentPage = 1,
   onPageChange,
 }) => {
   const totalPages = Math.ceil(total / perPage);
-  const arrayPages = Array.from({ length: totalPages }, (_, i) => i + 1);
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
-  function handleClick(
-    event: React.MouseEvent<HTMLAnchorElement>,
-    page: number,
-  ) {
-    event.preventDefault();
-    if (page > totalPages || page < 1 || page === currentPage) {
+  const goToPage = (page: number) => {
+    if (page < 1 || page > totalPages || page === currentPage) {
       return;
     }
 
     onPageChange(page);
-  }
-
-  const startDiapason = (currentPage - 1) * perPage + 1;
-  const endDiapason = Math.min(currentPage * perPage, total);
+  };
 
   return (
-    <>
-      <p className="lead" data-cy="info">
-        Page {currentPage} (items {startDiapason} - {endDiapason} of {total})
-      </p>
+    <ul className="pagination">
+      <li className={cn('page-item', { disabled: currentPage === 1 })}>
+        <a
+          data-cy="prevLink"
+          className="page-link"
+          href="#prev"
+          aria-disabled={currentPage === 1}
+          onClick={e => {
+            e.preventDefault();
+            goToPage(currentPage - 1);
+          }}
+        >
+          «
+        </a>
+      </li>
 
-      <ul className="pagination">
-        <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled={currentPage === 1}
-            onClick={e => handleClick(e, currentPage - 1)}
-          >
-            «
-          </a>
-        </li>
-
-        {arrayPages.map(page => (
-          <li
-            key={page}
-            className={`page-item ${page === currentPage ? 'active' : ''}`}
-          >
-            <a
-              data-cy="pageLink"
-              className="page-link"
-              href={`#${page}`}
-              onClick={e => handleClick(e, page)}
-            >
-              {page}
-            </a>
-          </li>
-        ))}
-
+      {pages.map(num => (
         <li
-          className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}
+          key={num}
+          className={cn('page-item', { active: num === currentPage })}
         >
           <a
-            data-cy="nextLink"
+            data-cy="pageLink"
             className="page-link"
-            href="#next"
-            aria-disabled={currentPage === totalPages}
-            onClick={e => handleClick(e, currentPage + 1)}
+            href={`#${num}`}
+            onClick={e => {
+              e.preventDefault();
+              goToPage(num);
+            }}
           >
-            »
+            {num}
           </a>
         </li>
-      </ul>
-    </>
+      ))}
+
+      <li className={cn('page-item', { disabled: currentPage === totalPages })}>
+        <a
+          data-cy="nextLink"
+          className="page-link"
+          href="#next"
+          aria-disabled={currentPage === totalPages}
+          onClick={e => {
+            e.preventDefault();
+            goToPage(currentPage + 1);
+          }}
+        >
+          »
+        </a>
+      </li>
+    </ul>
   );
 };
