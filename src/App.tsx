@@ -1,33 +1,44 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 import { useSearchParams } from 'react-router-dom';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const pageFromUrl = Number(searchParams.get('page')) || 1;
-  const perPageFromUrl = Number(searchParams.get('perPage')) || 5;
-
-  const [currentPage, setCurrentPage] = useState(pageFromUrl);
-  const [perPage, setPerPage] = useState(perPageFromUrl);
-
-  useEffect(() => {
-    setSearchParams({
-      page: String(currentPage),
-      perPage: String(perPage),
-    });
-  }, [currentPage, perPage, setSearchParams]);
+  // Derivação direta da URL (Single Source of Truth)
+  const currentPage = Number(searchParams.get('page')) || 1;
+  const perPage = Number(searchParams.get('perPage')) || 5;
 
   const total = items.length;
   const start = (currentPage - 1) * perPage;
   const end = start + perPage;
   const visibleItems = items.slice(start, end);
   const minItem = Math.min(end, total);
+
+  // Funções auxiliares para atualizar a URL
+  const updateParams = (newParams: Record<string, string>) => {
+    const params = new URLSearchParams(searchParams);
+
+    Object.entries(newParams).forEach(([key, value]) => {
+      params.set(key, value);
+    });
+    setSearchParams(params);
+  };
+
+  const handlePageChange = (page: number) => {
+    updateParams({ page: String(page) });
+  };
+
+  const handlePerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    updateParams({
+      perPage: e.target.value,
+      page: '1', // Reset para a primeira página ao mudar a quantidade por página
+    });
+  };
 
   return (
     <div className="container">
@@ -44,10 +55,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={e => {
-              setPerPage(Number(e.target.value));
-              setCurrentPage(1);
-            }}
+            onChange={handlePerPageChange}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -61,10 +69,10 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={42}
+        total={total}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={setCurrentPage}
+        onPageChange={handlePageChange}
       />
 
       <ul>
