@@ -12,17 +12,17 @@ export const App: React.FC = () => {
 
   const start = (currentPage - 1) * perPage;
   const visibleItems = items.slice(start, start + perPage);
-  
-  const firstItemPage = visibleItems[0].split(' ')[1];
-  const lastItemPage = visibleItems[visibleItems.length - 1].split(' ')[1];
-  const lastItem = items[items.length - 1].split(' ')[1];
-  
+
+  const totalItems = items.length;
+  const firstItemPage = totalItems === 0 ? 0 : (currentPage - 1) * perPage + 1;
+  const lastItemPage = Math.min(currentPage * perPage, totalItems);
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${firstItemPage} - ${lastItemPage} of ${lastItem})`}
+        {`Page ${currentPage} (items ${firstItemPage} - ${lastItemPage} of ${totalItems})`}
       </p>
 
       <div className="form-group row">
@@ -32,9 +32,9 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={(event) => {
-              setPerPage(Number(event.target.value))
-              setCurrentPage(1)
+            onChange={event => {
+              setPerPage(Number(event.target.value));
+              setCurrentPage(1);
             }}
           >
             <option value="3">3</option>
@@ -57,16 +57,11 @@ export const App: React.FC = () => {
       />
 
       <ul>
-        {
-          visibleItems.map((item) => (
-            <li 
-              key={item}
-              data-cy="item"
-            >
-              {item}
-            </li>
-          ))
-        }
+        {visibleItems.map(item => (
+          <li key={item} data-cy="item">
+            {item}
+          </li>
+        ))}
       </ul>
     </div>
   );
