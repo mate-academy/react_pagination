@@ -22,7 +22,7 @@ export const Pagination: React.FC<Props> = ({
 
   return (
     <ul className="pagination">
-      <li className={`page-item ${currentPage === pages[0] ? 'disabled' : ''}`}>
+      <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
         <a
           data-cy="prevLink"
           className="page-link"
@@ -59,7 +59,7 @@ export const Pagination: React.FC<Props> = ({
         </li>
       ))}
       <li
-        className={`page-item ${currentPage === pages[pages.length - 1] ? 'disabled' : ''}`}
+        className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}
       >
         <a
           data-cy="nextLink"

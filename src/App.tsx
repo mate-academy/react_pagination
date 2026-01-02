@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -7,8 +8,27 @@ import { Pagination } from './components/Pagination';
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [perPage, setPerPage] = useState(5);
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [perPage, setPerPage] = useState(5);
+  // const [currentPage, setCurrentPage] = useState(1);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const currentPage = Number(searchParams.get('page')) || 1;
+  const perPage = Number(searchParams.get('perPage')) || 5;
+
+  const onPageChange = (page: number) => {
+    setSearchParams({
+      page: String(page),
+      perPage: String(perPage),
+    });
+  };
+
+  const onPerPageChange = (value: number) => {
+    setSearchParams({
+      page: '1',
+      perPage: String(value),
+    });
+  };
 
   const start = (currentPage - 1) * perPage;
   const visibleItems = items.slice(start, start + perPage);
@@ -32,10 +52,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={event => {
-              setPerPage(Number(event.target.value));
-              setCurrentPage(1);
-            }}
+            onChange={event => onPerPageChange(Number(event.target.value))}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -53,7 +70,8 @@ export const App: React.FC = () => {
         total={items.length}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={(page: number) => setCurrentPage(page)}
+        // onPageChange={(page: number) => setCurrentPage(page)}
+        onPageChange={onPageChange}
       />
 
       <ul>
