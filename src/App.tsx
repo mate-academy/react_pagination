@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { getNumbers } from './utils';
-import { Pagination } from './Pagination';
+import { Pagination } from './components/Pagination';
 import { useSearchParams } from 'react-router-dom';
 
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
