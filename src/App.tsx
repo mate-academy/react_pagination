@@ -30,7 +30,10 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             defaultValue={perPage}
-            onChange={e => setPerPage(Number(e.target.value))}
+            onChange={e => {
+              setCurrentPage(1);
+              setPerPage(Number(e.target.value));
+            }}
           >
             {[3, 5, 10, 20].map(item => (
               <option value={item} key={item}>

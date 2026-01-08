@@ -14,19 +14,23 @@ export const Pagination: React.FC<Data> = ({
   onPageChange,
 }) => {
   const pages = Math.ceil(total / perPage);
+  const isPrevDisabled = currentPage === 1;
+  const isNextDisabled = currentPage === pages;
 
   return (
     <>
       <ul className="pagination">
-        <li className={`page-item ${currentPage - 1 === 0 ? 'disabled' : ''}`}>
+        <li className={`page-item ${isPrevDisabled ? 'disabled' : ''}`}>
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled={`${currentPage - 1 === 0 ? 'true' : 'false'}`}
+            aria-disabled={isPrevDisabled ? 'true' : 'false'}
             onClick={e => {
               e.preventDefault();
-              onPageChange(currentPage + 1);
+              if (!isPrevDisabled) {
+                onPageChange(currentPage - 1);
+              }
             }}
           >
             «
@@ -40,7 +44,7 @@ export const Pagination: React.FC<Data> = ({
             <a
               data-cy="pageLink"
               className="page-link"
-              href={`#{page}`}
+              href={`#${idx + 1}`}
               key={idx + 1}
               onClick={e => {
                 e.preventDefault();
@@ -51,15 +55,17 @@ export const Pagination: React.FC<Data> = ({
             </a>
           </li>
         ))}
-        <li className={`page-item ${currentPage === pages ? 'disabled' : ''}`}>
+        <li className={`page-item ${isNextDisabled ? 'disabled' : ''}`}>
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled={`${currentPage === pages ? 'true' : 'false'}`}
+            aria-disabled={isNextDisabled ? 'true' : 'false'}
             onClick={e => {
               e.preventDefault();
-              onPageChange(currentPage + 1);
+              if (!isNextDisabled) {
+                onPageChange(currentPage + 1);
+              }
             }}
           >
             »
