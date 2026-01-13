@@ -47,7 +47,9 @@ export const Pagination = ({
             href={`#${page}`}
             onClick={e => {
               e.preventDefault();
-              onPageChange(page);
+              if (page !== currentPage) {
+                onPageChange(page);
+              }
             }}
           >
             {page}

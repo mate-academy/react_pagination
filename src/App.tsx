@@ -1,19 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
-
+import { useSearchParams } from 'react-router-dom';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const currentPage = Number(searchParams.get('page')) || 1;
+  const perPage = Number(searchParams.get('perPage')) || 5;
+
   const start = (currentPage - 1) * perPage;
   const visible = items.slice(start, start + perPage);
-  const total = 42;
+  const total = items.length;
+
   const firstItem = total === 0 ? 0 : start + 1;
   const lastItem = Math.min(total, start + perPage);
+
+  const updateParams = (page: number, limit: number) => {
+    setSearchParams({
+      page: page.toString(),
+      perPage: limit.toString(),
+    });
+  };
 
   return (
     <div className="container">
@@ -31,8 +42,7 @@ export const App: React.FC = () => {
             className="form-control"
             value={perPage}
             onChange={e => {
-              setPerPage(Number(e.target.value));
-              setCurrentPage(1);
+              updateParams(1, Number(e.target.value));
             }}
           >
             <option value="3">3</option>
@@ -49,10 +59,10 @@ export const App: React.FC = () => {
 
       {/* Move this markup to Pagination */}
       <Pagination
-        total={42} // total number of items to paginate
+        total={total} // total number of items to paginate
         perPage={perPage} // number of items per page
         currentPage={currentPage} /* optional with 1 by default */
-        onPageChange={page => setCurrentPage(page)}
+        onPageChange={page => updateParams(page, perPage)}
       />
       <ul>
         {visible.map((it, i) => (
