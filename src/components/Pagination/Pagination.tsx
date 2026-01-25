@@ -4,7 +4,6 @@ import classNames from 'classnames';
 
 type PaginationProps = {
   total: number;
-  items: string[];
   perPage: number;
   currentPage: number;
   onPageChange: (page: number) => void;
@@ -12,7 +11,6 @@ type PaginationProps = {
 
 export const Pagination: React.FC<PaginationProps> = ({
   total,
-  items,
   perPage,
   currentPage,
   onPageChange,
@@ -24,78 +22,72 @@ export const Pagination: React.FC<PaginationProps> = ({
   const isLastPage = currentPage === pagesCount;
 
   return (
-    <>
-      <ul className="pagination">
-        <li
-          className={classNames('page-item', {
-            disabled: isFirstPage,
-          })}
-        >
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled={isFirstPage}
-            onClick={event => {
-              event.preventDefault();
-              if (!isFirstPage) {
-                onPageChange(currentPage - 1);
-              }
-            }}
-          >
-            «
-          </a>
-        </li>
-        {pagesArr.map((page: number) => {
-          return (
-            <li
-              key={page}
-              className={classNames('page-item', {
-                active: currentPage === page,
-              })}
-            >
-              <a
-                data-cy="pageLink"
-                className="page-link"
-                href={`#${page}`}
-                onClick={event => {
-                  event.preventDefault();
-                  onPageChange(page);
-                }}
-              >
-                {page}
-              </a>
-            </li>
-          );
+    <ul className="pagination">
+      <li
+        className={classNames('page-item', {
+          disabled: isFirstPage,
         })}
-        <li
-          className={classNames('page-item', {
-            disabled: isLastPage,
-          })}
+      >
+        <a
+          data-cy="prevLink"
+          className="page-link"
+          href="#prev"
+          aria-disabled={isFirstPage}
+          onClick={event => {
+            event.preventDefault();
+            if (!isFirstPage) {
+              onPageChange(currentPage - 1);
+            }
+          }}
         >
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled={isLastPage}
-            onClick={event => {
-              event.preventDefault();
-              if (!isLastPage) {
-                onPageChange(currentPage + 1);
-              }
-            }}
+          «
+        </a>
+      </li>
+      {pagesArr.map((page: number) => {
+        return (
+          <li
+            key={page}
+            className={classNames('page-item', {
+              active: currentPage === page,
+            })}
           >
-            »
-          </a>
-        </li>
-      </ul>
-      <ul>
-        {items.map((item: string) => (
-          <li data-cy="item" key={item}>
-            {item}
+            <a
+              data-cy="pageLink"
+              className="page-link"
+              href={`#${page}`}
+              onClick={event => {
+                event.preventDefault();
+
+                if (page !== currentPage) {
+                  onPageChange(page);
+                }
+              }}
+            >
+              {page}
+            </a>
           </li>
-        ))}
-      </ul>
-    </>
+        );
+      })}
+      <li
+        className={classNames('page-item', {
+          disabled: isLastPage,
+        })}
+      >
+        <a
+          data-cy="nextLink"
+          className="page-link"
+          href="#next"
+          aria-disabled={isLastPage}
+          onClick={event => {
+            event.preventDefault();
+            if (!isLastPage) {
+              onPageChange(currentPage + 1);
+            }
+          }}
+        >
+          »
+        </a>
+      </li>
+    </ul>
   );
 };

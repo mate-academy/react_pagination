@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './App.css';
-
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
@@ -50,13 +49,19 @@ export const App: React.FC = () => {
       </div>
       <Pagination
         total={total}
-        items={visibleItems}
         perPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={(page: number) => {
           setCurrentPage(page);
         }}
       />
+      <ul>
+        {visibleItems.map((item: string) => (
+          <li data-cy="item" key={item}>
+            {item}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
