@@ -4,7 +4,6 @@ import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
 type PageSize = 3 | 5 | 10 | 20;
-
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 const total = items.length;
 
