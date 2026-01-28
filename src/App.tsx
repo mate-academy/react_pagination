@@ -10,21 +10,17 @@ const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  // Беремо currentPage і perPage з URL, дефолт 1 та 5
   const currentPage = Number(searchParams.get('page') ?? 1);
   const perPage = Number(searchParams.get('perPage') ?? 5);
 
-  // Функція для зміни сторінки
   const setPage = (page: number) => {
     setSearchParams({ page: String(page), perPage: String(perPage) });
   };
 
-  // Функція для зміни perPage (скидає сторінку на 1)
   const setPerPageValue = (value: number) => {
     setSearchParams({ page: '1', perPage: String(value) });
   };
 
-  // Обчислюємо які елементи показувати
   const startIndex = (currentPage - 1) * perPage;
   const endIndex = Math.min(startIndex + perPage, items.length);
   const visibleItems = items.slice(startIndex, endIndex);
