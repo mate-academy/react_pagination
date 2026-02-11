@@ -16,7 +16,7 @@ enum NumberPerPageItems {
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(NumberPerPageItems.FIVE);
 
   const startItem = currentPage * perPage - (perPage - 1);
   const endItem = currentPage * perPage;
@@ -40,19 +40,12 @@ export const App: React.FC = () => {
               setPerPage(Number(e.target.value));
               setCurrentPage(1);
             }}
+            value={perPage}
           >
-            <option value={`${NumberPerPageItems.THREE}`}>
-              {NumberPerPageItems.THREE}
-            </option>
-            <option value={`${NumberPerPageItems.FIVE}`} selected={true}>
-              {NumberPerPageItems.FIVE}
-            </option>
-            <option value={`${NumberPerPageItems.TEN}`}>
-              {NumberPerPageItems.TEN}
-            </option>
-            <option value={`${NumberPerPageItems.TWENTY}`}>
-              {NumberPerPageItems.TWENTY}
-            </option>
+            <option>{NumberPerPageItems.THREE}</option>
+            <option>{NumberPerPageItems.FIVE}</option>
+            <option>{NumberPerPageItems.TEN}</option>
+            <option>{NumberPerPageItems.TWENTY}</option>
           </select>
         </div>
 
