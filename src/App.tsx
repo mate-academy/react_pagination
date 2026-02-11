@@ -42,10 +42,18 @@ export const App: React.FC = () => {
             }}
             value={perPage}
           >
-            <option>{NumberPerPageItems.THREE}</option>
-            <option>{NumberPerPageItems.FIVE}</option>
-            <option>{NumberPerPageItems.TEN}</option>
-            <option>{NumberPerPageItems.TWENTY}</option>
+            <option value={NumberPerPageItems.THREE}>
+              {NumberPerPageItems.THREE}
+            </option>
+            <option value={NumberPerPageItems.FIVE}>
+              {NumberPerPageItems.FIVE}
+            </option>
+            <option value={NumberPerPageItems.TEN}>
+              {NumberPerPageItems.TEN}
+            </option>
+            <option value={NumberPerPageItems.TWENTY}>
+              {NumberPerPageItems.TWENTY}
+            </option>
           </select>
         </div>
 
