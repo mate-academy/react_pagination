@@ -11,12 +11,8 @@ export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [total] = useState(items.length);
   const start = (currentPage - 1) * perPage;
-  let end = start + perPage;
-  const filteredItems = items.slice(start, start + end);
-
-  if (end > items.length) {
-    end = items.length;
-  }
+  const end = Math.min(start + perPage, items.length);
+  const filteredItems = items.slice(start, end);
 
   const selectPerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPerPage(+event.target.value);
