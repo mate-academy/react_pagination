@@ -1,4 +1,3 @@
-import { getNumbers } from '../../utils';
 import cn from 'classnames';
 
 type Props = {
@@ -7,8 +6,6 @@ type Props = {
   currentPage: number;
   onPageChange: (page: number) => void;
 };
-
-const items: string[] = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const Pagination = ({
   total,
@@ -23,13 +20,6 @@ export const Pagination = ({
     { length: pages },
     (_, i) => i + 1,
   );
-
-  const startIdx: number = 1 + perPage * (currentPage - 1);
-  const finishIdx: number = Math.min(total, currentPage * perPage);
-
-  const currentItems: string[] = items.filter((item, idx) => {
-    return idx >= startIdx - 1 && idx <= finishIdx - 1;
-  });
 
   const moveArrows = (direct: string) => {
     switch (direct) {
@@ -101,15 +91,6 @@ export const Pagination = ({
             »
           </a>
         </li>
-      </ul>
-      <ul>
-        {currentItems.map((item, idx) => {
-          return (
-            <li data-cy="item" key={idx}>
-              {item}
-            </li>
-          );
-        })}
       </ul>
     </>
   );

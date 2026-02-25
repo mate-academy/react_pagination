@@ -14,8 +14,12 @@ export const App: React.FC = () => {
   const [selectedNum, setSelectedNum] = useState('5');
   const perPage: number = Number(selectedNum);
 
-  const startIdx: number = 1 + Number(selectedNum) * (currentPage - 1);
+  const startIdx: number = 1 + perPage * (currentPage - 1);
   const finishIdx: number = Math.min(total, currentPage * perPage);
+
+  const currentItems: string[] = items.filter((_, idx) => {
+    return idx >= startIdx - 1 && idx <= finishIdx - 1;
+  });
 
   const selectorChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedNum(event.target.value);
@@ -62,6 +66,15 @@ export const App: React.FC = () => {
         currentPage={currentPage}
         onPageChange={onPageChange}
       />
+      <ul>
+        {currentItems.map((item, idx) => {
+          return (
+            <li data-cy="item" key={idx}>
+              {item}
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 };
