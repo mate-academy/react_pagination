@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -10,9 +11,42 @@ const items = getNumbers(1, 42).map(n => `Item ${n}`);
 const total: number = items.length;
 
 export const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [selectedNum, setSelectedNum] = useState('5');
-  const perPage: number = Number(selectedNum);
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [selectedNum, setSelectedNum] = useState('5');
+  // const perPage: number = Number(selectedNum);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  // зчитуємо з URL або використовуємо дефолт
+  const pageFromUrl = Number(searchParams.get('page')) || 1;
+  const perPageFromUrl = Number(searchParams.get('perPage')) || 5;
+  const [currentPage, setCurrentPage] = useState<number>(pageFromUrl);
+  const [selectedNum, setSelectedNum] = useState<string>(
+    String(perPageFromUrl),
+  );
+  const perPage = Number(selectedNum);
+
+  // Синхронізуємо URL коли currentPage або perPage змінюються
+  useEffect(() => {
+    // Записуємо тільки валідні значення
+    setSearchParams({
+      page: String(currentPage),
+      perPage: String(perPage),
+    });
+  }, [currentPage, perPage, setSearchParams]);
+  // Якщо користувач змінив URL вручну — синхронізуємо state
+  useEffect(() => {
+    const p = Number(searchParams.get('page')) || 1;
+    const pp = Number(searchParams.get('perPage')) || 5;
+
+    // Оновлюємо state лише якщо URL відрізняється (щоб уникнути зациклення)
+    if (p !== currentPage) {
+      setCurrentPage(p);
+    }
+
+    if (String(pp) !== selectedNum) {
+      setSelectedNum(String(pp));
+    }
+  }, [searchParams]);
 
   const startIdx: number = 1 + perPage * (currentPage - 1);
   const finishIdx: number = Math.min(total, currentPage * perPage);

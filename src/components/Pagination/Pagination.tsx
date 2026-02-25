@@ -67,7 +67,11 @@ export const Pagination = ({
               className={cn('page-item', {
                 active: num === currentPage,
               })}
-              onClick={() => onPageChange(num)}
+              onClick={() => {
+                if (num !== currentPage) {
+                  onPageChange(num);
+                }
+              }}
             >
               <a data-cy="pageLink" className="page-link" href={`#${num}`}>
                 {num}
@@ -80,13 +84,13 @@ export const Pagination = ({
           className={cn('page-item', {
             disabled: currentPage === pages,
           })}
+          onClick={() => moveArrows('next')}
         >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
             aria-disabled={currentPage === pages}
-            onClick={() => moveArrows('next')}
           >
             »
           </a>
