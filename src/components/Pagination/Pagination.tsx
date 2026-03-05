@@ -3,14 +3,14 @@ import { getNumbers } from '../../utils';
 interface Props {
   total: number;
   perPage: number;
-  currentPage: number;
+  currentPage?: number;
   onPageChange: (page: number) => void;
 }
 
 export const Pagination = ({
   total,
   perPage,
-  currentPage,
+  currentPage = 1,
   onPageChange,
 }: Props) => {
   const totalPages = Math.ceil(total / perPage);
