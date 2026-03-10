@@ -3,7 +3,7 @@ import classNames from 'classnames';
 type Props = {
   total: number;
   perPage: number;
-  currentPage: number;
+  currentPage?: number;
   onPageChange: (page: number) => void;
 };
 
@@ -40,7 +40,11 @@ export const Pagination = ({
           key={i + 1}
         >
           <a
-            onClick={() => onPageChange(i + 1)}
+            onClick={() => {
+              if (currentPage !== i + 1) {
+                onPageChange(i + 1);
+              }
+            }}
             data-cy="pageLink"
             className="page-link"
             href={`#${i + 1}`}
