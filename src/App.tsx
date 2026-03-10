@@ -71,8 +71,8 @@ export const App: React.FC = () => {
       <ul>
         {items
           .slice((currentPage - 1) * perPage, currentPage * perPage)
-          .map((item, index) => (
-            <li key={index} data-cy="item">
+          .map(item => (
+            <li key={item} data-cy="item">
               {item}
             </li>
           ))}
