@@ -2,5 +2,11 @@
   "extends": "@mate-academy/students-ts-config",
   "include": [
     "src"
-  ]
+  ],
+  "compilerOptions": {
+    // ... other options
+    "jsx": "react-jsx" /* Use "react-jsx" for React 17+ projects */
+    // or "jsx": "react" /* Use "react" for older React versions */
+    // or "jsx": "preserve" /* Use "preserve" if another tool (like Babel or esbuild) handles the transformation */
+  }
 }
