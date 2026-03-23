@@ -2,7 +2,7 @@
 
 > Here is the [working version](https://mate-academy.github.io/react_pagination/)
 
-You a given a list of items and markup for the `Pagination`. Implement the 
+You a given a list of items and markup for the `Pagination`. Implement the
 `Pagination` as a stateless component to show only the items for a current page.
 
 1. The `Pagination` should be used with the next props:
@@ -25,11 +25,10 @@ You a given a list of items and markup for the `Pagination`. Implement the
 1. Implement the `<select data-cy="perPageSelector">` with `3`, `5`, `10`, `20` options to change the `perPage`;
     - show the 1st page after changing a `perPage`;
 1. (*) Use React Router to save `?page=2&perPage=7` in the URL and apply them on page load
-
 ## Instructions
 
 - Install Prettier Extention and use this [VSCode settings](https://mate-academy.github.io/fe-program/tools/vscode/settings.json) to enable format on save.
 - Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).
 - Use the [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript).
 - Open one more terminal and run tests with `npm test` to ensure your solution is correct.
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_pagination/) and add it to the PR description.
+- Replace `<your_account>` with your Github username in the [DEMO LINK](https://NemH.github.io/react_pagination/) and add it to the PR description.
