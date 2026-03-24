@@ -11,7 +11,6 @@ export const App: React.FC = () => {
 
   const total = items.length;
   const startIndex = (currentPage - 1) * perPage;
-  const endIndex = Math.min(startIndex + perPage, total);
   const visible = items.slice(startIndex, startIndex + perPage);
 
   const handlePerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -24,11 +23,6 @@ export const App: React.FC = () => {
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
-
-      <p className="lead" data-cy="info">
-        Page {currentPage} (items {startIndex + 1} - {endIndex} of {total})
-      </p>
-
       <div className="form-group row">
         <div className="col-3 col-sm-2 col-xl-1">
           <select
