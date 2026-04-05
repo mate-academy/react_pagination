@@ -1,23 +1,27 @@
 import React from 'react';
+// import { SetURLSearchParams } from 'react-router-dom';
 import { getNumbers } from '../../utils';
 import cn from 'classnames';
 
 interface PaginationInterface {
   total: number;
-  perPage: number;
+  currentPerPage: number;
   activePage: number;
-  setActivePage: React.Dispatch<React.SetStateAction<number>>;
-  onPageChange(event: React.MouseEvent<HTMLAnchorElement>): void;
+  // setActivePage: React.Dispatch<React.SetStateAction<number>>;
+  // setSearchParams: SetURLSearchParams;
+  // onPageChange(event: React.MouseEvent<HTMLAnchorElement>): void;
+  onPageChange(page: number): void;
 }
 
 export const Pagination: React.FC<PaginationInterface> = ({
   total,
-  perPage,
+  currentPerPage,
   activePage,
-  setActivePage,
+  // setActivePage,
+  // setSearchParams,
   onPageChange,
 }) => {
-  const pages = Math.ceil(total / perPage);
+  const pages = Math.ceil(total / currentPerPage);
 
   return (
     <ul className="pagination">
@@ -25,12 +29,17 @@ export const Pagination: React.FC<PaginationInterface> = ({
         <a
           data-cy="prevLink"
           className="page-link"
-          href="#prev"
+          href={`?page=${activePage > 1 ? activePage - 1 : activePage}&perPage=${currentPerPage}`}
           aria-disabled={activePage === 1 ? 'true' : 'false'}
-          onClick={() => {
-            if (activePage > 1) {
-              setActivePage(activePage - 1);
-            }
+          onClick={(e) => {
+            e.preventDefault();
+            onPageChange(Math.max(1, activePage - 1));
+            // if (activePage > 1) {
+            //   const newPage = activePage - 1;
+
+            //   setActivePage(newPage);
+            //   setSearchParams({page: String(newPage), perPage: String(currentPerPage)});
+            // }
           }}
         >
           «
@@ -42,8 +51,12 @@ export const Pagination: React.FC<PaginationInterface> = ({
             <a
               data-cy="pageLink"
               className="page-link"
-              href={`#${n}`}
-              onClick={onPageChange}
+              href={`?page=${n}&perPage=${currentPerPage}`}
+              onClick={(e) => {
+                e.preventDefault();
+                // onPageChange(e);
+                onPageChange(n);
+              }}
             >
               {n}
             </a>
@@ -54,12 +67,17 @@ export const Pagination: React.FC<PaginationInterface> = ({
         <a
           data-cy="nextLink"
           className="page-link"
-          href="#next"
+          href={`?page=${activePage < pages ? activePage + 1 : activePage}&perPage=${currentPerPage}`}
           aria-disabled={activePage === pages ? 'true' : 'false'}
-          onClick={() => {
-            if (activePage < pages) {
-              setActivePage(activePage + 1);
-            }
+          onClick={(e) => {
+            e.preventDefault();
+            onPageChange(Math.min(pages, activePage + 1));
+            // if (activePage < pages) {
+            //   const newPage = activePage + 1;
+
+            //   setActivePage(newPage);
+            //   setSearchParams({page: String(newPage), perPage: String(currentPerPage)});
+            // }
           }}
         >
           »
