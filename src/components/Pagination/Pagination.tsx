@@ -1,5 +1,4 @@
 import React from 'react';
-// import { SetURLSearchParams } from 'react-router-dom';
 import { getNumbers } from '../../utils';
 import cn from 'classnames';
 
@@ -7,9 +6,6 @@ interface PaginationInterface {
   total: number;
   currentPerPage: number;
   activePage: number;
-  // setActivePage: React.Dispatch<React.SetStateAction<number>>;
-  // setSearchParams: SetURLSearchParams;
-  // onPageChange(event: React.MouseEvent<HTMLAnchorElement>): void;
   onPageChange(page: number): void;
 }
 
@@ -17,8 +13,6 @@ export const Pagination: React.FC<PaginationInterface> = ({
   total,
   currentPerPage,
   activePage,
-  // setActivePage,
-  // setSearchParams,
   onPageChange,
 }) => {
   const pages = Math.ceil(total / currentPerPage);
@@ -30,16 +24,10 @@ export const Pagination: React.FC<PaginationInterface> = ({
           data-cy="prevLink"
           className="page-link"
           href={`?page=${activePage > 1 ? activePage - 1 : activePage}&perPage=${currentPerPage}`}
-          aria-disabled={activePage === 1 ? 'true' : 'false'}
+          aria-disabled={activePage === 1}
           onClick={e => {
             e.preventDefault();
             onPageChange(Math.max(1, activePage - 1));
-            // if (activePage > 1) {
-            //   const newPage = activePage - 1;
-
-            //   setActivePage(newPage);
-            //   setSearchParams({page: String(newPage), perPage: String(currentPerPage)});
-            // }
           }}
         >
           «
@@ -54,7 +42,6 @@ export const Pagination: React.FC<PaginationInterface> = ({
               href={`?page=${n}&perPage=${currentPerPage}`}
               onClick={e => {
                 e.preventDefault();
-                // onPageChange(e);
                 onPageChange(n);
               }}
             >
@@ -72,12 +59,6 @@ export const Pagination: React.FC<PaginationInterface> = ({
           onClick={e => {
             e.preventDefault();
             onPageChange(Math.min(pages, activePage + 1));
-            // if (activePage < pages) {
-            //   const newPage = activePage + 1;
-
-            //   setActivePage(newPage);
-            //   setSearchParams({page: String(newPage), perPage: String(currentPerPage)});
-            // }
           }}
         >
           »

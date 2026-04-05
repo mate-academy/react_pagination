@@ -27,13 +27,6 @@ export const App: React.FC = () => {
     setSearchParams({ page: '1', perPage: String(newPerPage) });
   };
 
-  // const handlePageChange = (event: React.MouseEvent<HTMLAnchorElement>) => {
-  //   const page = Number(event.currentTarget.textContent);
-
-  //   setCurrentPage(page);
-  //   setSearchParams({ page: String(page), perPage: String(currentPerPage) });
-  // };
-
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     setSearchParams({
@@ -46,8 +39,14 @@ export const App: React.FC = () => {
     const page = Number(searchParams.get('page')) || 1;
     const perPage = Number(searchParams.get('perPage')) || DEFAULT_PER_PAGE;
 
-    setCurrentPage(page);
-    setPerPage(perPage);
+    if (page !== currentPage) {
+      setCurrentPage(page);
+    }
+
+    if (perPage !== currentPerPage) {
+      setPerPage(perPage);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   return (
@@ -65,7 +64,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             onChange={handlePerPageChange}
-            defaultValue={currentPerPage}
+            value={currentPerPage}
           >
             <option value="3">3</option>
             <option value="5">5</option>
@@ -82,8 +81,6 @@ export const App: React.FC = () => {
         total={ITEMS}
         currentPerPage={currentPerPage}
         activePage={currentPage}
-        // setActivePage={setCurrentPage}
-        // setSearchParams={setSearchParams}
         onPageChange={handlePageChange}
       />
       <ul>
