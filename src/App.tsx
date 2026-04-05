@@ -10,20 +10,21 @@ const DEFAULT_PER_PAGE = 5;
 export const App: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(
-    Number(searchParams.get('page')) || 1
+    Number(searchParams.get('page')) || 1,
   );
 
   const [currentPerPage, setPerPage] = useState(
-    Number(searchParams.get('perPage')) || DEFAULT_PER_PAGE
+    Number(searchParams.get('perPage')) || DEFAULT_PER_PAGE,
   );
 
   const getPagesValue = () => currentPage * currentPerPage;
 
   const handlePerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newPerPage = +event.target.value;
+
     setPerPage(newPerPage);
     setCurrentPage(1);
-    setSearchParams({page: "1", perPage: String(newPerPage)});
+    setSearchParams({ page: '1', perPage: String(newPerPage) });
   };
 
   // const handlePageChange = (event: React.MouseEvent<HTMLAnchorElement>) => {

@@ -31,7 +31,7 @@ export const Pagination: React.FC<PaginationInterface> = ({
           className="page-link"
           href={`?page=${activePage > 1 ? activePage - 1 : activePage}&perPage=${currentPerPage}`}
           aria-disabled={activePage === 1 ? 'true' : 'false'}
-          onClick={(e) => {
+          onClick={e => {
             e.preventDefault();
             onPageChange(Math.max(1, activePage - 1));
             // if (activePage > 1) {
@@ -52,7 +52,7 @@ export const Pagination: React.FC<PaginationInterface> = ({
               data-cy="pageLink"
               className="page-link"
               href={`?page=${n}&perPage=${currentPerPage}`}
-              onClick={(e) => {
+              onClick={e => {
                 e.preventDefault();
                 // onPageChange(e);
                 onPageChange(n);
@@ -69,7 +69,7 @@ export const Pagination: React.FC<PaginationInterface> = ({
           className="page-link"
           href={`?page=${activePage < pages ? activePage + 1 : activePage}&perPage=${currentPerPage}`}
           aria-disabled={activePage === pages ? 'true' : 'false'}
-          onClick={(e) => {
+          onClick={e => {
             e.preventDefault();
             onPageChange(Math.min(pages, activePage + 1));
             // if (activePage < pages) {
