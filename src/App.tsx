@@ -9,8 +9,8 @@ const items: string[] = getNumbers(0, 42).map(n => `Item ${n}`);
 export const App: React.FC = () => {
   const [perPage, changePerPage] = useState(5);
   const [currentPage, changeCurrentPage] = useState(1);
-  const startIndex = (currentPage - 1) * perPage + 1;
-  const nowItems = items.slice(startIndex, startIndex + perPage);
+  const startIndex = (currentPage - 1) * perPage;
+  const nowItems = items.slice(startIndex + 1, startIndex + 1 + perPage);
   const total = 42;
   let ends = perPage * currentPage;
 
@@ -23,7 +23,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page {currentPage} (items {startIndex} - {ends} of {total})
+        Page {currentPage} (items {startIndex + 1} - {ends} of {total})
       </p>
 
       <div className="form-group row">
@@ -60,9 +60,9 @@ export const App: React.FC = () => {
       />
 
       <ul>
-        {nowItems.map((item, index) => {
+        {nowItems.map(item => {
           return (
-            <li data-cy="item" key={index}>
+            <li data-cy="item" key={item}>
               {item}
             </li>
           );
