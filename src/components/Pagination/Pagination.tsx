@@ -4,14 +4,14 @@ import { getNumbers } from '../../utils';
 type Props = {
   total: number;
   perPage: number;
-  currentPage: number;
+  currentPage?: number;
   onPageChange: (page: number) => void;
 };
 
 export const Pagination: React.FC<Props> = ({
   total,
   perPage,
-  currentPage,
+  currentPage = 1,
   onPageChange,
 }) => {
   const buttons = getNumbers(1, Math.ceil(total / perPage));
@@ -33,16 +33,18 @@ export const Pagination: React.FC<Props> = ({
           «
         </a>
       </li>
-      {buttons.map((button, index) => {
+      {buttons.map(button => {
         return (
           <li
             onClick={() => {
-              onPageChange(button);
+              if (button !== currentPage) {
+                onPageChange(button);
+              }
             }}
             className={
               currentPage === button ? 'page-item active' : 'page-item'
             }
-            key={index}
+            key={button}
           >
             <a data-cy="pageLink" className="page-link" href={`#${button}`}>
               {button}
