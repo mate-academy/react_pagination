@@ -50,14 +50,17 @@ export const Pagination: React.FC<PaginationProps> = ({
           key={page}
           className={`page-item ${currentPage === page ? 'active' : ''}`}
         >
-          <button
-            type="button"
+          <a
             data-cy="pageLink"
             className="page-link"
-            onClick={() => handlePageChange(page)}
+            href={`#page-${page}`}
+            onClick={e => {
+              e.preventDefault();
+              handlePageChange(page);
+            }}
           >
             {page}
-          </button>
+          </a>
         </li>
       ))}
 
