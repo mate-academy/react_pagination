@@ -38,13 +38,16 @@ export function Pagination({
       {Array.from({ length: pageItem }).map((_, i) => (
         <li
           className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}
-          key={i}
+          key={i + 1}
         >
           <a
             data-cy="pageLink"
             className="page-link"
             href={`#${i + 1}`}
-            onClick={() => onPageChange(i + 1)}
+            onClick={event => {
+              event.preventDefault();
+              onPageChange(i + 1);
+            }}
           >
             {i + 1}
           </a>
@@ -60,7 +63,8 @@ export function Pagination({
           className="page-link"
           href="#next"
           aria-disabled={currentPage === pageItem}
-          onClick={() => {
+          onClick={event => {
+            event.preventDefault();
             if (currentPage === pageItem) {
               return;
             }
