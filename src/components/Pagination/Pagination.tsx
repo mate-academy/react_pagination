@@ -1,14 +1,14 @@
 type Prop = {
   total: number;
   perPage: number;
-  currentPage: number;
+  currentPage?: number;
   onPageChange: (page: number) => void;
 };
 
 export function Pagination({
   total,
   perPage,
-  currentPage,
+  currentPage = 1,
   onPageChange,
 }: Prop) {
   const pageItem = Math.ceil(total / perPage);
@@ -46,7 +46,9 @@ export function Pagination({
             href={`#${i + 1}`}
             onClick={event => {
               event.preventDefault();
-              onPageChange(i + 1);
+              if (i + 1 !== currentPage) {
+                onPageChange(i + 1);
+              }
             }}
           >
             {i + 1}
