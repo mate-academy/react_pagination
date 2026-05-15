@@ -33,7 +33,7 @@ export const Pagination: React.FC<Props> = ({
 
   return (
     <ul className="pagination">
-      <li className={`page-item ${isFirstPage ? 'disabled' : 'active'}`}>
+      <li className={`page-item ${isFirstPage ? 'disabled' : ''}`}>
         <a
           data-cy="prevLink"
           className="page-link"
@@ -63,7 +63,7 @@ export const Pagination: React.FC<Props> = ({
         </li>
       ))}
 
-      <li className={`page-item ${isLastPage ? 'disabled' : 'active'}`}>
+      <li className={`page-item ${isLastPage ? 'disabled' : ''}`}>
         <a
           data-cy="nextLink"
           className="page-link"
