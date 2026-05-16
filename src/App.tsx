@@ -25,11 +25,11 @@ export const App: React.FC = () => {
     const params = new URLSearchParams();
 
     params.set('page', String(currentPage));
-    params.set('paerPage', String(perPage));
+    params.set('perPage', String(perPage));
 
     const newUrl = `${window.location.pathname}?${params.toString()}`;
 
-    window.history.pushState({}, newUrl);
+    window.history.pushState({}, '', newUrl);
   }, [currentPage, perPage]);
 
   const indexOfLastItem = currentPage * perPage;
@@ -58,12 +58,11 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
+            value={perPage}
             onChange={handlePerPageChange}
           >
             <option value="3">3</option>
-            <option value="5" selected>
-              5
-            </option>
+            <option value="5">5</option>
             <option value="10">10</option>
             <option value="20">20</option>
           </select>

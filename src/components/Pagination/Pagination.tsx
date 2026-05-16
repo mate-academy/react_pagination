@@ -4,14 +4,14 @@ import classNames from 'classnames';
 interface PaginationProps {
   total: number;
   perPage: number;
-  currentPage: number;
+  currentPage?: number;
   onPageChange: (page: number) => void;
 }
 
 export const Pagination: React.FC<PaginationProps> = ({
   total,
   perPage,
-  currentPage,
+  currentPage = 1,
   onPageChange,
 }) => {
   const totalPages: number = Math.ceil(total / perPage);
@@ -72,6 +72,10 @@ export const Pagination: React.FC<PaginationProps> = ({
             href={`#${number}`}
             onClick={e => {
               e.preventDefault();
+              if (number === currentPage) {
+                return;
+              }
+
               onPageChange(number);
             }}
           >
