@@ -8,9 +8,9 @@ const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(5);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
+  const [perPage, setPerPage] = useState(5);
+  const startIndex = (currentPage - 1) * perPage;
+  const endIndex = startIndex + perPage;
   const currentItems = items.slice(startIndex, endIndex);
 
   return (
@@ -28,9 +28,9 @@ export const App: React.FC = () => {
             data-cy="perPageSelector"
             id="perPageSelector"
             className="form-control"
-            value={itemsPerPage}
+            value={perPage}
             onChange={e => {
-              setItemsPerPage(Number(e.target.value));
+              setPerPage(Number(e.target.value));
               setCurrentPage(1);
             }}
           >
@@ -48,7 +48,7 @@ export const App: React.FC = () => {
 
       <Pagination
         total={items.length}
-        itemsPerPage={itemsPerPage}
+        perPage={perPage}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
       />
