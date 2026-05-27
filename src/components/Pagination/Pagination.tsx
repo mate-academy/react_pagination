@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import { getNumbers } from '../../utils';
+import React from 'react';
 
 type Props = {
   total: number;
@@ -8,12 +9,12 @@ type Props = {
   onPageChange: (page: number) => void;
 };
 
-export const Pagination = ({
+export const Pagination: React.FC<Props> = ({
   total,
   perPage: perPage,
-  currentPage,
+  currentPage = 1,
   onPageChange,
-}: Props) => {
+}) => {
   const pagesCount = Math.ceil(total / perPage);
   const pages = getNumbers(1, pagesCount);
 
