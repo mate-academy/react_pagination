@@ -30,7 +30,10 @@ export const Pagination: React.FC<PaginationParams> = ({
           href={`${i}`}
           onClick={e => {
             e.preventDefault();
-            onPageChange(i);
+
+            if (i !== currentPage) {
+              onPageChange(i);
+            }
           }}
         >
           {i}
