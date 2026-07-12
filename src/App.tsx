@@ -1,20 +1,21 @@
 import { useSearchParams } from 'react-router-dom';
 import React from 'react';
 import './App.css';
-import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
+import { ALLOWED_PER_PAGE, items } from './constants';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const perPage = Number(searchParams.get('perPage')) || 5;
-  const currentPage = Math.min(
-    Number(searchParams.get('page')) || 1,
-    Math.ceil(items.length / perPage),
-  );
+  const rawPerPage = Number(searchParams.get('perPage'));
+  const perPage = ALLOWED_PER_PAGE.includes(rawPerPage) ? rawPerPage : 5;
+
+  const totalPages = Math.ceil(items.length / perPage);
+
+  const rawPage = Number(searchParams.get('page')) || 1;
+  const currentPage = Math.max(1, Math.min(rawPage, totalPages));
 
   const firstElementIndex = (currentPage - 1) * perPage;
   const lastElementIndex = currentPage * perPage;

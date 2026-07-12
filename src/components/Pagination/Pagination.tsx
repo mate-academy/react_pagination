@@ -22,29 +22,8 @@ export const Pagination: React.FC<Props> = ({
   }, [perPage, total]);
 
   const pageNumbers = useMemo(() => {
-    const maxVisiblePages = 14;
-
-    if (totalPages <= maxVisiblePages) {
-      return Array.from({ length: totalPages }, (_, index) => index + 1);
-    }
-
-    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages));
-    let endPage = startPage + maxVisiblePages - 1;
-
-    if (endPage > totalPages) {
-      endPage = totalPages;
-      startPage = Math.max(1, endPage - maxVisiblePages + 1);
-    }
-
-    if (startPage === 0) {
-      startPage = 1;
-    }
-
-    return Array.from(
-      { length: endPage - startPage + 1 },
-      (_, index) => startPage + index,
-    );
-  }, [totalPages, currentPage]);
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }, [totalPages]);
 
   return (
     <ul className="pagination">
