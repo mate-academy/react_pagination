@@ -15,10 +15,7 @@ export const Pagination: React.FC<Props> = ({
 }) => {
   const pagesCount = Math.ceil(total / perPage);
 
-  const pages = Array.from(
-    { length: pagesCount },
-    (_, index) => index + 1,
-  );
+  const pages = Array.from({ length: pagesCount }, (_, index) => index + 1);
 
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === pagesCount;

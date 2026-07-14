@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSearchParams } from 'react-router-dom';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -6,20 +7,42 @@ import { Pagination } from './components/Pagination';
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const currentPage = Number(searchParams.get('page')) || 1;
+  const perPage = Number(searchParams.get('perPage')) || 5;
 
   const firstItemIndex = (currentPage - 1) * perPage;
   const lastItemIndex = firstItemIndex + perPage;
 
   const visibleItems = items.slice(firstItemIndex, lastItemIndex);
 
+  const firstVisibleItem = firstItemIndex + 1;
+  const lastVisibleItem = Math.min(currentPage * perPage, items.length);
+
+  const handlePageChange = (page: number) => {
+    setSearchParams({
+      page: String(page),
+      perPage: String(perPage),
+    });
+  };
+
+  const handlePerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newPerPage = Number(event.target.value);
+
+    setSearchParams({
+      page: '1',
+      perPage: String(newPerPage),
+    });
+  };
+
   return (
     <div className="container">
       <h1>Items</h1>
 
       <p data-cy="info">
-        Page {currentPage} (items {firstVisibleItem} - {lastVisibleItem} of {items.length})
+        Page {currentPage} (items {firstVisibleItem} - {lastVisibleItem} of{' '}
+        {items.length})
       </p>
 
       <div className="field">
@@ -33,10 +56,7 @@ export const App: React.FC = () => {
               id="perPageSelector"
               data-cy="perPageSelector"
               value={perPage}
-              onChange={event => {
-                setPerPage(Number(event.target.value));
-                setCurrentPage(1);
-              }}
+              onChange={handlePerPageChange}
             >
               <option value="3">3</option>
               <option value="5">5</option>
@@ -49,9 +69,7 @@ export const App: React.FC = () => {
 
       <ul>
         {visibleItems.map(item => (
-          <li key={item}>
-            {item}
-          </li>
+          <li key={item}>{item}</li>
         ))}
       </ul>
 
@@ -59,9 +77,10 @@ export const App: React.FC = () => {
         total={items.length}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={setCurrentPage}
+        onPageChange={handlePageChange}
       />
     </div>
   );
 };
+
 export default App;
