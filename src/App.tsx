@@ -12,6 +12,7 @@ export const App: React.FC = () => {
   const visibleItems = items.slice(startIndex, startIndex + perPage);
   const startItem = startIndex + 1;
   const endItem = Math.min(startIndex + perPage, items.length);
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
