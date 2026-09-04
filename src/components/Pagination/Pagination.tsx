@@ -3,7 +3,7 @@ import cn from 'classnames';
 interface PaginationType {
   total: number;
   perPage: number;
-  currentPage?: number;
+  currentPage: number;
   onPageChange: (page: number) => void;
 }
 
