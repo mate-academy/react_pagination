@@ -3,7 +3,7 @@ import cn from 'classnames';
 interface PaginationType {
   total: number;
   perPage: number;
-  currentPage: number;
+  currentPage?: number;
   onPageChange: (page: number) => void;
 }
 
@@ -21,7 +21,7 @@ function getPages(total: number, perPage: number) {
 export const Pagination = ({
   total,
   perPage,
-  currentPage,
+  currentPage = 1,
   onPageChange,
 }: PaginationType) => {
   const totalPages: number[] = getPages(total, perPage);
