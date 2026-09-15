@@ -16,22 +16,38 @@ export const Pagination = ({
 }: Props) => {
   const pageCount = Math.ceil(total / perPage);
   const pages = getNumbers(1, pageCount);
-  const isFirstPage = currentPage === 1;
-  const isLastPage = currentPage === pageCount;
+
+  const onPrevClick = () => {
+    const isFirstPage = currentPage === 1;
+
+    if (!isFirstPage) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const onNextClick = () => {
+    const isLastPage = currentPage === pageCount;
+
+    if (!isLastPage) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
+  const onPageClick = (page: number) => {
+    if (page !== currentPage) {
+      onPageChange(page);
+    }
+  };
 
   return (
     <ul className="pagination">
-      <li className={classNames('page-item', { disabled: isFirstPage })}>
+      <li className={classNames('page-item', { disabled: currentPage === 1 })}>
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={isFirstPage}
-          onClick={() => {
-            if (!isFirstPage) {
-              onPageChange(currentPage - 1);
-            }
-          }}
+          aria-disabled={currentPage === 1}
+          onClick={onPrevClick}
         >
           «
         </a>
@@ -46,28 +62,24 @@ export const Pagination = ({
             data-cy="pageLink"
             className="page-link"
             href={`#${page}`}
-            onClick={() => {
-              if (page !== currentPage) {
-                onPageChange(page);
-              }
-            }}
+            onClick={() => onPageClick(page)}
           >
             {page}
           </a>
         </li>
       ))}
 
-      <li className={classNames('page-item', { disabled: isLastPage })}>
+      <li
+        className={classNames('page-item', {
+          disabled: currentPage === pageCount,
+        })}
+      >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={isLastPage}
-          onClick={() => {
-            if (!isLastPage) {
-              onPageChange(currentPage + 1);
-            }
-          }}
+          aria-disabled={currentPage === pageCount}
+          onClick={onNextClick}
         >
           »
         </a>

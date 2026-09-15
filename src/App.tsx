@@ -64,9 +64,7 @@ export const App: React.FC = () => {
         total={total}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={page => {
-          setCurrentPage(page);
-        }}
+        onPageChange={setCurrentPage}
       />
       <ul>
         {visibleItems.map(item => (
