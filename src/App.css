@@ -1,1 +1,22 @@
-/* not empty */
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.per-page {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.items {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  list-style: none;
+}

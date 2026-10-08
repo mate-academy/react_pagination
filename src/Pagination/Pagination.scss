@@ -1,0 +1,42 @@
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+
+  margin: 16px 0;
+  padding: 0;
+
+  list-style: none;
+
+  .page-item {
+    list-style: none;
+  }
+
+  .page-link {
+    cursor: pointer;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 8px;
+    border: 1px solid #dbdbdb;
+
+    color: #363636;
+    text-decoration: none;
+  }
+
+  .active .page-link {
+    border-color: #3273dc;
+    color: #fff;
+    background-color: #3273dc;
+  }
+
+  .disabled .page-link {
+    cursor: default;
+    color: #7a7a7a;
+  }
+}
