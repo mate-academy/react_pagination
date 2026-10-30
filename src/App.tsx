@@ -1,17 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
+const total = 42;
 
 export const App: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const totalPages = Math.ceil(total / perPage);
+  const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+
+  const visibleItems = items.slice(
+    (currentPage - 1) * perPage,
+    (currentPage - 1) * perPage + perPage,
+  );
+
   return (
     <div className="container">
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        Page 1 (items 1 - 5 of 42)
+        Page {currentPage} (items {(currentPage - 1) * perPage + 1} -{' '}
+        {Math.min(currentPage * perPage, total)} of 42)
       </p>
 
       <div className="form-group row">
@@ -19,7 +31,14 @@ export const App: React.FC = () => {
           <select
             data-cy="perPageSelector"
             id="perPageSelector"
-            className="form-control">
+            className="form-control"
+            value={perPage}
+            onChange={event => {
+              setPerPage(Number(event.target.value));
+              setCurrentPage(1);
+
+            }}
+          >
             <option value="3">3</option>
             <option value="5">5</option>
             <option value="10">10</option>
@@ -34,76 +53,62 @@ export const App: React.FC = () => {
 
       {/* Move this markup to Pagination */}
       <ul className="pagination">
-        <li className="page-item disabled">
+        <li className={currentPage === 1 ? 'page-item disabled' : 'page-item'}>
           <a
             data-cy="prevLink"
             className="page-link"
             href="#prev"
-            aria-disabled="true">
+            aria-disabled={currentPage === 1}
+            onClick={() => {
+              if (currentPage > 1) {
+                setCurrentPage(currentPage - 1);
+              }
+            }}
+          >
             «
           </a>
         </li>
-        <li className="page-item active">
-          <a data-cy="pageLink" className="page-link" href="#1">
-            1
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#2">
-            2
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#3">
-            3
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#4">
-            4
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#5">
-            5
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#6">
-            6
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#7">
-            7
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#8">
-            8
-          </a>
-        </li>
-        <li className="page-item">
-          <a data-cy="pageLink" className="page-link" href="#9">
-            9
-          </a>
-        </li>
-        <li className="page-item">
+        {pages.map(page => (
+          <li
+            className={page === currentPage ? 'page-item active' : 'page-item'}
+            key={page}
+          >
+            <a
+              data-cy="pageLink"
+              className="page-link"
+              href={`#${page}`}
+              onClick={() => setCurrentPage(page)}
+            >
+              {page}
+            </a>
+          </li>
+        ))}
+        <li
+          className={
+            currentPage === totalPages ? 'page-item disabled' : 'page-item'
+          }
+        >
           <a
             data-cy="nextLink"
             className="page-link"
             href="#next"
-            aria-disabled="false">
+            aria-disabled={currentPage === totalPages}
+            onClick={() => {
+              if (currentPage < totalPages) {
+                setCurrentPage(currentPage + 1);
+              }
+            }}
+          >
             »
           </a>
         </li>
       </ul>
       <ul>
-        <li data-cy="item">Item 1</li>
-        <li data-cy="item">Item 2</li>
-        <li data-cy="item">Item 3</li>
-        <li data-cy="item">Item 4</li>
-        <li data-cy="item">Item 5</li>
+        {visibleItems.map(item => (
+          <li data-cy="item" key={item}>
+            {item}
+          </li>
+        ))}
       </ul>
     </div>
   );
