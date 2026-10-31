@@ -3,8 +3,8 @@ import cn from 'classnames';
 type PaginationProps = {
   total: number;
   perPage: number;
-  currentPage: number;
-  onPageChange: (param: number) => void;
+  currentPage?: number;
+  onPageChange: (page: number) => void;
 };
 
 export const Pagination = (props: PaginationProps) => {
@@ -45,7 +45,9 @@ export const Pagination = (props: PaginationProps) => {
             className="page-link"
             href={`#${pageInd}`}
             onClick={() => {
-              props.onPageChange(pageInd);
+              if (pageInd !== props.currentPage) {
+                props.onPageChange(pageInd);
+              }
             }}
           >
             {pageInd}
