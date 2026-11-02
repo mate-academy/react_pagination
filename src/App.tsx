@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
+import { Pagination } from './Pagination';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
@@ -8,9 +9,8 @@ const total = 42;
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
+
   const [perPage, setPerPage] = useState(5);
-  const totalPages = Math.ceil(total / perPage);
-  const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
 
   const visibleItems = items.slice(
     (currentPage - 1) * perPage,
@@ -36,7 +36,6 @@ export const App: React.FC = () => {
             onChange={event => {
               setPerPage(Number(event.target.value));
               setCurrentPage(1);
-
             }}
           >
             <option value="3">3</option>
@@ -52,57 +51,12 @@ export const App: React.FC = () => {
       </div>
 
       {/* Move this markup to Pagination */}
-      <ul className="pagination">
-        <li className={currentPage === 1 ? 'page-item disabled' : 'page-item'}>
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled={currentPage === 1}
-            onClick={() => {
-              if (currentPage > 1) {
-                setCurrentPage(currentPage - 1);
-              }
-            }}
-          >
-            «
-          </a>
-        </li>
-        {pages.map(page => (
-          <li
-            className={page === currentPage ? 'page-item active' : 'page-item'}
-            key={page}
-          >
-            <a
-              data-cy="pageLink"
-              className="page-link"
-              href={`#${page}`}
-              onClick={() => setCurrentPage(page)}
-            >
-              {page}
-            </a>
-          </li>
-        ))}
-        <li
-          className={
-            currentPage === totalPages ? 'page-item disabled' : 'page-item'
-          }
-        >
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled={currentPage === totalPages}
-            onClick={() => {
-              if (currentPage < totalPages) {
-                setCurrentPage(currentPage + 1);
-              }
-            }}
-          >
-            »
-          </a>
-        </li>
-      </ul>
+      <Pagination
+        total={total}
+        perPage={perPage}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+      />
       <ul>
         {visibleItems.map(item => (
           <li data-cy="item" key={item}>
