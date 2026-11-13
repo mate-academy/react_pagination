@@ -1,5 +1,4 @@
-import React from 'react';
-import { useSearchParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -9,10 +8,29 @@ const items = getNumbers(1, 42).map(n => `Item ${n}`);
 const TOTAL = 42;
 
 export const App: React.FC = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const getParamsFromUrl = () => {
+    const params = new URLSearchParams(window.location.search);
+    const page = Number(params.get('page')) || 1;
+    const perPage = Number(params.get('perPage')) || 5;
 
-  const currentPage = Number(searchParams.get('page')) || 1;
-  const perPage = Number(searchParams.get('perPage')) || 5;
+    return { page, perPage };
+  };
+
+  const initialParams = getParamsFromUrl();
+
+  const [currentPage, setCurrentPage] = useState<number>(initialParams.page);
+  const [perPage, setPerPage] = useState<number>(initialParams.perPage);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    params.set('page', String(currentPage));
+    params.set('perPage', String(perPage));
+
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+
+    window.history.pushState({}, '', newUrl);
+  }, [currentPage, perPage]);
 
   const endtems = currentPage * perPage;
   const startItems = endtems - perPage;
@@ -21,19 +39,9 @@ export const App: React.FC = () => {
   const realStartItem = startItems + 1;
 
   const handlePageChange = (newPage: number) => {
-    setSearchParams({
-      page: String(newPage),
-      perPage: String(perPage),
-    });
-  };
-
-  const handlePerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newPerPage = event.target.value;
-
-    setSearchParams({
-      page: '1',
-      perPage: newPerPage,
-    });
+    if (newPage !== currentPage) {
+      setCurrentPage(newPage);
+    }
   };
 
   return (
@@ -51,7 +59,10 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={handlePerPageChange}
+            onChange={event => {
+              setPerPage(Number(event.target.value));
+              setCurrentPage(1);
+            }}
           >
             <option value="3">3</option>
             <option value="5">5</option>
