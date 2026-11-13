@@ -9,11 +9,10 @@ const TOTAL = 42;
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(Number('5'));
+  const [perPage, setPerPage] = useState<number>(5);
 
-  const numericPerPage = Number(perPage);
-  const endtems = currentPage * numericPerPage;
-  const startItems = endtems - numericPerPage;
+  const endtems = currentPage * perPage;
+  const startItems = endtems - perPage;
 
   const realEndItem = Math.min(endtems, TOTAL);
   const realStartItem = startItems + 1;
@@ -41,7 +40,7 @@ export const App: React.FC = () => {
             value={perPage}
             onChange={event => {
               setPerPage(Number(event.target.value));
-              setCurrentPage(1);
+              setCurrentPage(1); // При зміні perPage скидаємо на 1-шу сторінку
             }}
           >
             <option value="3">3</option>
@@ -57,65 +56,11 @@ export const App: React.FC = () => {
       </div>
 
       <Pagination
-        total={TOTAL} // total number of items to paginate
-        perPage={perPage} // number of items per page
+        total={TOTAL}
+        perPage={perPage}
         currentPage={currentPage}
         onPageChange={handlePageChange}
       />
-
-      {/* Move this markup to Pagination
-      <ul className="pagination">
-        <li className={cn('page-item', { disabled: currentPage === 1 })}>
-          <a
-            data-cy="prevLink"
-            className="page-link"
-            href="#prev"
-            aria-disabled={currentPage === 1}
-            onClick={e => {
-              e.preventDefault();
-              handlePageChange(currentPage - 1);
-            }}
-          >
-            «
-          </a>
-        </li>
-
-        {pageNumbers.map(pageNumber => (
-          <li
-            className={cn('page-item', { active: currentPage === pageNumber })}
-            key={pageNumber}
-          >
-            <a
-              data-cy="pageLink"
-              className="page-link"
-              href={`#${pageNumber}`}
-              onClick={e => {
-                e.preventDefault();
-                handlePageChange(pageNumber);
-              }}
-            >
-              {pageNumber}
-            </a>
-          </li>
-        ))}
-
-        <li
-          className={cn('page-item', { disabled: currentPage === totalPages })}
-        >
-          <a
-            data-cy="nextLink"
-            className="page-link"
-            href="#next"
-            aria-disabled={currentPage === 1}
-            onClick={e => {
-              e.preventDefault();
-              handlePageChange(currentPage + 1);
-            }}
-          >
-            »
-          </a>
-        </li>
-      </ul> */}
 
       <ul>
         {items.slice(startItems, endtems).map(item => (

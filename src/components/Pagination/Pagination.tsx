@@ -4,15 +4,15 @@ import React from 'react';
 type Props = {
   total: number;
   perPage: number;
-  currentPage: number;
+  currentPage?: number; // Зробили опціональним
   onPageChange: (newPage: number) => void;
 };
 
 export const Pagination: React.FC<Props> = ({
   total,
   perPage,
-  currentPage,
-  onPageChange = () => {},
+  currentPage = 1, // Дефолтне значення 1 за потреби
+  onPageChange,
 }) => {
   const totalPages = Math.ceil(total / perPage);
   const pageNumbers = [...Array(totalPages)].map((_, index) => index + 1);
@@ -47,7 +47,10 @@ export const Pagination: React.FC<Props> = ({
             href={`#${pageNumber}`}
             onClick={e => {
               e.preventDefault();
-              onPageChange(pageNumber);
+              // Викликаємо колбек лише якщо клікнули на іншу сторінку
+              if (pageNumber !== currentPage) {
+                onPageChange(pageNumber);
+              }
             }}
           >
             {pageNumber}
