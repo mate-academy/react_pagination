@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSearchParams } from 'react-router-dom';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -8,8 +9,10 @@ const items = getNumbers(1, 42).map(n => `Item ${n}`);
 const TOTAL = 42;
 
 export const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState<number>(5);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const currentPage = Number(searchParams.get('page')) || 1;
+  const perPage = Number(searchParams.get('perPage')) || 5;
 
   const endtems = currentPage * perPage;
   const startItems = endtems - perPage;
@@ -18,9 +21,19 @@ export const App: React.FC = () => {
   const realStartItem = startItems + 1;
 
   const handlePageChange = (newPage: number) => {
-    if (newPage !== currentPage) {
-      setCurrentPage(newPage);
-    }
+    setSearchParams({
+      page: String(newPage),
+      perPage: String(perPage),
+    });
+  };
+
+  const handlePerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newPerPage = event.target.value;
+
+    setSearchParams({
+      page: '1',
+      perPage: newPerPage,
+    });
   };
 
   return (
@@ -38,10 +51,7 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={event => {
-              setPerPage(Number(event.target.value));
-              setCurrentPage(1); // При зміні perPage скидаємо на 1-шу сторінку
-            }}
+            onChange={handlePerPageChange}
           >
             <option value="3">3</option>
             <option value="5">5</option>
