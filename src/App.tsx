@@ -1,8 +1,8 @@
 import React, { ChangeEvent } from 'react';
 import './App.css';
 import { getNumbers } from './utils';
-import { Pagination } from './components/Pagination';
 import { useSearchParams } from 'react-router';
+import Pagination from './components/Pagination/Pagination';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const items = getNumbers(1, 42).map(n => `Item ${n}`);
@@ -69,7 +69,7 @@ export const App: React.FC = () => {
         total={items.length}
         perPage={Number(itemsPerPage)}
         currentPage={Number(currentPage)}
-        onPageChange={page => {
+        onPageChange={(page: number) => {
           handlePageQueryChange(page.toString());
         }}
       />

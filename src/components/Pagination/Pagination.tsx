@@ -1,17 +1,18 @@
 import classNames from 'classnames';
 import { getNumbers } from '../../utils';
+import { memo } from 'react';
 
 type Props = {
   total: number;
   perPage: number;
-  currentPage: number;
+  currentPage?: number;
   onPageChange: (page: number) => void;
 };
 
-export const Pagination = ({
+const Pagination = ({
   total,
   perPage,
-  currentPage,
+  currentPage = 1,
   onPageChange,
 }: Props) => {
   const pages = getNumbers(1, Math.ceil(total / perPage));
@@ -74,3 +75,5 @@ export const Pagination = ({
     </ul>
   );
 };
+
+export default memo(Pagination);
