@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { getNumbers } from '../../utils';
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 
 type Props = {
   total: number;
@@ -29,6 +29,13 @@ const Pagination = ({
     }
   };
 
+  const changePage = useCallback(
+    (page: number) => {
+      onPageChange(page);
+    },
+    [onPageChange],
+  );
+
   return (
     <ul className="pagination">
       <li
@@ -50,7 +57,7 @@ const Pagination = ({
         <li
           className={classNames('page-item', { active: currentPage === page })}
           key={page}
-          onClick={() => onPageChange(page)}
+          onClick={() => changePage(page)}
         >
           <a data-cy="pageLink" className="page-link" href={`#${page}`}>
             {page}
