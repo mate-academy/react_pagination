@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
@@ -7,12 +8,25 @@ import { Pagination } from './components/Pagination';
 export const App: React.FC = () => {
   const allItemsNumber = 42;
   const items = getNumbers(1, allItemsNumber).map(n => `Item ${n}`);
-  const [numItems, setNumItems] = useState(5);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [params, setParams] = useSearchParams();
+  const [currentPage, setCurrentPage] = useState(
+    Number(params.get('perPage')) || 1,
+  );
+  const [numItems, setNumItems] = useState(Number(params.get('numItems')) || 5);
+  // const [numItems, setNumItems] = useState(5);
+  // const [currentPage, setCurrentPage] = useState(1);
   const visibleItems = items.slice(
     numItems * (currentPage - 1),
     Math.min(numItems * currentPage, allItemsNumber),
   );
+
+  const changePage = (page: number) => {
+    setCurrentPage(page);
+    setParams({
+      page: String(page),
+      perPage: String(numItems),
+    });
+  };
 
   return (
     <div className="container">
@@ -33,6 +47,10 @@ export const App: React.FC = () => {
             onChange={event => {
               setNumItems(+event.target.value);
               setCurrentPage(1);
+              setParams({
+                page: '1',
+                perPage: String(+event.target.value),
+              });
             }}
           >
             <option value="3">3</option>
@@ -52,7 +70,7 @@ export const App: React.FC = () => {
         total={allItemsNumber} // total number of items to paginate
         perPage={numItems} // number of items per page
         currentPage={currentPage} /* optional with 1 by default */
-        onPageChange={async p => setCurrentPage(p)}
+        onPageChange={changePage}
       />
 
       <ul>
