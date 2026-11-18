@@ -10,9 +10,9 @@ export const App: React.FC = () => {
   const items = getNumbers(1, allItemsNumber).map(n => `Item ${n}`);
   const [params, setParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(
-    Number(params.get('perPage')) || 1,
+    Number(params.get('page')) || 1,
   );
-  const [numItems, setNumItems] = useState(Number(params.get('numItems')) || 5);
+  const [numItems, setNumItems] = useState(Number(params.get('perPage')) || 5);
   // const [numItems, setNumItems] = useState(5);
   // const [currentPage, setCurrentPage] = useState(1);
   const visibleItems = items.slice(
