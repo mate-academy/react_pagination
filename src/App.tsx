@@ -10,13 +10,16 @@ const total: number = items.length;
 
 export const App: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [perPage, setPerPage] = useState(Number(searchParams.get('perPage')) || 5);
-  const [currentPage, setCurrentPage] = useState(Number(searchParams.get('page')) || 1);
+  const [perPage, setPerPage] = useState(
+    Number(searchParams.get('perPage')) || 5,
+  );
+  const [currentPage, setCurrentPage] = useState(
+    Number(searchParams.get('page')) || 1,
+  );
 
   const startIndex: number = (currentPage - 1) * perPage;
-  const endIndex: number = (currentPage * perPage > total) 
-    ? total
-    : currentPage * perPage;
+  const endIndex: number =
+    currentPage * perPage > total ? total : currentPage * perPage;
 
   return (
     <div className="container">
@@ -33,15 +36,15 @@ export const App: React.FC = () => {
             id="perPageSelector"
             className="form-control"
             value={perPage}
-            onChange={(event) => {
+            onChange={event => {
               setPerPage(Number(event.target.value));
               setCurrentPage(1);
               setSearchParams({
                 page: String(1),
                 perPage: String(event.target.value),
-              })
+              });
             }}
-            >
+          >
             <option value="3">3</option>
             <option value="5">5</option>
             <option value="10">10</option>
@@ -58,18 +61,22 @@ export const App: React.FC = () => {
         total={total}
         perPage={perPage}
         currentPage={currentPage}
-        onPageChange={(page) => {
+        onPageChange={page => {
           setCurrentPage(page);
           setSearchParams({
             page: String(page),
             perPage: String(perPage),
-          })
+          });
         }}
       />
 
       <ul>
         {items.slice(startIndex, endIndex).map(item => {
-          return <li key={item} data-cy="item">{item}</li>
+          return (
+            <li key={item} data-cy="item">
+              {item}
+            </li>
+          );
         })}
       </ul>
     </div>
