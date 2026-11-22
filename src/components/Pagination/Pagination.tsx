@@ -16,17 +16,17 @@ export const Pagination = ({
 
   return (
     <ul className="pagination">
-      <li className={"page-item" + (currentPage === 1 ? " disabled" : "")}>
+      <li className={'page-item' + (currentPage === 1 ? ' disabled' : '')}>
         <a
           data-cy="prevLink"
           className="page-link"
           href="#prev"
-          aria-disabled={(currentPage === 1? "true" : "false")}
+          aria-disabled={currentPage === 1 ? 'true' : 'false'}
           onClick={() => {
- if(currentPage !== 1) {
-            onPageChange(currentPage - 1);
-          }
-        }}
+            if (currentPage !== 1) {
+              onPageChange(currentPage - 1);
+            }
+          }}
         >
           «
         </a>
@@ -40,26 +40,28 @@ export const Pagination = ({
             onPageChange(item);
           }}
           key={item}
-          >
+        >
           <a data-cy="pageLink" className="page-link" href={`#${item}`}>
             {item}
           </a>
         </li>
-      ))
-      }
+      ))}
 
-      <li className={"page-item" + (currentPage === totalPages ? " disabled" : "")}>
+      <li
+        className={
+          'page-item' + (currentPage === totalPages ? ' disabled' : '')
+        }
+      >
         <a
           data-cy="nextLink"
           className="page-link"
           href="#next"
-          aria-disabled={(currentPage === totalPages? "true" : "false")}
+          aria-disabled={currentPage === totalPages ? 'true' : 'false'}
           onClick={() => {
-            if(currentPage !== totalPages) {
+            if (currentPage !== totalPages) {
               onPageChange(currentPage + 1);
             }
-}
-          }
+          }}
         >
           »
         </a>
