@@ -1,4 +1,3 @@
-
 import React from 'react';
 import './App.css';
 import { getNumbers } from './utils';
@@ -15,6 +14,7 @@ export const App: React.FC = () => {
 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams);
+
     params.set('page', page.toString());
     setSearchParams(params);
   };
@@ -22,6 +22,12 @@ export const App: React.FC = () => {
   const startIndex = (currentPage - 1) * perPage;
   const endIndex = Math.min(currentPage * perPage, items.length);
   const visibleItems = items.slice(startIndex, endIndex);
+  const baseOptions = [3, 5, 10, 20];
+
+  const options = baseOptions.includes(perPage)
+    ? baseOptions
+    : [...baseOptions, perPage].sort((a, b) => a - b);
+
 
   return (
     <div className="container">
@@ -39,17 +45,18 @@ export const App: React.FC = () => {
             className="form-control"
             value={perPage}
             onChange={event => {
-              const params = new URLSearchParams(searchParams)
-              params.set('perPage', event.target.value);
-              params.set('page', '1')
-              setSearchParams(params);
+              const params = new URLSearchParams(searchParams);
 
+              params.set('perPage', event.target.value);
+              params.set('page', '1');
+              setSearchParams(params);
             }}
           >
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+          {options.map(option => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
           </select>
         </div>
 
