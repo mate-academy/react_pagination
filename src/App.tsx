@@ -12,33 +12,32 @@ export const App: React.FC = () => {
   const currentPage = Math.max(1, Number(searchParams.get('page')) || 1);
   const perPage = Math.max(1, Number(searchParams.get('perPage')) || 5);
 
-  const setCurrentPage = (p: number) =>
-    setSearchParams((prev: URLSearchParams) => {
-      const next = new URLSearchParams(prev);
+  const setCurrentPage = (p: number) => {
+    const next = new URLSearchParams(searchParams);
+    const safePage = Math.max(1, Math.floor(p));
 
-      if (p <= 1) {
-        next.delete('page');
-      } else {
-        next.set('page', String(Math.floor(p)));
-      }
-
-      return next;
-    });
-
-  const setPerPage = (n: number) =>
-    setSearchParams((prev: URLSearchParams) => {
-      const next = new URLSearchParams(prev);
-
-      if (n === 5) {
-        next.delete('perPage');
-      } else {
-        next.set('perPage', String(Math.max(1, Math.floor(n))));
-      }
-
+    if (safePage <= 1) {
       next.delete('page');
+    } else {
+      next.set('page', String(safePage));
+    }
 
-      return next;
-    });
+    setSearchParams(next);
+  };
+
+  const setPerPage = (n: number) => {
+    const next = new URLSearchParams(searchParams);
+    const safePerPage = Math.max(1, Math.floor(n));
+
+    if (safePerPage === 5) {
+      next.delete('perPage');
+    } else {
+      next.set('perPage', String(safePerPage));
+    }
+
+    next.delete('page');
+    setSearchParams(next);
+  };
 
   const itemsPerPage = items.slice(
     (currentPage - 1) * perPage,
@@ -74,7 +73,6 @@ export const App: React.FC = () => {
             value={perPage}
             onChange={event => {
               setPerPage(Number(event.target.value));
-              setCurrentPage(1);
             }}
           >
             <option value="3">3</option>
