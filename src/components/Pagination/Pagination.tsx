@@ -38,8 +38,8 @@ export const Pagination = ({
           className={'page-item' + (currentPage === item ? ' active' : '')}
           value={item}
           onClick={() => {
-            if (item !== currentPage){
-            onPageChange(item);
+            if (item !== currentPage) {
+              onPageChange(item);
             }
           }}
           key={item}
