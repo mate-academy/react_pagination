@@ -1,7 +1,7 @@
 interface Props {
   total: number;
   perPage: number;
-  currentPage: number;
+  currentPage?: number;
   onPageChange: (pageNumber: number) => void;
   totalPages?: number;
 }
