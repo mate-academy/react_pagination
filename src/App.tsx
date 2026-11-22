@@ -31,7 +31,7 @@ export const App: React.FC = () => {
       <div className="form-group row">
         <div className="col-3 col-sm-2 col-xl-1">
           <Pagination
-            itemsLength={items.length}
+            total={items.length}
             perPage={perPage}
             currentPage={currentPage}
             onPageChange={onPageChange}

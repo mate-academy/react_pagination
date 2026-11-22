@@ -1,17 +1,18 @@
 interface Props {
-  itemsLength: number;
+  total: number;
   perPage: number;
   currentPage: number;
   onPageChange: (pageNumber: number) => void;
+  totalPages?: number;
 }
 
 export const Pagination = ({
-  currentPage,
+  currentPage = 1,
   perPage,
-  itemsLength,
+  total,
   onPageChange,
 }: Props) => {
-  const totalPages = Math.ceil(itemsLength / perPage);
+  const totalPages = Math.ceil(total / perPage);
   const items = Array.from({ length: totalPages }, (_, index) => index + 1);
 
   return (
@@ -37,7 +38,9 @@ export const Pagination = ({
           className={'page-item' + (currentPage === item ? ' active' : '')}
           value={item}
           onClick={() => {
+            if (item !== currentPage){
             onPageChange(item);
+            }
           }}
           key={item}
         >
